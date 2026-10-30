@@ -26,13 +26,31 @@ public final class TripodModels {
     /*  Helpers                                                            */
     /* ------------------------------------------------------------------ */
 
+    /**
+     * Pivot with a rotation given in degrees (Minecraft itself wants radians).
+     * Rotation order is the vanilla one: roll (Z), then yaw (Y), then pitch (X).
+     */
+    private static ModelTransform pose(int px, int py, int pz, float pitchDeg, float yawDeg, float rollDeg) {
+        return ModelTransform.of(px, py, pz,
+                (float) Math.toRadians(pitchDeg),
+                (float) Math.toRadians(yawDeg),
+                (float) Math.toRadians(rollDeg));
+    }
+
+    /**
+     * A leg that hangs from its hip and splays outwards, so the machine stands like a tripod
+     * instead of balancing on vertical sticks. The splay is derived from where the hip is:
+     * legs on the left go left, legs in front go forward.
+     */
     private static ModelPartData leg(ModelPartData root, String name, int px, int py, int pz,
                                      int thickness, int thigh, int shin, int bendX, int bendZ) {
         int lower = Math.max(1, thickness - 1);
+        float side = Integer.signum(px) * 13.0F;
+        float front = Integer.signum(pz) * 10.0F;
         return root.addChild(name, ModelPartBuilder.create()
                         .cuboid(-thickness, 0, -thickness, thickness * 2, thigh, thickness * 2)
                         .cuboid(-lower + bendX, thigh, -lower + bendZ, lower * 2, shin, lower * 2),
-                ModelTransform.pivot(px, py, pz));
+                pose(px, py, pz, front, 0.0F, side));
     }
 
     private static ModelPartData glow(ModelPartData root, String name, int px, int py, int pz,

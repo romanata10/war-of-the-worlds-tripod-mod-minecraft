@@ -102,9 +102,11 @@ def make_hull_texture(name, palette, size=128, seed=0):
     cx, cy = 16.0, 16.0
     for y in range(32):
         for x in range(32):
-            distance = math.hypot(x - cx, y - cy) / 16.0
-            intensity = max(0.0, 1.0 - distance) ** 0.75
-            hot = max(0.0, 1.0 - distance * 1.15)
+            # Keep the whole 32x32 patch bright: the models sample it with small cuboids,
+            # so a soft halo would end up grey instead of glowing.
+            distance = min(1.0, math.hypot(x - cx, y - cy) / 15.0)
+            intensity = 0.72 + 0.28 * (1.0 - distance)
+            hot = max(0.0, 1.0 - distance * 1.45) ** 0.8
             color = (
                 clamp(glow[0] * intensity + 255 * hot),
                 clamp(glow[1] * intensity + 255 * hot),
