@@ -36,6 +36,8 @@ public final class ModSpawns {
         }
         groundSpawn(ModEntities.MARTIAN_SPIDER, 3, 3, 1, 2);
         groundSpawn(ModEntities.MARTIAN_LOUSE, 2, 8, 2, 3);
+        groundSpawn(ModEntities.MARTIAN, 2, 5, 1, 2);
+        groundSpawn(ModEntities.MARTIAN_MASTER, 2, 1, 1, 1);
     }
 
     private static <T extends MobEntity> void groundSpawn(EntityType<T> type, int clearance, int weight,

@@ -28,5 +28,9 @@
   "item.wotw.martian_alloy.tooltip": "Снят с павшей триноги",
   "subtitles.entity.wotw.tripod.horn": "Тринога трубит",
   "subtitles.entity.wotw.tripod.step": "Тринога шагает",
-  "subtitles.entity.wotw.tripod.heat_ray": "Тепловой луч"
+  "subtitles.entity.wotw.tripod.heat_ray": "Тепловой луч",
+  "entity.wotw.martian": "Марсианин",
+  "entity.wotw.martian_master": "Марсианин-повелитель",
+  "item.wotw.martian_spawn_egg": "Яйцо призыва марсианина",
+  "item.wotw.martian_master_spawn_egg": "Яйцо призыва марсианина-повелителя"
 }

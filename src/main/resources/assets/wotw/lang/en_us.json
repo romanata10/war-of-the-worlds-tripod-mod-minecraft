@@ -28,5 +28,9 @@
   "item.wotw.martian_alloy.tooltip": "Salvaged from a fallen tripod",
   "subtitles.entity.wotw.tripod.horn": "Tripod siren wails",
   "subtitles.entity.wotw.tripod.step": "Tripod stomps",
-  "subtitles.entity.wotw.tripod.heat_ray": "Heat ray fires"
+  "subtitles.entity.wotw.tripod.heat_ray": "Heat ray fires",
+  "entity.wotw.martian": "Martian",
+  "entity.wotw.martian_master": "Martian Commander",
+  "item.wotw.martian_spawn_egg": "Martian Spawn Egg",
+  "item.wotw.martian_master_spawn_egg": "Martian Commander Spawn Egg"
 }

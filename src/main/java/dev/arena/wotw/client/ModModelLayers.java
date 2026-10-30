@@ -19,6 +19,9 @@ public final class ModModelLayers {
     public static final EntityModelLayer MARTIAN_SPIDER = layer("martian_spider");
     public static final EntityModelLayer MARTIAN_LOUSE = layer("martian_louse");
 
+    public static final EntityModelLayer MARTIAN = layer("martian");
+    public static final EntityModelLayer MARTIAN_MASTER = layer("martian_master");
+
     private ModModelLayers() {
     }
 

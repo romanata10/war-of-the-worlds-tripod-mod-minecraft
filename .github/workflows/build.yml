@@ -7,6 +7,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  issues: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,7 +30,24 @@ jobs:
           gradle-version: "8.7"
 
       - name: Build
-        run: gradle build --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          gradle build --no-daemon --stacktrace 2>&1 | tee build.log
+
+      # The sandbox cannot read action logs (they live in blob storage), so a failed build
+      # reports its errors as an issue, which is readable through the GitHub API.
+      - name: Report failure as an issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo 'Build output (tail):'
+            echo '```'
+            tail -c 50000 build.log
+            echo '```'
+          } > report.md
+          gh issue create --title "Build failure on ${GITHUB_SHA:0:7}" --body-file report.md || true
 
       - name: Show what was built
         run: ls -la build/libs

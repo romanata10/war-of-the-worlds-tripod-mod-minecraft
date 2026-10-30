@@ -29,6 +29,8 @@ public final class ModItems {
     public static final Item MARTIAN_HERON_SPAWN_EGG = spawnEgg("martian_heron_spawn_egg", ModEntities.MARTIAN_HERON, 0xB9B3A2, 0xFF2A1A);
     public static final Item MARTIAN_SPIDER_SPAWN_EGG = spawnEgg("martian_spider_spawn_egg", ModEntities.MARTIAN_SPIDER, 0x2C2620, 0xFF4A1F);
     public static final Item MARTIAN_LOUSE_SPAWN_EGG = spawnEgg("martian_louse_spawn_egg", ModEntities.MARTIAN_LOUSE, 0x5C3A24, 0xFFCF5A);
+    public static final Item MARTIAN_SPAWN_EGG = spawnEgg("martian_spawn_egg", ModEntities.MARTIAN, 0x68604A, 0xFF764A);
+    public static final Item MARTIAN_MASTER_SPAWN_EGG = spawnEgg("martian_master_spawn_egg", ModEntities.MARTIAN_MASTER, 0x4A3E3E, 0xFF4030);
 
     public static final Item HEAT_RAY_EMITTER = register("heat_ray_emitter",
             new HeatRayEmitterItem(new Item.Settings().maxCount(1).maxDamage(384)));
