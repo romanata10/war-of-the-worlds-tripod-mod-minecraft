@@ -235,8 +235,9 @@ public abstract class AbstractTripodEntity extends HostileEntity {
 
     /** Charge up sound, played when a beam attack starts. */
     public void playChargeSound() {
+        // The siren rising before the shot is half of the scare factor.
         this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.HOSTILE, 2.2F, 0.6F);
+                ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 1.8F, 1.05F);
     }
 
     /* ------------------------------------------------------------------ */
