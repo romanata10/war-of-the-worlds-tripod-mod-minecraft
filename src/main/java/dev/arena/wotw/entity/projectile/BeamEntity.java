@@ -1,5 +1,6 @@
 package dev.arena.wotw.entity.projectile;
 
+import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.entity.AbstractTripodEntity;
 import dev.arena.wotw.registry.ModEntities;
 import net.minecraft.block.BlockState;
@@ -13,7 +14,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -139,7 +139,7 @@ public class BeamEntity extends Entity {
             serverWorld.spawnParticles(kind.getParticle(), pos.getX() + 0.5D, pos.getY() + 0.6D, pos.getZ() + 0.5D,
                     18, 0.3D, 0.3D, 0.3D, 0.08D);
         }
-        this.world.playSound(null, pos, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.HOSTILE, 0.9F,
+        this.world.playSound(null, pos, ModSounds.HEAT_RAY, SoundCategory.HOSTILE, 0.9F,
                 kind.getSoundPitch() * 1.1F);
 
         BlockPos above = pos.up();

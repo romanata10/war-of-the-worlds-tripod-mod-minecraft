@@ -1,5 +1,6 @@
 package dev.arena.wotw.item;
 
+import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.entity.projectile.BeamEntity;
 import dev.arena.wotw.entity.projectile.BeamKind;
 import net.minecraft.client.item.TooltipContext;
@@ -7,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -41,7 +41,7 @@ public class HeatRayEmitterItem extends Item {
             BeamEntity beam = new BeamEntity(world, origin, direction, BeamKind.HEAT_RAY, user, DAMAGE);
             world.spawnEntity(beam);
             world.playSound(null, user.getX(), user.getY(), user.getZ(),
-                    SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 1.4F, 1.3F);
+                    ModSounds.HEAT_RAY, SoundCategory.PLAYERS, 1.4F, 1.3F);
         }
 
         user.getItemCooldownManager().set(this, COOLDOWN_TICKS);

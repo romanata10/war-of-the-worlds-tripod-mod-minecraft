@@ -3,6 +3,7 @@ package dev.arena.wotw;
 import dev.arena.wotw.registry.ModBlocks;
 import dev.arena.wotw.registry.ModEntities;
 import dev.arena.wotw.registry.ModItems;
+import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.registry.ModSpawns;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -26,6 +27,7 @@ public class WotwMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModSounds.register();
         ModEntities.register();
         ModBlocks.register();
         ModItems.register();

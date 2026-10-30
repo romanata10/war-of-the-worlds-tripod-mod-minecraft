@@ -1,6 +1,7 @@
 package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
+import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.entity.projectile.BeamKind;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -48,7 +49,7 @@ public class Tripod2005Entity extends AbstractTripodEntity {
             this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
                     SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.HOSTILE, 2.4F, 0.7F);
             this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
-                    SoundEvents.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 3.0F, 0.55F);
+                    ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 3.0F, 0.45F);
         }
     }
 
@@ -67,6 +68,6 @@ public class Tripod2005Entity extends AbstractTripodEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_WARDEN_ROAR;
+        return ModSounds.TRIPOD_HORN;
     }
 }

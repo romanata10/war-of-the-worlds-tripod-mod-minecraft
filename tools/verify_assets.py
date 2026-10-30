@@ -85,7 +85,30 @@ for key in en:
     if key not in ru:
         errors.append(f"en key without ru translation: {key}")
 
-# 7. icon
+# 7. sounds: every event in sounds.json needs its ogg and its subtitle
+sounds_file = ASSETS / "sounds.json"
+if sounds_file.exists():
+    sounds = json.loads(sounds_file.read_text())
+    for event, definition in sounds.items():
+        for entry in definition.get("sounds", []):
+            if isinstance(entry, str):
+                name = entry
+            else:
+                name = entry["name"]
+            path = ASSETS / "sounds" / (name.split(":", 1)[1] + ".ogg")
+            if not path.exists():
+                errors.append(f"missing sound file {path.relative_to(ROOT)} (event {event})")
+        subtitle = definition.get("subtitle")
+        if subtitle and subtitle not in en:
+            errors.append(f"missing subtitle key: {subtitle}")
+    for ogg in (ASSETS / "sounds").glob("*.ogg"):
+        if not any(ogg.stem == (e if isinstance(e, str) else e["name"]).split(":")[-1]
+                   for d in sounds.values() for e in d.get("sounds", [])):
+            errors.append(f"orphan sound file: {ogg.relative_to(ROOT)}")
+else:
+    errors.append("missing sounds.json")
+
+# 8. icon
 if not (ASSETS / "icon.png").exists():
     errors.append("missing mod icon")
 

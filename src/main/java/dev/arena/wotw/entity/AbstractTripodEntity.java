@@ -2,6 +2,7 @@ package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.projectile.BeamEntity;
 import dev.arena.wotw.registry.ModItems;
+import dev.arena.wotw.registry.ModSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -24,11 +25,13 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.block.BlockState;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -223,7 +226,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
         BeamEntity beam = new BeamEntity(this.world, origin, direction, kind, this, damage);
         this.world.spawnEntity(beam);
         this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.HOSTILE, 2.6F, kind.getSoundPitch());
+                ModSounds.HEAT_RAY, SoundCategory.HOSTILE, 2.2F, kind.getSoundPitch());
         if (this.world instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK,
                     origin.x, origin.y, origin.z, 12, 0.3D, 0.3D, 0.3D, 0.25D);
@@ -337,6 +340,13 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     }
 
     @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (this.random.nextFloat() < 0.4F) {
+            this.playSound(ModSounds.TRIPOD_STEP, 1.6F, 0.55F + this.random.nextFloat() * 0.12F);
+        }
+    }
+
+    @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundEvents.ENTITY_IRON_GOLEM_HURT;
     }
@@ -348,7 +358,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_ENDER_DRAGON_GROWL;
+        return ModSounds.TRIPOD_HORN;
     }
 
     @Override
@@ -358,7 +368,8 @@ public abstract class AbstractTripodEntity extends HostileEntity {
 
     @Override
     public int getMinAmbientSoundDelay() {
-        return 240;
+        // The siren is meant to be a rare, unsettling event, not a metronome.
+        return 400 + this.random.nextInt(500);
     }
 
     /* ------------------------------------------------------------------ */

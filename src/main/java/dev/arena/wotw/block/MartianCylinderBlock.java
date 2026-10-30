@@ -1,5 +1,6 @@
 package dev.arena.wotw.block;
 
+import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.registry.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -57,7 +58,7 @@ public class MartianCylinderBlock extends Block {
             serverWorld.spawnParticles(ParticleTypes.LARGE_SMOKE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D,
                     60, 1.2D, 1.2D, 1.2D, 0.05D);
         }
-        world.playSound(null, pos, SoundEvents.ENTITY_WARDEN_ROAR, SoundCategory.HOSTILE, 3.0F, 0.5F);
+        world.playSound(null, pos, ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 3.0F, 0.5F);
         world.playSound(null, pos, SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.BLOCKS, 2.0F, 0.6F);
         world.removeBlock(pos, false);
         return ActionResult.CONSUME;
