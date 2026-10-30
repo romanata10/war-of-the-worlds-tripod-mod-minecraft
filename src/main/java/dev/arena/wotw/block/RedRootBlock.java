@@ -3,7 +3,6 @@ package dev.arena.wotw.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -34,13 +33,8 @@ public class RedRootBlock extends Block {
     }
 
     @Override
-    protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         return world.getBlockState(pos.down()).isOpaque();
-    }
-
-    @Override
-    public boolean canPlaceAt(ItemPlacementContext context) {
-        return context.getWorld().getBlockState(context.getBlockPos().down()).isOpaque();
     }
 
     @Override
