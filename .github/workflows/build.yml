@@ -49,6 +49,16 @@ jobs:
           } > report.md
           gh issue create --title "Build failure on ${GITHUB_SHA:0:7}" --body-file report.md || true
 
+      # Successful builds tidy up the failure reports that older runs left behind.
+      - name: Close stale failure reports
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue list --state open --search 'Build failure in:title' --limit 50 --json number             --jq '.[].number' | while read -r number; do
+              gh issue close "$number" --reason completed -c "Build is green again." || true
+            done
+
       - name: Show what was built
         run: ls -la build/libs
 
