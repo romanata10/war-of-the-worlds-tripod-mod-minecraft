@@ -9,8 +9,6 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * One animation rig for every machine in the mod.
@@ -20,6 +18,18 @@ import java.util.TreeMap;
  * the head tracks the target and everything shivers while an ability is charging.</p>
  */
 public class GenericTripodModel<T extends AbstractTripodEntity> extends EntityModel<T> {
+
+    /**
+     * `ModelPart#children` is private in 1.20.1, so the rig probes the names our generated models
+     * use instead of walking the children map.
+     */
+    private static final String[] ANIMATED_PARTS = {
+            "leg_fl", "leg_fr", "leg_b", "leg_l", "leg_r",
+            "leg0", "leg1", "leg2", "leg3", "leg4", "leg5", "leg6", "leg7",
+            "wing_l", "wing_r",
+            "arm0", "arm1", "arm2", "arm_l", "arm_r",
+            "body", "head"
+    };
 
     private final ModelPart modelRoot;
     private final ModelPart body;
@@ -48,9 +58,11 @@ public class GenericTripodModel<T extends AbstractTripodEntity> extends EntityMo
         ModelPart bodyPart = null;
         ModelPart headPart = null;
 
-        for (Map.Entry<String, ModelPart> entry : new TreeMap<>(root.children).entrySet()) {
-            String name = entry.getKey();
-            ModelPart part = entry.getValue();
+        for (String name : ANIMATED_PARTS) {
+            if (!root.hasChild(name)) {
+                continue;
+            }
+            ModelPart part = root.getChild(name);
             if (name.startsWith("leg")) {
                 legList.add(part);
             } else if (name.startsWith("wing")) {
