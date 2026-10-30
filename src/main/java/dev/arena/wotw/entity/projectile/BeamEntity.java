@@ -85,9 +85,9 @@ public class BeamEntity extends Entity {
         Vec3d from = this.getPos();
         Vec3d to = from.add(this.direction.multiply(kind.getSpeed()));
 
-        if (this.world.isClient) {
+        if (this.getWorld().isClient) {
             for (int i = 0; i < 3; i++) {
-                this.world.addParticle(kind.getParticle(),
+                this.getWorld().addParticle(kind.getParticle(),
                         this.getX() + (this.random.nextDouble() - 0.5D) * 0.2D,
                         this.getY() + (this.random.nextDouble() - 0.5D) * 0.2D,
                         this.getZ() + (this.random.nextDouble() - 0.5D) * 0.2D,
@@ -99,13 +99,13 @@ public class BeamEntity extends Entity {
         // The server is authoritative about the position, the client just interpolates the
         // tracked position it receives every tick.
         Box sweep = new Box(from, to).expand(kind.getRadius());
-        for (Entity candidate : this.world.getOtherEntities(this, sweep, this::canHit)) {
+        for (Entity candidate : this.getWorld().getOtherEntities(this, sweep, this::canHit)) {
             this.hitLiving((LivingEntity) candidate, kind);
         }
 
         BlockPos landing = BlockPos.ofFloored(to);
-        BlockState state = this.world.getBlockState(landing);
-        if (state.isSolidBlock(this.world, landing)) {
+        BlockState state = this.getWorld().getBlockState(landing);
+        if (state.isSolidBlock(this.getWorld(), landing)) {
             this.impact(landing, kind);
             this.discard();
             return;
@@ -125,27 +125,27 @@ public class BeamEntity extends Entity {
     }
 
     private void hitLiving(LivingEntity living, BeamKind kind) {
-        living.damage(this.world.getDamageSources().magic(), this.damage);
+        living.damage(this.getWorld().getDamageSources().magic(), this.damage);
         living.setOnFireFor(kind.getIgniteSeconds());
         living.takeKnockback(0.3D, -this.direction.x, -this.direction.z);
-        if (this.world instanceof ServerWorld serverWorld) {
+        if (this.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(kind.getParticle(), living.getX(), living.getBodyY(0.5D), living.getZ(),
                     6, 0.2D, 0.3D, 0.2D, 0.02D);
         }
     }
 
     private void impact(BlockPos pos, BeamKind kind) {
-        if (this.world instanceof ServerWorld serverWorld) {
+        if (this.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(kind.getParticle(), pos.getX() + 0.5D, pos.getY() + 0.6D, pos.getZ() + 0.5D,
                     18, 0.3D, 0.3D, 0.3D, 0.08D);
         }
-        this.world.playSound(null, pos, ModSounds.HEAT_RAY, SoundCategory.HOSTILE, 0.9F,
+        this.getWorld().playSound(null, pos, ModSounds.HEAT_RAY, SoundCategory.HOSTILE, 0.9F,
                 kind.getSoundPitch() * 1.1F);
 
         BlockPos above = pos.up();
-        if (kind.getIgniteSeconds() >= 6 && this.world.getBlockState(above).isAir()
+        if (kind.getIgniteSeconds() >= 6 && this.getWorld().getBlockState(above).isAir()
                 && this.random.nextFloat() < 0.6F) {
-            this.world.setBlockState(above, Blocks.FIRE.getDefaultState());
+            this.getWorld().setBlockState(above, Blocks.FIRE.getDefaultState());
         }
     }
 

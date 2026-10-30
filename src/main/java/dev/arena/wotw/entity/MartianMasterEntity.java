@@ -42,7 +42,7 @@ public class MartianMasterEntity extends MartianEntity {
     @Override
     protected void serverTick() {
         super.serverTick();
-        if (this.world.isClient) {
+        if (this.getWorld().isClient) {
             return;
         }
         if (this.onIntervalZero(90)) {
@@ -58,7 +58,7 @@ public class MartianMasterEntity extends MartianEntity {
     }
 
     private void command() {
-        if (!(this.world instanceof ServerWorld world)) {
+        if (!(this.getWorld() instanceof ServerWorld world)) {
             return;
         }
         Box area = new Box(this.getPos().add(-24.0D, -10.0D, -24.0D), this.getPos().add(24.0D, 10.0D, 24.0D));
@@ -73,7 +73,7 @@ public class MartianMasterEntity extends MartianEntity {
     }
 
     @Override
-    protected int getXpToDrop() {
+    public int getXpToDrop() {
         return 60;
     }
 }

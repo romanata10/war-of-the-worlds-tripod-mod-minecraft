@@ -36,7 +36,7 @@ public class BbcRedTripodEntity extends AbstractTripodEntity {
     @Override
     protected void clientTick() {
         double eyeY = this.getY() + this.getHeight() * 0.72D;
-        this.world.addParticle(ParticleTypes.CRIT,
+        this.getWorld().addParticle(ParticleTypes.CRIT,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 0.35D, eyeY,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 0.35D, 0.0D, 0.0D, 0.0D);
     }

@@ -42,7 +42,7 @@ public class GoliathTripodEntity extends AbstractTripodEntity {
     protected void serverTick() {
         if (this.getTarget() != null && !this.isShielded() && this.onIntervalZero(300)) {
             this.startShield(120);
-            this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                     SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.HOSTILE, 3.0F, 0.5F);
         }
         if (this.isShielded() && this.onIntervalZero(20) && this.getHealth() < this.getMaxHealth()) {
@@ -63,14 +63,14 @@ public class GoliathTripodEntity extends AbstractTripodEntity {
         if (!this.isShielded()) {
             return;
         }
-        if (this.world instanceof ServerWorld) {
+        if (this.getWorld() instanceof ServerWorld) {
             return;
         }
         double radius = this.getWidth() * 0.9D;
         for (int i = 0; i < 2; i++) {
             double angle = this.random.nextDouble() * Math.PI * 2.0D;
             double y = this.random.nextDouble() * this.getHeight();
-            this.world.addParticle(ParticleTypes.ELECTRIC_SPARK,
+            this.getWorld().addParticle(ParticleTypes.ELECTRIC_SPARK,
                     this.getX() + Math.cos(angle) * radius, this.getY() + y, this.getZ() + Math.sin(angle) * radius,
                     0.0D, 0.01D, 0.0D);
         }

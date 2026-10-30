@@ -52,7 +52,7 @@ public class AsylumWalkerEntity extends AbstractTripodEntity {
     @Override
     protected void clientTick() {
         double eyeY = this.getY() + this.getHeight() * 0.62D;
-        this.world.addParticle(ParticleTypes.SMOKE,
+        this.getWorld().addParticle(ParticleTypes.SMOKE,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 0.5D, eyeY,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 0.5D, 0.0D, 0.03D, 0.0D);
     }

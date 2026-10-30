@@ -50,8 +50,8 @@ public class FlyingMantaEntity extends AbstractTripodEntity {
     @Override
     public void onDeath(DamageSource source) {
         super.onDeath(source);
-        if (!this.world.isClient) {
-            this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), 3.0F, false,
+        if (!this.getWorld().isClient) {
+            this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), 3.0F, false,
                     World.ExplosionSourceType.MOB);
         }
     }
@@ -59,7 +59,7 @@ public class FlyingMantaEntity extends AbstractTripodEntity {
     @Override
     protected void clientTick() {
         double wingY = this.getY() + this.getHeight() * 0.45D;
-        this.world.addParticle(ParticleTypes.SMOKE,
+        this.getWorld().addParticle(ParticleTypes.SMOKE,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 3.0D, wingY,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 3.0D, 0.0D, -0.01D, 0.0D);
     }
@@ -86,7 +86,7 @@ public class FlyingMantaEntity extends AbstractTripodEntity {
 
     @Override
     public void playChargeSound() {
-        this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                 SoundEvents.ENTITY_PHANTOM_SWOOP, SoundCategory.HOSTILE, 2.2F, 0.5F);
     }
 }

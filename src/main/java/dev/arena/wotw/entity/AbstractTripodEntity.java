@@ -60,7 +60,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     }
 
     @Override
-    protected int getXpToDrop() {
+    public int getXpToDrop() {
         return 60;
     }
 
@@ -130,13 +130,13 @@ public abstract class AbstractTripodEntity extends HostileEntity {
         }
         if (this.shieldTicks > 0) {
             this.shieldTicks--;
-            if (this.world.isClient) {
+            if (this.getWorld().isClient) {
                 this.clientShieldParticles();
             } else if (this.shieldTicks == 0) {
                 this.dataTracker.set(SHIELDED, Boolean.FALSE);
             }
         }
-        if (this.world.isClient) {
+        if (this.getWorld().isClient) {
             this.clientTick();
         } else {
             this.lifeTicks++;
@@ -221,14 +221,14 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     }
 
     public void fireBeam(Vec3d origin, Vec3d direction, BeamKind kind, float damage) {
-        if (this.world.isClient) {
+        if (this.getWorld().isClient) {
             return;
         }
-        BeamEntity beam = new BeamEntity(this.world, origin, direction, kind, this, damage);
-        this.world.spawnEntity(beam);
-        this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+        BeamEntity beam = new BeamEntity(this.getWorld(), origin, direction, kind, this, damage);
+        this.getWorld().spawnEntity(beam);
+        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                 ModSounds.HEAT_RAY, SoundCategory.HOSTILE, 2.2F, kind.getSoundPitch());
-        if (this.world instanceof ServerWorld serverWorld) {
+        if (this.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK,
                     origin.x, origin.y, origin.z, 12, 0.3D, 0.3D, 0.3D, 0.25D);
         }
@@ -237,7 +237,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     /** Charge up sound, played when a beam attack starts. */
     public void playChargeSound() {
         // The siren rising before the shot is half of the scare factor.
-        this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                 ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 1.8F, 1.05F);
     }
 
@@ -248,10 +248,10 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     @Override
     public boolean damage(DamageSource source, float amount) {
         if (this.isShielded() && source.isIn(DamageTypeTags.IS_PROJECTILE)) {
-            if (!this.world.isClient) {
-                this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+            if (!this.getWorld().isClient) {
+                this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                         SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.HOSTILE, 1.4F, 1.7F);
-                if (this.world instanceof ServerWorld serverWorld) {
+                if (this.getWorld() instanceof ServerWorld serverWorld) {
                     serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK,
                             this.getX(), this.getY() + this.getHeight() * 0.6D, this.getZ(),
                             22, this.getWidth() * 0.5D, this.getHeight() * 0.4D, this.getWidth() * 0.5D, 0.2D);
@@ -284,7 +284,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     @Override
     public void onDeath(DamageSource source) {
         super.onDeath(source);
-        if (!this.world.isClient && this.world instanceof ServerWorld serverWorld) {
+        if (!this.getWorld().isClient && this.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(ParticleTypes.EXPLOSION,
                     this.getX(), this.getY() + this.getHeight() * 0.5D, this.getZ(),
                     8, this.getWidth() * 0.4D, this.getHeight() * 0.3D, this.getWidth() * 0.4D, 0.02D);
@@ -292,7 +292,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
                     this.getX(), this.getY() + this.getHeight() * 0.4D, this.getZ(),
                     40, this.getWidth() * 0.4D, this.getHeight() * 0.4D, this.getWidth() * 0.4D, 0.03D);
         }
-        this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                 SoundEvents.ENTITY_IRON_GOLEM_DEATH, SoundCategory.HOSTILE, 2.4F, 0.55F);
     }
 
@@ -301,7 +301,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
         for (int i = 0; i < 3; i++) {
             double angle = this.random.nextDouble() * Math.PI * 2.0D;
             double y = this.random.nextDouble() * this.getHeight() * 0.8D;
-            this.world.addParticle(ParticleTypes.ELECTRIC_SPARK,
+            this.getWorld().addParticle(ParticleTypes.ELECTRIC_SPARK,
                     this.getX() + Math.cos(angle) * radius, this.getY() + y, this.getZ() + Math.sin(angle) * radius,
                     0.0D, 0.02D, 0.0D);
         }

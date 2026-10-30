@@ -46,9 +46,9 @@ public class Tripod2005Entity extends AbstractTripodEntity {
         // The war machine idles its shield up and down while it has prey.
         if (this.getTarget() != null && !this.isShielded() && this.onIntervalZero(240)) {
             this.startShield(80);
-            this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                     SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.HOSTILE, 2.4F, 0.7F);
-            this.world.playSound(null, this.getX(), this.getY(), this.getZ(),
+            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                     ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 3.0F, 0.45F);
         }
     }
@@ -61,7 +61,7 @@ public class Tripod2005Entity extends AbstractTripodEntity {
     @Override
     protected void clientTick() {
         double eyeY = this.getY() + this.getHeight() * 0.78D;
-        this.world.addParticle(ParticleTypes.SMOKE,
+        this.getWorld().addParticle(ParticleTypes.SMOKE,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 0.4D, eyeY,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 0.4D, 0.0D, 0.01D, 0.0D);
     }

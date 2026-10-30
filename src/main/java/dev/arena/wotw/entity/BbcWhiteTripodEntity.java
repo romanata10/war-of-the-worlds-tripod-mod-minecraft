@@ -40,7 +40,7 @@ public class BbcWhiteTripodEntity extends AbstractTripodEntity {
         for (int i = 0; i < 2; i++) {
             double angle = this.random.nextDouble() * Math.PI * 2.0D;
             double radius = 2.0D + this.random.nextDouble() * 7.0D;
-            this.world.addParticle(ParticleTypes.END_ROD,
+            this.getWorld().addParticle(ParticleTypes.END_ROD,
                     this.getX() + Math.cos(angle) * radius,
                     this.getY() + this.random.nextDouble() * 5.0D,
                     this.getZ() + Math.sin(angle) * radius,

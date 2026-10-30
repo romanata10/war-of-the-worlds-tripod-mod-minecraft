@@ -44,12 +44,12 @@ public class MartianLouseEntity extends AbstractTripodEntity {
         }
         Box area = new Box(this.getX() - 14.0D, this.getY() - 6.0D, this.getZ() - 14.0D,
                 this.getX() + 14.0D, this.getY() + 6.0D, this.getZ() + 14.0D);
-        List<MartianLouseEntity> swarm = this.world.getEntitiesByClass(MartianLouseEntity.class, area,
+        List<MartianLouseEntity> swarm = this.getWorld().getEntitiesByClass(MartianLouseEntity.class, area,
                 louse -> louse.isAlive());
         if (swarm.size() >= MAX_SWARM) {
             return;
         }
-        MartianLouseEntity child = ModEntities.MARTIAN_LOUSE.create(this.world);
+        MartianLouseEntity child = ModEntities.MARTIAN_LOUSE.create(this.getWorld());
         if (child == null) {
             return;
         }
@@ -57,7 +57,7 @@ public class MartianLouseEntity extends AbstractTripodEntity {
                 this.getY(), this.getZ() + (this.random.nextDouble() - 0.5D) * 2.0D,
                 this.random.nextFloat() * 360.0F, 0.0F);
         child.setPersistent();
-        this.world.spawnEntity(child);
+        this.getWorld().spawnEntity(child);
     }
 
     @Override

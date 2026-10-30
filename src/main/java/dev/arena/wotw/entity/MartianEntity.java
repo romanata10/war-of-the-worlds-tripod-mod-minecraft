@@ -57,7 +57,7 @@ public class MartianEntity extends AbstractTripodEntity {
     }
 
     protected void spitBlackSmoke(LivingEntity target) {
-        if (!(this.world instanceof ServerWorld world)) {
+        if (!(this.getWorld() instanceof ServerWorld world)) {
             return;
         }
         AreaEffectCloudEntity cloud = new AreaEffectCloudEntity(world,
@@ -100,7 +100,7 @@ public class MartianEntity extends AbstractTripodEntity {
     }
 
     @Override
-    protected int getXpToDrop() {
+    public int getXpToDrop() {
         return 24;
     }
 
