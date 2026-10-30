@@ -4,7 +4,7 @@ import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.block.MartianCylinderBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSoundGroup;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 

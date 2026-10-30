@@ -1,13 +1,14 @@
 package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.projectile.BeamEntity;
+import dev.arena.wotw.entity.projectile.BeamKind;
 import dev.arena.wotw.registry.ModItems;
 import dev.arena.wotw.registry.ModSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.FloatGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -95,7 +96,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     @Override
     protected void initGoals() {
         if (!isFlyer()) {
-            this.goalSelector.add(0, new FloatGoal(this));
+            this.goalSelector.add(0, new SwimGoal(this));
             this.goalSelector.add(6, new MeleeAttackGoal(this, 1.0D, true));
             this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.7D));
             this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 40.0F));
