@@ -109,7 +109,7 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     public void tick() {
         super.tick();
         if (this.getWorld().isClient) {
-            this.clientTick();
+            this.spawnEyeSparks();
             return;
         }
         if (this.beamCooldown > 0) {
@@ -159,7 +159,7 @@ public class PilotTripodEntity extends AbstractTripodEntity {
                 SoundCategory.PLAYERS, 1.6F, 1.15F);
     }
 
-    private void clientTick() {
+    private void spawnEyeSparks() {
         if (this.getPassengerList().isEmpty() || this.beamCooldown > 0 || this.random.nextInt(3) != 0) {
             return;
         }
