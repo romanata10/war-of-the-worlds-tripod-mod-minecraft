@@ -40,6 +40,7 @@ public class HandlingMachineEntity extends AbstractTripodEntity {
     @Nullable
     private UUID prisoner;
     private int drainTicks;
+    private int cageTicks;
 
     public HandlingMachineEntity(EntityType<? extends HandlingMachineEntity> type, World world) {
         super(type, world);
@@ -81,6 +82,7 @@ public class HandlingMachineEntity extends AbstractTripodEntity {
     private void capture(PlayerEntity player) {
         this.prisoner = player.getUuid();
         this.drainTicks = 0;
+        this.cageTicks = 0;
         player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.CAGED, CAGE_TICKS, 0, false, false, false));
         this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
                 SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundCategory.HOSTILE, 2.2F, 0.7F);
@@ -102,8 +104,10 @@ public class HandlingMachineEntity extends AbstractTripodEntity {
         player.setVelocity(Vec3d.ZERO);
         player.fallDistance = 0.0F;
 
-        // keep the tag topped up so the other machines keep ignoring him
-        if (player.age % 20 == 0) {
+        // keep the tag topped up so the other machines keep ignoring him, but only for the
+        // length of the cage — the prisoner eventually pries the bars open and runs
+        this.cageTicks++;
+        if (this.cageTicks <= CAGE_TICKS && player.age % 20 == 0) {
             player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.CAGED, 60, 0, false, false, false));
         }
 

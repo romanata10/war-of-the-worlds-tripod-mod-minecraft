@@ -16,6 +16,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +46,13 @@ public class TripodBlueprintBlock extends Block {
                               BlockHitResult hit) {
         if (world.isClient) {
             return ActionResult.SUCCESS;
+        }
+        // one workshop, one machine: a blueprint will not assemble a second tripod while the
+        // first one is still standing next to it
+        if (!world.getEntitiesByClass(PilotTripodEntity.class, new Box(pos).expand(14.0D),
+                PilotTripodEntity::isAlive).isEmpty()) {
+            world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_BASS.value(), SoundCategory.BLOCKS, 0.7F, 0.6F);
+            return ActionResult.FAIL;
         }
         this.build(world, pos);
         return ActionResult.CONSUME;
