@@ -9,6 +9,9 @@ public final class WotwConfig {
     /** Tripods spawning naturally in the Overworld. */
     public static final boolean NATURAL_SPAWNS = !Boolean.getBoolean("wotw.naturalSpawnsDisabled");
 
+    /** Capsules falling out of the sky: the first wave and every wave after it. */
+    public static final boolean INVASION_EVENTS = !Boolean.getBoolean("wotw.invasionEventsDisabled");
+
     /** When true only the small machines (louse, spider) spawn naturally. */
     public static final boolean SMALL_TRIPODS_ONLY = Boolean.getBoolean("wotw.smallTripodsOnly");
 

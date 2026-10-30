@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:spire",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 64,
+    "separation": 22,
+    "salt": 3417003,
+    "spread_type": "linear"
+  }
+}

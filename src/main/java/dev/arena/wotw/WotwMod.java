@@ -5,6 +5,7 @@ import dev.arena.wotw.registry.ModEntities;
 import dev.arena.wotw.registry.ModItems;
 import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.registry.ModSpawns;
+import dev.arena.wotw.world.InvasionManager;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ public class WotwMod implements ModInitializer {
         ModItems.register();
         ModEntities.registerAttributes();
         ModSpawns.register();
+        InvasionManager.register();
 
         LOGGER.info("The Martians have landed. {} tripod types are ready to walk the Overworld.",
                 ModEntities.all().size());

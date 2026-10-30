@@ -22,6 +22,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import generate_models as specs  # noqa: E402
+from model_lib import flatten as lib_flatten, part_rotation  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEXTURES = os.path.join(ROOT, "src/main/resources/assets/wotw/textures/entity")
@@ -54,28 +55,8 @@ TRIPODS = [
 #  Geometry
 # --------------------------------------------------------------------------- #
 
-def part_rotation(pitch_deg, yaw_deg, roll_deg):
-    """Vanilla order: Rz(roll) * Ry(yaw) * Rx(pitch)."""
-    p, y, r = (math.radians(a) for a in (pitch_deg, yaw_deg, roll_deg))
-    rx = np.array([[1, 0, 0], [0, math.cos(p), -math.sin(p)], [0, math.sin(p), math.cos(p)]])
-    ry = np.array([[math.cos(y), 0, math.sin(y)], [0, 1, 0], [-math.sin(y), 0, math.cos(y)]])
-    rz = np.array([[math.cos(r), -math.sin(r), 0], [math.sin(r), math.cos(r), 0], [0, 0, 1]])
-    return rz @ ry @ rx
-
-
 def flatten(model):
-    parts = []
-
-    def walk(part, parent_rot, parent_origin):
-        rot = parent_rot @ part_rotation(*part.rot)
-        origin = parent_rot @ np.array(part.pivot, dtype=np.float64) + parent_origin
-        for uv, box in part.boxes:
-            parts.append({"uv": uv, "box": box, "rot": rot, "origin": origin, "glow": part.glow})
-        for child in part.children:
-            walk(child, rot, origin)
-
-    walk(model.root, np.eye(3), np.zeros(3))
-    return parts
+    return lib_flatten(model)
 
 
 def model_bounds(parts):
@@ -90,7 +71,7 @@ def model_bounds(parts):
                     xs.append(point[0])
                     ys.append(point[1])
                     zs.append(point[2])
-    height = (24.0 - min(ys)) / 16.0
+    height = (max(ys) - min(ys)) / 16.0
     width = max(max(xs) - min(xs), max(zs) - min(zs)) / 16.0
     return height, width
 
@@ -127,7 +108,7 @@ def box_faces(uv, box):
                       ((x0, y1, z1), (u + 3 * dz + dx, v + dz + dy)), ((x1, y1, z1), (u + 2 * dz + dx, v + dz + dy))]
 
 
-def render_model(parts, texture, size=RENDER, yaw=142.0, pitch=16.0, supersample=SUPERSAMPLE):
+def render_model(parts, texture, size=RENDER, yaw=150.0, pitch=10.0, supersample=SUPERSAMPLE):
     color = np.zeros((size * supersample, size * supersample, 4), dtype=np.float32)
     depth = np.full(color.shape[:2], -np.inf, dtype=np.float64)   # bigger z = closer
     tex = np.asarray(texture.convert("RGB"), dtype=np.float32) / 255.0

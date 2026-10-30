@@ -23,7 +23,7 @@ Usage:  python3 tools/generate_models.py
 
 import os
 
-from model_lib import Model, emit_java, eye, leg, tentacle
+from model_lib import Model, drop_to_ground, emit_java, eye, leg, stretch_vertical, tentacle
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_DIR = os.path.join(ROOT, "src/main/java/dev/arena/wotw/client/model")
@@ -180,23 +180,65 @@ def goliath():
 # --------------------------------------------------------------------------- #
 
 def heron():
-    m = Model("martian_heron")
-    body = m.part("body")
-    body.shell(0, -84, 0, 26, 16, 30, cell=14)
-    body.shell(0, -70, 0, 18, 10, 22, cell=12)
-    # long thin neck leaning forward
-    neck = m.part("neck", parent="body", pivot=(0, -84, -4), rot=(-8.0, 0.0, 0.0))
-    neck.box(-4, -22, -4, 8, 24, 8)
-    neck.box(-3, -44, -5, 6, 24, 6)
-    head = m.part("head", parent="neck", pivot=(0, -46, -5), rot=(6.0, 0.0, 0.0))
-    head.shell(0, -18, -4, 20, 18, 24, cell=12)
-    eye(m, "eye", "head", (0, -10, -16), (12, 5))
-    for index, (x, z, spread) in enumerate([(-8, -2, -14), (8, -2, 14), (-6, 8, -8), (6, 8, 8)]):
-        tentacle(m, f"tent{index}_", "body", (x, -68, z), 40, segments=4, droop=16, spread=spread)
+    """Martian Heron: the tallest machine in the mod — nearly fifteen blocks of stilts and hoods.
 
-    leg(m, "leg_l", (-8, -70, -4), 46, 45, 3, splay_x=-8, splay_z=-5, foot=4)
-    leg(m, "leg_r", (8, -70, -4), 46, 45, 3, splay_x=8, splay_z=-5, foot=4)
-    leg(m, "leg_b", (0, -70, 8), 47, 46, 3, splay_z=7, foot=4)
+    An open front hood arches over the cockpit like a heron's head, with the Martian pilot sitting
+    under it in plain sight; behind him a closed tin hood stores energy. Both hoods carry three
+    comb fins on their rear edge and two heat cannons hang from the chin of the front one.
+    """
+    m = Model("martian_heron")
+
+    # three stilt legs, hips high up the spine
+    leg(m, "leg_l", (-11, -150, -6), 82, 80, 3, splay_x=-7, splay_z=-4, foot=4)
+    leg(m, "leg_r", (11, -150, -6), 82, 80, 3, splay_x=7, splay_z=-4, foot=4)
+    leg(m, "leg_b", (0, -150, 12), 82, 80, 3, splay_z=6, foot=4)
+
+    body = m.part("body")
+    body.shell(0, -204, 0, 16, 44, 18, cell=10)                 # iron spine, up to the hoods
+    body.shell(0, -160, 0, 28, 14, 28, cell=12)                 # hip collar
+    body.box(-14, -172, -13, 28, 5, 26)                         # tin belt
+    body.box(-14, -138, -13, 28, 4, 26)                         # lower belt
+    body.box(-13, -190, -13, 26, 14, 26)                        # shoulder yoke
+
+    # rear hood: closed tin reservoir behind the pilot
+    rear = m.part("rear_hood", parent="body", pivot=(0, -204, 20), rot=(6.0, 0.0, 0.0))
+    rear.dome(0, 0, 0, 28, 26, [(11, 30, 26), (11, 28, 22), (8, 20, 16), (4, 12, 10)], cell=11)
+    for index in range(3):
+        rear.box(-10 + index * 10, -5, 13, 3, 22, 11)           # comb fins behind the rear hood
+    rear.glow_box(-7, 4, 16, 5, 9, 2)                           # energy cells
+    rear.glow_box(2, 4, 16, 5, 9, 2)
+
+    # front hood: an open copper cowl over the cockpit, leaning forward
+    head = m.part("head", parent="body", pivot=(0, -204, -22), rot=(-12.0, 0.0, 0.0))
+    head.box(-17, -3, -18, 34, 7, 36)                           # roof
+    head.box(-13, -7, -14, 26, 4, 28)                           # crown step
+    head.box(-17, 4, -18, 5, 26, 34)                            # left wall
+    head.box(12, 4, -18, 5, 26, 34)                             # right wall
+    head.box(-12, 4, 10, 24, 26, 6)                             # back wall
+    head.box(-17, 4, -24, 34, 6, 8)                             # chin lip, juts out in front
+    head.box(-12, 30, -16, 24, 4, 28)                           # floor of the cockpit
+    head.box(-20, -1, -6, 3, 5, 20)                             # copper brow rails
+    head.box(17, -1, -6, 3, 5, 20)
+    for index in range(3):
+        head.box(-10 + index * 10, 2, 14, 3, 24, 11)            # comb fins behind the front hood
+
+    # the Martian pilot, sitting in the open cockpit
+    pilot = m.part("pilot", parent="body", pivot=(0, -186, -14))
+    pilot.box(-8, 0, -4, 16, 14, 12)                            # torso and seat
+    pilot.box(-5, -9, -2, 10, 9, 10)                            # head
+    pilot.glow_box(-4, -7, -4, 3, 2, 2)                         # eyes
+    pilot.glow_box(1, -7, -4, 3, 2, 2)
+
+    # twin heat cannons under the chin
+    for index, offset in enumerate((-11, 11)):
+        cannon = m.part(f"cannon{index}", parent="body", pivot=(offset, -180, -20))
+        cannon.box(-2, -2, -16, 5, 5, 18)
+        cannon.glow_box(-3, -3, -18, 7, 7, 2)
+        cannon.box(-1, 2, -8, 3, 4, 8)                          # mount strut
+
+    # thin sensor arms hanging off the spine
+    for index, (x, z, spread) in enumerate([(-9, -2, -12), (9, -2, 12)]):
+        tentacle(m, f"tent{index}_", "body", (x, -120, z), 40, segments=3, droop=8, spread=spread)
     return m
 
 
@@ -205,15 +247,31 @@ def heron():
 # --------------------------------------------------------------------------- #
 
 def spider():
+    """Martian Spider: 7.3 m tall (4.6 blocks), no cannons — just razor feelers and speed."""
     m = Model("martian_spider")
     body = m.part("body")
-    body.dome(0, -26, 0, 40, 48, [(7, 30, 38), (7, 40, 48), (5, 34, 42)])
-    head = m.part("head", parent="body", pivot=(0, -24, -24))
-    head.shell(0, -6, -8, 22, 12, 16, cell=10)
-    eye(m, "eye", "head", (0, -4, -17), (11, 6))
-    for index, (x, z) in enumerate([(-18, -18), (18, -18), (-20, -6), (20, -6),
-                                    (-20, 6), (20, 6), (-18, 18), (18, 18)]):
-        leg(m, f"leg{index}", (x, -10, z), 16, 15, 2, splay_x=x * 1.1, splay_z=z * 0.7, foot=3)
+    body.dome(0, -60, 0, 38, 46, [(8, 32, 40), (9, 38, 46), (7, 32, 40), (4, 22, 30)], cell=14)
+
+    # a different head altogether: a low arrow head, wider than it is tall, jutting forward
+    head = m.part("head", parent="body", pivot=(0, -52, -20), rot=(-4.0, 0.0, 0.0))
+    head.box(-13, -3, -10, 26, 9, 14)
+    head.box(-9, -2, -18, 18, 7, 9)
+    head.box(-4, -1, -24, 8, 5, 7)                              # arrow point
+    eye(m, "eye", "head", (0, 2, -22), (12, 4))
+
+    # razor feelers: four thin blades fanning out in front of the arrow head
+    for index, (x, tilt, yaw) in enumerate([(-9, 10, -14), (-4, 4, -5), (4, 4, 5), (9, 10, 14)]):
+        blade = m.part(f"blade{index}", parent="head", pivot=(x, 4, -20), rot=(tilt, yaw, 0.0))
+        blade.box(-1, 0, -22, 2, 3, 22)
+
+    for index in range(3):
+        body.box(-9 + index * 9, -64, 6, 3, 9, 14)             # comb fins on the shell
+
+    # eight short, steeply splayed legs: the low, crouched stance of the spider
+    for index, (x, z) in enumerate([(-17, -16), (17, -16), (-19, -5), (19, -5),
+                                    (-19, 6), (19, 6), (-17, 17), (17, 17)]):
+        leg(m, f"leg{index}", (x, -36, z), 30, 28, 2,
+            splay_x=x * 1.5, splay_z=z * 0.9, foot=3, knee=0.6)
     return m
 
 
@@ -232,17 +290,42 @@ def louse():
     return m
 
 
+# How much taller than the authored geometry each machine should be. Vertical stretch only:
+# the footprint and the leg thickness stay the same, so the machines read as tall walkers.
+TALL = {
+    "tripod2005": 1.38,
+    "bbcWhite": 1.34,
+    "bbcRed": 1.34,
+    "manta": 1.25,
+    "book": 1.36,
+    "asylum": 1.55,
+    "goliath": 1.42,
+    "heron": 1.00,
+    "spider": 1.00,
+    "louse": 1.25,
+    "martian": 1.32,
+    "martianMaster": 1.22,
+}
+
+def finalise(model, method):
+    """Applies the height multiplier and drops the model onto the ground plane."""
+    stretch_vertical(model, TALL.get(method, 1.0))
+    drop_to_ground(model)
+    return model
+
+
+# built once, already stretched: the preview renderer and the Java emitter share these objects
 TRIPODS = [
-    ("tripod2005", tripod_2005()),
-    ("bbcWhite", bbc_white()),
-    ("bbcRed", bbc_red()),
-    ("manta", manta()),
-    ("book", book()),
-    ("asylum", asylum()),
-    ("goliath", goliath()),
-    ("heron", heron()),
-    ("spider", spider()),
-    ("louse", louse()),
+    ("tripod2005", finalise(tripod_2005(), "tripod2005")),
+    ("bbcWhite", finalise(bbc_white(), "bbcWhite")),
+    ("bbcRed", finalise(bbc_red(), "bbcRed")),
+    ("manta", finalise(manta(), "manta")),
+    ("book", finalise(book(), "book")),
+    ("asylum", finalise(asylum(), "asylum")),
+    ("goliath", finalise(goliath(), "goliath")),
+    ("heron", finalise(heron(), "heron")),
+    ("spider", finalise(spider(), "spider")),
+    ("louse", finalise(louse(), "louse")),
 ]
 
 
@@ -289,8 +372,9 @@ def martian_model(name, body_h, width, crown, master=False):
 
 
 MARTIANS = [
-    ("martian", martian_model("martian", body_h=22, width=20, crown=False)),
-    ("martianMaster", martian_model("martian_master", body_h=30, width=28, crown=True, master=True)),
+    ("martian", finalise(martian_model("martian", body_h=22, width=20, crown=False), "martian")),
+    ("martianMaster",
+     finalise(martian_model("martian_master", body_h=30, width=28, crown=True, master=True), "martianMaster")),
 ]
 
 

@@ -32,5 +32,13 @@
   "entity.wotw.martian": "Марсианин",
   "entity.wotw.martian_master": "Марсианин-повелитель",
   "item.wotw.martian_spawn_egg": "Яйцо призыва марсианина",
-  "item.wotw.martian_master_spawn_egg": "Яйцо призыва марсианина-повелителя"
+  "item.wotw.martian_master_spawn_egg": "Яйцо призыва марсианина-повелителя",
+  "block.wotw.martian_alloy_block": "Блок марсианского сплава",
+  "block.wotw.red_root": "Марсианские красные корни",
+  "item.wotw.martian_capsule": "Марсианская капсула",
+  "item.wotw.martian_capsule.tooltip": "Подбросьте её — и капсула упадёт с неба",
+  "item.wotw.martian_capsule.tooltip2": "Всё, во что она попадёт, сгорит",
+  "entity.wotw.capsule": "Марсианская капсула",
+  "wotw.event.capsule_incoming": "Небо прорезает воющий свет — что-то падает!",
+  "wotw.event.landing": "Война миров началась. Марсиане пришли."
 }

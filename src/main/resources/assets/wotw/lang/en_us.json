@@ -32,5 +32,13 @@
   "entity.wotw.martian": "Martian",
   "entity.wotw.martian_master": "Martian Commander",
   "item.wotw.martian_spawn_egg": "Martian Spawn Egg",
-  "item.wotw.martian_master_spawn_egg": "Martian Commander Spawn Egg"
+  "item.wotw.martian_master_spawn_egg": "Martian Commander Spawn Egg",
+  "block.wotw.martian_alloy_block": "Block of Martian Alloy",
+  "block.wotw.red_root": "Martian Red Root",
+  "item.wotw.martian_capsule": "Martian Capsule",
+  "item.wotw.martian_capsule.tooltip": "Throw it and a capsule falls back out of the sky",
+  "item.wotw.martian_capsule.tooltip2": "Whatever it lands on is burned away",
+  "entity.wotw.capsule": "Martian Capsule",
+  "wotw.event.capsule_incoming": "A screaming light tears across the sky — something is falling!",
+  "wotw.event.landing": "The War of the Worlds has begun. The Martians are here."
 }

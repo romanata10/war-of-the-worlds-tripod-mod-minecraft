@@ -13,6 +13,9 @@ import net.minecraft.world.Heightmap;
 /**
  * Natural spawning. Tripods are deliberately rare: their weights are tiny compared to zombies
  * and skeletons, but they are not zero, so a night walk can end very badly.
+ *
+ * <p>The Martian louse is the exception — it never spawns on its own. Lice come out of capsules and
+ * infested structures only, which keeps caves free of the swarm.</p>
  */
 public final class ModSpawns {
 
@@ -35,7 +38,8 @@ public final class ModSpawns {
             groundSpawn(ModEntities.FLYING_MANTA, 4, 1, 1, 1);
         }
         groundSpawn(ModEntities.MARTIAN_SPIDER, 3, 3, 1, 2);
-        groundSpawn(ModEntities.MARTIAN_LOUSE, 2, 8, 2, 3);
+        // The louse is deliberately *not* in this list any more: lice only exist where a capsule
+        // opened or a Martian structure stands, so caves and nights are quiet again.
         groundSpawn(ModEntities.MARTIAN, 2, 5, 1, 2);
         groundSpawn(ModEntities.MARTIAN_MASTER, 2, 1, 1, 1);
     }

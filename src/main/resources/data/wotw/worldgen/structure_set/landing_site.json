@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:landing_site",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 40,
+    "separation": 14,
+    "salt": 3417001,
+    "spread_type": "linear"
+  }
+}

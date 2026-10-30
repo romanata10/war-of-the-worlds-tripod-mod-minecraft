@@ -23,16 +23,19 @@ for item in sorted(items):
     if not model.exists():
         errors.append(f"missing item model: {model.relative_to(ROOT)}")
 
-# 3. blockstate -> models -> textures
-bs = json.loads((ASSETS / "blockstates/martian_cylinder.json").read_text())
-for variant in bs["variants"].values():
-    model_path = variant["model"].split(":")[1]
-    model_file = (ASSETS / "models" / model_path).with_suffix(".json")
-    if not model_file.exists():
-        errors.append(f"missing block model {model_file}")
-    else:
+# 3. every blockstate -> models -> textures
+for state_file in sorted((ASSETS / "blockstates").glob("*.json")):
+    bs = json.loads(state_file.read_text())
+    for variant in bs.get("variants", {}).values():
+        model_path = variant["model"].split(":")[1]
+        model_file = (ASSETS / "models" / model_path).with_suffix(".json")
+        if not model_file.exists():
+            errors.append(f"missing block model {model_file}")
+            continue
         m = json.loads(model_file.read_text())
         for tex in m.get("textures", {}).values():
+            if not tex.startswith("wotw:"):
+                continue
             tex_path = ASSETS / "textures" / (tex.split(":", 1)[1] + ".png")
             if not tex_path.exists():
                 errors.append(f"missing block texture {tex_path.relative_to(ROOT)}")
@@ -52,11 +55,13 @@ for b in beams:
     if not p.exists():
         errors.append(f"missing beam texture {p.relative_to(ROOT)}")
 
-# 5. item textures for simple item models
-for item in ["martian_alloy", "heat_ray_emitter"]:
-    m = json.loads((ASSETS / "models/item" / f"{item}.json").read_text())
-    tex = m["textures"]["layer0"].split(":", 1)[1]
-    p = ASSETS / "textures" / (tex + ".png")
+# 5. item textures for every model that uses layer0
+for model_file in sorted((ASSETS / "models/item").glob("*.json")):
+    m = json.loads(model_file.read_text())
+    layer = m.get("textures", {}).get("layer0")
+    if not layer or not layer.startswith("wotw:"):
+        continue
+    p = ASSETS / "textures" / (layer.split(":", 1)[1] + ".png")
     if not p.exists():
         errors.append(f"missing item texture {p.relative_to(ROOT)}")
 
@@ -70,12 +75,14 @@ for e in entities:
     if e == "beam":      # rays are not nameable living entities
         continue
     used.add(f"entity.wotw.{e}")
+block_items = {f.stem for f in (ASSETS / "blockstates").glob("*.json")}
 for item in items:
-    if item == "martian_cylinder":   # BlockItem uses the block translation key
-        used.add("block.wotw.martian_cylinder")
+    if item in block_items:   # BlockItems use the block translation key
+        used.add(f"block.wotw.{item}")
         continue
     used.add(f"item.wotw.{item}")
-used.add("block.wotw.martian_cylinder")
+for block in block_items:
+    used.add(f"block.wotw.{block}")
 for key in sorted(used):
     if key not in en:
         errors.append(f"missing en_us key: {key}")
@@ -108,7 +115,33 @@ if sounds_file.exists():
 else:
     errors.append("missing sounds.json")
 
-# 8. icon
+# 8. structures: nbt files, worldgen json and the template pool chain
+structures = sorted(f.stem for f in (RES / "data/wotw/structures").glob("*.nbt"))
+if not structures:
+    errors.append("no structure files")
+for name in structures:
+    structure_json = RES / "data/wotw/worldgen/structure" / f"{name}.json"
+    pool_json = RES / "data/wotw/worldgen/template_pool" / name / "start_pool.json"
+    set_json = RES / "data/wotw/worldgen/structure_set" / f"{name}.json"
+    for path in (structure_json, pool_json, set_json):
+        if not path.exists():
+            errors.append(f"missing worldgen file {path.relative_to(ROOT)}")
+            continue
+    if structure_json.exists():
+        spec = json.loads(structure_json.read_text())
+        pool_ref = spec.get("start_pool", "").split(":", 1)[-1]
+        if not (RES / "data/wotw/worldgen/template_pool" / f"{pool_ref}.json").exists():
+            errors.append(f"{name}: start_pool {pool_ref} has no file")
+        biome_tag = spec.get("biomes", "").lstrip("#").split(":", 1)[-1]
+        if not (RES / "data/wotw/tags/worldgen/biome" / f"{biome_tag}.json").exists():
+            errors.append(f"{name}: missing biome tag {biome_tag}")
+    if pool_json.exists():
+        element = json.loads(pool_json.read_text())["elements"][0]["element"]
+        target = element["location"].split(":", 1)[1]
+        if not (RES / "data/wotw/structures" / f"{target}.nbt").exists():
+            errors.append(f"{name}: pool points at missing nbt {target}.nbt")
+
+# 9. icon
 if not (ASSETS / "icon.png").exists():
     errors.append("missing mod icon")
 

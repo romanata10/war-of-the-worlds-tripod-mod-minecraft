@@ -4,12 +4,16 @@ import dev.arena.wotw.client.model.BeamModel;
 import dev.arena.wotw.client.model.MartianModels;
 import dev.arena.wotw.client.model.TripodModels;
 import dev.arena.wotw.client.render.BeamEntityRenderer;
+import dev.arena.wotw.client.render.CapsuleRenderer;
 import dev.arena.wotw.client.render.GenericTripodRenderer;
 import dev.arena.wotw.entity.AbstractTripodEntity;
+import dev.arena.wotw.registry.ModBlocks;
 import dev.arena.wotw.registry.ModEntities;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityType;
 
@@ -20,6 +24,8 @@ public class WotwClient implements ClientModInitializer {
     public void onInitializeClient() {
         EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BEAM, BeamModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.BEAM, BeamEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.CAPSULE, CapsuleRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RED_ROOT, RenderLayer.getCutout());
 
         registerTripod(ModModelLayers.TRIPOD_2005, TripodModels::tripod2005,
                 ModEntities.TRIPOD_2005, "tripod_2005", 1.0F, 1.2F);

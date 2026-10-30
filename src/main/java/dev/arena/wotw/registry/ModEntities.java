@@ -3,6 +3,7 @@ package dev.arena.wotw.registry;
 import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.entity.AbstractTripodEntity;
 import dev.arena.wotw.entity.AsylumWalkerEntity;
+import dev.arena.wotw.entity.CapsuleEntity;
 import dev.arena.wotw.entity.BbcRedTripodEntity;
 import dev.arena.wotw.entity.BbcWhiteTripodEntity;
 import dev.arena.wotw.entity.BookTripodEntity;
@@ -38,6 +39,13 @@ public final class ModEntities {
     /*  Projectiles                                                        */
     /* ------------------------------------------------------------------ */
 
+    /** The giant falling capsule used by the invasion events and by the capsule item. */
+    public static final EntityType<CapsuleEntity> CAPSULE = register("capsule",
+            EntityType.Builder.<CapsuleEntity>create(CapsuleEntity::new, SpawnGroup.MISC)
+                    .setDimensions(2.4F, 3.2F)
+                    .maxTrackingRange(12)
+                    .trackingTickInterval(2));
+
     public static final EntityType<BeamEntity> BEAM = register("beam",
             EntityType.Builder.<BeamEntity>create(BeamEntity::new, SpawnGroup.MISC)
                     .setDimensions(0.8F, 0.8F)
@@ -49,42 +57,42 @@ public final class ModEntities {
     /* ------------------------------------------------------------------ */
 
     public static final EntityType<Tripod2005Entity> TRIPOD_2005 = tripod("tripod_2005",
-            EntityType.Builder.create(Tripod2005Entity::new, SpawnGroup.MONSTER).setDimensions(3.6F, 8.0F));
+            EntityType.Builder.create(Tripod2005Entity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 11.3F));
 
     public static final EntityType<BbcWhiteTripodEntity> BBC_WHITE_TRIPOD = tripod("bbc_white_tripod",
-            EntityType.Builder.create(BbcWhiteTripodEntity::new, SpawnGroup.MONSTER).setDimensions(2.4F, 6.8F));
+            EntityType.Builder.create(BbcWhiteTripodEntity::new, SpawnGroup.MONSTER).setDimensions(2.9F, 9.3F));
 
     public static final EntityType<BbcRedTripodEntity> BBC_RED_TRIPOD = tripod("bbc_red_tripod",
-            EntityType.Builder.create(BbcRedTripodEntity::new, SpawnGroup.MONSTER).setDimensions(2.6F, 6.8F));
+            EntityType.Builder.create(BbcRedTripodEntity::new, SpawnGroup.MONSTER).setDimensions(4.4F, 9.3F));
 
     public static final EntityType<FlyingMantaEntity> FLYING_MANTA = tripod("flying_manta",
-            EntityType.Builder.create(FlyingMantaEntity::new, SpawnGroup.MONSTER).setDimensions(8.0F, 3.4F));
+            EntityType.Builder.create(FlyingMantaEntity::new, SpawnGroup.MONSTER).setDimensions(9.0F, 3.2F));
 
     public static final EntityType<BookTripodEntity> BOOK_TRIPOD = tripod("book_tripod",
-            EntityType.Builder.create(BookTripodEntity::new, SpawnGroup.MONSTER).setDimensions(3.3F, 9.0F));
+            EntityType.Builder.create(BookTripodEntity::new, SpawnGroup.MONSTER).setDimensions(5.5F, 12.4F));
 
     public static final EntityType<AsylumWalkerEntity> ASYLUM_WALKER = tripod("asylum_walker",
-            EntityType.Builder.create(AsylumWalkerEntity::new, SpawnGroup.MONSTER).setDimensions(4.1F, 4.2F));
+            EntityType.Builder.create(AsylumWalkerEntity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 6.7F));
 
     public static final EntityType<GoliathTripodEntity> GOLIATH_TRIPOD = tripod("goliath_tripod",
-            EntityType.Builder.create(GoliathTripodEntity::new, SpawnGroup.MONSTER).setDimensions(4.3F, 10.0F));
+            EntityType.Builder.create(GoliathTripodEntity::new, SpawnGroup.MONSTER).setDimensions(6.7F, 14.1F));
 
     public static final EntityType<MartianHeronEntity> MARTIAN_HERON = tripod("martian_heron",
-            EntityType.Builder.create(MartianHeronEntity::new, SpawnGroup.MONSTER).setDimensions(2.3F, 10.8F));
+            EntityType.Builder.create(MartianHeronEntity::new, SpawnGroup.MONSTER).setDimensions(4.5F, 14.2F));
 
     public static final EntityType<MartianSpiderEntity> MARTIAN_SPIDER = tripod("martian_spider",
-            EntityType.Builder.create(MartianSpiderEntity::new, SpawnGroup.MONSTER).setDimensions(4.1F, 3.5F));
+            EntityType.Builder.create(MartianSpiderEntity::new, SpawnGroup.MONSTER).setDimensions(5.9F, 4.8F));
 
     public static final EntityType<MartianLouseEntity> MARTIAN_LOUSE = tripod("martian_louse",
-            EntityType.Builder.create(MartianLouseEntity::new, SpawnGroup.MONSTER).setDimensions(1.6F, 2.0F));
+            EntityType.Builder.create(MartianLouseEntity::new, SpawnGroup.MONSTER).setDimensions(1.7F, 2.2F));
 
     /* The creatures themselves, not their machines. */
 
     public static final EntityType<MartianEntity> MARTIAN = tripod("martian",
-            EntityType.Builder.create(MartianEntity::new, SpawnGroup.MONSTER).setDimensions(1.5F, 2.0F));
+            EntityType.Builder.create(MartianEntity::new, SpawnGroup.MONSTER).setDimensions(2.6F, 2.3F));
 
     public static final EntityType<MartianMasterEntity> MARTIAN_MASTER = tripod("martian_master",
-            EntityType.Builder.create(MartianMasterEntity::new, SpawnGroup.MONSTER).setDimensions(2.2F, 2.6F));
+            EntityType.Builder.create(MartianMasterEntity::new, SpawnGroup.MONSTER).setDimensions(3.6F, 3.0F));
 
     private ModEntities() {
     }

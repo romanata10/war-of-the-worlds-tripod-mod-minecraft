@@ -54,6 +54,8 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     private int abilityCooldown;
     private int shieldTicks;
     private int lifeTicks;
+    /** When true this machine plants red roots behind it while it walks. */
+    private boolean rootTrail;
 
     protected AbstractTripodEntity(EntityType<? extends AbstractTripodEntity> type, World world) {
         super(type, world);
@@ -141,6 +143,33 @@ public abstract class AbstractTripodEntity extends HostileEntity {
         } else {
             this.lifeTicks++;
             this.serverTick();
+            if (this.rootTrail && this.lifeTicks % 8 == 0) {
+                this.plantRoot();
+            }
+        }
+    }
+
+    /** True when this machine was grown from a capsule that carried a red root seed bed. */
+    public boolean hasRootTrail() {
+        return this.rootTrail;
+    }
+
+    public void setRootTrail(boolean rootTrail) {
+        this.rootTrail = rootTrail;
+    }
+
+    /** Plants a root on the tile this machine is standing on, if the ground allows it. */
+    private void plantRoot() {
+        if (!(this.getWorld() instanceof ServerWorld world)) {
+            return;
+        }
+        BlockPos feet = this.getBlockPos();
+        if (world.getRandom().nextFloat() > 0.5F) {
+            return;
+        }
+        if (dev.arena.wotw.block.RedRootBlock.plant(world, feet)) {
+            world.spawnParticles(ParticleTypes.CRIMSON_SPORE, feet.getX() + 0.5D, feet.getY() + 0.4D,
+                    feet.getZ() + 0.5D, 6, 0.3D, 0.2D, 0.3D, 0.0D);
         }
     }
 

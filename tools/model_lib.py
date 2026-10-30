@@ -10,6 +10,10 @@ Boxes are plain axis aligned cuboids with a texture offset.
 `generate_models.py`. The preview renderer reads the same objects.
 """
 
+import math
+
+import numpy
+
 GLOW_UV = (96, 96)
 
 
@@ -93,15 +97,93 @@ class Model:
 #  Composite helpers
 # --------------------------------------------------------------------------- #
 
-def leg(model, name, hip, thigh, shin, thick, splay_x=0.0, splay_z=0.0, foot=0):
-    """Two segment leg: the thigh swings out, the shin drops back towards vertical."""
-    upper = model.part(name, pivot=hip, rot=(splay_z, 0.0, splay_x))
+def leg(model, name, hip, thigh, shin, thick, splay_x=0.0, splay_z=0.0, foot=0, knee=0.35):
+    """Two segment leg that bows *outwards*: the knee points away from the body.
+
+    `knee` is the extra outward bend of the shin, as a fraction of the splay. Keeping it
+    positive is what stops the feet from folding towards each other under the hull.
+    """
+    # a positive splay_x on a hip at +x swings the foot further out: roll is negated
+    upper = model.part(name, pivot=hip, rot=(splay_z, 0.0, -splay_x))
     upper.box(-thick // 2, 0, -thick // 2, thick, thigh, thick)
-    lower = model.part(name + "_shin", parent=name, pivot=(0, thigh, 0), rot=(-splay_z * 0.85, 0.0, -splay_x * 0.85))
+    lower = model.part(name + "_shin", parent=name, pivot=(0, thigh, 0),
+                       rot=(splay_z * knee, 0.0, -splay_x * knee))
     lower.box(-thick // 2, 0, -thick // 2, thick, shin, thick)
     if foot:
         lower.box(-foot // 2, shin - 1, -foot // 2, foot, 3, foot)
     return upper
+
+
+def stretch_vertical(model, factor, ground=24):
+    """Makes the machine taller without widening it: every vertical extent is scaled."""
+    for part in model.parts:
+        px, py, pz = part.pivot
+        part.pivot = (px, int(close_to(py * factor)), pz)
+        scaled = []
+        for uv, (x, y, z, dx, dy, dz) in part.boxes:
+            scaled.append((uv, (x, int(close_to(y * factor)), z, dx,
+                                max(1, int(close_to(dy * factor))), dz)))
+        part.boxes = scaled
+    return model
+
+
+def close_to(value):
+    return int(value + 0.5) if value >= 0 else int(value - 0.5)
+
+
+def part_rotation(pitch_deg, yaw_deg, roll_deg):
+    """Vanilla order: Rz(roll) * Ry(yaw) * Rx(pitch)."""
+    p, y, r = (math.radians(a) for a in (pitch_deg, yaw_deg, roll_deg))
+    rx = numpy.array([[1, 0, 0], [0, math.cos(p), -math.sin(p)], [0, math.sin(p), math.cos(p)]])
+    ry = numpy.array([[math.cos(y), 0, math.sin(y)], [0, 1, 0], [-math.sin(y), 0, math.cos(y)]])
+    rz = numpy.array([[math.cos(r), -math.sin(r), 0], [math.sin(r), math.cos(r), 0], [0, 0, 1]])
+    return rz @ ry @ rx
+
+
+def flatten(model):
+    """World space boxes: {'uv', 'box', 'rot', 'origin', 'glow'}."""
+    parts = []
+
+    def walk(part, parent_rot, parent_origin):
+        rot = parent_rot @ part_rotation(*part.rot)
+        origin = parent_rot @ numpy.array(part.pivot, dtype=float) + parent_origin
+        for uv, box in part.boxes:
+            parts.append({"uv": uv, "box": box, "rot": rot, "origin": origin, "glow": part.glow})
+        for child in part.children:
+            walk(child, rot, origin)
+
+    walk(model.root, numpy.eye(3), numpy.zeros(3))
+    return parts
+
+
+def lowest_point(model):
+    """Lowest point of the built model, so it can be dropped onto the ground.
+
+    Model space points down, so the lowest point is the largest y.
+    """
+    lowest = -1e9
+    for part in flatten(model):
+        x, y, z, dx, dy, dz = part["box"]
+        for cx in (x, x + dx):
+            for cy in (y, y + dy):
+                for cz in (z, z + dz):
+                    point = part["rot"] @ numpy.array([cx, cy, cz], dtype=float) + part["origin"]
+                    lowest = max(lowest, point[1])
+    return lowest
+
+
+def drop_to_ground(model, ground=24):
+    """Shifts the model so its lowest point touches the ground.
+
+    Only the parts that hang off the root are moved: their pivots are absolute model
+    coordinates, while deeper pivots are relative to their parent and must not move.
+    """
+    shift = int(close_to(ground - lowest_point(model)))
+    if shift:
+        for part in model.root.children:
+            px, py, pz = part.pivot
+            part.pivot = (px, py + shift, pz)
+    return model
 
 
 def tentacle(model, name, parent, pivot, length, segments=3, droop=0.0, spread=0.0, thick=3):

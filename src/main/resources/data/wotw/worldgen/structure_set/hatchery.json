@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:hatchery",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 52,
+    "separation": 18,
+    "salt": 3417002,
+    "spread_type": "linear"
+  }
+}

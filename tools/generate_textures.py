@@ -57,6 +57,13 @@ def shade(color, factor, noise=0.0, rnd=None):
     return tuple(out)
 
 
+# Hues of the separate plates on some hulls: copper, tin and iron are welded together on the Great
+# Martian War walkers, so those sheets are tinted instead of being one uniform alloy.
+MATERIAL_BANDS = {
+    "martian_heron": ((178, 104, 64), (215, 216, 212), (108, 112, 120)),
+}
+
+
 def make_hull_texture(name, palette, size=128, seed=0):
     """Metal hull: vertical gradient, panel seams, rivets, grime and a glowing eye patch."""
     base, dark, light, glow, accent = palette
@@ -69,6 +76,22 @@ def make_hull_texture(name, palette, size=128, seed=0):
         for x in range(size):
             factor = row_factor + rnd.uniform(-0.05, 0.05)
             px[x, y] = shade(base, factor, 6.0, rnd) + (255,)
+
+    # different sheet metals welded side by side: copper, tin and iron
+    bands = MATERIAL_BANDS.get(name)
+    if bands:
+        width = size // len(bands)
+        for index, band in enumerate(bands):
+            for x in range(index * width, min(size, (index + 1) * width)):
+                for y in range(size):
+                    pixel = px[x, y]
+                    luma = (pixel[0] + pixel[1] + pixel[2]) / (3.0 * 150.0)
+                    px[x, y] = (
+                        clamp(pixel[0] * 0.62 + band[0] * luma * 0.42),
+                        clamp(pixel[1] * 0.62 + band[1] * luma * 0.42),
+                        clamp(pixel[2] * 0.62 + band[2] * luma * 0.42),
+                        255,
+                    )
 
     draw = ImageDraw.Draw(img, "RGBA")
 
@@ -185,6 +208,56 @@ def make_cylinder_texture():
     return img
 
 
+def make_alloy_block_texture():
+    """Riveted Martian alloy: the plating the capsules and structures are built from."""
+    img = Image.new("RGBA", (16, 16), (118, 124, 110, 255))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        factor = 1.14 - 0.3 * (y / 15.0)
+        draw.line([(0, y), (15, y)], fill=shade((118, 124, 110), factor) + (255,))
+    draw.line([(0, 3), (15, 3)], fill=(72, 78, 66, 255))
+    draw.line([(0, 11), (15, 11)], fill=(72, 78, 66, 255))
+    draw.line([(7, 0), (7, 15)], fill=(88, 94, 80, 255))
+    for x, y in ((2, 1), (12, 1), (2, 9), (12, 9), (2, 14), (12, 14)):
+        draw.point((x, y), fill=(168, 178, 150, 255))
+        draw.point((x + 1, y), fill=(66, 70, 60, 255))
+    # a vein of glowing Martian green runs through the plate
+    draw.line([(3, 6), (6, 7), (9, 6), (12, 8)], fill=(120, 226, 132, 255))
+    return img
+
+
+def make_red_root_texture():
+    """Tangled red weed: what a tripod leaves behind on Martian soil."""
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    stems = [((7, 15), (7, 9)), ((7, 11), (3, 6)), ((7, 11), (12, 6)),
+             ((7, 13), (4, 11)), ((7, 13), (11, 10)), ((7, 9), (9, 3)), ((7, 9), (5, 4))]
+    for (x0, y0), (x1, y1) in stems:
+        draw.line([(x0, y0), (x1, y1)], fill=(150, 36, 34, 255))
+        draw.point((x1, y1), fill=(196, 58, 44, 255))
+    for x, y in ((7, 8), (4, 12), (10, 12), (6, 5), (9, 4)):
+        draw.point((x, y), fill=(232, 96, 60, 255))
+    draw.line([(7, 15), (7, 13)], fill=(96, 22, 22, 255))
+    return img
+
+
+def make_capsule_item_texture():
+    """Small capsule icon: a capped cylinder with a glowing seam."""
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([5, 3, 10, 13], fill=(122, 128, 112, 255))
+    draw.rectangle([5, 3, 6, 13], fill=(158, 164, 142, 255))
+    draw.rectangle([9, 3, 10, 13], fill=(86, 90, 78, 255))
+    draw.rectangle([4, 2, 11, 3], fill=(96, 74, 48, 255))
+    draw.rectangle([4, 13, 11, 14], fill=(96, 74, 48, 255))
+    draw.rectangle([5, 8, 10, 9], fill=(140, 255, 120, 255))
+    draw.point((7, 1), fill=(148, 154, 132, 255))
+    draw.point((8, 1), fill=(148, 154, 132, 255))
+    draw.point((7, 15), fill=(148, 154, 132, 255))
+    draw.point((8, 15), fill=(148, 154, 132, 255))
+    return img
+
+
 def main():
     os.makedirs(ENTITY, exist_ok=True)
     os.makedirs(ITEM, exist_ok=True)
@@ -202,6 +275,9 @@ def main():
     make_alloy_texture().save(os.path.join(ITEM, "martian_alloy.png"))
     make_ray_emitter_texture().save(os.path.join(ITEM, "heat_ray_emitter.png"))
     make_cylinder_texture().save(os.path.join(BLOCK, "martian_cylinder.png"))
+    make_alloy_block_texture().save(os.path.join(BLOCK, "martian_alloy_block.png"))
+    make_red_root_texture().save(os.path.join(BLOCK, "red_root.png"))
+    make_capsule_item_texture().save(os.path.join(ITEM, "martian_capsule.png"))
     print("items + block done")
 
 

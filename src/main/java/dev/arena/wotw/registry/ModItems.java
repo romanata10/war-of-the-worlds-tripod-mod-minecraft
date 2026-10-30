@@ -2,6 +2,7 @@ package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.item.HeatRayEmitterItem;
+import dev.arena.wotw.item.MartianCapsuleItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
@@ -38,6 +39,12 @@ public final class ModItems {
     public static final Item MARTIAN_CYLINDER = register("martian_cylinder",
             new BlockItem(ModBlocks.MARTIAN_CYLINDER, new Item.Settings()));
 
+    public static final Item MARTIAN_ALLOY_BLOCK = register("martian_alloy_block",
+            new BlockItem(ModBlocks.MARTIAN_ALLOY_BLOCK, new Item.Settings()));
+
+    public static final Item MARTIAN_CAPSULE = register("martian_capsule",
+            new MartianCapsuleItem(new Item.Settings().maxCount(16)));
+
     public static final ItemGroup ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, WotwMod.id("main"),
             FabricItemGroup.builder()
                     .displayName(Text.translatable("itemGroup.wotw"))
@@ -54,6 +61,8 @@ public final class ModItems {
                         entries.add(MARTIAN_SPIDER_SPAWN_EGG);
                         entries.add(MARTIAN_LOUSE_SPAWN_EGG);
                         entries.add(MARTIAN_CYLINDER);
+                        entries.add(MARTIAN_ALLOY_BLOCK);
+                        entries.add(MARTIAN_CAPSULE);
                         entries.add(MARTIAN_ALLOY);
                         entries.add(HEAT_RAY_EMITTER);
                     })
