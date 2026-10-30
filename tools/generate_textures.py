@@ -30,6 +30,15 @@ PALETTES = {
     "martian_heron": ((185, 179, 162), (94, 90, 80), (226, 222, 208), (255, 42, 26), (196, 168, 132)),
     "martian_spider": ((44, 38, 32), (16, 13, 11), (86, 74, 60), (255, 74, 31), (120, 60, 40)),
     "martian_louse": ((92, 58, 36), (38, 24, 15), (140, 96, 58), (255, 207, 90), (150, 112, 60)),
+    # the second wave: Martian machines that are not tripods
+    "flying_machine": ((96, 104, 110), (38, 44, 50), (150, 160, 168), (150, 255, 120), (170, 120, 70)),
+    "electric_machine": ((62, 66, 74), (24, 26, 32), (110, 118, 128), (140, 240, 255), (120, 200, 210)),
+    "handling_machine": ((104, 96, 82), (40, 36, 30), (156, 148, 130), (255, 226, 120), (150, 110, 70)),
+    "digging_machine": ((124, 96, 62), (46, 34, 22), (176, 146, 102), (255, 170, 80), (150, 90, 50)),
+    "tempest": ((112, 106, 96), (42, 38, 34), (168, 162, 148), (255, 120, 60), (150, 118, 80)),
+    "bombarding_machine": ((88, 92, 64), (32, 34, 22), (132, 138, 100), (255, 190, 70), (120, 110, 70)),
+    "drone": ((136, 140, 146), (58, 60, 66), (184, 188, 196), (190, 110, 255), (150, 150, 160)),
+    "human_tripod": ((92, 104, 96), (32, 38, 34), (146, 158, 148), (140, 255, 170), (120, 130, 120)),
     # the creatures themselves: wet, leathery hide
     "martian": ((104, 96, 74), (43, 39, 30), (150, 140, 108), (255, 118, 74), (120, 96, 60)),
     "martian_master": ((74, 62, 62), (28, 22, 22), (118, 100, 96), (255, 64, 48), (96, 64, 56)),
@@ -258,6 +267,103 @@ def make_capsule_item_texture():
     return img
 
 
+def make_white_alloy_texture():
+    """The pale plate of the Martian complexes: white alloy with a cold green seam."""
+    img = Image.new("RGBA", (16, 16), (206, 208, 202, 255))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        factor = 1.06 - 0.16 * (y / 15.0)
+        draw.line([(0, y), (15, y)], fill=shade((206, 208, 202), factor) + (255,))
+    draw.line([(0, 4), (15, 4)], fill=(150, 154, 150, 255))
+    draw.line([(0, 11), (15, 11)], fill=(150, 154, 150, 255))
+    for x, y in ((2, 2), (12, 2), (2, 9), (12, 9), (7, 14)):
+        draw.point((x, y), fill=(238, 240, 236, 255))
+    draw.line([(5, 6), (8, 7), (11, 6)], fill=(126, 226, 150, 255))
+    return img
+
+
+def make_martian_glass_texture():
+    """Strong Martian glass: frosted alloy-glass with a green lattice."""
+    img = Image.new("RGBA", (16, 16), (196, 222, 214, 150))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([0, 0, 15, 15], outline=(168, 198, 190, 210))
+    for i in range(0, 16, 4):
+        draw.line([(i, 0), (i, 15)], fill=(150, 190, 180, 70))
+        draw.line([(0, i), (15, i)], fill=(150, 190, 180, 70))
+    draw.line([(2, 13), (13, 3)], fill=(226, 255, 240, 180))
+    draw.point((11, 11), fill=(150, 255, 170, 255))
+    return img
+
+
+def make_blood_roots_texture():
+    """Blood roots: thick crimson vines with pale spore sacs."""
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    vines = [((8, 15), (6, 8)), ((6, 8), (2, 4)), ((6, 8), (10, 3)), ((8, 15), (11, 9)), ((11, 9), (14, 5))]
+    for (x0, y0), (x1, y1) in vines:
+        draw.line([(x0, y0), (x1, y1)], fill=(128, 20, 26, 255))
+        draw.point((x1, y1), fill=(186, 42, 44, 255))
+    for x, y in ((6, 6), (10, 5), (12, 10), (3, 6)):
+        draw.point((x, y), fill=(255, 128, 128, 255))
+        draw.point((x + 1, y), fill=(150, 30, 34, 255))
+    draw.line([(8, 15), (8, 12)], fill=(88, 14, 18, 255))
+    return img
+
+
+def make_blueprint_texture():
+    """The blueprint block: a glowing schematic of a tripod on dark paper."""
+    img = Image.new("RGBA", (16, 16), (30, 44, 58, 255))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([0, 0, 15, 15], outline=(52, 76, 94, 255))
+    for y in range(1, 15, 3):
+        draw.line([(1, y), (14, y)], fill=(44, 62, 78, 255))
+    # a tiny tripod drawing
+    draw.line([(8, 2), (5, 9)], fill=(150, 226, 255, 255))
+    draw.line([(8, 2), (11, 9)], fill=(150, 226, 255, 255))
+    draw.line([(8, 2), (8, 10)], fill=(196, 240, 255, 255))
+    draw.rectangle([6, 1, 10, 5], outline=(140, 220, 255, 255))
+    draw.point((8, 3), fill=(255, 255, 255, 255))
+    draw.line([(2, 12), (13, 12)], fill=(96, 150, 180, 255))
+    return img
+
+
+def make_arc_rifle_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([1, 6, 11, 9], fill=(78, 84, 92, 255))
+    draw.rectangle([1, 6, 11, 7], fill=(120, 128, 138, 255))
+    draw.rectangle([3, 9, 6, 12], fill=(54, 58, 64, 255))
+    draw.rectangle([10, 5, 13, 10], fill=(150, 220, 235, 255))
+    draw.rectangle([13, 6, 15, 9], fill=(196, 250, 255, 255))
+    draw.point((14, 7), fill=(255, 255, 255, 255))
+    draw.rectangle([2, 10, 4, 11], fill=(90, 200, 220, 255))
+    return img
+
+
+def make_alloy_cannon_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([0, 6, 12, 10], fill=(96, 98, 88, 255))
+    draw.rectangle([0, 6, 12, 7], fill=(136, 140, 126, 255))
+    draw.rectangle([12, 4, 15, 12], fill=(112, 116, 104, 255))
+    draw.rectangle([14, 6, 15, 10], fill=(255, 176, 80, 255))
+    draw.rectangle([3, 10, 7, 13], fill=(62, 64, 56, 255))
+    draw.rectangle([8, 4, 11, 6], fill=(150, 154, 138, 255))
+    return img
+
+
+def make_blueprint_item_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([2, 3, 13, 13], fill=(38, 56, 74, 255))
+    draw.rectangle([2, 3, 13, 13], outline=(70, 104, 130, 255))
+    draw.line([(8, 5), (5, 11)], fill=(150, 226, 255, 255))
+    draw.line([(8, 5), (11, 11)], fill=(150, 226, 255, 255))
+    draw.line([(8, 5), (8, 12)], fill=(200, 244, 255, 255))
+    draw.rectangle([2, 3, 13, 4], fill=(150, 214, 240, 255))
+    return img
+
+
 def main():
     os.makedirs(ENTITY, exist_ok=True)
     os.makedirs(ITEM, exist_ok=True)
@@ -278,6 +384,13 @@ def main():
     make_alloy_block_texture().save(os.path.join(BLOCK, "martian_alloy_block.png"))
     make_red_root_texture().save(os.path.join(BLOCK, "red_root.png"))
     make_capsule_item_texture().save(os.path.join(ITEM, "martian_capsule.png"))
+    make_white_alloy_texture().save(os.path.join(BLOCK, "white_martian_alloy.png"))
+    make_martian_glass_texture().save(os.path.join(BLOCK, "martian_glass.png"))
+    make_blood_roots_texture().save(os.path.join(BLOCK, "blood_roots.png"))
+    make_blueprint_texture().save(os.path.join(BLOCK, "tripod_blueprint.png"))
+    make_arc_rifle_texture().save(os.path.join(ITEM, "arc_rifle.png"))
+    make_alloy_cannon_texture().save(os.path.join(ITEM, "alloy_cannon.png"))
+    make_blueprint_item_texture().save(os.path.join(ITEM, "blueprint.png"))
     print("items + block done")
 
 

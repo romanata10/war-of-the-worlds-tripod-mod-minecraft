@@ -290,6 +290,180 @@ def louse():
     return m
 
 
+# --------------------------------------------------------------------------- #
+#  11-17. Martian war machines of the second wave
+# --------------------------------------------------------------------------- #
+
+def flying_machine():
+    """Flying Machine: a flat disc hull with two rotor wings and a single eye."""
+    m = Model("flying_machine")
+    body = m.part("body")
+    body.dome(0, -46, 0, 44, 54, [(8, 46, 56), (8, 44, 54), (6, 34, 42), (4, 22, 28)], cell=12)
+    body.shell(0, -30, 0, 20, 9, 26, cell=10)                 # belly pod
+    body.shell(0, -46, -28, 28, 5, 10, cell=10)               # brow
+    eye(m, "eye", "body", (0, -38, -30), (14, 8))
+    for side, name in ((-1, "wing_l"), (1, "wing_r")):
+        wing = m.part(name, parent="body", pivot=(side * 20, -44, 2), rot=(0.0, 0.0, side * -8.0))
+        wing.box(0 if side > 0 else -18, -2, -13, 18, 6, 26)   # outrigger arm
+        for dz in (-11, 7):                                     # rotor pods
+            wing.box(4 if side > 0 else -16, -6, dz, 12, 5, 16)
+            wing.box(7 if side > 0 else -15, -9, dz + 5, 6, 3, 6)
+    for index, (x, z) in enumerate([(-9, -14), (9, -14), (-9, 16), (9, 16)]):
+        leg(m, f"leg{index}", (x, -26, z), 14, 12, 2, splay_x=x, splay_z=z * 0.4, foot=3)
+    return m
+
+
+def electric_machine():
+    """Electric Machine: a coil capacitor on three legs that throws lightning charges."""
+    m = Model("electric_machine")
+    leg(m, "leg_l", (-13, -62, -8), 32, 30, 4, splay_x=-12, splay_z=-8, foot=5)
+    leg(m, "leg_r", (13, -62, -8), 32, 30, 4, splay_x=12, splay_z=-8, foot=5)
+    leg(m, "leg_b", (0, -62, 12), 33, 31, 4, splay_z=10, foot=5)
+
+    body = m.part("body")
+    body.shell(0, -102, 0, 26, 42, 28, cell=10)               # capacitor column
+    for ring in (-98, -88, -78):                               # coil rings
+        body.box(-17, ring, -15, 34, 4, 30)
+    body.shell(0, -60, 0, 18, 8, 20, cell=10)                 # hip
+    body.dome(0, -122, 0, 22, 24, [(8, 26, 28), (7, 22, 24), (4, 14, 16)], cell=10)
+    eye(m, "coil", "body", (0, -120, 0), (16, 12))            # electrode sphere
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        prong = m.part(name, parent="body", pivot=(side * 12, -108, -10), rot=(-28.0, 0.0, side * 20.0))
+        prong.box(-2, -2, -16, 4, 4, 18)
+        eye(m, name + "_tip", name, (0, 0, -18), (5, 5))
+    return m
+
+
+def handling_machine():
+    """Handling Machine: catches people with two arms and drops them into the cage below."""
+    m = Model("handling_machine")
+    body = m.part("body")
+    body.dome(0, -84, 0, 38, 44, [(12, 40, 46), (12, 38, 44), (8, 28, 32)], cell=12)
+    body.shell(0, -56, 0, 22, 10, 26, cell=10)
+    eye(m, "eye", "body", (0, -74, -25), (12, 7))
+
+    cage = m.part("cage", parent="body", pivot=(0, -52, -16))
+    cage.box(-11, 0, -9, 22, 3, 18)                            # roof
+    cage.box(-11, 27, -9, 22, 3, 18)                           # floor
+    for dx in (-11, 8):
+        for dz in (-9, 6):
+            cage.box(dx, 3, dz, 3, 24, 3)                      # corner bars
+    for dz in (-9, 6):
+        cage.box(-3, 3, dz, 6, 24, 3)                          # middle bars
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        arm = m.part(name, parent="body", pivot=(side * 17, -66, -14), rot=(-32.0, 0.0, side * 14.0))
+        arm.box(-3, 0, -28, 6, 6, 32)
+        arm.box(-6, 1, -36, 5, 5, 11)                          # claws
+        arm.box(1, 1, -36, 5, 5, 11)
+
+    for index, (x, z) in enumerate([(-19, -14), (19, -14), (-19, 14), (19, 14)]):
+        leg(m, f"leg{index}", (x, -48, z), 30, 28, 4, splay_x=x * 0.7, splay_z=z * 0.45, foot=5)
+    return m
+
+
+def digging_machine():
+    """Digging Machine: a squat borer that eats tunnels through the ground."""
+    m = Model("digging_machine")
+    body = m.part("body")
+    body.shell(0, -58, 0, 42, 16, 50, cell=14)
+    body.shell(0, -42, 4, 34, 10, 38, cell=12)
+    body.shell(0, -58, -6, 20, 6, 22, cell=10)                 # spine plate
+    eye(m, "eye", "body", (0, -50, -23), (10, 6))
+
+    drill = m.part("head", parent="body", pivot=(0, -46, -24))
+    drill.box(-11, -9, -12, 22, 18, 13)
+    drill.box(-8, -7, -20, 16, 14, 9)
+    drill.box(-5, -4, -26, 10, 8, 7)
+    drill.box(-2, -2, -30, 4, 4, 5)
+    drill.glow_box(-1, -1, -32, 2, 2, 3)
+
+    for index, (x, z) in enumerate([(-21, -16), (21, -16), (-21, 12), (21, 12)]):
+        leg(m, f"leg{index}", (x, -54, z), 22, 20, 5, splay_x=x * 0.5, splay_z=z * 0.35, foot=6)
+    return m
+
+
+def tempest():
+    """Tempest: a tower on four heavy legs with two heat cannon pods and smoke stacks."""
+    m = Model("tempest")
+    leg(m, "leg_fl", (-22, -150, -16), 74, 72, 6, splay_x=-9, splay_z=-7, foot=8)
+    leg(m, "leg_fr", (22, -150, -16), 74, 72, 6, splay_x=9, splay_z=-7, foot=8)
+    leg(m, "leg_l", (-24, -150, 18), 74, 72, 6, splay_x=-9, splay_z=7, foot=8)
+    leg(m, "leg_r", (24, -150, 18), 74, 72, 6, splay_x=9, splay_z=7, foot=8)
+
+    body = m.part("body")
+    body.shell(0, -232, 0, 34, 82, 40, cell=14)
+    body.shell(0, -158, 0, 48, 16, 48, cell=14)                # hip girdle
+    body.shell(0, -200, 0, 46, 22, 46, cell=14)                # reactor bulge
+
+    head = m.part("head", parent="body", pivot=(0, -232, -8))
+    head.box(-10, -8, -16, 20, 16, 22)
+    eye(m, "eye", "head", (0, 0, -17), (10, 6))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        pod = m.part(name, parent="body", pivot=(side * 16, -212, -20))
+        pod.box(-7, -7, -20, 14, 14, 24)
+        pod.glow_box(-3, -3, -22, 6, 6, 3)
+
+    for side, name in ((-1, "stack_l"), (1, "stack_r")):
+        stack = m.part(name, parent="body", pivot=(side * 13, -216, 22))
+        stack.box(-5, 0, -5, 10, 30, 10)
+        eye(m, name + "_mouth", name, (0, 30, 0), (6, 6))
+    return m
+
+
+def bombarding_machine():
+    """Bombarding Machine: two legs, no ray — one enormous mortar on the roof."""
+    m = Model("bombarding_machine")
+    leg(m, "leg_l", (-12, -56, 0), 30, 28, 4, splay_x=-10, foot=5)
+    leg(m, "leg_r", (12, -56, 0), 30, 28, 4, splay_x=10, foot=5)
+
+    body = m.part("body")
+    body.shell(0, -88, 0, 32, 32, 36, cell=12)
+    body.shell(0, -90, 6, 24, 8, 22, cell=10)
+    eye(m, "eye", "body", (0, -80, -19), (10, 6))
+
+    cannon = m.part("cannon", parent="body", pivot=(0, -92, -6))
+    cannon.box(-9, -8, -12, 18, 15, 18)                        # breech
+    cannon.box(-8, -6, -16, 16, 4, 6)                          # mantlet
+    cannon.box(-5, -14, -30, 10, 9, 20)                        # barrel
+    cannon.box(-7, -16, -34, 14, 13, 6)                        # muzzle brake
+    cannon.glow_box(-3, -13, -36, 6, 6, 3)
+    return m
+
+
+def drone():
+    """Drone: knee high, eight legs, one violet eye, and a belly full of explosives."""
+    m = Model("drone")
+    body = m.part("body")
+    body.dome(0, -14, 0, 13, 15, [(4, 13, 15), (4, 15, 17), (3, 11, 13), (2, 7, 9)], cell=6)
+    body.spikes(0, -14, 0, 0, 0, [(-5, -5), (5, -5), (-5, 5), (5, 5)], size=3, step=1)
+    eye(m, "eye", "body", (0, -10, -8), (5, 3))
+    for index, (x, z) in enumerate([(-7, -6), (7, -6), (-8, 0), (8, 0), (-8, 6), (8, 6), (-6, 9), (6, 9)]):
+        leg(m, f"leg{index}", (x, -7, z), 11, 10, 2, splay_x=x * 1.5, splay_z=z * 0.7, foot=2)
+    return m
+
+
+def human_tripod():
+    """The machine the blueprint builds: a steel tripod with a cockpit a human can ride."""
+    m = Model("human_tripod")
+    body = m.part("body")
+    body.dome(0, -110, 0, 32, 36, [(10, 28, 32), (12, 36, 40), (12, 34, 38), (6, 22, 26)], cell=12)
+    body.shell(0, -86, -16, 22, 18, 14, cell=10)               # cockpit tub
+    body.shell(0, -76, -22, 16, 8, 4, cell=8)                  # view slit frame
+    eye(m, "eye", "body", (0, -78, -24), (12, 6))
+    body.shell(0, -64, 0, 20, 10, 24, cell=10)                 # waist
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        arm = m.part(name, parent="body", pivot=(side * 17, -100, -10), rot=(0.0, 0.0, side * -8.0))
+        arm.box(-3, -3, -20, 6, 6, 24)
+        arm.glow_box(-2, -2, -22, 4, 4, 3)
+
+    leg(m, "leg_l", (-14, -64, -8), 34, 32, 4, splay_x=-12, splay_z=-8, foot=6)
+    leg(m, "leg_r", (14, -64, -8), 34, 32, 4, splay_x=12, splay_z=-8, foot=6)
+    leg(m, "leg_b", (0, -64, 14), 35, 33, 4, splay_z=11, foot=6)
+    return m
+
 # How much taller than the authored geometry each machine should be. Vertical stretch only:
 # the footprint and the leg thickness stay the same, so the machines read as tall walkers.
 TALL = {
@@ -303,6 +477,14 @@ TALL = {
     "heron": 1.00,
     "spider": 1.00,
     "louse": 1.25,
+    "flyingMachine": 1.05,
+    "electric": 1.15,
+    "handling": 1.10,
+    "digging": 1.05,
+    "tempest": 1.02,
+    "bombarding": 1.15,
+    "drone": 1.10,
+    "humanTripod": 1.12,
     "martian": 1.32,
     "martianMaster": 1.22,
 }
@@ -326,6 +508,14 @@ TRIPODS = [
     ("heron", finalise(heron(), "heron")),
     ("spider", finalise(spider(), "spider")),
     ("louse", finalise(louse(), "louse")),
+    ("flyingMachine", finalise(flying_machine(), "flyingMachine")),
+    ("electric", finalise(electric_machine(), "electric")),
+    ("handling", finalise(handling_machine(), "handling")),
+    ("digging", finalise(digging_machine(), "digging")),
+    ("tempest", finalise(tempest(), "tempest")),
+    ("bombarding", finalise(bombarding_machine(), "bombarding")),
+    ("drone", finalise(drone(), "drone")),
+    ("humanTripod", finalise(human_tripod(), "humanTripod")),
 ]
 
 

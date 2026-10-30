@@ -19,6 +19,15 @@ public final class ModModelLayers {
     public static final EntityModelLayer MARTIAN_SPIDER = layer("martian_spider");
     public static final EntityModelLayer MARTIAN_LOUSE = layer("martian_louse");
 
+    public static final EntityModelLayer FLYING_MACHINE = layer("flying_machine");
+    public static final EntityModelLayer ELECTRIC_MACHINE = layer("electric_machine");
+    public static final EntityModelLayer HANDLING_MACHINE = layer("handling_machine");
+    public static final EntityModelLayer DIGGING_MACHINE = layer("digging_machine");
+    public static final EntityModelLayer TEMPEST = layer("tempest");
+    public static final EntityModelLayer BOMBARDING_MACHINE = layer("bombarding_machine");
+    public static final EntityModelLayer DRONE = layer("drone");
+    public static final EntityModelLayer PILOT_TRIPOD = layer("human_tripod");
+
     public static final EntityModelLayer MARTIAN = layer("martian");
     public static final EntityModelLayer MARTIAN_MASTER = layer("martian_master");
 

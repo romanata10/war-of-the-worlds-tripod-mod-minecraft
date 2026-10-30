@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " WA",
+    "WRA",
+    "S  "
+  ],
+  "key": {
+    "W": {
+      "item": "wotw:white_martian_alloy"
+    },
+    "A": {
+      "item": "wotw:martian_alloy"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "wotw:arc_rifle",
+    "count": 1
+  }
+}

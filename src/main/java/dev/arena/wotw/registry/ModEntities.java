@@ -4,6 +4,14 @@ import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.entity.AbstractTripodEntity;
 import dev.arena.wotw.entity.AsylumWalkerEntity;
 import dev.arena.wotw.entity.CapsuleEntity;
+import dev.arena.wotw.entity.BombardingMachineEntity;
+import dev.arena.wotw.entity.DiggingMachineEntity;
+import dev.arena.wotw.entity.DroneEntity;
+import dev.arena.wotw.entity.ElectricMachineEntity;
+import dev.arena.wotw.entity.FlyingMachineEntity;
+import dev.arena.wotw.entity.HandlingMachineEntity;
+import dev.arena.wotw.entity.PilotTripodEntity;
+import dev.arena.wotw.entity.TempestEntity;
 import dev.arena.wotw.entity.BbcRedTripodEntity;
 import dev.arena.wotw.entity.BbcWhiteTripodEntity;
 import dev.arena.wotw.entity.BookTripodEntity;
@@ -16,6 +24,7 @@ import dev.arena.wotw.entity.MartianMasterEntity;
 import dev.arena.wotw.entity.MartianSpiderEntity;
 import dev.arena.wotw.entity.Tripod2005Entity;
 import dev.arena.wotw.entity.projectile.BeamEntity;
+import dev.arena.wotw.entity.projectile.ShellEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -94,6 +103,45 @@ public final class ModEntities {
     public static final EntityType<MartianMasterEntity> MARTIAN_MASTER = tripod("martian_master",
             EntityType.Builder.create(MartianMasterEntity::new, SpawnGroup.MONSTER).setDimensions(3.6F, 3.0F));
 
+    /* ------------------------------------------------------------------ */
+    /*  Second wave: Martian machines that are not tripods                 */
+    /* ------------------------------------------------------------------ */
+
+    public static final EntityType<FlyingMachineEntity> FLYING_MACHINE = tripod("flying_machine",
+            EntityType.Builder.create(FlyingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(4.8F, 3.8F));
+
+    public static final EntityType<ElectricMachineEntity> ELECTRIC_MACHINE = tripod("electric_machine",
+            EntityType.Builder.create(ElectricMachineEntity::new, SpawnGroup.MONSTER).setDimensions(4.2F, 9.4F));
+
+    public static final EntityType<HandlingMachineEntity> HANDLING_MACHINE = tripod("handling_machine",
+            EntityType.Builder.create(HandlingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(4.9F, 6.5F));
+
+    public static final EntityType<DiggingMachineEntity> DIGGING_MACHINE = tripod("digging_machine",
+            EntityType.Builder.create(DiggingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 3.2F));
+
+    public static final EntityType<TempestEntity> TEMPEST = tripod("tempest",
+            EntityType.Builder.create(TempestEntity::new, SpawnGroup.MONSTER).setDimensions(7.0F, 15.0F));
+
+    public static final EntityType<BombardingMachineEntity> BOMBARDING_MACHINE = tripod("bombarding_machine",
+            EntityType.Builder.create(BombardingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(3.8F, 8.0F));
+
+    public static final EntityType<DroneEntity> DRONE = tripod("drone",
+            EntityType.Builder.create(DroneEntity::new, SpawnGroup.MONSTER).setDimensions(1.9F, 2.0F));
+
+    /** The human built tripod from the blueprint: rideable, not part of the Martian waves. */
+    public static final EntityType<PilotTripodEntity> PILOT_TRIPOD = register("pilot_tripod",
+            EntityType.Builder.create(PilotTripodEntity::new, SpawnGroup.MONSTER)
+                    .setDimensions(4.5F, 8.0F)
+                    .maxTrackingRange(10)
+                    .trackingTickInterval(2));
+
+    /** Shells of the Bombarding Machine and the charges of the Electric Machine. */
+    public static final EntityType<ShellEntity> SHELL = register("shell",
+            EntityType.Builder.<ShellEntity>create(ShellEntity::new, SpawnGroup.MISC)
+                    .setDimensions(0.6F, 0.6F)
+                    .maxTrackingRange(6)
+                    .trackingTickInterval(1));
+
     private ModEntities() {
     }
 
@@ -138,5 +186,13 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(MARTIAN_LOUSE, MartianLouseEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(MARTIAN, MartianEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(MARTIAN_MASTER, MartianMasterEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(FLYING_MACHINE, FlyingMachineEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ELECTRIC_MACHINE, ElectricMachineEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(HANDLING_MACHINE, HandlingMachineEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(DIGGING_MACHINE, DiggingMachineEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(TEMPEST, TempestEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(BOMBARDING_MACHINE, BombardingMachineEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(DRONE, DroneEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(PILOT_TRIPOD, PilotTripodEntity.createAttributes());
     }
 }

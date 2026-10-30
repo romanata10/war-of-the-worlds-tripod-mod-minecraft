@@ -23,6 +23,10 @@ DATA_VERSION = 3465  # Minecraft 1.20.1
 ALLOY = "wotw:martian_alloy_block"
 CYLINDER = "wotw:martian_cylinder"
 ROOT_BLOCK = "wotw:red_root"
+BLOOD_ROOTS = "wotw:blood_roots"
+WHITE_ALLOY = "wotw:white_martian_alloy"
+GLASS = "wotw:martian_glass"
+CHEST = "minecraft:chest"
 AIR = "minecraft:air"
 
 
@@ -93,8 +97,12 @@ class Structure:
         self.blocks = {}
         self.entities = []
 
-    def set(self, x, y, z, block):
-        self.blocks[(x, y, z)] = block
+    def set(self, x, y, z, block, nbt=None):
+        self.blocks[(x, y, z)] = (block, nbt)
+
+    def chest(self, x, y, z, loot_table):
+        """A chest whose contents come from one of the mod's loot tables."""
+        self.set(x, y, z, CHEST, {"LootTable": loot_table})
 
     def fill(self, x0, y0, z0, x1, y1, z1, block):
         for x in range(min(x0, x1), max(x0, x1) + 1):
@@ -118,23 +126,34 @@ class Structure:
         for entity in self.entities:
             if entity["id"] not in palette:
                 palette.append(entity["id"])
+        for name, _ in self.blocks.values():
+            if name not in palette:
+                palette.append(name)
         index = {name: i for i, name in enumerate(palette)}
 
         xs = [x for x, _, _ in self.blocks] or [0]
         ys = [y for _, y, _ in self.blocks] or [0]
         zs = [z for _, _, z in self.blocks] or [0]
-        size = (max(xs) + 1, max(ys) + 1, max(zs) + 1)
+        # NBT cannot store negative positions, so the whole design is shifted so its corner is 0,0,0
+        min_x, min_y, min_z = min(xs), min(ys), min(zs)
+        size = (max(xs) - min_x + 1, max(ys) - min_y + 1, max(zs) - min_z + 1)
 
         blocks = []
-        for (x, y, z), block in sorted(self.blocks.items()):
-            blocks.append({
-                "pos": int_list((x, y, z)),
+        for (x, y, z), (block, nbt) in sorted(self.blocks.items()):
+            entry = {
+                "pos": int_list((x - min_x, y - min_y, z - min_z)),
                 "state": ("int", index[block]),
-            })
+            }
+            if nbt:
+                entry["nbt"] = ("compound", {key: ("string", value) for key, value in nbt.items()})
+            blocks.append(entry)
 
         entities = []
         for entity in self.entities:
             x, y, z = entity["pos"]
+            x -= min_x
+            y -= min_y
+            z -= min_z
             nbt = {"id": ("string", entity["id"]), "PersistenceRequired": ("byte", 1)}
             if entity["id"] == "wotw:martian":
                 nbt["CustomName"] = ("string", '{"text":"Martian"}')
@@ -263,10 +282,122 @@ def spire():
     return s
 
 
+def complex_site():
+    """The complex: a white alloy blockhouse with glass windows, Martians and a blueprint chest."""
+    s = Structure()
+    radius = 10
+    # foundation and floor
+    s.fill(-radius, 0, -radius, radius, 0, radius, WHITE_ALLOY)
+    # walls with a glass band
+    for y in range(1, 8):
+        for x in range(-radius, radius + 1):
+            for z in range(-radius, radius + 1):
+                on_wall = abs(x) == radius or abs(z) == radius
+                if not on_wall:
+                    continue
+                block = GLASS if 3 <= y <= 5 and (x + z) % 2 == 0 else WHITE_ALLOY
+                s.set(x, y, z, block)
+    # roof, with a hole for the antenna
+    s.fill(-radius, 8, -radius, radius, 8, radius, WHITE_ALLOY)
+    s.fill(-1, 8, -1, 1, 8, 1, AIR)
+    s.set(0, 9, 0, CYLINDER)
+    s.set(0, 10, 0, CYLINDER)
+    # door
+    s.fill(0, 1, -radius, 1, 4, -radius, AIR)
+    # inner sanctum: alloy frame, blueprint chest, pillars
+    for x in (-4, 4):
+        for z in (-4, 4):
+            s.fill(x, 1, z, x, 6, z, WHITE_ALLOY)
+    s.fill(-3, 1, -3, 3, 6, 3, AIR)
+    s.chest(0, 1, -2, "wotw:chests/complex")
+    s.set(0, 1, 2, CYLINDER)
+    # machinery along the walls
+    for x in (-7, 7):
+        s.set(x, 1, 0, CYLINDER)
+        s.set(x, 2, 0, WHITE_ALLOY)
+    # blood roots outside the door
+    for x, z in ((0, -radius - 1), (1, -radius - 1), (-1, -radius - 1), (2, -radius - 2), (-2, -radius - 2),
+                 (3, -radius - 1), (-3, -radius - 1)):
+        s.set(x, 0, z, BLOOD_ROOTS)
+    s.spawn(0, 1, -5, "wotw:martian")
+    s.spawn(3, 1, 3, "wotw:martian")
+    s.spawn(-4, 1, 2, "wotw:martian")
+    s.spawn(0, 1, 4, "wotw:martian_master")
+    s.spawn(-6, 1, -6, "wotw:martian_louse")
+    s.spawn(2, 1, 6, "wotw:martian_louse")
+    s.spawn(5, 1, -5, "wotw:drone")
+    s.spawn(-5, 1, 5, "wotw:drone")
+    return s
+
+
+def dig_site():
+    """The digging machine's quarry: a terraced pit with alloy props and a borer inside it."""
+    s = Structure()
+    # concentric terraces, deepest in the middle
+    for level in range(4):
+        half = 11 - level * 3
+        s.fill(-half, level, -half, half, level, half, WHITE_ALLOY)
+        s.fill(-half + 1, level, -half + 1, half - 1, level, half - 1, AIR)
+    s.fill(-2, 0, -2, 2, 0, 2, ALLOY)                     # pit floor
+    s.set(0, 1, 0, CYLINDER)                              # the borer's power core
+    # a roofed tunnel leaving the pit towards -z
+    for z in range(-14, -2):
+        s.fill(-2, 1, z, 2, 3, z, AIR)
+        s.fill(-3, 1, z, -3, 3, z, ALLOY)
+        s.fill(3, 1, z, 3, 3, z, ALLOY)
+        s.fill(-3, 4, z, 3, 4, z, ALLOY)
+    # spore fields and crew
+    for x, z in ((6, 2), (-6, 3), (2, 8), (-3, 8), (8, -4), (-8, -5), (0, 9)):
+        s.set(x, 0, z, BLOOD_ROOTS)
+    s.spawn(0, 1, 0, "wotw:digging_machine")
+    s.spawn(4, 1, -4, "wotw:martian")
+    s.spawn(-4, 1, 4, "wotw:martian")
+    s.spawn(5, 1, 5, "wotw:drone")
+    return s
+
+
+def beacon():
+    """A landing beacon: a white alloy tower with a glass band and a glowing Martian core."""
+    s = Structure()
+    s.fill(-4, 0, -4, 4, 0, 4, WHITE_ALLOY)
+    for y in range(1, 4):
+        s.fill(-4, y, -4, 4, y, 4, WHITE_ALLOY)
+        s.fill(-3, y, -3, 3, y, 3, AIR)
+    # glass band
+    for y in (4, 5):
+        for x in range(-4, 5):
+            for z in range(-4, 5):
+                if abs(x) == 4 or abs(z) == 4:
+                    s.set(x, y, z, GLASS)
+    # tower shaft
+    for y in range(6, 14):
+        s.fill(-2, y, -2, 2, y, 2, WHITE_ALLOY)
+        s.fill(-1, y, -1, 1, y, 1, AIR)
+    s.set(0, 7, 0, CYLINDER)
+    s.set(0, 11, 0, CYLINDER)
+    # crown and beacon light
+    s.fill(-3, 14, -3, 3, 14, 3, WHITE_ALLOY)
+    s.set(0, 15, 0, CYLINDER)
+    s.set(0, 16, 0, CYLINDER)
+    # door and roots
+    s.fill(0, 1, -4, 1, 3, -4, AIR)
+    for x, z in ((0, -5), (1, -6), (-1, -5), (2, -6), (-2, -6), (5, 2), (-5, -3)):
+        s.set(x, 0, z, BLOOD_ROOTS)
+    s.spawn(0, 1, 0, "wotw:martian_master")
+    s.spawn(0, 7, 0, "wotw:martian")
+    s.spawn(3, 1, 3, "wotw:martian")
+    s.spawn(-3, 1, -3, "wotw:drone")
+    s.spawn(6, 0, 0, "wotw:tempest")
+    return s
+
+
 STRUCTURES_SPEC = {
     "landing_site": (landing_site(), 40, 14, 3417001, 2),
     "hatchery": (hatchery(), 52, 18, 3417002, 2),
     "spire": (spire(), 64, 22, 3417003, 1),
+    "complex": (complex_site(), 90, 32, 3417004, 2),
+    "dig_site": (dig_site(), 72, 26, 3417005, 1),
+    "beacon": (beacon(), 84, 30, 3417006, 1),
 }
 
 

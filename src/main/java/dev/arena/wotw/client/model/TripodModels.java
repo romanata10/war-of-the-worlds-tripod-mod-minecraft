@@ -1307,6 +1307,1103 @@ public final class TripodModels {
         return TexturedModelData.of(data, 128, 128);
     }
 
+    public static TexturedModelData flyingMachine() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-23, -48, -28, 12, 8, 11)
+                        .cuboid(-23, -48, -17, 12, 8, 11)
+                        .cuboid(-23, -48, -6, 12, 8, 11)
+                        .cuboid(-23, -48, 6, 12, 8, 11)
+                        .cuboid(-23, -48, 17, 12, 8, 11)
+                        .cuboid(-12, -48, -28, 12, 8, 11)
+                        .cuboid(-12, -48, -17, 12, 8, 11)
+                        .cuboid(-12, -48, -6, 12, 8, 11)
+                        .cuboid(-12, -48, 6, 12, 8, 11)
+                        .cuboid(-12, -48, 17, 12, 8, 11)
+                        .cuboid(0, -48, -28, 12, 8, 11)
+                        .cuboid(0, -48, -17, 12, 8, 11)
+                        .cuboid(0, -48, -6, 12, 8, 11)
+                        .cuboid(0, -48, 6, 12, 8, 11)
+                        .cuboid(0, -48, 17, 12, 8, 11)
+                        .cuboid(12, -48, -28, 12, 8, 11)
+                        .cuboid(12, -48, -17, 12, 8, 11)
+                        .cuboid(12, -48, -6, 12, 8, 11)
+                        .cuboid(12, -48, 6, 12, 8, 11)
+                        .cuboid(12, -48, 17, 12, 8, 11)
+                        .cuboid(-22, -40, -27, 11, 8, 11)
+                        .cuboid(-22, -40, -16, 11, 8, 11)
+                        .cuboid(-22, -40, -5, 11, 8, 11)
+                        .cuboid(-22, -40, 5, 11, 8, 11)
+                        .cuboid(-22, -40, 16, 11, 8, 11)
+                        .cuboid(-11, -40, -27, 11, 8, 11)
+                        .cuboid(-11, -40, -16, 11, 8, 11)
+                        .cuboid(-11, -40, -5, 11, 8, 11)
+                        .cuboid(-11, -40, 5, 11, 8, 11)
+                        .cuboid(-11, -40, 16, 11, 8, 11)
+                        .cuboid(0, -40, -27, 11, 8, 11)
+                        .cuboid(0, -40, -16, 11, 8, 11)
+                        .cuboid(0, -40, -5, 11, 8, 11)
+                        .cuboid(0, -40, 5, 11, 8, 11)
+                        .cuboid(0, -40, 16, 11, 8, 11)
+                        .cuboid(11, -40, -27, 11, 8, 11)
+                        .cuboid(11, -40, -16, 11, 8, 11)
+                        .cuboid(11, -40, -5, 11, 8, 11)
+                        .cuboid(11, -40, 5, 11, 8, 11)
+                        .cuboid(11, -40, 16, 11, 8, 11)
+                        .cuboid(-17, -32, -21, 11, 6, 10)
+                        .cuboid(-17, -32, -10, 11, 6, 10)
+                        .cuboid(-17, -32, 0, 11, 6, 10)
+                        .cuboid(-17, -32, 10, 11, 6, 10)
+                        .cuboid(-6, -32, -21, 11, 6, 10)
+                        .cuboid(-6, -32, -10, 11, 6, 10)
+                        .cuboid(-6, -32, 0, 11, 6, 10)
+                        .cuboid(-6, -32, 10, 11, 6, 10)
+                        .cuboid(6, -32, -21, 11, 6, 10)
+                        .cuboid(6, -32, -10, 11, 6, 10)
+                        .cuboid(6, -32, 0, 11, 6, 10)
+                        .cuboid(6, -32, 10, 11, 6, 10)
+                        .cuboid(-11, -25, -14, 11, 4, 9)
+                        .cuboid(-11, -25, -5, 11, 4, 9)
+                        .cuboid(-11, -25, 5, 11, 4, 9)
+                        .cuboid(0, -25, -14, 11, 4, 9)
+                        .cuboid(0, -25, -5, 11, 4, 9)
+                        .cuboid(0, -25, 5, 11, 4, 9)
+                        .cuboid(-10, -32, -13, 10, 9, 9)
+                        .cuboid(-10, -32, -4, 10, 9, 9)
+                        .cuboid(-10, -32, 4, 10, 9, 9)
+                        .cuboid(0, -32, -13, 10, 9, 9)
+                        .cuboid(0, -32, -4, 10, 9, 9)
+                        .cuboid(0, -32, 4, 10, 9, 9)
+                        .cuboid(-14, -48, -33, 9, 5, 10)
+                        .cuboid(-5, -48, -33, 9, 5, 10)
+                        .cuboid(5, -48, -33, 9, 5, 10),
+                ModelTransform.of(0, 21, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData eye = body.addChild("eye",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-7, -4, -1, 14, 8, 2),
+                ModelTransform.of(0, -40, -30, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData wing_l = body.addChild("wing_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-18, -2, -13, 18, 6, 26)
+                        .cuboid(-16, -6, -11, 12, 5, 16)
+                        .cuboid(-15, -9, -6, 6, 3, 6)
+                        .cuboid(-16, -6, 7, 12, 5, 16)
+                        .cuboid(-15, -9, 12, 6, 3, 6),
+                ModelTransform.of(-20, -46, 2, 0.0F, 0.0F, 0.1396F));
+
+        ModelPartData wing_r = body.addChild("wing_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(0, -2, -13, 18, 6, 26)
+                        .cuboid(4, -6, -11, 12, 5, 16)
+                        .cuboid(7, -9, -6, 6, 3, 6)
+                        .cuboid(4, -6, 7, 12, 5, 16)
+                        .cuboid(7, -9, 12, 6, 3, 6),
+                ModelTransform.of(20, -46, 2, 0.0F, 0.0F, -0.1396F));
+
+        ModelPartData leg0 = root.addChild("leg0",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 15, 2),
+                ModelTransform.of(-9, -6, -14, -0.0977F, 0.0F, 0.1571F));
+
+        ModelPartData leg0_shin = leg0.addChild("leg0_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 13, 2)
+                        .cuboid(-2, 12, -2, 3, 3, 3),
+                ModelTransform.of(0, 15, 0, -0.0342F, 0.0F, 0.0550F));
+
+        ModelPartData leg1 = root.addChild("leg1",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 15, 2),
+                ModelTransform.of(9, -6, -14, -0.0977F, 0.0F, -0.1571F));
+
+        ModelPartData leg1_shin = leg1.addChild("leg1_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 13, 2)
+                        .cuboid(-2, 12, -2, 3, 3, 3),
+                ModelTransform.of(0, 15, 0, -0.0342F, 0.0F, -0.0550F));
+
+        ModelPartData leg2 = root.addChild("leg2",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 15, 2),
+                ModelTransform.of(-9, -6, 16, 0.1117F, 0.0F, 0.1571F));
+
+        ModelPartData leg2_shin = leg2.addChild("leg2_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 13, 2)
+                        .cuboid(-2, 12, -2, 3, 3, 3),
+                ModelTransform.of(0, 15, 0, 0.0391F, 0.0F, 0.0550F));
+
+        ModelPartData leg3 = root.addChild("leg3",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 15, 2),
+                ModelTransform.of(9, -6, 16, 0.1117F, 0.0F, -0.1571F));
+
+        ModelPartData leg3_shin = leg3.addChild("leg3_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 13, 2)
+                        .cuboid(-2, 12, -2, 3, 3, 3),
+                ModelTransform.of(0, 15, 0, 0.0391F, 0.0F, -0.0550F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
+    public static TexturedModelData electric() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData leg_l = root.addChild("leg_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 37, 4),
+                ModelTransform.of(-13, -51, -8, -0.1396F, 0.0F, 0.2094F));
+
+        ModelPartData leg_l_shin = leg_l.addChild("leg_l_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 35, 4)
+                        .cuboid(-3, 33, -3, 5, 3, 5),
+                ModelTransform.of(0, 37, 0, -0.0489F, 0.0F, 0.0733F));
+
+        ModelPartData leg_r = root.addChild("leg_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 37, 4),
+                ModelTransform.of(13, -51, -8, -0.1396F, 0.0F, -0.2094F));
+
+        ModelPartData leg_r_shin = leg_r.addChild("leg_r_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 35, 4)
+                        .cuboid(-3, 33, -3, 5, 3, 5),
+                ModelTransform.of(0, 37, 0, -0.0489F, 0.0F, -0.0733F));
+
+        ModelPartData leg_b = root.addChild("leg_b",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 38, 4),
+                ModelTransform.of(0, -51, 12, 0.1745F, 0.0F, 0.0F));
+
+        ModelPartData leg_b_shin = leg_b.addChild("leg_b_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 36, 4)
+                        .cuboid(-3, 35, -3, 5, 3, 5),
+                ModelTransform.of(0, 38, 0, 0.0611F, 0.0F, 0.0F));
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-13, -117, -14, 9, 9, 9)
+                        .cuboid(-13, -117, -5, 9, 9, 9)
+                        .cuboid(-13, -117, 5, 9, 9, 9)
+                        .cuboid(-13, -108, -14, 9, 9, 9)
+                        .cuboid(-13, -108, -5, 9, 9, 9)
+                        .cuboid(-13, -108, 5, 9, 9, 9)
+                        .cuboid(-13, -98, -14, 9, 9, 9)
+                        .cuboid(-13, -98, -5, 9, 9, 9)
+                        .cuboid(-13, -98, 5, 9, 9, 9)
+                        .cuboid(-13, -89, -14, 9, 9, 9)
+                        .cuboid(-13, -89, -5, 9, 9, 9)
+                        .cuboid(-13, -89, 5, 9, 9, 9)
+                        .cuboid(-13, -78, -14, 9, 9, 9)
+                        .cuboid(-13, -78, -5, 9, 9, 9)
+                        .cuboid(-13, -78, 5, 9, 9, 9)
+                        .cuboid(-4, -117, -14, 9, 9, 9)
+                        .cuboid(-4, -117, -5, 9, 9, 9)
+                        .cuboid(-4, -117, 5, 9, 9, 9)
+                        .cuboid(-4, -108, -14, 9, 9, 9)
+                        .cuboid(-4, -108, -5, 9, 9, 9)
+                        .cuboid(-4, -108, 5, 9, 9, 9)
+                        .cuboid(-4, -98, -14, 9, 9, 9)
+                        .cuboid(-4, -98, -5, 9, 9, 9)
+                        .cuboid(-4, -98, 5, 9, 9, 9)
+                        .cuboid(-4, -89, -14, 9, 9, 9)
+                        .cuboid(-4, -89, -5, 9, 9, 9)
+                        .cuboid(-4, -89, 5, 9, 9, 9)
+                        .cuboid(-4, -78, -14, 9, 9, 9)
+                        .cuboid(-4, -78, -5, 9, 9, 9)
+                        .cuboid(-4, -78, 5, 9, 9, 9)
+                        .cuboid(4, -117, -14, 9, 9, 9)
+                        .cuboid(4, -117, -5, 9, 9, 9)
+                        .cuboid(4, -117, 5, 9, 9, 9)
+                        .cuboid(4, -108, -14, 9, 9, 9)
+                        .cuboid(4, -108, -5, 9, 9, 9)
+                        .cuboid(4, -108, 5, 9, 9, 9)
+                        .cuboid(4, -98, -14, 9, 9, 9)
+                        .cuboid(4, -98, -5, 9, 9, 9)
+                        .cuboid(4, -98, 5, 9, 9, 9)
+                        .cuboid(4, -89, -14, 9, 9, 9)
+                        .cuboid(4, -89, -5, 9, 9, 9)
+                        .cuboid(4, -89, 5, 9, 9, 9)
+                        .cuboid(4, -78, -14, 9, 9, 9)
+                        .cuboid(4, -78, -5, 9, 9, 9)
+                        .cuboid(4, -78, 5, 9, 9, 9)
+                        .cuboid(-17, -113, -15, 34, 5, 30)
+                        .cuboid(-17, -101, -15, 34, 5, 30)
+                        .cuboid(-17, -90, -15, 34, 5, 30)
+                        .cuboid(-9, -69, -10, 9, 9, 10)
+                        .cuboid(-9, -69, 0, 9, 9, 10)
+                        .cuboid(0, -69, -10, 9, 9, 10)
+                        .cuboid(0, -69, 0, 9, 9, 10)
+                        .cuboid(-13, -140, -14, 9, 9, 9)
+                        .cuboid(-13, -140, -5, 9, 9, 9)
+                        .cuboid(-13, -140, 5, 9, 9, 9)
+                        .cuboid(-4, -140, -14, 9, 9, 9)
+                        .cuboid(-4, -140, -5, 9, 9, 9)
+                        .cuboid(-4, -140, 5, 9, 9, 9)
+                        .cuboid(4, -140, -14, 9, 9, 9)
+                        .cuboid(4, -140, -5, 9, 9, 9)
+                        .cuboid(4, -140, 5, 9, 9, 9)
+                        .cuboid(-11, -131, -12, 7, 8, 8)
+                        .cuboid(-11, -131, -4, 7, 8, 8)
+                        .cuboid(-11, -131, 4, 7, 8, 8)
+                        .cuboid(-4, -131, -12, 7, 8, 8)
+                        .cuboid(-4, -131, -4, 7, 8, 8)
+                        .cuboid(-4, -131, 4, 7, 8, 8)
+                        .cuboid(4, -131, -12, 7, 8, 8)
+                        .cuboid(4, -131, -4, 7, 8, 8)
+                        .cuboid(4, -131, 4, 7, 8, 8)
+                        .cuboid(-7, -123, -8, 7, 5, 8)
+                        .cuboid(-7, -123, 0, 7, 5, 8)
+                        .cuboid(0, -123, -8, 7, 5, 8)
+                        .cuboid(0, -123, 0, 7, 5, 8),
+                ModelTransform.of(0, 20, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData coil = body.addChild("coil",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-8, -7, -1, 16, 14, 2),
+                ModelTransform.of(0, -138, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData arm_l = body.addChild("arm_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, -2, -16, 4, 5, 18),
+                ModelTransform.of(-12, -124, -10, -0.4887F, 0.0F, -0.3491F));
+
+        ModelPartData arm_l_tip = arm_l.addChild("arm_l_tip",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-3, -3, -1, 5, 6, 2),
+                ModelTransform.of(0, 0, -18, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData arm_r = body.addChild("arm_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, -2, -16, 4, 5, 18),
+                ModelTransform.of(12, -124, -10, -0.4887F, 0.0F, 0.3491F));
+
+        ModelPartData arm_r_tip = arm_r.addChild("arm_r_tip",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-3, -3, -1, 5, 6, 2),
+                ModelTransform.of(0, 0, -18, 0.0F, 0.0F, 0.0F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
+    public static TexturedModelData handling() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-20, -92, -23, 10, 13, 12)
+                        .cuboid(-20, -92, -12, 10, 13, 12)
+                        .cuboid(-20, -92, 0, 10, 13, 12)
+                        .cuboid(-20, -92, 12, 10, 13, 12)
+                        .cuboid(-10, -92, -23, 10, 13, 12)
+                        .cuboid(-10, -92, -12, 10, 13, 12)
+                        .cuboid(-10, -92, 0, 10, 13, 12)
+                        .cuboid(-10, -92, 12, 10, 13, 12)
+                        .cuboid(0, -92, -23, 10, 13, 12)
+                        .cuboid(0, -92, -12, 10, 13, 12)
+                        .cuboid(0, -92, 0, 10, 13, 12)
+                        .cuboid(0, -92, 12, 10, 13, 12)
+                        .cuboid(10, -92, -23, 10, 13, 12)
+                        .cuboid(10, -92, -12, 10, 13, 12)
+                        .cuboid(10, -92, 0, 10, 13, 12)
+                        .cuboid(10, -92, 12, 10, 13, 12)
+                        .cuboid(-19, -79, -22, 10, 13, 11)
+                        .cuboid(-19, -79, -11, 10, 13, 11)
+                        .cuboid(-19, -79, 0, 10, 13, 11)
+                        .cuboid(-19, -79, 11, 10, 13, 11)
+                        .cuboid(-10, -79, -22, 10, 13, 11)
+                        .cuboid(-10, -79, -11, 10, 13, 11)
+                        .cuboid(-10, -79, 0, 10, 13, 11)
+                        .cuboid(-10, -79, 11, 10, 13, 11)
+                        .cuboid(0, -79, -22, 10, 13, 11)
+                        .cuboid(0, -79, -11, 10, 13, 11)
+                        .cuboid(0, -79, 0, 10, 13, 11)
+                        .cuboid(0, -79, 11, 10, 13, 11)
+                        .cuboid(10, -79, -22, 10, 13, 11)
+                        .cuboid(10, -79, -11, 10, 13, 11)
+                        .cuboid(10, -79, 0, 10, 13, 11)
+                        .cuboid(10, -79, 11, 10, 13, 11)
+                        .cuboid(-14, -66, -16, 9, 9, 11)
+                        .cuboid(-14, -66, -5, 9, 9, 11)
+                        .cuboid(-14, -66, 5, 9, 9, 11)
+                        .cuboid(-5, -66, -16, 9, 9, 11)
+                        .cuboid(-5, -66, -5, 9, 9, 11)
+                        .cuboid(-5, -66, 5, 9, 9, 11)
+                        .cuboid(5, -66, -16, 9, 9, 11)
+                        .cuboid(5, -66, -5, 9, 9, 11)
+                        .cuboid(5, -66, 5, 9, 9, 11)
+                        .cuboid(-11, -62, -13, 7, 11, 9)
+                        .cuboid(-11, -62, -4, 7, 11, 9)
+                        .cuboid(-11, -62, 4, 7, 11, 9)
+                        .cuboid(-4, -62, -13, 7, 11, 9)
+                        .cuboid(-4, -62, -4, 7, 11, 9)
+                        .cuboid(-4, -62, 4, 7, 11, 9)
+                        .cuboid(4, -62, -13, 7, 11, 9)
+                        .cuboid(4, -62, -4, 7, 11, 9)
+                        .cuboid(4, -62, 4, 7, 11, 9),
+                ModelTransform.of(0, 13, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData eye = body.addChild("eye",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-6, -4, -1, 12, 8, 2),
+                ModelTransform.of(0, -81, -25, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData cage = body.addChild("cage",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-11, 0, -9, 22, 3, 18)
+                        .cuboid(-11, 30, -9, 22, 3, 18)
+                        .cuboid(-11, 3, -9, 3, 26, 3)
+                        .cuboid(-11, 3, 6, 3, 26, 3)
+                        .cuboid(8, 3, -9, 3, 26, 3)
+                        .cuboid(8, 3, 6, 3, 26, 3)
+                        .cuboid(-3, 3, -9, 6, 26, 3)
+                        .cuboid(-3, 3, 6, 6, 26, 3),
+                ModelTransform.of(0, -57, -16, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData arm_l = body.addChild("arm_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -28, 6, 7, 32)
+                        .cuboid(-6, 1, -36, 5, 6, 11)
+                        .cuboid(1, 1, -36, 5, 6, 11),
+                ModelTransform.of(-17, -73, -14, -0.5585F, 0.0F, -0.2443F));
+
+        ModelPartData arm_r = body.addChild("arm_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -28, 6, 7, 32)
+                        .cuboid(-6, 1, -36, 5, 6, 11)
+                        .cuboid(1, 1, -36, 5, 6, 11),
+                ModelTransform.of(17, -73, -14, -0.5585F, 0.0F, 0.2443F));
+
+        ModelPartData leg0 = root.addChild("leg0",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 33, 4),
+                ModelTransform.of(-19, -40, -14, -0.1100F, 0.0F, 0.2321F));
+
+        ModelPartData leg0_shin = leg0.addChild("leg0_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 31, 4)
+                        .cuboid(-3, 30, -3, 5, 3, 5),
+                ModelTransform.of(0, 33, 0, -0.0385F, 0.0F, 0.0812F));
+
+        ModelPartData leg1 = root.addChild("leg1",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 33, 4),
+                ModelTransform.of(19, -40, -14, -0.1100F, 0.0F, -0.2321F));
+
+        ModelPartData leg1_shin = leg1.addChild("leg1_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 31, 4)
+                        .cuboid(-3, 30, -3, 5, 3, 5),
+                ModelTransform.of(0, 33, 0, -0.0385F, 0.0F, -0.0812F));
+
+        ModelPartData leg2 = root.addChild("leg2",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 33, 4),
+                ModelTransform.of(-19, -40, 14, 0.1100F, 0.0F, 0.2321F));
+
+        ModelPartData leg2_shin = leg2.addChild("leg2_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 31, 4)
+                        .cuboid(-3, 30, -3, 5, 3, 5),
+                ModelTransform.of(0, 33, 0, 0.0385F, 0.0F, 0.0812F));
+
+        ModelPartData leg3 = root.addChild("leg3",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 33, 4),
+                ModelTransform.of(19, -40, 14, 0.1100F, 0.0F, -0.2321F));
+
+        ModelPartData leg3_shin = leg3.addChild("leg3_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 31, 4)
+                        .cuboid(-3, 30, -3, 5, 3, 5),
+                ModelTransform.of(0, 33, 0, 0.0385F, 0.0F, -0.0812F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
+    public static TexturedModelData digging() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-21, -61, -25, 14, 8, 12)
+                        .cuboid(-21, -61, -12, 14, 8, 12)
+                        .cuboid(-21, -61, 0, 14, 8, 12)
+                        .cuboid(-21, -61, 12, 14, 8, 12)
+                        .cuboid(-21, -53, -25, 14, 8, 12)
+                        .cuboid(-21, -53, -12, 14, 8, 12)
+                        .cuboid(-21, -53, 0, 14, 8, 12)
+                        .cuboid(-21, -53, 12, 14, 8, 12)
+                        .cuboid(-7, -61, -25, 14, 8, 12)
+                        .cuboid(-7, -61, -12, 14, 8, 12)
+                        .cuboid(-7, -61, 0, 14, 8, 12)
+                        .cuboid(-7, -61, 12, 14, 8, 12)
+                        .cuboid(-7, -53, -25, 14, 8, 12)
+                        .cuboid(-7, -53, -12, 14, 8, 12)
+                        .cuboid(-7, -53, 0, 14, 8, 12)
+                        .cuboid(-7, -53, 12, 14, 8, 12)
+                        .cuboid(7, -61, -25, 14, 8, 12)
+                        .cuboid(7, -61, -12, 14, 8, 12)
+                        .cuboid(7, -61, 0, 14, 8, 12)
+                        .cuboid(7, -61, 12, 14, 8, 12)
+                        .cuboid(7, -53, -25, 14, 8, 12)
+                        .cuboid(7, -53, -12, 14, 8, 12)
+                        .cuboid(7, -53, 0, 14, 8, 12)
+                        .cuboid(7, -53, 12, 14, 8, 12)
+                        .cuboid(-17, -44, -15, 11, 11, 10)
+                        .cuboid(-17, -44, -6, 11, 11, 10)
+                        .cuboid(-17, -44, 4, 11, 11, 10)
+                        .cuboid(-17, -44, 14, 11, 11, 10)
+                        .cuboid(-6, -44, -15, 11, 11, 10)
+                        .cuboid(-6, -44, -6, 11, 11, 10)
+                        .cuboid(-6, -44, 4, 11, 11, 10)
+                        .cuboid(-6, -44, 14, 11, 11, 10)
+                        .cuboid(6, -44, -15, 11, 11, 10)
+                        .cuboid(6, -44, -6, 11, 11, 10)
+                        .cuboid(6, -44, 4, 11, 11, 10)
+                        .cuboid(6, -44, 14, 11, 11, 10)
+                        .cuboid(-10, -61, -17, 10, 6, 7)
+                        .cuboid(-10, -61, -10, 10, 6, 7)
+                        .cuboid(-10, -61, -2, 10, 6, 7)
+                        .cuboid(0, -61, -17, 10, 6, 7)
+                        .cuboid(0, -61, -10, 10, 6, 7)
+                        .cuboid(0, -61, -2, 10, 6, 7),
+                ModelTransform.of(0, 35, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData eye = body.addChild("eye",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-5, -3, -1, 10, 6, 2),
+                ModelTransform.of(0, -53, -23, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData head = body.addChild("head",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-11, -9, -12, 22, 19, 13)
+                        .cuboid(-8, -7, -20, 16, 15, 9)
+                        .cuboid(-5, -4, -26, 10, 8, 7)
+                        .cuboid(-2, -2, -30, 4, 4, 5)
+                        .cuboid(-1, -1, -32, 2, 2, 3),
+                ModelTransform.of(0, -48, -24, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData leg0 = root.addChild("leg0",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 23, 5),
+                ModelTransform.of(-21, -22, -16, -0.0977F, 0.0F, 0.1833F));
+
+        ModelPartData leg0_shin = leg0.addChild("leg0_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 21, 5)
+                        .cuboid(-3, 20, -3, 6, 3, 6),
+                ModelTransform.of(0, 23, 0, -0.0342F, 0.0F, 0.0641F));
+
+        ModelPartData leg1 = root.addChild("leg1",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 23, 5),
+                ModelTransform.of(21, -22, -16, -0.0977F, 0.0F, -0.1833F));
+
+        ModelPartData leg1_shin = leg1.addChild("leg1_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 21, 5)
+                        .cuboid(-3, 20, -3, 6, 3, 6),
+                ModelTransform.of(0, 23, 0, -0.0342F, 0.0F, -0.0641F));
+
+        ModelPartData leg2 = root.addChild("leg2",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 23, 5),
+                ModelTransform.of(-21, -22, 12, 0.0733F, 0.0F, 0.1833F));
+
+        ModelPartData leg2_shin = leg2.addChild("leg2_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 21, 5)
+                        .cuboid(-3, 20, -3, 6, 3, 6),
+                ModelTransform.of(0, 23, 0, 0.0257F, 0.0F, 0.0641F));
+
+        ModelPartData leg3 = root.addChild("leg3",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 23, 5),
+                ModelTransform.of(21, -22, 12, 0.0733F, 0.0F, -0.1833F));
+
+        ModelPartData leg3_shin = leg3.addChild("leg3_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 5, 21, 5)
+                        .cuboid(-3, 20, -3, 6, 3, 6),
+                ModelTransform.of(0, 23, 0, 0.0257F, 0.0F, -0.0641F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
+    public static TexturedModelData tempest() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData leg_fl = root.addChild("leg_fl",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 75, 6),
+                ModelTransform.of(-22, -123, -16, -0.1222F, 0.0F, 0.1571F));
+
+        ModelPartData leg_fl_shin = leg_fl.addChild("leg_fl_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 73, 6)
+                        .cuboid(-4, 72, -4, 8, 3, 8),
+                ModelTransform.of(0, 75, 0, -0.0428F, 0.0F, 0.0550F));
+
+        ModelPartData leg_fr = root.addChild("leg_fr",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 75, 6),
+                ModelTransform.of(22, -123, -16, -0.1222F, 0.0F, -0.1571F));
+
+        ModelPartData leg_fr_shin = leg_fr.addChild("leg_fr_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 73, 6)
+                        .cuboid(-4, 72, -4, 8, 3, 8),
+                ModelTransform.of(0, 75, 0, -0.0428F, 0.0F, -0.0550F));
+
+        ModelPartData leg_l = root.addChild("leg_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 75, 6),
+                ModelTransform.of(-24, -123, 18, 0.1222F, 0.0F, 0.1571F));
+
+        ModelPartData leg_l_shin = leg_l.addChild("leg_l_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 73, 6)
+                        .cuboid(-4, 72, -4, 8, 3, 8),
+                ModelTransform.of(0, 75, 0, 0.0428F, 0.0F, 0.0550F));
+
+        ModelPartData leg_r = root.addChild("leg_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 75, 6),
+                ModelTransform.of(24, -123, 18, 0.1222F, 0.0F, -0.1571F));
+
+        ModelPartData leg_r_shin = leg_r.addChild("leg_r_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, 0, -3, 6, 73, 6)
+                        .cuboid(-4, 72, -4, 8, 3, 8),
+                ModelTransform.of(0, 75, 0, 0.0428F, 0.0F, -0.0550F));
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-17, -237, -20, 11, 14, 13)
+                        .cuboid(-17, -237, -7, 11, 14, 13)
+                        .cuboid(-17, -237, 7, 11, 14, 13)
+                        .cuboid(-17, -222, -20, 11, 14, 13)
+                        .cuboid(-17, -222, -7, 11, 14, 13)
+                        .cuboid(-17, -222, 7, 11, 14, 13)
+                        .cuboid(-17, -209, -20, 11, 14, 13)
+                        .cuboid(-17, -209, -7, 11, 14, 13)
+                        .cuboid(-17, -209, 7, 11, 14, 13)
+                        .cuboid(-17, -195, -20, 11, 14, 13)
+                        .cuboid(-17, -195, -7, 11, 14, 13)
+                        .cuboid(-17, -195, 7, 11, 14, 13)
+                        .cuboid(-17, -181, -20, 11, 14, 13)
+                        .cuboid(-17, -181, -7, 11, 14, 13)
+                        .cuboid(-17, -181, 7, 11, 14, 13)
+                        .cuboid(-17, -167, -20, 11, 14, 13)
+                        .cuboid(-17, -167, -7, 11, 14, 13)
+                        .cuboid(-17, -167, 7, 11, 14, 13)
+                        .cuboid(-6, -237, -20, 11, 14, 13)
+                        .cuboid(-6, -237, -7, 11, 14, 13)
+                        .cuboid(-6, -237, 7, 11, 14, 13)
+                        .cuboid(-6, -222, -20, 11, 14, 13)
+                        .cuboid(-6, -222, -7, 11, 14, 13)
+                        .cuboid(-6, -222, 7, 11, 14, 13)
+                        .cuboid(-6, -209, -20, 11, 14, 13)
+                        .cuboid(-6, -209, -7, 11, 14, 13)
+                        .cuboid(-6, -209, 7, 11, 14, 13)
+                        .cuboid(-6, -195, -20, 11, 14, 13)
+                        .cuboid(-6, -195, -7, 11, 14, 13)
+                        .cuboid(-6, -195, 7, 11, 14, 13)
+                        .cuboid(-6, -181, -20, 11, 14, 13)
+                        .cuboid(-6, -181, -7, 11, 14, 13)
+                        .cuboid(-6, -181, 7, 11, 14, 13)
+                        .cuboid(-6, -167, -20, 11, 14, 13)
+                        .cuboid(-6, -167, -7, 11, 14, 13)
+                        .cuboid(-6, -167, 7, 11, 14, 13)
+                        .cuboid(6, -237, -20, 11, 14, 13)
+                        .cuboid(6, -237, -7, 11, 14, 13)
+                        .cuboid(6, -237, 7, 11, 14, 13)
+                        .cuboid(6, -222, -20, 11, 14, 13)
+                        .cuboid(6, -222, -7, 11, 14, 13)
+                        .cuboid(6, -222, 7, 11, 14, 13)
+                        .cuboid(6, -209, -20, 11, 14, 13)
+                        .cuboid(6, -209, -7, 11, 14, 13)
+                        .cuboid(6, -209, 7, 11, 14, 13)
+                        .cuboid(6, -195, -20, 11, 14, 13)
+                        .cuboid(6, -195, -7, 11, 14, 13)
+                        .cuboid(6, -195, 7, 11, 14, 13)
+                        .cuboid(6, -181, -20, 11, 14, 13)
+                        .cuboid(6, -181, -7, 11, 14, 13)
+                        .cuboid(6, -181, 7, 11, 14, 13)
+                        .cuboid(6, -167, -20, 11, 14, 13)
+                        .cuboid(6, -167, -7, 11, 14, 13)
+                        .cuboid(6, -167, 7, 11, 14, 13)
+                        .cuboid(-24, -161, -24, 12, 8, 12)
+                        .cuboid(-24, -161, -12, 12, 8, 12)
+                        .cuboid(-24, -161, 0, 12, 8, 12)
+                        .cuboid(-24, -161, 12, 12, 8, 12)
+                        .cuboid(-24, -153, -24, 12, 8, 12)
+                        .cuboid(-24, -153, -12, 12, 8, 12)
+                        .cuboid(-24, -153, 0, 12, 8, 12)
+                        .cuboid(-24, -153, 12, 12, 8, 12)
+                        .cuboid(-12, -161, -24, 12, 8, 12)
+                        .cuboid(-12, -161, -12, 12, 8, 12)
+                        .cuboid(-12, -161, 0, 12, 8, 12)
+                        .cuboid(-12, -161, 12, 12, 8, 12)
+                        .cuboid(-12, -153, -24, 12, 8, 12)
+                        .cuboid(-12, -153, -12, 12, 8, 12)
+                        .cuboid(-12, -153, 0, 12, 8, 12)
+                        .cuboid(-12, -153, 12, 12, 8, 12)
+                        .cuboid(0, -161, -24, 12, 8, 12)
+                        .cuboid(0, -161, -12, 12, 8, 12)
+                        .cuboid(0, -161, 0, 12, 8, 12)
+                        .cuboid(0, -161, 12, 12, 8, 12)
+                        .cuboid(0, -153, -24, 12, 8, 12)
+                        .cuboid(0, -153, -12, 12, 8, 12)
+                        .cuboid(0, -153, 0, 12, 8, 12)
+                        .cuboid(0, -153, 12, 12, 8, 12)
+                        .cuboid(12, -161, -24, 12, 8, 12)
+                        .cuboid(12, -161, -12, 12, 8, 12)
+                        .cuboid(12, -161, 0, 12, 8, 12)
+                        .cuboid(12, -161, 12, 12, 8, 12)
+                        .cuboid(12, -153, -24, 12, 8, 12)
+                        .cuboid(12, -153, -12, 12, 8, 12)
+                        .cuboid(12, -153, 0, 12, 8, 12)
+                        .cuboid(12, -153, 12, 12, 8, 12)
+                        .cuboid(-23, -204, -23, 12, 11, 12)
+                        .cuboid(-23, -204, -12, 12, 11, 12)
+                        .cuboid(-23, -204, 0, 12, 11, 12)
+                        .cuboid(-23, -204, 12, 12, 11, 12)
+                        .cuboid(-23, -193, -23, 12, 11, 12)
+                        .cuboid(-23, -193, -12, 12, 11, 12)
+                        .cuboid(-23, -193, 0, 12, 11, 12)
+                        .cuboid(-23, -193, 12, 12, 11, 12)
+                        .cuboid(-12, -204, -23, 12, 11, 12)
+                        .cuboid(-12, -204, -12, 12, 11, 12)
+                        .cuboid(-12, -204, 0, 12, 11, 12)
+                        .cuboid(-12, -204, 12, 12, 11, 12)
+                        .cuboid(-12, -193, -23, 12, 11, 12)
+                        .cuboid(-12, -193, -12, 12, 11, 12)
+                        .cuboid(-12, -193, 0, 12, 11, 12)
+                        .cuboid(-12, -193, 12, 12, 11, 12)
+                        .cuboid(0, -204, -23, 12, 11, 12)
+                        .cuboid(0, -204, -12, 12, 11, 12)
+                        .cuboid(0, -204, 0, 12, 11, 12)
+                        .cuboid(0, -204, 12, 12, 11, 12)
+                        .cuboid(0, -193, -23, 12, 11, 12)
+                        .cuboid(0, -193, -12, 12, 11, 12)
+                        .cuboid(0, -193, 0, 12, 11, 12)
+                        .cuboid(0, -193, 12, 12, 11, 12)
+                        .cuboid(12, -204, -23, 12, 11, 12)
+                        .cuboid(12, -204, -12, 12, 11, 12)
+                        .cuboid(12, -204, 0, 12, 11, 12)
+                        .cuboid(12, -204, 12, 12, 11, 12)
+                        .cuboid(12, -193, -23, 12, 11, 12)
+                        .cuboid(12, -193, -12, 12, 11, 12)
+                        .cuboid(12, -193, 0, 12, 11, 12)
+                        .cuboid(12, -193, 12, 12, 11, 12),
+                ModelTransform.of(0, 30, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData head = body.addChild("head",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-10, -8, -16, 20, 16, 22),
+                ModelTransform.of(0, -237, -8, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData eye = head.addChild("eye",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-5, -3, -1, 10, 6, 2),
+                ModelTransform.of(0, 0, -17, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData arm_l = body.addChild("arm_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-7, -7, -20, 14, 14, 24)
+                        .cuboid(-3, -3, -22, 6, 6, 3),
+                ModelTransform.of(-16, -216, -20, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData arm_r = body.addChild("arm_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-7, -7, -20, 14, 14, 24)
+                        .cuboid(-3, -3, -22, 6, 6, 3),
+                ModelTransform.of(16, -216, -20, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData stack_l = body.addChild("stack_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-5, 0, -5, 10, 31, 10),
+                ModelTransform.of(-13, -220, 22, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData stack_l_mouth = stack_l.addChild("stack_l_mouth",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-3, -3, -1, 6, 6, 2),
+                ModelTransform.of(0, 31, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData stack_r = body.addChild("stack_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-5, 0, -5, 10, 31, 10),
+                ModelTransform.of(13, -220, 22, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData stack_r_mouth = stack_r.addChild("stack_r_mouth",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-3, -3, -1, 6, 6, 2),
+                ModelTransform.of(0, 31, 0, 0.0F, 0.0F, 0.0F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
+    public static TexturedModelData bombarding() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData leg_l = root.addChild("leg_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 35, 4),
+                ModelTransform.of(-12, -44, 0, 0.0F, 0.0F, 0.1745F));
+
+        ModelPartData leg_l_shin = leg_l.addChild("leg_l_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 32, 4)
+                        .cuboid(-3, 31, -3, 5, 3, 5),
+                ModelTransform.of(0, 35, 0, 0.0F, 0.0F, 0.0611F));
+
+        ModelPartData leg_r = root.addChild("leg_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 35, 4),
+                ModelTransform.of(12, -44, 0, 0.0F, 0.0F, -0.1745F));
+
+        ModelPartData leg_r_shin = leg_r.addChild("leg_r_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 32, 4)
+                        .cuboid(-3, 31, -3, 5, 3, 5),
+                ModelTransform.of(0, 35, 0, 0.0F, 0.0F, -0.0611F));
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-16, -101, -18, 11, 13, 12)
+                        .cuboid(-16, -101, -6, 11, 13, 12)
+                        .cuboid(-16, -101, 6, 11, 13, 12)
+                        .cuboid(-16, -89, -18, 11, 13, 12)
+                        .cuboid(-16, -89, -6, 11, 13, 12)
+                        .cuboid(-16, -89, 6, 11, 13, 12)
+                        .cuboid(-16, -77, -18, 11, 13, 12)
+                        .cuboid(-16, -77, -6, 11, 13, 12)
+                        .cuboid(-16, -77, 6, 11, 13, 12)
+                        .cuboid(-5, -101, -18, 11, 13, 12)
+                        .cuboid(-5, -101, -6, 11, 13, 12)
+                        .cuboid(-5, -101, 6, 11, 13, 12)
+                        .cuboid(-5, -89, -18, 11, 13, 12)
+                        .cuboid(-5, -89, -6, 11, 13, 12)
+                        .cuboid(-5, -89, 6, 11, 13, 12)
+                        .cuboid(-5, -77, -18, 11, 13, 12)
+                        .cuboid(-5, -77, -6, 11, 13, 12)
+                        .cuboid(-5, -77, 6, 11, 13, 12)
+                        .cuboid(5, -101, -18, 11, 13, 12)
+                        .cuboid(5, -101, -6, 11, 13, 12)
+                        .cuboid(5, -101, 6, 11, 13, 12)
+                        .cuboid(5, -89, -18, 11, 13, 12)
+                        .cuboid(5, -89, -6, 11, 13, 12)
+                        .cuboid(5, -89, 6, 11, 13, 12)
+                        .cuboid(5, -77, -18, 11, 13, 12)
+                        .cuboid(5, -77, -6, 11, 13, 12)
+                        .cuboid(5, -77, 6, 11, 13, 12)
+                        .cuboid(-12, -103, -5, 8, 9, 7)
+                        .cuboid(-12, -103, 2, 8, 9, 7)
+                        .cuboid(-12, -103, 10, 8, 9, 7)
+                        .cuboid(-4, -103, -5, 8, 9, 7)
+                        .cuboid(-4, -103, 2, 8, 9, 7)
+                        .cuboid(-4, -103, 10, 8, 9, 7)
+                        .cuboid(4, -103, -5, 8, 9, 7)
+                        .cuboid(4, -103, 2, 8, 9, 7)
+                        .cuboid(4, -103, 10, 8, 9, 7),
+                ModelTransform.of(0, 20, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData eye = body.addChild("eye",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-5, -3, -1, 10, 7, 2),
+                ModelTransform.of(0, -92, -19, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData cannon = body.addChild("cannon",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-9, -9, -12, 18, 17, 18)
+                        .cuboid(-8, -7, -16, 16, 5, 6)
+                        .cuboid(-5, -16, -30, 10, 10, 20)
+                        .cuboid(-7, -18, -34, 14, 15, 6)
+                        .cuboid(-3, -15, -36, 6, 7, 3),
+                ModelTransform.of(0, -106, -6, 0.0F, 0.0F, 0.0F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
+    public static TexturedModelData drone() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-6, -15, -8, 4, 4, 5)
+                        .cuboid(-6, -15, -2, 4, 4, 5)
+                        .cuboid(-6, -15, 2, 4, 4, 5)
+                        .cuboid(-2, -15, -8, 4, 4, 5)
+                        .cuboid(-2, -15, -2, 4, 4, 5)
+                        .cuboid(-2, -15, 2, 4, 4, 5)
+                        .cuboid(2, -15, -8, 4, 4, 5)
+                        .cuboid(2, -15, -2, 4, 4, 5)
+                        .cuboid(2, -15, 2, 4, 4, 5)
+                        .cuboid(-8, -11, -8, 5, 4, 6)
+                        .cuboid(-8, -11, -3, 5, 4, 6)
+                        .cuboid(-8, -11, 3, 5, 4, 6)
+                        .cuboid(-2, -11, -8, 5, 4, 6)
+                        .cuboid(-2, -11, -3, 5, 4, 6)
+                        .cuboid(-2, -11, 3, 5, 4, 6)
+                        .cuboid(2, -11, -8, 5, 4, 6)
+                        .cuboid(2, -11, -3, 5, 4, 6)
+                        .cuboid(2, -11, 3, 5, 4, 6)
+                        .cuboid(-6, -7, -6, 6, 3, 4)
+                        .cuboid(-6, -7, -2, 6, 3, 4)
+                        .cuboid(-6, -7, 2, 6, 3, 4)
+                        .cuboid(0, -7, -6, 6, 3, 4)
+                        .cuboid(0, -7, -2, 6, 3, 4)
+                        .cuboid(0, -7, 2, 6, 3, 4)
+                        .cuboid(-4, -3, -4, 4, 2, 4)
+                        .cuboid(-4, -3, 0, 4, 2, 4)
+                        .cuboid(0, -3, -4, 4, 2, 4)
+                        .cuboid(0, -3, 0, 4, 2, 4)
+                        .cuboid(-6, -15, -6, 3, 1, 3)
+                        .cuboid(-5, -14, -5, 1, 1, 1)
+                        .cuboid(-5, -13, -5, 1, 1, 1)
+                        .cuboid(4, -15, -6, 3, 1, 3)
+                        .cuboid(5, -14, -5, 1, 1, 1)
+                        .cuboid(5, -13, -5, 1, 1, 1)
+                        .cuboid(-6, -15, 4, 3, 1, 3)
+                        .cuboid(-5, -14, 5, 1, 1, 1)
+                        .cuboid(-5, -13, 5, 1, 1, 1)
+                        .cuboid(4, -15, 4, 3, 1, 3)
+                        .cuboid(5, -14, 5, 1, 1, 1)
+                        .cuboid(5, -13, 5, 1, 1, 1),
+                ModelTransform.of(0, 7, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData eye = body.addChild("eye",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-3, -2, -1, 5, 3, 2),
+                ModelTransform.of(0, -11, -8, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData leg0 = root.addChild("leg0",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(-7, -1, -6, -0.0733F, 0.0F, 0.1833F));
+
+        ModelPartData leg0_shin = leg0.addChild("leg0_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, -0.0257F, 0.0F, 0.0641F));
+
+        ModelPartData leg1 = root.addChild("leg1",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(7, -1, -6, -0.0733F, 0.0F, -0.1833F));
+
+        ModelPartData leg1_shin = leg1.addChild("leg1_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, -0.0257F, 0.0F, -0.0641F));
+
+        ModelPartData leg2 = root.addChild("leg2",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(-8, -1, 0, 0.0F, 0.0F, 0.2094F));
+
+        ModelPartData leg2_shin = leg2.addChild("leg2_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, 0.0F, 0.0F, 0.0733F));
+
+        ModelPartData leg3 = root.addChild("leg3",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(8, -1, 0, 0.0F, 0.0F, -0.2094F));
+
+        ModelPartData leg3_shin = leg3.addChild("leg3_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, 0.0F, 0.0F, -0.0733F));
+
+        ModelPartData leg4 = root.addChild("leg4",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(-8, -1, 6, 0.0733F, 0.0F, 0.2094F));
+
+        ModelPartData leg4_shin = leg4.addChild("leg4_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, 0.0257F, 0.0F, 0.0733F));
+
+        ModelPartData leg5 = root.addChild("leg5",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(8, -1, 6, 0.0733F, 0.0F, -0.2094F));
+
+        ModelPartData leg5_shin = leg5.addChild("leg5_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, 0.0257F, 0.0F, -0.0733F));
+
+        ModelPartData leg6 = root.addChild("leg6",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(-6, -1, 9, 0.1100F, 0.0F, 0.1571F));
+
+        ModelPartData leg6_shin = leg6.addChild("leg6_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, 0.0385F, 0.0F, 0.0550F));
+
+        ModelPartData leg7 = root.addChild("leg7",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 12, 2),
+                ModelTransform.of(6, -1, 9, 0.1100F, 0.0F, -0.1571F));
+
+        ModelPartData leg7_shin = leg7.addChild("leg7_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-1, 0, -1, 2, 11, 2)
+                        .cuboid(-1, 10, -1, 2, 3, 2),
+                ModelTransform.of(0, 12, 0, 0.0385F, 0.0F, -0.0550F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
+    public static TexturedModelData humanTripod() {
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-14, -123, -16, 9, 11, 11)
+                        .cuboid(-14, -123, -5, 9, 11, 11)
+                        .cuboid(-14, -123, 5, 9, 11, 11)
+                        .cuboid(-5, -123, -16, 9, 11, 11)
+                        .cuboid(-5, -123, -5, 9, 11, 11)
+                        .cuboid(-5, -123, 5, 9, 11, 11)
+                        .cuboid(5, -123, -16, 9, 11, 11)
+                        .cuboid(5, -123, -5, 9, 11, 11)
+                        .cuboid(5, -123, 5, 9, 11, 11)
+                        .cuboid(-18, -112, -20, 12, 13, 10)
+                        .cuboid(-18, -112, -10, 12, 13, 10)
+                        .cuboid(-18, -112, 0, 12, 13, 10)
+                        .cuboid(-18, -112, 10, 12, 13, 10)
+                        .cuboid(-6, -112, -20, 12, 13, 10)
+                        .cuboid(-6, -112, -10, 12, 13, 10)
+                        .cuboid(-6, -112, 0, 12, 13, 10)
+                        .cuboid(-6, -112, 10, 12, 13, 10)
+                        .cuboid(6, -112, -20, 12, 13, 10)
+                        .cuboid(6, -112, -10, 12, 13, 10)
+                        .cuboid(6, -112, 0, 12, 13, 10)
+                        .cuboid(6, -112, 10, 12, 13, 10)
+                        .cuboid(-17, -99, -19, 11, 13, 10)
+                        .cuboid(-17, -99, -10, 11, 13, 10)
+                        .cuboid(-17, -99, 0, 11, 13, 10)
+                        .cuboid(-17, -99, 10, 11, 13, 10)
+                        .cuboid(-6, -99, -19, 11, 13, 10)
+                        .cuboid(-6, -99, -10, 11, 13, 10)
+                        .cuboid(-6, -99, 0, 11, 13, 10)
+                        .cuboid(-6, -99, 10, 11, 13, 10)
+                        .cuboid(6, -99, -19, 11, 13, 10)
+                        .cuboid(6, -99, -10, 11, 13, 10)
+                        .cuboid(6, -99, 0, 11, 13, 10)
+                        .cuboid(6, -99, 10, 11, 13, 10)
+                        .cuboid(-11, -85, -13, 11, 7, 9)
+                        .cuboid(-11, -85, -4, 11, 7, 9)
+                        .cuboid(-11, -85, 4, 11, 7, 9)
+                        .cuboid(0, -85, -13, 11, 7, 9)
+                        .cuboid(0, -85, -4, 11, 7, 9)
+                        .cuboid(0, -85, 4, 11, 7, 9)
+                        .cuboid(-11, -96, -23, 7, 10, 7)
+                        .cuboid(-11, -96, -16, 7, 10, 7)
+                        .cuboid(-11, -86, -23, 7, 10, 7)
+                        .cuboid(-11, -86, -16, 7, 10, 7)
+                        .cuboid(-4, -96, -23, 7, 10, 7)
+                        .cuboid(-4, -96, -16, 7, 10, 7)
+                        .cuboid(-4, -86, -23, 7, 10, 7)
+                        .cuboid(-4, -86, -16, 7, 10, 7)
+                        .cuboid(4, -96, -23, 7, 10, 7)
+                        .cuboid(4, -96, -16, 7, 10, 7)
+                        .cuboid(4, -86, -23, 7, 10, 7)
+                        .cuboid(4, -86, -16, 7, 10, 7)
+                        .cuboid(-8, -85, -24, 8, 9, 4)
+                        .cuboid(0, -85, -24, 8, 9, 4)
+                        .cuboid(-10, -72, -12, 10, 11, 8)
+                        .cuboid(-10, -72, -4, 10, 11, 8)
+                        .cuboid(-10, -72, 4, 10, 11, 8)
+                        .cuboid(0, -72, -12, 10, 11, 8)
+                        .cuboid(0, -72, -4, 10, 11, 8)
+                        .cuboid(0, -72, 4, 10, 11, 8),
+                ModelTransform.of(0, 19, 0, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData eye = body.addChild("eye",
+                ModelPartBuilder.create()
+                        .uv(96, 96).cuboid(-6, -3, -1, 12, 7, 2),
+                ModelTransform.of(0, -87, -24, 0.0F, 0.0F, 0.0F));
+
+        ModelPartData arm_l = body.addChild("arm_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, -3, -20, 6, 7, 24)
+                        .cuboid(-2, -2, -22, 4, 4, 3),
+                ModelTransform.of(-17, -112, -10, 0.0F, 0.0F, 0.1396F));
+
+        ModelPartData arm_r = body.addChild("arm_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-3, -3, -20, 6, 7, 24)
+                        .cuboid(-2, -2, -22, 4, 4, 3),
+                ModelTransform.of(17, -112, -10, 0.0F, 0.0F, -0.1396F));
+
+        ModelPartData leg_l = root.addChild("leg_l",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 38, 4),
+                ModelTransform.of(-14, -53, -8, -0.1396F, 0.0F, 0.2094F));
+
+        ModelPartData leg_l_shin = leg_l.addChild("leg_l_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 36, 4)
+                        .cuboid(-3, 35, -3, 6, 3, 6),
+                ModelTransform.of(0, 38, 0, -0.0489F, 0.0F, 0.0733F));
+
+        ModelPartData leg_r = root.addChild("leg_r",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 38, 4),
+                ModelTransform.of(14, -53, -8, -0.1396F, 0.0F, -0.2094F));
+
+        ModelPartData leg_r_shin = leg_r.addChild("leg_r_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 36, 4)
+                        .cuboid(-3, 35, -3, 6, 3, 6),
+                ModelTransform.of(0, 38, 0, -0.0489F, 0.0F, -0.0733F));
+
+        ModelPartData leg_b = root.addChild("leg_b",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 39, 4),
+                ModelTransform.of(0, -53, 14, 0.1920F, 0.0F, 0.0F));
+
+        ModelPartData leg_b_shin = leg_b.addChild("leg_b_shin",
+                ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-2, 0, -2, 4, 37, 4)
+                        .cuboid(-3, 36, -3, 6, 3, 6),
+                ModelTransform.of(0, 39, 0, 0.0672F, 0.0F, 0.0F));
+
+        return TexturedModelData.of(data, 128, 128);
+    }
+
     /** The BBC machines differ only by the laser cannon, so one entry point serves both. */
     public static TexturedModelData bbc(boolean armed) {
         return armed ? bbcRed() : bbcWhite();

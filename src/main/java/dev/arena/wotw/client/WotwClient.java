@@ -5,6 +5,7 @@ import dev.arena.wotw.client.model.MartianModels;
 import dev.arena.wotw.client.model.TripodModels;
 import dev.arena.wotw.client.render.BeamEntityRenderer;
 import dev.arena.wotw.client.render.CapsuleRenderer;
+import dev.arena.wotw.client.render.ShellRenderer;
 import dev.arena.wotw.client.render.GenericTripodRenderer;
 import dev.arena.wotw.entity.AbstractTripodEntity;
 import dev.arena.wotw.registry.ModBlocks;
@@ -26,6 +27,8 @@ public class WotwClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.BEAM, BeamEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.CAPSULE, CapsuleRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RED_ROOT, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.BLOOD_ROOTS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MARTIAN_GLASS, RenderLayer.getTranslucent());
 
         registerTripod(ModModelLayers.TRIPOD_2005, TripodModels::tripod2005,
                 ModEntities.TRIPOD_2005, "tripod_2005", 1.0F, 1.2F);
@@ -51,6 +54,25 @@ public class WotwClient implements ClientModInitializer {
                 ModEntities.MARTIAN, "martian", 1.0F, 0.8F);
         registerTripod(ModModelLayers.MARTIAN_MASTER, MartianModels::martianMaster,
                 ModEntities.MARTIAN_MASTER, "martian_master", 1.0F, 1.1F);
+
+        // second wave
+        registerTripod(ModModelLayers.FLYING_MACHINE, TripodModels::flyingMachine,
+                ModEntities.FLYING_MACHINE, "flying_machine", 1.0F, 1.4F);
+        registerTripod(ModModelLayers.ELECTRIC_MACHINE, TripodModels::electric,
+                ModEntities.ELECTRIC_MACHINE, "electric_machine", 1.0F, 1.2F);
+        registerTripod(ModModelLayers.HANDLING_MACHINE, TripodModels::handling,
+                ModEntities.HANDLING_MACHINE, "handling_machine", 1.0F, 1.3F);
+        registerTripod(ModModelLayers.DIGGING_MACHINE, TripodModels::digging,
+                ModEntities.DIGGING_MACHINE, "digging_machine", 1.0F, 1.3F);
+        registerTripod(ModModelLayers.TEMPEST, TripodModels::tempest,
+                ModEntities.TEMPEST, "tempest", 1.0F, 1.5F);
+        registerTripod(ModModelLayers.BOMBARDING_MACHINE, TripodModels::bombarding,
+                ModEntities.BOMBARDING_MACHINE, "bombarding_machine", 1.0F, 1.1F);
+        registerTripod(ModModelLayers.DRONE, TripodModels::drone,
+                ModEntities.DRONE, "drone", 1.0F, 0.6F);
+        registerTripod(ModModelLayers.PILOT_TRIPOD, TripodModels::humanTripod,
+                ModEntities.PILOT_TRIPOD, "human_tripod", 1.0F, 1.2F);
+        EntityRendererRegistry.register(ModEntities.SHELL, ShellRenderer::new);
     }
 
     private static <T extends AbstractTripodEntity> void registerTripod(

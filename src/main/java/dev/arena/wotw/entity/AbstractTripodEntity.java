@@ -105,7 +105,10 @@ public abstract class AbstractTripodEntity extends HostileEntity {
             this.goalSelector.add(9, new LookAroundGoal(this));
         }
         this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+        // A player already locked in the cage of a Handling Machine is not prey any more.
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true,
+                entity -> !(entity instanceof PlayerEntity player
+                        && player.hasStatusEffect(dev.arena.wotw.registry.ModStatusEffects.CAGED))));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
         this.targetSelector.add(4, new ActiveTargetGoal<>(this, VillagerEntity.class, true));
         this.addExtraGoals();

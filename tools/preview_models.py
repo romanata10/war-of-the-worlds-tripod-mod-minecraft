@@ -48,6 +48,15 @@ TRIPODS = [
     ("martian_louse", "louse", "Марсианская вошь", "Great Martian War", "Роевое размножение"),
     ("martian", "martian", "Марсианин", "роман, 1898", "Чёрный дым"),
     ("martian_master", "martianMaster", "Марсианин-повелитель", "роман, 1898", "Приказ машинам · луч"),
+    # second wave: Martian machines that are not tripods
+    ("flying_machine", "flyingMachine", "Летающая машина", "2-я волна", "Полёт · тепловой луч"),
+    ("electric_machine", "electric", "Электрическая машина", "2-я волна", "Разряды молний · огонь"),
+    ("handling_machine", "handling", "Машина-ловец", "2-я волна", "Хватает · клетка"),
+    ("digging_machine", "digging", "Машина-копатель", "2-я волна", "Окопы и тоннели"),
+    ("tempest", "tempest", "«Темпест»", "2-я волна", "Два луча · чёрный дым"),
+    ("bombarding_machine", "bombarding", "Бомбардир", "2-я волна", "Снаряды · взрывы"),
+    ("drone", "drone", "Дрон", "2-я волна", "Ищет · взрывается"),
+    ("human_tripod", "humanTripod", "Тринога-«пилот»", "чертёж людей", "Ездит игрок · стреляет"),
 ]
 
 
@@ -236,7 +245,7 @@ def build_poster(renders):
         draw.line([(0, y), (width, y)], fill=(int(12 + 14 * t), int(14 + 16 * t), int(17 + 19 * t)))
 
     draw.text((44, 40), "ВОЙНА МИРОВ: ТРИНОГИ", font=font("DejaVuSans-Bold.ttf", 46), fill=(228, 234, 228))
-    draw.text((44, 98), "10 боевых машин + 2 марсианина · Minecraft 1.20.1 (Fabric) · рендер реальной "
+    draw.text((44, 98), "17 боевых машин + 2 марсианина · Minecraft 1.20.1 (Fabric) · рендер реальной "
                         "геометрии из tools/generate_models.py",
               font=font("DejaVuSans.ttf", 20), fill=(132, 142, 138))
 

@@ -1,6 +1,8 @@
 package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwMod;
+import dev.arena.wotw.item.AlloyCannonItem;
+import dev.arena.wotw.item.ArcRifleItem;
 import dev.arena.wotw.item.HeatRayEmitterItem;
 import dev.arena.wotw.item.MartianCapsuleItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -33,6 +35,15 @@ public final class ModItems {
     public static final Item MARTIAN_SPAWN_EGG = spawnEgg("martian_spawn_egg", ModEntities.MARTIAN, 0x68604A, 0xFF764A);
     public static final Item MARTIAN_MASTER_SPAWN_EGG = spawnEgg("martian_master_spawn_egg", ModEntities.MARTIAN_MASTER, 0x4A3E3E, 0xFF4030);
 
+    public static final Item FLYING_MACHINE_SPAWN_EGG = spawnEgg("flying_machine_spawn_egg", ModEntities.FLYING_MACHINE, 0x5A6470, 0x96FF78);
+    public static final Item ELECTRIC_MACHINE_SPAWN_EGG = spawnEgg("electric_machine_spawn_egg", ModEntities.ELECTRIC_MACHINE, 0x3E4248, 0x8CF0FF);
+    public static final Item HANDLING_MACHINE_SPAWN_EGG = spawnEgg("handling_machine_spawn_egg", ModEntities.HANDLING_MACHINE, 0x6B6152, 0xFFE278);
+    public static final Item DIGGING_MACHINE_SPAWN_EGG = spawnEgg("digging_machine_spawn_egg", ModEntities.DIGGING_MACHINE, 0x7C6040, 0xFFAA50);
+    public static final Item TEMPEST_SPAWN_EGG = spawnEgg("tempest_spawn_egg", ModEntities.TEMPEST, 0x6F6A60, 0xFF7838);
+    public static final Item BOMBARDING_MACHINE_SPAWN_EGG = spawnEgg("bombarding_machine_spawn_egg", ModEntities.BOMBARDING_MACHINE, 0x585C40, 0xFFBE46);
+    public static final Item DRONE_SPAWN_EGG = spawnEgg("drone_spawn_egg", ModEntities.DRONE, 0x8A8E94, 0xBE6EFF);
+    public static final Item PILOT_TRIPOD_SPAWN_EGG = spawnEgg("pilot_tripod_spawn_egg", ModEntities.PILOT_TRIPOD, 0x5C685E, 0x8CFFAA);
+
     public static final Item HEAT_RAY_EMITTER = register("heat_ray_emitter",
             new HeatRayEmitterItem(new Item.Settings().maxCount(1).maxDamage(384)));
 
@@ -44,6 +55,24 @@ public final class ModItems {
 
     public static final Item MARTIAN_CAPSULE = register("martian_capsule",
             new MartianCapsuleItem(new Item.Settings().maxCount(16)));
+
+    public static final Item WHITE_MARTIAN_ALLOY = register("white_martian_alloy",
+            new BlockItem(ModBlocks.WHITE_MARTIAN_ALLOY, new Item.Settings()));
+
+    public static final Item MARTIAN_GLASS = register("martian_glass",
+            new BlockItem(ModBlocks.MARTIAN_GLASS, new Item.Settings()));
+
+    public static final Item BLOOD_ROOTS = register("blood_roots",
+            new BlockItem(ModBlocks.BLOOD_ROOTS, new Item.Settings()));
+
+    public static final Item TRIPOD_BLUEPRINT = register("tripod_blueprint",
+            new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Settings()));
+
+    public static final Item ARC_RIFLE = register("arc_rifle",
+            new ArcRifleItem(new Item.Settings().maxCount(1).maxDamage(320)));
+
+    public static final Item ALLOY_CANNON = register("alloy_cannon",
+            new AlloyCannonItem(new Item.Settings().maxCount(1).maxDamage(220)));
 
     public static final ItemGroup ITEM_GROUP = Registry.register(Registries.ITEM_GROUP, WotwMod.id("main"),
             FabricItemGroup.builder()
@@ -63,6 +92,21 @@ public final class ModItems {
                         entries.add(MARTIAN_CYLINDER);
                         entries.add(MARTIAN_ALLOY_BLOCK);
                         entries.add(MARTIAN_CAPSULE);
+
+                        entries.add(FLYING_MACHINE_SPAWN_EGG);
+                        entries.add(ELECTRIC_MACHINE_SPAWN_EGG);
+                        entries.add(HANDLING_MACHINE_SPAWN_EGG);
+                        entries.add(DIGGING_MACHINE_SPAWN_EGG);
+                        entries.add(TEMPEST_SPAWN_EGG);
+                        entries.add(BOMBARDING_MACHINE_SPAWN_EGG);
+                        entries.add(DRONE_SPAWN_EGG);
+                        entries.add(PILOT_TRIPOD_SPAWN_EGG);
+                        entries.add(WHITE_MARTIAN_ALLOY);
+                        entries.add(MARTIAN_GLASS);
+                        entries.add(BLOOD_ROOTS);
+                        entries.add(TRIPOD_BLUEPRINT);
+                        entries.add(ARC_RIFLE);
+                        entries.add(ALLOY_CANNON);
                         entries.add(MARTIAN_ALLOY);
                         entries.add(HEAT_RAY_EMITTER);
                     })

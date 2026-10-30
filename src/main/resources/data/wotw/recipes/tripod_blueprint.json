@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "PEP",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "wotw:white_martian_alloy"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "E": {
+      "item": "wotw:heat_ray_emitter"
+    }
+  },
+  "result": {
+    "item": "wotw:tripod_blueprint",
+    "count": 1
+  }
+}
