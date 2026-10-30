@@ -1,0 +1,33 @@
+{
+  "itemGroup.wotw": "Война миров: Триноги",
+
+  "entity.wotw.tripod_2005": "Тринога 2005",
+  "entity.wotw.bbc_white_tripod": "Белая тринога",
+  "entity.wotw.bbc_red_tripod": "Красная тринога",
+  "entity.wotw.flying_manta": "Летающий манта",
+  "entity.wotw.book_tripod": "Тринога Уэллса",
+  "entity.wotw.asylum_walker": "Ходун Asylum",
+  "entity.wotw.goliath_tripod": "Тринога «Голиаф»",
+  "entity.wotw.martian_heron": "Марсианская цапля",
+  "entity.wotw.martian_spider": "Марсианский паук",
+  "entity.wotw.martian_louse": "Марсианская вошь",
+
+  "item.wotw.tripod_2005_spawn_egg": "Яйцо призыва: тринога 2005",
+  "item.wotw.bbc_white_tripod_spawn_egg": "Яйцо призыва: белая тринога",
+  "item.wotw.bbc_red_tripod_spawn_egg": "Яйцо призыва: красная тринога",
+  "item.wotw.flying_manta_spawn_egg": "Яйцо призыва: летающий манта",
+  "item.wotw.book_tripod_spawn_egg": "Яйцо призыва: тринога Уэллса",
+  "item.wotw.asylum_walker_spawn_egg": "Яйцо призыва: ходун Asylum",
+  "item.wotw.goliath_tripod_spawn_egg": "Яйцо призыва: тринога «Голиаф»",
+  "item.wotw.martian_heron_spawn_egg": "Яйцо призыва: марсианская цапля",
+  "item.wotw.martian_spider_spawn_egg": "Яйцо призыва: марсианский паук",
+  "item.wotw.martian_louse_spawn_egg": "Яйцо призыва: марсианская вошь",
+
+  "block.wotw.martian_cylinder": "Марсианский цилиндр",
+  "item.wotw.martian_alloy": "Марсианский сплав",
+  "item.wotw.heat_ray_emitter": "Тепловой излучатель",
+  "item.wotw.heat_ray_emitter.tooltip": "Тепловой луч, собранный из марсианского сплава",
+  "item.wotw.heat_ray_emitter.tooltip2": "ПКМ — выстрел. Поджигает всё, во что попадает.",
+
+  "item.wotw.martian_alloy.tooltip": "Снят с павшей триноги"
+}

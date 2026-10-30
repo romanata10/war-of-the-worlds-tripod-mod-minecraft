@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "wotw",
+  "version": "${version}",
+  "name": "War of the Worlds: Tripods",
+  "description": "Ten tripods from every War of the Worlds adaptation (1953, 1984 BBC, 2005 Spielberg, 2005 Asylum, Goliath, The Great Martian War and the original 1898 novel), each with its own signature weapon.",
+  "authors": [
+    "Arena.ai"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/wotw/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.arena.wotw.WotwMod"
+    ],
+    "client": [
+      "dev.arena.wotw.client.WotwClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
+  }
+}

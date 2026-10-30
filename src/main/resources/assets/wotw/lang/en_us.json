@@ -1,0 +1,33 @@
+{
+  "itemGroup.wotw": "War of the Worlds: Tripods",
+
+  "entity.wotw.tripod_2005": "2005 Tripod",
+  "entity.wotw.bbc_white_tripod": "White Tripod",
+  "entity.wotw.bbc_red_tripod": "Red Tripod",
+  "entity.wotw.flying_manta": "Flying Manta",
+  "entity.wotw.book_tripod": "Wells' Tripod",
+  "entity.wotw.asylum_walker": "Asylum Walker",
+  "entity.wotw.goliath_tripod": "Goliath Tripod",
+  "entity.wotw.martian_heron": "Martian Heron",
+  "entity.wotw.martian_spider": "Martian Spider",
+  "entity.wotw.martian_louse": "Martian Louse",
+
+  "item.wotw.tripod_2005_spawn_egg": "2005 Tripod Spawn Egg",
+  "item.wotw.bbc_white_tripod_spawn_egg": "White Tripod Spawn Egg",
+  "item.wotw.bbc_red_tripod_spawn_egg": "Red Tripod Spawn Egg",
+  "item.wotw.flying_manta_spawn_egg": "Flying Manta Spawn Egg",
+  "item.wotw.book_tripod_spawn_egg": "Wells' Tripod Spawn Egg",
+  "item.wotw.asylum_walker_spawn_egg": "Asylum Walker Spawn Egg",
+  "item.wotw.goliath_tripod_spawn_egg": "Goliath Tripod Spawn Egg",
+  "item.wotw.martian_heron_spawn_egg": "Martian Heron Spawn Egg",
+  "item.wotw.martian_spider_spawn_egg": "Martian Spider Spawn Egg",
+  "item.wotw.martian_louse_spawn_egg": "Martian Louse Spawn Egg",
+
+  "block.wotw.martian_cylinder": "Martian Cylinder",
+  "item.wotw.martian_alloy": "Martian Alloy",
+  "item.wotw.heat_ray_emitter": "Heat Ray Emitter",
+  "item.wotw.heat_ray_emitter.tooltip": "Reverse engineered Martian heat ray",
+  "item.wotw.heat_ray_emitter.tooltip2": "Right click to fire. Ignites what it touches.",
+
+  "item.wotw.martian_alloy.tooltip": "Salvaged from a fallen tripod"
+}
