@@ -79,6 +79,28 @@ public class MartianEntity extends AbstractTripodEntity {
         return false;
     }
 
+    /* The creatures are flesh and blood, unlike their machines. */
+
+    @Override
+    public boolean isFireImmune() {
+        return false;
+    }
+
+    @Override
+    public boolean isPushable() {
+        return true;
+    }
+
+    @Override
+    public float getStepHeight() {
+        return 1.0F;
+    }
+
+    @Override
+    protected int computeFallDamage(float fallDistance, float damageMultiplier) {
+        return super.computeFallDamage(fallDistance, damageMultiplier);
+    }
+
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_PHANTOM_AMBIENT;
