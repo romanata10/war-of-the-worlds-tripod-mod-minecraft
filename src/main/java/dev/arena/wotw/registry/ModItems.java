@@ -44,6 +44,20 @@ public final class ModItems {
     public static final Item DRONE_SPAWN_EGG = spawnEgg("drone_spawn_egg", ModEntities.DRONE, 0x8A8E94, 0xBE6EFF);
     public static final Item PILOT_TRIPOD_SPAWN_EGG = spawnEgg("pilot_tripod_spawn_egg", ModEntities.PILOT_TRIPOD, 0x5C685E, 0x8CFFAA);
 
+    public static final Item HUMAN_SOLDIER_SPAWN_EGG = spawnEgg("human_soldier_spawn_egg", ModEntities.HUMAN_SOLDIER, 0x5E6B4A, 0xC9B98A);
+    public static final Item HUMAN_TANK_SPAWN_EGG = spawnEgg("human_tank_spawn_egg", ModEntities.HUMAN_TANK, 0x4A5238, 0x8E9A6A);
+    public static final Item HUMAN_FIGHTER_SPAWN_EGG = spawnEgg("human_fighter_spawn_egg", ModEntities.HUMAN_FIGHTER, 0x6B7078, 0xB9C2CC);
+    public static final Item HUMAN_WARSHIP_SPAWN_EGG = spawnEgg("human_warship_spawn_egg", ModEntities.HUMAN_WARSHIP, 0x3E464E, 0x9AA6B0);
+
+    public static final Item WATER_TRIPOD_SPAWN_EGG = spawnEgg("water_tripod_spawn_egg", ModEntities.WATER_TRIPOD, 0x2E4A4A, 0x8CF0D0);
+    public static final Item SCOUT_TRIPOD_SPAWN_EGG = spawnEgg("scout_tripod_spawn_egg", ModEntities.SCOUT_TRIPOD, 0x4A4E44, 0xD8A85A);
+    public static final Item RAM_TRIPOD_SPAWN_EGG = spawnEgg("ram_tripod_spawn_egg", ModEntities.RAM_TRIPOD, 0x5A4232, 0xFF7040);
+    public static final Item UBERPOD_SPAWN_EGG = spawnEgg("uberpod_spawn_egg", ModEntities.UBERPOD, 0x585C5A, 0x9CFFB0);
+    public static final Item BUNKER_TRIPOD_SPAWN_EGG = spawnEgg("bunker_tripod_spawn_egg", ModEntities.BUNKER_TRIPOD, 0x6E7076, 0xD0D6DE);
+    public static final Item FLAMER_TRIPOD_SPAWN_EGG = spawnEgg("flamer_tripod_spawn_egg", ModEntities.FLAMER_TRIPOD, 0x5E4A3A, 0xFF9A30);
+    public static final Item TANK_TRIPOD_SPAWN_EGG = spawnEgg("tank_tripod_spawn_egg", ModEntities.TANK_TRIPOD, 0x3E4436, 0xE0A050);
+    public static final Item TAXI_TRIPOD_SPAWN_EGG = spawnEgg("taxi_tripod_spawn_egg", ModEntities.TAXI_TRIPOD, 0x6A6250, 0xC8B88C);
+
     public static final Item HEAT_RAY_EMITTER = register("heat_ray_emitter",
             new HeatRayEmitterItem(new Item.Settings().maxCount(1).maxDamage(384)));
 
@@ -67,6 +81,36 @@ public final class ModItems {
 
     public static final Item TRIPOD_BLUEPRINT = register("tripod_blueprint",
             new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Settings()));
+
+    public static final Item MARTIAN_HULL = register("martian_hull",
+            new BlockItem(ModBlocks.MARTIAN_HULL, new Item.Settings()));
+
+    public static final Item MARTIAN_CONSOLE = register("martian_console",
+            new BlockItem(ModBlocks.MARTIAN_CONSOLE, new Item.Settings()));
+
+    public static final Item MARTIAN_LAMP = register("martian_lamp",
+            new BlockItem(ModBlocks.MARTIAN_LAMP, new Item.Settings()));
+
+    public static final Item MARTIAN_CRATE = register("martian_crate",
+            new BlockItem(ModBlocks.MARTIAN_CRATE, new Item.Settings()));
+
+    public static final Item HUMAN_CRATE = register("human_crate",
+            new BlockItem(ModBlocks.HUMAN_CRATE, new Item.Settings()));
+
+    public static final Item MILITARY_CRATE = register("military_crate",
+            new BlockItem(ModBlocks.MILITARY_CRATE, new Item.Settings()));
+
+    public static final Item MARTIAN_TURRET = register("martian_turret",
+            new BlockItem(ModBlocks.MARTIAN_TURRET, new Item.Settings()));
+
+    public static final Item BLOOD_VINES = register("blood_vines",
+            new BlockItem(ModBlocks.BLOOD_VINES, new Item.Settings()));
+
+    public static final Item INFESTED_COBBLESTONE = register("infested_cobblestone",
+            new BlockItem(ModBlocks.INFESTED_COBBLESTONE, new Item.Settings()));
+
+    public static final Item INFESTED_BRICKS = register("infested_bricks",
+            new BlockItem(ModBlocks.INFESTED_BRICKS, new Item.Settings()));
 
     public static final Item ARC_RIFLE = register("arc_rifle",
             new ArcRifleItem(new Item.Settings().maxCount(1).maxDamage(320)));
@@ -107,6 +151,28 @@ public final class ModItems {
                         entries.add(TRIPOD_BLUEPRINT);
                         entries.add(ARC_RIFLE);
                         entries.add(ALLOY_CANNON);
+                        entries.add(HUMAN_SOLDIER_SPAWN_EGG);
+                        entries.add(HUMAN_TANK_SPAWN_EGG);
+                        entries.add(HUMAN_FIGHTER_SPAWN_EGG);
+                        entries.add(HUMAN_WARSHIP_SPAWN_EGG);
+                        entries.add(WATER_TRIPOD_SPAWN_EGG);
+                        entries.add(SCOUT_TRIPOD_SPAWN_EGG);
+                        entries.add(RAM_TRIPOD_SPAWN_EGG);
+                        entries.add(UBERPOD_SPAWN_EGG);
+                        entries.add(BUNKER_TRIPOD_SPAWN_EGG);
+                        entries.add(FLAMER_TRIPOD_SPAWN_EGG);
+                        entries.add(TANK_TRIPOD_SPAWN_EGG);
+                        entries.add(TAXI_TRIPOD_SPAWN_EGG);
+                        entries.add(MARTIAN_HULL);
+                        entries.add(MARTIAN_CONSOLE);
+                        entries.add(MARTIAN_LAMP);
+                        entries.add(MARTIAN_TURRET);
+                        entries.add(MARTIAN_CRATE);
+                        entries.add(HUMAN_CRATE);
+                        entries.add(MILITARY_CRATE);
+                        entries.add(BLOOD_VINES);
+                        entries.add(INFESTED_COBBLESTONE);
+                        entries.add(INFESTED_BRICKS);
                         entries.add(MARTIAN_ALLOY);
                         entries.add(HEAT_RAY_EMITTER);
                     })

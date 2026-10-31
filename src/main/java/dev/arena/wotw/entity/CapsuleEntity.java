@@ -195,6 +195,9 @@ public class CapsuleEntity extends Entity {
 
     private void releaseCrew(ServerWorld world) {
         BlockPos center = this.getBlockPos();
+        // a capsule that came down in the sea brings the water tripod instead of a walker
+        boolean atSea = world.getFluidState(center).isIn(net.minecraft.registry.tag.FluidTags.WATER)
+                || world.getFluidState(center.down(3)).isIn(net.minecraft.registry.tag.FluidTags.WATER);
         for (int i = 0; i < MARTIAN_COUNT; i++) {
             EntityType<?> type = i == 0 && world.getRandom().nextFloat() < 0.25F
                     ? ModEntities.MARTIAN_MASTER
@@ -206,7 +209,7 @@ public class CapsuleEntity extends Entity {
         }
 
         for (int i = 0; i < TRIPOD_COUNT; i++) {
-            EntityType<?> type = ModEntities.randomTripod(world.getRandom());
+            EntityType<?> type = atSea ? ModEntities.WATER_TRIPOD : ModEntities.randomTripod(world.getRandom());
             double x = center.getX() + world.getRandom().nextDouble() * 20.0D - 10.0D;
             double z = center.getZ() + world.getRandom().nextDouble() * 20.0D - 10.0D;
             Entity entity = spawnAt(world, MathHelper.floor(x), MathHelper.floor(z), type);

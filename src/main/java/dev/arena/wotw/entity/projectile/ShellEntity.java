@@ -27,6 +27,8 @@ public class ShellEntity extends Entity {
 
     private float power = 2.6F;
     private boolean electric;
+    /** A rifle bullet: no blast, it just hurts what it hits. */
+    private boolean bullet;
     private int life;
     @Nullable
     private LivingEntity owner;
@@ -50,6 +52,17 @@ public class ShellEntity extends Entity {
         shell.electric = electric;
         shell.owner = owner;
         world.spawnEntity(shell);
+        return shell;
+    }
+
+    /** A flat, fast rifle bullet fired by the human soldiers and fighters. */
+    @Nullable
+    public static ShellEntity launchBullet(World world, @Nullable LivingEntity owner, Vec3d origin,
+                                           Vec3d velocity, float damage) {
+        ShellEntity shell = launch(world, owner, origin, velocity, damage, false);
+        if (shell != null) {
+            shell.bullet = true;
+        }
         return shell;
     }
 
@@ -81,6 +94,10 @@ public class ShellEntity extends Entity {
     }
 
     private void detonate() {
+        if (this.bullet) {
+            this.hitTarget();
+            return;
+        }
         if (this.getWorld() instanceof ServerWorld world) {
             world.createExplosion(this, this.getX(), this.getY() + 0.2D, this.getZ(), this.power,
                     this.electric, World.ExplosionSourceType.MOB);
@@ -99,6 +116,22 @@ public class ShellEntity extends Entity {
         this.discard();
     }
 
+    /** A bullet does not blow up: it damages the first living thing it runs into. */
+    private void hitTarget() {
+        if (this.getWorld() instanceof ServerWorld world) {
+            for (LivingEntity victim : world.getEntitiesByClass(LivingEntity.class,
+                    this.getBoundingBox().expand(1.0D),
+                    entity -> entity.isAlive() && entity != this.owner)) {
+                victim.damage(world.getDamageSources().mobProjectile(this, this.owner), this.power);
+            }
+            world.spawnParticles(ParticleTypes.CRIT, this.getX(), this.getY(), this.getZ(),
+                    10, 0.3D, 0.3D, 0.3D, 0.1D);
+            world.playSound(null, this.getX(), this.getY(), this.getZ(),
+                    SoundEvents.ENTITY_ARROW_HIT, SoundCategory.NEUTRAL, 0.9F, 1.6F);
+        }
+        this.discard();
+    }
+
     /** True for the lightning charges of the Electric Machine and the arc rifle. */
     public boolean isElectricCharge() {
         return this.electric;
@@ -112,6 +145,7 @@ public class ShellEntity extends Entity {
     protected void writeCustomDataToNbt(NbtCompound nbt) {
         nbt.putFloat("Power", this.power);
         nbt.putBoolean("Electric", this.electric);
+        nbt.putBoolean("Bullet", this.bullet);
         nbt.putInt("Life", this.life);
     }
 
@@ -119,6 +153,7 @@ public class ShellEntity extends Entity {
     protected void readCustomDataFromNbt(NbtCompound nbt) {
         this.power = nbt.getFloat("Power");
         this.electric = nbt.getBoolean("Electric");
+        this.bullet = nbt.getBoolean("Bullet");
         this.life = nbt.getInt("Life");
     }
 }

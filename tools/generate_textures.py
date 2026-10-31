@@ -39,6 +39,20 @@ PALETTES = {
     "bombarding_machine": ((88, 92, 64), (32, 34, 22), (132, 138, 100), (255, 190, 70), (120, 110, 70)),
     "drone": ((136, 140, 146), (58, 60, 66), (184, 188, 196), (190, 110, 255), (150, 150, 160)),
     "human_tripod": ((92, 104, 96), (32, 38, 34), (146, 158, 148), (140, 255, 170), (120, 130, 120)),
+    # third wave: Martian walkers
+    "water_tripod": ((76, 92, 90), (30, 40, 38), (118, 142, 138), (110, 255, 214), (176, 120, 70)),
+    "scout_tripod": ((74, 78, 62), (30, 32, 24), (118, 124, 100), (255, 196, 78), (150, 140, 90)),
+    "ram_tripod": ((112, 74, 50), (44, 28, 18), (164, 116, 82), (255, 120, 56), (150, 100, 70)),
+    "uberpod": ((170, 176, 168), (78, 84, 78), (216, 222, 214), (150, 255, 176), (140, 180, 150)),
+    "bunker_tripod": ((116, 118, 122), (48, 50, 54), (168, 170, 176), (220, 240, 255), (150, 120, 90)),
+    "flamer_tripod": ((104, 84, 60), (40, 32, 20), (154, 128, 92), (255, 148, 40), (180, 90, 50)),
+    "tank_tripod": ((66, 70, 62), (24, 27, 22), (110, 116, 104), (255, 186, 90), (150, 120, 80)),
+    "taxi_tripod": ((150, 138, 108), (66, 60, 44), (198, 186, 152), (255, 232, 150), (170, 140, 90)),
+    # the human army
+    "human_soldier": ((92, 104, 74), (38, 44, 30), (140, 152, 112), (232, 198, 160), (176, 150, 110)),
+    "human_tank": ((78, 90, 58), (30, 36, 22), (120, 134, 92), (214, 226, 160), (150, 140, 96)),
+    "human_fighter": ((104, 112, 122), (42, 48, 56), (156, 166, 178), (198, 226, 255), (170, 176, 184)),
+    "human_warship": ((88, 96, 104), (34, 38, 44), (136, 146, 156), (206, 226, 240), (160, 168, 176)),
     # the creatures themselves: wet, leathery hide
     "martian": ((104, 96, 74), (43, 39, 30), (150, 140, 108), (255, 118, 74), (120, 96, 60)),
     "martian_master": ((74, 62, 62), (28, 22, 22), (118, 100, 96), (255, 64, 48), (96, 64, 56)),
@@ -364,6 +378,166 @@ def make_blueprint_item_texture():
     return img
 
 
+
+
+# --------------------------------------------------------------------------- #
+#  Third wave blocks
+# --------------------------------------------------------------------------- #
+
+def _panel(size, base, dark, light, rnd, seam=11, rivet=True):
+    img = Image.new("RGBA", (size, size), base + (255,))
+    px = img.load()
+    for y in range(size):
+        factor = 1.1 - 0.3 * (y / (size - 1))
+        for x in range(size):
+            px[x, y] = shade(base, factor + rnd.uniform(-0.05, 0.05), 5.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for y in range(seam, size, seam):
+        draw.line([(0, y), (size, y)], fill=dark + (190,), width=1)
+    for x in range(7, size, 15):
+        draw.line([(x, 0), (x, size)], fill=dark + (80,), width=1)
+    if rivet:
+        for y in range(seam, size, seam):
+            for x in range(4, size, 8):
+                draw.point((x, y - 1), fill=light + (200,))
+    return img
+
+
+def make_martian_hull_texture():
+    rnd = random.Random("martian-hull")
+    img = _panel(16, (78, 84, 92), (34, 38, 44), (124, 132, 142), rnd, seam=8)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=(150, 160, 172, 170))
+    draw.line([(2, 4), (13, 4)], fill=(46, 52, 60, 200))
+    draw.line([(2, 12), (13, 12)], fill=(46, 52, 60, 200))
+    return img
+
+
+def make_martian_console_texture():
+    rnd = random.Random("martian-console")
+    img = _panel(16, (46, 52, 58), (22, 26, 30), (86, 94, 102), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([2, 3, 7, 7], fill=(96, 226, 150, 255))
+    draw.rectangle([9, 3, 13, 6], fill=(120, 240, 190, 255))
+    draw.rectangle([2, 9, 13, 12], fill=(30, 60, 46, 255))
+    for x in range(3, 13, 2):
+        draw.point((x, 10), fill=(140, 255, 180, 255))
+    draw.point((4, 13), fill=(255, 120, 70, 255))
+    draw.point((7, 13), fill=(120, 255, 150, 255))
+    return img
+
+
+def make_martian_lamp_texture():
+    rnd = random.Random("martian-lamp")
+    img = _panel(16, (188, 196, 190), (96, 104, 98), (240, 248, 240), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([3, 3, 12, 12], fill=(224, 255, 226, 255))
+    draw.rectangle([5, 5, 10, 10], fill=(255, 255, 244, 255))
+    draw.rectangle([0, 0, 15, 15], outline=(120, 130, 124, 200))
+    return img
+
+
+def _crate_texture(seed, base, band, stencil):
+    rnd = random.Random(str(seed))
+    img = Image.new("RGBA", (16, 16), base + (255,))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade(base, 1.0 + rnd.uniform(-0.06, 0.06), 3.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=band + (230,))
+    draw.line([(0, 4), (15, 4)], fill=band + (190,))
+    draw.line([(0, 11), (15, 11)], fill=band + (190,))
+    draw.line([(0, 0), (15, 15)], fill=band + (90,))
+    draw.rectangle([5, 6, 10, 9], outline=stencil + (210,))
+    draw.point((7, 7), fill=stencil + (255,))
+    draw.point((8, 8), fill=stencil + (255,))
+    return img
+
+
+def make_martian_crate_texture():
+    return _crate_texture("martian-crate", (86, 96, 100), (44, 52, 56), (150, 255, 180))
+
+
+def make_human_crate_texture():
+    return _crate_texture("human-crate", (142, 108, 66), (84, 60, 34), (226, 200, 150))
+
+
+def make_military_crate_texture():
+    return _crate_texture("military-crate", (94, 102, 64), (48, 54, 30), (226, 232, 170))
+
+
+def make_turret_texture():
+    rnd = random.Random("martian-turret")
+    img = _panel(16, (70, 76, 82), (28, 32, 36), (116, 124, 132), rnd, seam=5)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([5, 2, 10, 6], fill=(40, 70, 60, 255))
+    draw.rectangle([6, 3, 9, 5], fill=(150, 255, 190, 255))
+    draw.rectangle([2, 9, 13, 12], fill=(34, 38, 42, 255))
+    draw.line([(2, 10), (13, 10)], fill=(120, 130, 138, 220))
+    return img
+
+
+def make_blood_vines_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img, "RGBA")
+    rnd = random.Random("blood-vines")
+    for stem_x in (3, 8, 12):
+        x = stem_x
+        for y in range(15, 0, -1):
+            x += rnd.choice((-1, 0, 0, 1))
+            x = max(1, min(14, x))
+            draw.point((x, y), fill=(176, 26, 26, 255))
+            if rnd.random() < 0.45:
+                draw.point((max(0, x - 1), y), fill=(128, 16, 16, 255))
+            if rnd.random() < 0.35:
+                draw.point((min(15, x + 1), y), fill=(214, 60, 48, 255))
+    for _ in range(22):
+        x, y = rnd.randrange(16), rnd.randrange(16)
+        draw.point((x, y), fill=(255, 96, 72, 255))
+    return img
+
+
+def _infested(base_colors, seed, brick=False):
+    rnd = random.Random(seed)
+    img = Image.new("RGBA", (16, 16), base_colors[0] + (255,))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade(base_colors[0], 1.0 + rnd.uniform(-0.12, 0.12), 8.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    if brick:
+        for y in range(0, 16, 4):
+            draw.line([(0, y), (15, y)], fill=base_colors[1] + (230,))
+            offset = 0 if (y // 4) % 2 == 0 else 4
+            for x in range(offset, 16, 8):
+                draw.line([(x, y), (x, y + 3)], fill=base_colors[1] + (200,))
+    else:
+        for _ in range(26):
+            x, y = rnd.randrange(16), rnd.randrange(16)
+            draw.point((x, y), fill=base_colors[1] + (200,))
+            if rnd.random() < 0.4:
+                draw.point((min(15, x + 1), y), fill=base_colors[2] + (150,))
+    # the roots that burst through the masonry
+    for _ in range(5):
+        x, y = rnd.randrange(16), rnd.randrange(16)
+        for step in range(rnd.randrange(3, 8)):
+            draw.point((max(0, min(15, x)), max(0, min(15, y))), fill=(188, 30, 30, 255))
+            x += rnd.choice((-1, 0, 1))
+            y += rnd.choice((-1, 0, 1))
+    for _ in range(10):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(255, 90, 66, 255))
+    return img
+
+
+def make_infested_cobblestone_texture():
+    return _infested(((122, 122, 122), (74, 74, 74), (150, 150, 150)), "infested-cobble")
+
+
+def make_infested_bricks_texture():
+    return _infested(((150, 96, 82), (100, 60, 50), (176, 120, 104)), "infested-bricks", brick=True)
+
+
 def main():
     os.makedirs(ENTITY, exist_ok=True)
     os.makedirs(ITEM, exist_ok=True)
@@ -391,6 +565,16 @@ def main():
     make_arc_rifle_texture().save(os.path.join(ITEM, "arc_rifle.png"))
     make_alloy_cannon_texture().save(os.path.join(ITEM, "alloy_cannon.png"))
     make_blueprint_item_texture().save(os.path.join(ITEM, "blueprint.png"))
+    make_martian_hull_texture().save(os.path.join(BLOCK, "martian_hull.png"))
+    make_martian_console_texture().save(os.path.join(BLOCK, "martian_console.png"))
+    make_martian_lamp_texture().save(os.path.join(BLOCK, "martian_lamp.png"))
+    make_martian_crate_texture().save(os.path.join(BLOCK, "martian_crate.png"))
+    make_human_crate_texture().save(os.path.join(BLOCK, "human_crate.png"))
+    make_military_crate_texture().save(os.path.join(BLOCK, "military_crate.png"))
+    make_turret_texture().save(os.path.join(BLOCK, "martian_turret.png"))
+    make_blood_vines_texture().save(os.path.join(BLOCK, "blood_vines.png"))
+    make_infested_cobblestone_texture().save(os.path.join(BLOCK, "infested_cobblestone.png"))
+    make_infested_bricks_texture().save(os.path.join(BLOCK, "infested_bricks.png"))
     print("items + block done")
 
 

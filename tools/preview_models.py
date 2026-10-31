@@ -57,6 +57,20 @@ TRIPODS = [
     ("bombarding_machine", "bombarding", "Бомбардир", "2-я волна", "Снаряды · взрывы"),
     ("drone", "drone", "Дрон", "2-я волна", "Ищет · взрывается"),
     ("human_tripod", "humanTripod", "Тринога-«пилот»", "чертёж людей", "Ездит игрок · стреляет"),
+    # third wave: the new Martian walkers
+    ("water_tripod", "waterTripod", "Водная тринога", "3-я волна", "Тянет в воду · дно океана"),
+    ("scout_tripod", "scoutTripod", "Тринога-разведчик", "3-я волна", "Пулемёт · пинг цели"),
+    ("ram_tripod", "ramTripod", "Тринога-таран", "3-я волна", "Разгон · ломает блоки"),
+    ("uberpod", "uberpod", "Уберпод", "фильм 2005", "Щит · двойной луч"),
+    ("bunker_tripod", "bunkerTripod", "Тринога-бункер", "3-я волна", "Шесть амбразур"),
+    ("flamer_tripod", "flamerTripod", "Тринога-огнемёт", "3-я волна", "Огненный конус"),
+    ("tank_tripod", "tankTripod", "Тринога-танк", "3-я волна", "Три луча · миномёт"),
+    ("taxi_tripod", "taxiTripod", "Тринога-такси", "3-я волна", "Возит марсиан"),
+    # the human army
+    ("human_soldier", "soldier", "Солдат", "люди", "Винтовка · воюет с марсианами"),
+    ("human_tank", "tank", "Танк", "люди", "Снаряды по марсианам"),
+    ("human_fighter", "fighter", "Истребитель", "люди", "Полёт · пулемёты"),
+    ("human_warship", "warship", "Военный корабль", "люди", "Орудия по берегу"),
 ]
 
 
@@ -292,7 +306,7 @@ def build_poster(renders):
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
-    methods = {method: model for method, model in specs.TRIPODS + specs.MARTIANS}
+    methods = {method: model for method, model in specs.TRIPODS + specs.MARTIANS + specs.HUMANS}
 
     renders = []
     lines = []

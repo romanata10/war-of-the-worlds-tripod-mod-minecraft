@@ -1,8 +1,21 @@
 package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwMod;
+import dev.arena.wotw.entity.AbstractHumanCombatantEntity;
 import dev.arena.wotw.entity.AbstractTripodEntity;
 import dev.arena.wotw.entity.AsylumWalkerEntity;
+import dev.arena.wotw.entity.BunkerTripodEntity;
+import dev.arena.wotw.entity.FlamerTripodEntity;
+import dev.arena.wotw.entity.HumanFighterEntity;
+import dev.arena.wotw.entity.HumanSoldierEntity;
+import dev.arena.wotw.entity.HumanTankEntity;
+import dev.arena.wotw.entity.HumanWarshipEntity;
+import dev.arena.wotw.entity.RamTripodEntity;
+import dev.arena.wotw.entity.ScoutTripodEntity;
+import dev.arena.wotw.entity.TankTripodEntity;
+import dev.arena.wotw.entity.TaxiTripodEntity;
+import dev.arena.wotw.entity.UberpodEntity;
+import dev.arena.wotw.entity.WaterTripodEntity;
 import dev.arena.wotw.entity.CapsuleEntity;
 import dev.arena.wotw.entity.BombardingMachineEntity;
 import dev.arena.wotw.entity.DiggingMachineEntity;
@@ -142,6 +155,56 @@ public final class ModEntities {
                     .maxTrackingRange(6)
                     .trackingTickInterval(1));
 
+
+    /* ------------------------------------------------------------------ */
+    /*  Third wave: human machines and the new Martian walkers             */
+    /* ------------------------------------------------------------------ */
+
+    public static final EntityType<HumanSoldierEntity> HUMAN_SOLDIER = register("human_soldier",
+            EntityType.Builder.create(HumanSoldierEntity::new, SpawnGroup.CREATURE).setDimensions(1.0F, 2.6F));
+
+    public static final EntityType<HumanTankEntity> HUMAN_TANK = register("human_tank",
+            EntityType.Builder.create(HumanTankEntity::new, SpawnGroup.CREATURE).setDimensions(4.1F, 2.6F));
+
+    public static final EntityType<HumanFighterEntity> HUMAN_FIGHTER = register("human_fighter",
+            EntityType.Builder.create(HumanFighterEntity::new, SpawnGroup.CREATURE).setDimensions(4.9F, 2.0F));
+
+    public static final EntityType<HumanWarshipEntity> HUMAN_WARSHIP = register("human_warship",
+            EntityType.Builder.create(HumanWarshipEntity::new, SpawnGroup.CREATURE).setDimensions(7.0F, 3.3F));
+
+    /** Not part of the random waves: it only climbs out of a capsule that fell into the sea. */
+    public static final EntityType<WaterTripodEntity> WATER_TRIPOD = register("water_tripod",
+            EntityType.Builder.create(WaterTripodEntity::new, SpawnGroup.MONSTER)
+                    .setDimensions(8.8F, 16.6F)
+                    .maxTrackingRange(10)
+                    .trackingTickInterval(2));
+
+    public static final EntityType<ScoutTripodEntity> SCOUT_TRIPOD = tripod("scout_tripod",
+            EntityType.Builder.create(ScoutTripodEntity::new, SpawnGroup.MONSTER).setDimensions(2.9F, 5.0F));
+
+    public static final EntityType<RamTripodEntity> RAM_TRIPOD = tripod("ram_tripod",
+            EntityType.Builder.create(RamTripodEntity::new, SpawnGroup.MONSTER).setDimensions(3.8F, 3.1F));
+
+    public static final EntityType<UberpodEntity> UBERPOD = tripod("uberpod",
+            EntityType.Builder.create(UberpodEntity::new, SpawnGroup.MONSTER).setDimensions(5.4F, 10.1F));
+
+    public static final EntityType<BunkerTripodEntity> BUNKER_TRIPOD = tripod("bunker_tripod",
+            EntityType.Builder.create(BunkerTripodEntity::new, SpawnGroup.MONSTER).setDimensions(7.0F, 7.1F));
+
+    public static final EntityType<FlamerTripodEntity> FLAMER_TRIPOD = tripod("flamer_tripod",
+            EntityType.Builder.create(FlamerTripodEntity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 6.9F));
+
+    public static final EntityType<TankTripodEntity> TANK_TRIPOD = tripod("tank_tripod",
+            EntityType.Builder.create(TankTripodEntity::new, SpawnGroup.MONSTER).setDimensions(11.3F, 16.6F));
+
+    public static final EntityType<TaxiTripodEntity> TAXI_TRIPOD = tripod("taxi_tripod",
+            EntityType.Builder.create(TaxiTripodEntity::new, SpawnGroup.MONSTER).setDimensions(4.1F, 4.0F));
+
+    /** True for every Martian war machine, including the creatures. Used by the human army AI. */
+    public static boolean isMartianInvader(net.minecraft.entity.Entity entity) {
+        return entity instanceof AbstractTripodEntity && !(entity instanceof PilotTripodEntity);
+    }
+
     private ModEntities() {
     }
 
@@ -194,5 +257,17 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(BOMBARDING_MACHINE, BombardingMachineEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(DRONE, DroneEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(PILOT_TRIPOD, PilotTripodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(HUMAN_SOLDIER, HumanSoldierEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(HUMAN_TANK, HumanTankEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(HUMAN_FIGHTER, HumanFighterEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(HUMAN_WARSHIP, HumanWarshipEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(WATER_TRIPOD, WaterTripodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(SCOUT_TRIPOD, ScoutTripodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(RAM_TRIPOD, RamTripodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(UBERPOD, UberpodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(BUNKER_TRIPOD, BunkerTripodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(FLAMER_TRIPOD, FlamerTripodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(TANK_TRIPOD, TankTripodEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(TAXI_TRIPOD, TaxiTripodEntity.createAttributes());
     }
 }

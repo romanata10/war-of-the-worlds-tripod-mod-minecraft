@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:abandoned_base",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 92,
+    "separation": 30,
+    "salt": 3417013,
+    "spread_type": "linear"
+  }
+}

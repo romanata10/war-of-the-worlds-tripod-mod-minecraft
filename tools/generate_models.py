@@ -464,6 +464,309 @@ def human_tripod():
     leg(m, "leg_b", (0, -64, 14), 35, 33, 4, splay_z=11, foot=6)
     return m
 
+
+
+# --------------------------------------------------------------------------- #
+#  Third wave: Martian walkers
+# --------------------------------------------------------------------------- #
+
+def water_tripod():
+    """Water tripod: an oil rig on three enormous legs that reach the ocean floor."""
+    m = Model("water_tripod")
+    leg(m, "leg_fl", (-22, -74, -18), 62, 58, 7, splay_x=-18, splay_z=-12, foot=9)
+    leg(m, "leg_fr", (22, -74, -18), 62, 58, 7, splay_x=18, splay_z=-12, foot=9)
+    leg(m, "leg_b", (0, -74, 22), 62, 58, 7, splay_z=16, foot=9)
+
+    body = m.part("body")
+    body.shell(0, -116, 0, 58, 34, 58, cell=18)          # rig platform
+    body.shell(0, -80, 0, 40, 8, 40, cell=14)            # pontoon under the deck
+    body.shell(0, -122, 0, 26, 8, 26, cell=12)           # derrick base
+
+    tower = m.part("head", parent="body", pivot=(0, -116, 0))
+    tower.box(-9, -76, -9, 18, 76, 18)                   # derrick
+    tower.box(-15, -60, -15, 30, 7, 30)                  # bracing
+    tower.box(-13, -40, -13, 26, 6, 26)                  # second brace
+    tower.box(-12, -84, -12, 24, 6, 24)                  # crown
+    tower.box(-2, -96, -2, 4, 12, 4)                     # flare stack
+    eye(m, "eye", "head", (0, -68, -15), (9, 5))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        pipe = m.part(name, parent="body", pivot=(side * 24, -92, 0), rot=(0.0, 0.0, side * -14.0))
+        pipe.box(-4, -4, -18, 8, 8, 36)
+        pipe.box(-5, -6, 16, 10, 12, 8)
+        pipe.glow_box(-3, -4, -22, 6, 6, 4)
+    return m
+
+
+def scout_tripod():
+    """Scout tripod: knee high, one machine gun, and a radio to call the others."""
+    m = Model("scout_tripod")
+    leg(m, "leg_l", (-8, -22, -4), 22, 20, 3, splay_x=-8, splay_z=-4, foot=4)
+    leg(m, "leg_r", (8, -22, -4), 22, 20, 3, splay_x=8, splay_z=-4, foot=4)
+    leg(m, "leg_b", (0, -22, 8), 22, 20, 3, splay_z=9, foot=4)
+
+    body = m.part("body")
+    body.shell(0, -38, 0, 22, 16, 22, cell=8)
+    body.shell(0, -26, 0, 16, 6, 16, cell=6)
+    eye(m, "eye", "body", (0, -33, -11), (6, 4))
+
+    gun = m.part("arm_r", parent="body", pivot=(8, -34, -8))
+    gun.box(-3, -3, -4, 6, 6, 10)                        # receiver
+    gun.box(-2, -2, -18, 4, 4, 16)                       # barrel
+    gun.box(-4, -4, -6, 8, 8, 4)                         # drum magazine
+    gun.glow_box(-1, -1, -20, 2, 2, 3)
+
+    radio = m.part("arm_l", parent="body", pivot=(-8, -40, 6))
+    radio.box(-2, -10, -2, 4, 12, 4)
+    radio.glow_box(-2, -14, -2, 4, 4, 4)
+    return m
+
+
+def ram_tripod():
+    """Ram tripod: low, wide and built around a battering plate."""
+    m = Model("ram_tripod")
+    leg(m, "leg_l", (-16, -24, -6), 13, 11, 5, splay_x=-20, splay_z=-6, foot=6)
+    leg(m, "leg_r", (16, -24, -6), 13, 11, 5, splay_x=20, splay_z=-6, foot=6)
+    leg(m, "leg_b", (0, -24, 12), 13, 11, 5, splay_z=16, foot=6)
+
+    body = m.part("body")
+    body.shell(0, -36, 6, 32, 16, 40, cell=12)           # hull
+    body.shell(0, -28, -16, 22, 10, 14, cell=10)         # nose block
+
+    plate = m.part("head", parent="body", pivot=(0, -30, -22))
+    plate.box(-24, -12, -6, 48, 24, 6)                   # ram plate
+    plate.box(-18, -8, -10, 36, 16, 4)                   # brace
+    plate.spikes(0, -14, -4, 0, 0, [(-18, 0), (-8, 0), (0, 0), (8, 0), (18, 0)], size=5, step=2)
+    eye(m, "eye", "body", (0, -32, -21), (10, 4))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        roller = m.part(name, parent="body", pivot=(side * 18, -20, 8))
+        roller.box(-4, -4, -10, 8, 8, 20)
+    return m
+
+
+def uberpod():
+    """Uberpod: the tall shielded pod of the 2005 film, 10 blocks of bad news."""
+    m = Model("uberpod")
+    leg(m, "leg_fl", (-16, -78, -12), 42, 40, 5, splay_x=-14, splay_z=-10, foot=6)
+    leg(m, "leg_fr", (16, -78, -12), 42, 40, 5, splay_x=14, splay_z=-10, foot=6)
+    leg(m, "leg_b", (0, -78, 14), 43, 41, 5, splay_z=12, foot=6)
+
+    body = m.part("body")
+    body.dome(0, -150, 0, 40, 40, [(10, 24, 26), (14, 36, 38), (16, 42, 44), (12, 34, 36), (8, 22, 24)],
+              cell=12)
+    body.shell(0, -80, 0, 30, 10, 30, cell=10)           # waist ring
+    eye(m, "eye", "body", (0, -112, -20), (14, 8))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        pod = m.part(name, parent="body", pivot=(side * 18, -118, -12))
+        pod.box(-6, -6, -12, 12, 12, 20)
+        pod.glow_box(-3, -3, -16, 6, 6, 3)
+    return m
+
+
+def bunker_tripod():
+    """Bunker tripod: a grey blockhouse on six thick legs, with six firing ports."""
+    m = Model("bunker_tripod")
+    for index, (x, z) in enumerate([(-34, -20), (34, -20), (-38, 8), (38, 8), (-18, 30), (18, 30)]):
+        leg(m, f"leg{index}", (x, -46, z), 24, 22, 10, splay_x=x * 0.35, splay_z=z * 0.3, foot=11)
+
+    body = m.part("body")
+    body.shell(0, -96, 0, 76, 40, 62, cell=14)           # the blockhouse
+    body.shell(0, -56, 0, 56, 10, 46, cell=12)           # belly plate
+    body.shell(0, -100, 0, 60, 6, 48, cell=12)           # roof deck
+
+    # six firing ports: three down each flank
+    for index in range(6):
+        side = -1 if index % 2 == 0 else 1
+        level = index // 2
+        port = m.part(f"arm{index}", parent="body", pivot=(side * 39, -88 + level * 10, -8))
+        port.glow_box(-1, -2, -3, 4, 6, 6)
+        port.box(-2, -3, -5, 5, 8, 10)
+    roof = m.part("head", parent="body", pivot=(0, -100, 0))
+    roof.box(-6, -10, -6, 12, 10, 12)                    # cupola
+    roof.box(-2, -8, -16, 4, 4, 12)                      # roof gun
+    roof.glow_box(-3, -6, -18, 6, 5, 3)
+    eye(m, "eye", "body", (0, -84, -32), (12, 6))
+    return m
+
+
+def flamer_tripod():
+    """Flamer tripod: a fuel tank on legs with a fire nozzle where the heat ray should be."""
+    m = Model("flamer_tripod")
+    leg(m, "leg_l", (-14, -52, -8), 28, 26, 4, splay_x=-12, splay_z=-8, foot=6)
+    leg(m, "leg_r", (14, -52, -8), 28, 26, 4, splay_x=12, splay_z=-8, foot=6)
+    leg(m, "leg_b", (0, -52, 14), 29, 27, 4, splay_z=12, foot=6)
+
+    body = m.part("body")
+    body.shell(0, -86, 0, 30, 30, 34, cell=12)
+    body.shell(0, -58, 0, 22, 8, 26, cell=10)
+    eye(m, "eye", "body", (0, -78, -18), (10, 5))
+
+    nozzle = m.part("head", parent="body", pivot=(0, -80, -16))
+    nozzle.box(-5, -5, -14, 10, 10, 16)
+    nozzle.box(-3, -3, -28, 6, 6, 16)
+    nozzle.glow_box(-2, -2, -32, 4, 4, 4)
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        tank = m.part(name, parent="body", pivot=(side * 19, -78, 10))
+        tank.box(-6, -18, -6, 12, 26, 12)
+        tank.box(-4, -22, -4, 8, 5, 8)
+        tank.glow_box(-2, -24, -2, 4, 3, 4)
+    return m
+
+
+def tank_tripod():
+    """Tank tripod: the giant. Three heat cannons, a mortar and armour for days."""
+    m = Model("tank_tripod")
+    leg(m, "leg_fl", (-32, -96, -26), 62, 58, 12, splay_x=-22, splay_z=-16, foot=14)
+    leg(m, "leg_fr", (32, -96, -26), 62, 58, 12, splay_x=22, splay_z=-16, foot=14)
+    leg(m, "leg_b", (0, -96, 32), 63, 59, 12, splay_z=20, foot=14)
+
+    body = m.part("body")
+    body.shell(0, -200, 0, 64, 74, 74, cell=18)          # main hull
+    body.shell(0, -120, 0, 84, 24, 88, cell=18)          # skirt
+    body.shell(0, -156, 0, 92, 20, 92, cell=18)          # shoulder ring
+    eye(m, "eye", "body", (0, -166, -38), (16, 8))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        cannon = m.part(name, parent="body", pivot=(side * 46, -190, -18))
+        cannon.box(-11, -11, -16, 22, 22, 26)
+        cannon.box(-6, -6, -60, 12, 12, 46)
+        cannon.box(-8, -8, -68, 16, 16, 9)
+        cannon.glow_box(-5, -5, -70, 10, 10, 4)
+
+    brow = m.part("arm0", parent="body", pivot=(0, -212, -30))
+    brow.box(-8, -8, -14, 16, 16, 20)
+    brow.box(-4, -4, -46, 8, 8, 34)
+    brow.glow_box(-3, -3, -49, 6, 6, 4)
+
+    mortar = m.part("head", parent="body", pivot=(0, -200, 20))
+    mortar.box(-12, -14, -14, 24, 20, 26)
+    mortar.box(-8, -34, -8, 16, 22, 16)
+    mortar.box(-10, -40, -10, 20, 8, 20)
+    mortar.glow_box(-5, -38, -12, 10, 6, 4)
+
+    stack = m.part("stack_r", parent="body", pivot=(28, -200, 10))
+    stack.box(-6, -26, -6, 12, 28, 12)
+    return m
+
+
+def taxi_tripod():
+    """Taxi tripod: a flat carrier platform with rails, no weapons at all."""
+    m = Model("taxi_tripod")
+    leg(m, "leg_l", (-18, -24, -8), 16, 14, 5, splay_x=-18, splay_z=-6, foot=6)
+    leg(m, "leg_r", (18, -24, -8), 16, 14, 5, splay_x=18, splay_z=-6, foot=6)
+    leg(m, "leg_b", (0, -24, 16), 16, 14, 5, splay_z=16, foot=6)
+
+    body = m.part("body")
+    body.shell(0, -38, 0, 44, 14, 40, cell=12)           # deck
+    body.shell(0, -44, 0, 30, 6, 28, cell=10)            # cargo cradle
+    eye(m, "eye", "body", (0, -40, -21), (8, 4))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        rail = m.part(name, parent="body", pivot=(side * 21, -38, 0))
+        rail.box(-2, -10, -18, 4, 10, 36)                # hand rail
+        rail.box(-3, -12, -20, 6, 4, 4)                   # lamp post
+        rail.glow_box(-2, -14, -21, 4, 3, 3)
+
+    seat = m.part("head", parent="body", pivot=(0, -38, -14))
+    seat.box(-10, -12, -4, 20, 12, 6)
+    return m
+
+
+# --------------------------------------------------------------------------- #
+#  The human army
+# --------------------------------------------------------------------------- #
+
+def human_soldier():
+    """A conscript: boots, helmet, rifle."""
+    m = Model("human_soldier", texture=(128, 128))
+    for side, name in ((-1, "leg_l"), (1, "leg_r")):
+        limb = m.part(name, pivot=(side * 3, -16, 0))
+        limb.box(-2, 0, -2, 4, 16, 4)
+        limb.box(-2, 15, -3, 4, 3, 6)
+
+    body = m.part("body", pivot=(0, -16, 0))
+    body.box(-5, -14, -3, 10, 14, 6)
+    body.box(-6, -13, -3, 12, 4, 7)
+
+    head = m.part("head", parent="body", pivot=(0, -14, 0))
+    head.box(-4, -9, -4, 8, 9, 8)
+    head.box(-5, -10, -5, 10, 4, 10)
+    eye(m, "eye", "head", (0, -5, -5), (5, 2))
+
+    arm_r = m.part("arm_r", parent="body", pivot=(6, -12, 0))
+    arm_r.box(-2, 0, -2, 4, 11, 4)
+    arm_r.box(-1, 8, -10, 3, 3, 14)                      # rifle
+    arm_r.box(-2, 7, -2, 4, 5, 5)                        # magazine at the hands
+
+    arm_l = m.part("arm_l", parent="body", pivot=(-6, -12, 0))
+    arm_l.box(-2, 0, -2, 4, 11, 4)
+    return m
+
+
+def human_tank():
+    """A tank: tracks, hull, turret, long barrel."""
+    m = Model("human_tank", texture=(128, 128))
+    body = m.part("body")
+    body.box(-16, -30, -26, 32, 14, 52)                  # hull
+    body.box(-22, -20, -28, 5, 20, 56)                   # left track
+    body.box(17, -20, -28, 5, 20, 56)                    # right track
+    body.box(-16, -34, 6, 32, 4, 18)                     # engine deck
+
+    turret = m.part("turret", parent="body", pivot=(0, -30, -2))
+    turret.box(-9, -11, -11, 18, 11, 22)
+    turret.box(-2, -8, -32, 4, 4, 22)                    # barrel
+    turret.box(-4, -9, -34, 8, 6, 4)                     # muzzle brake
+    turret.glow_box(-1, -7, -35, 2, 2, 2)
+    return m
+
+
+def human_fighter():
+    """An interceptor: swept wings, a jet pipe and a cannon in each wing root."""
+    m = Model("human_fighter", texture=(128, 128))
+    body = m.part("body")
+    body.shell(0, -16, 0, 12, 12, 62, cell=10)           # fuselage
+    body.shell(0, -20, 8, 8, 6, 22, cell=8)              # spine
+
+    for side, name in ((-1, "wing_l"), (1, "wing_r")):
+        wing = m.part(name, parent="body", pivot=(side * 5, -12, -4))
+        wing.box(0, -2, -8, side * 34, 4, 16)            # main wing
+        wing.box(0, -1, 8, side * 20, 3, 8)              # tailplane
+        wing.box(side * 26, -2, -4, 6, 4, 6)             # wingtip pod
+
+    tail = m.part("head", parent="body", pivot=(0, -16, 26))
+    tail.box(-1, -20, -2, 2, 20, 6)                      # fin
+    tail.box(-6, -6, 2, 12, 5, 8)                        # exhaust block
+    eye(m, "eye", "body", (0, -12, -31), (6, 4))
+    return m
+
+
+def human_warship():
+    """A coastal defence ship: long hull, superstructure and two turrets."""
+    m = Model("human_warship", texture=(128, 128))
+    body = m.part("body")
+    body.shell(0, -22, 0, 34, 22, 100, cell=16)          # hull
+    body.shell(0, -28, 0, 20, 8, 60, cell=12)            # deck house base
+
+    bridge = m.part("head", parent="body", pivot=(0, -28, -6))
+    bridge.box(-8, -14, -10, 16, 14, 20)
+    bridge.box(-3, -24, -3, 6, 10, 6)                    # mast
+    bridge.glow_box(-8, -10, -11, 16, 4, 2)              # bridge windows
+
+    turret = m.part("turret", parent="body", pivot=(0, -22, -34))
+    turret.box(-7, -8, -7, 14, 8, 14)
+    turret.box(-2, -6, -28, 4, 4, 22)                    # forward gun
+    turret.box(-2, -6, 20, 4, 4, 20)                     # aft gun
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        mast = m.part(name, parent="body", pivot=(side * 12, -28, 6))
+        mast.box(-1, -16, -1, 2, 16, 2)
+        mast.glow_box(-1, -18, -1, 2, 2, 2)
+    return m
+
+
 # How much taller than the authored geometry each machine should be. Vertical stretch only:
 # the footprint and the leg thickness stay the same, so the machines read as tall walkers.
 TALL = {
@@ -484,6 +787,14 @@ TALL = {
     "tempest": 1.02,
     "bombarding": 1.15,
     "drone": 1.10,
+    "waterTripod": 1.04,
+    "scoutTripod": 1.05,
+    "ramTripod": 1.05,
+    "uberpod": 1.03,
+    "bunkerTripod": 1.02,
+    "flamerTripod": 1.05,
+    "tankTripod": 1.02,
+    "taxiTripod": 1.06,
     "humanTripod": 1.12,
     "martian": 1.32,
     "martianMaster": 1.22,
@@ -516,6 +827,24 @@ TRIPODS = [
     ("bombarding", finalise(bombarding_machine(), "bombarding")),
     ("drone", finalise(drone(), "drone")),
     ("humanTripod", finalise(human_tripod(), "humanTripod")),
+    # third wave: the new Martian walkers
+    ("waterTripod", finalise(water_tripod(), "waterTripod")),
+    ("scoutTripod", finalise(scout_tripod(), "scoutTripod")),
+    ("ramTripod", finalise(ram_tripod(), "ramTripod")),
+    ("uberpod", finalise(uberpod(), "uberpod")),
+    ("bunkerTripod", finalise(bunker_tripod(), "bunkerTripod")),
+    ("flamerTripod", finalise(flamer_tripod(), "flamerTripod")),
+    ("tankTripod", finalise(tank_tripod(), "tankTripod")),
+    ("taxiTripod", finalise(taxi_tripod(), "taxiTripod")),
+]
+
+
+# The human army: ordinary bipeds and machines, authored at 16 pixels per block as well.
+HUMANS = [
+    ("soldier", finalise(human_soldier(), "soldier")),
+    ("tank", finalise(human_tank(), "tank")),
+    ("fighter", finalise(human_fighter(), "fighter")),
+    ("warship", finalise(human_warship(), "warship")),
 ]
 
 
@@ -610,6 +939,18 @@ def write_tripods():
     print("wrote", path)
 
 
+def write_humans():
+    doc = "The human army: soldiers, tanks, interceptors and warships."
+    parts = [HEADER.format(doc=doc, class_name="HumanModels")]
+    for method, model in HUMANS:
+        parts.append(emit_java(model, method) + "\n")
+    parts.append("}\n")
+    path = os.path.join(MODEL_DIR, "HumanModels.java")
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write("\n".join(parts))
+    print("wrote", path)
+
+
 def write_martians():
     doc = "The Martians themselves: the leathery, tentacled creatures from the novel."
     parts = [HEADER.format(doc=doc, class_name="MartianModels")]
@@ -624,4 +965,5 @@ def write_martians():
 
 if __name__ == "__main__":
     write_tripods()
+    write_humans()
     write_martians()

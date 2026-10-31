@@ -109,6 +109,8 @@ public abstract class AbstractTripodEntity extends HostileEntity {
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true,
                 entity -> !(entity instanceof PlayerEntity player
                         && player.hasStatusEffect(dev.arena.wotw.registry.ModStatusEffects.CAGED))));
+        // the human army shoots at us, so we shoot back
+        this.targetSelector.add(3, new ActiveTargetGoal<>(this, AbstractHumanCombatantEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
         this.targetSelector.add(4, new ActiveTargetGoal<>(this, VillagerEntity.class, true));
         this.addExtraGoals();

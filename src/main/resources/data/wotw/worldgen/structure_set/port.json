@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:port",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 70,
+    "separation": 22,
+    "salt": 3417016,
+    "spread_type": "linear"
+  }
+}

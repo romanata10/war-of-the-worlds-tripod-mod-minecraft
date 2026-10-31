@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:military_base",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 86,
+    "separation": 26,
+    "salt": 3417012,
+    "spread_type": "linear"
+  }
+}

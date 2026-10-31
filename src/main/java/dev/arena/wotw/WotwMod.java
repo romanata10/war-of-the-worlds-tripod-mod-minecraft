@@ -1,5 +1,6 @@
 package dev.arena.wotw;
 
+import dev.arena.wotw.registry.ModBlockEntities;
 import dev.arena.wotw.registry.ModBlocks;
 import dev.arena.wotw.registry.ModEntities;
 import dev.arena.wotw.registry.ModItems;
@@ -31,6 +32,7 @@ public class WotwMod implements ModInitializer {
     @Override
     public void onInitialize() {
         ModSounds.register();
+        ModBlockEntities.register();
         ModEntities.register();
         ModBlocks.register();
         ModItems.register();
