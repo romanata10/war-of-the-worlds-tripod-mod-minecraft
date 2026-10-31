@@ -721,8 +721,8 @@ def dome_lab():
     s.spawn(0, 1, -3, "wotw:martian_master")
     s.spawn(-3, 1, 3, "wotw:martian")
     s.spawn(3, 1, 3, "wotw:martian")
-    s.spawn(-4, 1, -3, "wotw:uberpod")
-    s.spawn(6, 1, -6, "wotw:scout_tripod")
+    s.spawn(-9, 1, 0, "wotw:uberpod")
+    s.spawn(9, 1, 0, "wotw:scout_tripod")
     return s
 
 
@@ -776,7 +776,7 @@ def tripod_garage():
         s.set(-12, 1, z - 1, CRATE_M)
     s.set(12, 1, 0, TURRET)
     s.set(0, 10, 0, CYLINDER)
-    s.spawn(-6, 1, -6, "wotw:tempest")
+    s.spawn(-6, 1, -6, "wotw:bombarding_machine")
     s.spawn(4, 1, 0, "wotw:ram_tripod")
     s.spawn(-2, 1, 6, "wotw:bunker_tripod")
     s.spawn(9, 1, -8, "wotw:martian")
