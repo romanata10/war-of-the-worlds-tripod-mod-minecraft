@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:beacon",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 84,
+    "separation": 30,
+    "salt": 3417006,
+    "spread_type": "linear"
+  }
+}

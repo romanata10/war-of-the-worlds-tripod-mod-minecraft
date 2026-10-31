@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:tripod_garage",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 104,
+    "separation": 36,
+    "salt": 3417019,
+    "spread_type": "linear"
+  }
+}

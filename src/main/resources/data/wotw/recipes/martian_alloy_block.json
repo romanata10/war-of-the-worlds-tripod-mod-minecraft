@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "wotw:martian_alloy"
+    }
+  },
+  "result": {
+    "item": "wotw:martian_alloy_block",
+    "count": 1
+  }
+}

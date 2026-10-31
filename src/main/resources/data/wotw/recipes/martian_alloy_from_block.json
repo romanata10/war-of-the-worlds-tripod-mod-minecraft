@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "wotw:martian_alloy_block"
+    }
+  ],
+  "result": {
+    "item": "wotw:martian_alloy",
+    "count": 9
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "AEA",
+    "WWW"
+  ],
+  "key": {
+    "A": {
+      "item": "wotw:martian_alloy"
+    },
+    "E": {
+      "item": "wotw:heat_ray_emitter"
+    },
+    "W": {
+      "item": "wotw:white_martian_alloy"
+    }
+  },
+  "result": {
+    "item": "wotw:martian_turret",
+    "count": 1
+  }
+}

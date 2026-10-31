@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:dig_site",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 72,
+    "separation": 26,
+    "salt": 3417005,
+    "spread_type": "linear"
+  }
+}

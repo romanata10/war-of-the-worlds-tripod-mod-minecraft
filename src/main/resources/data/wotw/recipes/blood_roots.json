@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "wotw:red_root"
+    },
+    {
+      "item": "wotw:red_root"
+    },
+    {
+      "item": "minecraft:redstone"
+    }
+  ],
+  "result": {
+    "item": "wotw:blood_roots",
+    "count": 2
+  }
+}

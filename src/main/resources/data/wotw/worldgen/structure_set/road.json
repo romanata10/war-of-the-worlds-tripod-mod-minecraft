@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:road",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 26,
+    "separation": 6,
+    "salt": 3417015,
+    "spread_type": "linear"
+  }
+}

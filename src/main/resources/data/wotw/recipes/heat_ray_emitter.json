@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " AA",
+    "ABA",
+    " AA"
+  ],
+  "key": {
+    "A": {
+      "item": "wotw:martian_alloy"
+    },
+    "B": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "wotw:heat_ray_emitter",
+    "count": 1
+  }
+}

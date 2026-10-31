@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:root_garden",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 78,
+    "separation": 24,
+    "salt": 3417018,
+    "spread_type": "linear"
+  }
+}

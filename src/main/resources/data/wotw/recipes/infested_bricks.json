@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CB",
+    "BC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:bricks"
+    },
+    "B": {
+      "item": "wotw:blood_vines"
+    }
+  },
+  "result": {
+    "item": "wotw:infested_bricks",
+    "count": 2
+  }
+}
