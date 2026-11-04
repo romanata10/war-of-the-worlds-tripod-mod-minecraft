@@ -134,16 +134,18 @@ jobs:
             tail -c 2500 server.log
             echo '```'
           } > smoke.md
-          wc -c smoke.md
+          if grep -q 'Done (' server.log; then
+            echo "the server reached Done, the mod loaded"
+            rm -f smoke.md
+            exit 0
+          fi
+          echo "::error::the dedicated server did not finish loading"
+          exit 1
 
       - name: Report the smoke test
-        if: always()
+        if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh issue create --title "Server smoke test on ${{ github.sha }}" --body-file smoke.md || true
-          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
-            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" \
-              -F "body=@smoke.md" > /dev/null || true
-          fi
 
