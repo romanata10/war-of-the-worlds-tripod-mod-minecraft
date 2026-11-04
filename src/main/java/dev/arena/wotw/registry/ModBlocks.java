@@ -21,137 +21,156 @@ public final class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, WotwMod.MOD_ID);
 
-    public static final Block MARTIAN_CYLINDER = register("martian_cylinder", new MartianCylinderBlock(BlockBehaviour.Properties.of()
-                    .strength(6.0F, 12.0F)
-                    .sound(SoundType.METAL)
-                    .lightLevel(state -> 6)
-                    .requiresCorrectToolForDrops()));
+    public static Block MARTIAN_CYLINDER;
 
     /** Worked Martian alloy: the material every capsule and structure is built from. */
-    public static final Block MARTIAN_ALLOY_BLOCK = register("martian_alloy_block", new Block(BlockBehaviour.Properties.of()
-                    .strength(5.0F, 12.0F)
-                    .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()));
+    public static Block MARTIAN_ALLOY_BLOCK;
 
     /** The red root weed the machines sow behind themselves. */
-    public static final Block RED_ROOT = register("red_root", new RedRootBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .instabreak()
-                    .noOcclusion()
-                    .lightLevel(state -> 3)
-                    .sound(SoundType.GRASS)
-                    .randomTicks()));
+    public static Block RED_ROOT;
 
     /** The pale plate the Martian complexes are clad in. */
-    public static final Block WHITE_MARTIAN_ALLOY = register("white_martian_alloy", new Block(BlockBehaviour.Properties.of()
-                    .strength(6.0F, 15.0F)
-                    .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()));
+    public static Block WHITE_MARTIAN_ALLOY;
 
     /** Strong Martian glass: alloy and glass, and it stops more than a pickaxe swing. */
-    public static final Block MARTIAN_GLASS = register("martian_glass", new Block(BlockBehaviour.Properties.of()
-                    .strength(4.0F, 12.0F)
-                    .sound(SoundType.GLASS)
-                    .noOcclusion()
-                    .lightLevel(state -> 3)));
+    public static Block MARTIAN_GLASS;
 
     /** Blood roots: stepping on them brings the dark. */
-    public static final Block BLOOD_ROOTS = register("blood_roots", new BloodRootsBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .instabreak()
-                    .noOcclusion()
-                    .lightLevel(state -> 4)
-                    .sound(SoundType.GRASS)
-                    .randomTicks()));
+    public static Block BLOOD_ROOTS;
 
     /** The blueprint: put it down and a rideable tripod is built on top of it. */
-    public static final Block TRIPOD_BLUEPRINT = register("tripod_blueprint", new TripodBlueprintBlock(BlockBehaviour.Properties.of()
-                    .strength(1.5F, 6.0F)
-                    .lightLevel(state -> 7)
-                    .sound(SoundType.WOOL)));
-
+    public static Block TRIPOD_BLUEPRINT;
 
     /* ------------------------------------------------------------------ */
     /*  Third wave: Martian tech, crates, turrets and the infected stone   */
     /* ------------------------------------------------------------------ */
 
     /** Riveted hull plating: the walls of the domes, garages and workshops. */
-    public static final Block MARTIAN_HULL = simple("martian_hull", BlockBehaviour.Properties.of()
-            .strength(7.0F, 16.0F)
-            .sound(SoundType.METAL)
-            .requiresCorrectToolForDrops());
+    public static Block MARTIAN_HULL;
 
     /** A laboratory console: screens, dials and a green glow. */
-    public static final Block MARTIAN_CONSOLE = simple("martian_console", BlockBehaviour.Properties.of()
-            .strength(4.0F, 10.0F)
-            .sound(SoundType.METAL)
-            .lightLevel(state -> 9)
-            .requiresCorrectToolForDrops());
+    public static Block MARTIAN_CONSOLE;
 
     /** Martian lamp: cold white light on a stalk. */
-    public static final Block MARTIAN_LAMP = simple("martian_lamp", BlockBehaviour.Properties.of()
-            .strength(3.0F, 8.0F)
-            .sound(SoundType.GLASS)
-            .lightLevel(state -> 14));
+    public static Block MARTIAN_LAMP;
 
     /** Martian supply crate. */
-    public static final Block MARTIAN_CRATE = simple("martian_crate", BlockBehaviour.Properties.of()
-            .strength(2.5F, 8.0F)
-            .sound(SoundType.WOOD));
+    public static Block MARTIAN_CRATE;
 
     /** Human wooden crate, left behind in the towns and the warehouses. */
-    public static final Block HUMAN_CRATE = simple("human_crate", BlockBehaviour.Properties.of()
-            .strength(2.0F, 6.0F)
-            .sound(SoundType.WOOD));
+    public static Block HUMAN_CRATE;
 
     /** Military crate: olive steel, stencilled, and usually full of nothing useful any more. */
-    public static final Block MILITARY_CRATE = simple("military_crate", BlockBehaviour.Properties.of()
-            .strength(3.0F, 9.0F)
-            .sound(SoundType.METAL)
-            .requiresCorrectToolForDrops());
+    public static Block MILITARY_CRATE;
 
     /** The tall Martian turret that watches over the bases and the garages. */
-    public static final Block MARTIAN_TURRET = register("martian_turret", new MartianTurretBlock(BlockBehaviour.Properties.of()
-                    .strength(6.0F, 14.0F)
-                    .sound(SoundType.METAL)
-                    .noOcclusion()
-                    .lightLevel(state -> 5)
-                    .requiresCorrectToolForDrops()));
+    public static Block MARTIAN_TURRET;
 
     /** Tall blood vines: the next generation of the red weed. */
-    public static final Block BLOOD_VINES = register("blood_vines", new BloodVinesBlock(BlockBehaviour.Properties.of()
+    public static Block BLOOD_VINES;
+
+    /** Cobblestone the roots have cracked open. */
+    public static Block INFESTED_COBBLESTONE;
+
+    /** Bricks the roots have cracked open. */
+    public static Block INFESTED_BRICKS;
+
+    /*
+     * The blocks are built here, not next to the fields: Forge freezes the vanilla block registry before
+     * a mod is constructed and {@code Block} registers a holder for itself in its own constructor. Doing
+     * the work inside the supplier keeps it in the register event, where Forge expects it, and every
+     * field above is ready by the time the game asks for it.
+     */
+    static {
+        BLOCKS.register("martian_cylinder",
+                () -> MARTIAN_CYLINDER = new MartianCylinderBlock(BlockBehaviour.Properties.of()
+                    .strength(6.0F, 12.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> 6)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("martian_alloy_block",
+                () -> MARTIAN_ALLOY_BLOCK = new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 12.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("red_root",
+                () -> RED_ROOT = new RedRootBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .instabreak()
+                    .noOcclusion()
+                    .lightLevel(state -> 3)
+                    .sound(SoundType.GRASS)
+                    .randomTicks()));
+        BLOCKS.register("white_martian_alloy",
+                () -> WHITE_MARTIAN_ALLOY = new Block(BlockBehaviour.Properties.of()
+                    .strength(6.0F, 15.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("martian_glass",
+                () -> MARTIAN_GLASS = new Block(BlockBehaviour.Properties.of()
+                    .strength(4.0F, 12.0F)
+                    .sound(SoundType.GLASS)
+                    .noOcclusion()
+                    .lightLevel(state -> 3)));
+        BLOCKS.register("blood_roots",
+                () -> BLOOD_ROOTS = new BloodRootsBlock(BlockBehaviour.Properties.of()
                     .noCollission()
                     .instabreak()
                     .noOcclusion()
                     .lightLevel(state -> 4)
                     .sound(SoundType.GRASS)
                     .randomTicks()));
-
-    /** Cobblestone the roots have cracked open. */
-    public static final Block INFESTED_COBBLESTONE = simple("infested_cobblestone",
-            BlockBehaviour.Properties.of().strength(2.4F, 8.0F).requiresCorrectToolForDrops().randomTicks(), true);
-
-    /** Bricks the roots have cracked open. */
-    public static final Block INFESTED_BRICKS = simple("infested_bricks",
-            BlockBehaviour.Properties.of().strength(2.6F, 8.0F).requiresCorrectToolForDrops().randomTicks(), true);
-
-    private static Block simple(String name, BlockBehaviour.Properties settings) {
-        return simple(name, settings, false);
-    }
-
-    private static Block simple(String name, BlockBehaviour.Properties settings, boolean infested) {
-        return register(name, infested ? new InfestedBlock(settings) : new Block(settings));
-    }
-
-    /**
-     * Registers a block.
-     *
-     * <p>The instance is built right away and the deferred register only gets a supplier that hands
-     * it back later, so the rest of the mod keeps working with plain {@code Block} constants.</p>
-     */
-    private static Block register(String name, Block block) {
-        BLOCKS.register(name, () -> block);
-        return block;
+        BLOCKS.register("tripod_blueprint",
+                () -> TRIPOD_BLUEPRINT = new TripodBlueprintBlock(BlockBehaviour.Properties.of()
+                    .strength(1.5F, 6.0F)
+                    .lightLevel(state -> 7)
+                    .sound(SoundType.WOOL)));
+        BLOCKS.register("martian_hull",
+                () -> MARTIAN_HULL = new Block(BlockBehaviour.Properties.of()
+            .strength(7.0F, 16.0F)
+            .sound(SoundType.METAL)
+            .requiresCorrectToolForDrops()));
+        BLOCKS.register("martian_console",
+                () -> MARTIAN_CONSOLE = new Block(BlockBehaviour.Properties.of()
+            .strength(4.0F, 10.0F)
+            .sound(SoundType.METAL)
+            .lightLevel(state -> 9)
+            .requiresCorrectToolForDrops()));
+        BLOCKS.register("martian_lamp",
+                () -> MARTIAN_LAMP = new Block(BlockBehaviour.Properties.of()
+            .strength(3.0F, 8.0F)
+            .sound(SoundType.GLASS)
+            .lightLevel(state -> 14)));
+        BLOCKS.register("martian_crate",
+                () -> MARTIAN_CRATE = new Block(BlockBehaviour.Properties.of()
+            .strength(2.5F, 8.0F)
+            .sound(SoundType.WOOD)));
+        BLOCKS.register("human_crate",
+                () -> HUMAN_CRATE = new Block(BlockBehaviour.Properties.of()
+            .strength(2.0F, 6.0F)
+            .sound(SoundType.WOOD)));
+        BLOCKS.register("military_crate",
+                () -> MILITARY_CRATE = new Block(BlockBehaviour.Properties.of()
+            .strength(3.0F, 9.0F)
+            .sound(SoundType.METAL)
+            .requiresCorrectToolForDrops()));
+        BLOCKS.register("martian_turret",
+                () -> MARTIAN_TURRET = new MartianTurretBlock(BlockBehaviour.Properties.of()
+                    .strength(6.0F, 14.0F)
+                    .sound(SoundType.METAL)
+                    .noOcclusion()
+                    .lightLevel(state -> 5)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("blood_vines",
+                () -> BLOOD_VINES = new BloodVinesBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .instabreak()
+                    .noOcclusion()
+                    .lightLevel(state -> 4)
+                    .sound(SoundType.GRASS)
+                    .randomTicks()));
+        BLOCKS.register("infested_cobblestone", () -> INFESTED_COBBLESTONE = new InfestedBlock(BlockBehaviour.Properties.of().strength(2.4F, 8.0F).requiresCorrectToolForDrops().randomTicks()));
+        BLOCKS.register("infested_bricks", () -> INFESTED_BRICKS = new InfestedBlock(BlockBehaviour.Properties.of().strength(2.6F, 8.0F).requiresCorrectToolForDrops().randomTicks()));
     }
 
     private ModBlocks() {

@@ -1,17 +1,15 @@
 package dev.arena.wotw.registry;
-
 import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.item.AlloyCannonItem;
 import dev.arena.wotw.item.ArcRifleItem;
 import dev.arena.wotw.item.HeatRayEmitterItem;
 import dev.arena.wotw.item.MartianCapsuleItem;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,103 +23,83 @@ public final class ModItems {
     public static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, WotwMod.MOD_ID);
 
-    public static final Item MARTIAN_ALLOY = register("martian_alloy", new Item(new Item.Properties()));
+    public static Item MARTIAN_ALLOY;
 
-    public static final Item TRIPOD_2005_SPAWN_EGG = spawnEgg("tripod_2005_spawn_egg", ModEntities.TRIPOD_2005, 0x3D4038, 0xC9F5C0);
-    public static final Item BBC_WHITE_TRIPOD_SPAWN_EGG = spawnEgg("bbc_white_tripod_spawn_egg", ModEntities.BBC_WHITE_TRIPOD, 0xD8D5C8, 0xFFFCE8);
-    public static final Item BBC_RED_TRIPOD_SPAWN_EGG = spawnEgg("bbc_red_tripod_spawn_egg", ModEntities.BBC_RED_TRIPOD, 0x8E2B22, 0xFF5A3C);
-    public static final Item FLYING_MANTA_SPAWN_EGG = spawnEgg("flying_manta_spawn_egg", ModEntities.FLYING_MANTA, 0x4A4F52, 0x9CFF7A);
-    public static final Item BOOK_TRIPOD_SPAWN_EGG = spawnEgg("book_tripod_spawn_egg", ModEntities.BOOK_TRIPOD, 0x5A5A4A, 0xD8C38A);
-    public static final Item ASYLUM_WALKER_SPAWN_EGG = spawnEgg("asylum_walker_spawn_egg", ModEntities.ASYLUM_WALKER, 0x3B2B20, 0x6DFF4A);
-    public static final Item GOLIATH_TRIPOD_SPAWN_EGG = spawnEgg("goliath_tripod_spawn_egg", ModEntities.GOLIATH_TRIPOD, 0x7A5A2E, 0xFFB347);
-    public static final Item MARTIAN_HERON_SPAWN_EGG = spawnEgg("martian_heron_spawn_egg", ModEntities.MARTIAN_HERON, 0xB9B3A2, 0xFF2A1A);
-    public static final Item MARTIAN_SPIDER_SPAWN_EGG = spawnEgg("martian_spider_spawn_egg", ModEntities.MARTIAN_SPIDER, 0x2C2620, 0xFF4A1F);
-    public static final Item MARTIAN_LOUSE_SPAWN_EGG = spawnEgg("martian_louse_spawn_egg", ModEntities.MARTIAN_LOUSE, 0x5C3A24, 0xFFCF5A);
-    public static final Item MARTIAN_SPAWN_EGG = spawnEgg("martian_spawn_egg", ModEntities.MARTIAN, 0x68604A, 0xFF764A);
-    public static final Item MARTIAN_MASTER_SPAWN_EGG = spawnEgg("martian_master_spawn_egg", ModEntities.MARTIAN_MASTER, 0x4A3E3E, 0xFF4030);
+    public static Item TRIPOD_2005_SPAWN_EGG;
+    public static Item BBC_WHITE_TRIPOD_SPAWN_EGG;
+    public static Item BBC_RED_TRIPOD_SPAWN_EGG;
+    public static Item FLYING_MANTA_SPAWN_EGG;
+    public static Item BOOK_TRIPOD_SPAWN_EGG;
+    public static Item ASYLUM_WALKER_SPAWN_EGG;
+    public static Item GOLIATH_TRIPOD_SPAWN_EGG;
+    public static Item MARTIAN_HERON_SPAWN_EGG;
+    public static Item MARTIAN_SPIDER_SPAWN_EGG;
+    public static Item MARTIAN_LOUSE_SPAWN_EGG;
+    public static Item MARTIAN_SPAWN_EGG;
+    public static Item MARTIAN_MASTER_SPAWN_EGG;
 
-    public static final Item FLYING_MACHINE_SPAWN_EGG = spawnEgg("flying_machine_spawn_egg", ModEntities.FLYING_MACHINE, 0x5A6470, 0x96FF78);
-    public static final Item ELECTRIC_MACHINE_SPAWN_EGG = spawnEgg("electric_machine_spawn_egg", ModEntities.ELECTRIC_MACHINE, 0x3E4248, 0x8CF0FF);
-    public static final Item HANDLING_MACHINE_SPAWN_EGG = spawnEgg("handling_machine_spawn_egg", ModEntities.HANDLING_MACHINE, 0x6B6152, 0xFFE278);
-    public static final Item DIGGING_MACHINE_SPAWN_EGG = spawnEgg("digging_machine_spawn_egg", ModEntities.DIGGING_MACHINE, 0x7C6040, 0xFFAA50);
-    public static final Item TEMPEST_SPAWN_EGG = spawnEgg("tempest_spawn_egg", ModEntities.TEMPEST, 0x6F6A60, 0xFF7838);
-    public static final Item BOMBARDING_MACHINE_SPAWN_EGG = spawnEgg("bombarding_machine_spawn_egg", ModEntities.BOMBARDING_MACHINE, 0x585C40, 0xFFBE46);
-    public static final Item DRONE_SPAWN_EGG = spawnEgg("drone_spawn_egg", ModEntities.DRONE, 0x8A8E94, 0xBE6EFF);
-    public static final Item PILOT_TRIPOD_SPAWN_EGG = spawnEgg("pilot_tripod_spawn_egg", ModEntities.PILOT_TRIPOD, 0x5C685E, 0x8CFFAA);
+    public static Item FLYING_MACHINE_SPAWN_EGG;
+    public static Item ELECTRIC_MACHINE_SPAWN_EGG;
+    public static Item HANDLING_MACHINE_SPAWN_EGG;
+    public static Item DIGGING_MACHINE_SPAWN_EGG;
+    public static Item TEMPEST_SPAWN_EGG;
+    public static Item BOMBARDING_MACHINE_SPAWN_EGG;
+    public static Item DRONE_SPAWN_EGG;
+    public static Item PILOT_TRIPOD_SPAWN_EGG;
 
-    public static final Item HUMAN_SOLDIER_SPAWN_EGG = spawnEgg("human_soldier_spawn_egg", ModEntities.HUMAN_SOLDIER, 0x5E6B4A, 0xC9B98A);
-    public static final Item HUMAN_TANK_SPAWN_EGG = spawnEgg("human_tank_spawn_egg", ModEntities.HUMAN_TANK, 0x4A5238, 0x8E9A6A);
-    public static final Item HUMAN_FIGHTER_SPAWN_EGG = spawnEgg("human_fighter_spawn_egg", ModEntities.HUMAN_FIGHTER, 0x6B7078, 0xB9C2CC);
-    public static final Item HUMAN_WARSHIP_SPAWN_EGG = spawnEgg("human_warship_spawn_egg", ModEntities.HUMAN_WARSHIP, 0x3E464E, 0x9AA6B0);
+    public static Item HUMAN_SOLDIER_SPAWN_EGG;
+    public static Item HUMAN_TANK_SPAWN_EGG;
+    public static Item HUMAN_FIGHTER_SPAWN_EGG;
+    public static Item HUMAN_WARSHIP_SPAWN_EGG;
 
-    public static final Item WATER_TRIPOD_SPAWN_EGG = spawnEgg("water_tripod_spawn_egg", ModEntities.WATER_TRIPOD, 0x2E4A4A, 0x8CF0D0);
-    public static final Item SCOUT_TRIPOD_SPAWN_EGG = spawnEgg("scout_tripod_spawn_egg", ModEntities.SCOUT_TRIPOD, 0x4A4E44, 0xD8A85A);
-    public static final Item RAM_TRIPOD_SPAWN_EGG = spawnEgg("ram_tripod_spawn_egg", ModEntities.RAM_TRIPOD, 0x5A4232, 0xFF7040);
-    public static final Item UBERPOD_SPAWN_EGG = spawnEgg("uberpod_spawn_egg", ModEntities.UBERPOD, 0x585C5A, 0x9CFFB0);
-    public static final Item BUNKER_TRIPOD_SPAWN_EGG = spawnEgg("bunker_tripod_spawn_egg", ModEntities.BUNKER_TRIPOD, 0x6E7076, 0xD0D6DE);
-    public static final Item FLAMER_TRIPOD_SPAWN_EGG = spawnEgg("flamer_tripod_spawn_egg", ModEntities.FLAMER_TRIPOD, 0x5E4A3A, 0xFF9A30);
-    public static final Item TANK_TRIPOD_SPAWN_EGG = spawnEgg("tank_tripod_spawn_egg", ModEntities.TANK_TRIPOD, 0x3E4436, 0xE0A050);
-    public static final Item TAXI_TRIPOD_SPAWN_EGG = spawnEgg("taxi_tripod_spawn_egg", ModEntities.TAXI_TRIPOD, 0x6A6250, 0xC8B88C);
+    public static Item WATER_TRIPOD_SPAWN_EGG;
+    public static Item SCOUT_TRIPOD_SPAWN_EGG;
+    public static Item RAM_TRIPOD_SPAWN_EGG;
+    public static Item UBERPOD_SPAWN_EGG;
+    public static Item BUNKER_TRIPOD_SPAWN_EGG;
+    public static Item FLAMER_TRIPOD_SPAWN_EGG;
+    public static Item TANK_TRIPOD_SPAWN_EGG;
+    public static Item TAXI_TRIPOD_SPAWN_EGG;
 
-    public static final Item HEAT_RAY_EMITTER = register("heat_ray_emitter",
-            new HeatRayEmitterItem(new Item.Properties().stacksTo(1).durability(384)));
+    public static Item HEAT_RAY_EMITTER;
 
-    public static final Item MARTIAN_CYLINDER = register("martian_cylinder",
-            new BlockItem(ModBlocks.MARTIAN_CYLINDER, new Item.Properties()));
+    public static Item MARTIAN_CYLINDER;
 
-    public static final Item MARTIAN_ALLOY_BLOCK = register("martian_alloy_block",
-            new BlockItem(ModBlocks.MARTIAN_ALLOY_BLOCK, new Item.Properties()));
+    public static Item MARTIAN_ALLOY_BLOCK;
 
-    public static final Item MARTIAN_CAPSULE = register("martian_capsule",
-            new MartianCapsuleItem(new Item.Properties().stacksTo(16)));
+    public static Item MARTIAN_CAPSULE;
 
-    public static final Item WHITE_MARTIAN_ALLOY = register("white_martian_alloy",
-            new BlockItem(ModBlocks.WHITE_MARTIAN_ALLOY, new Item.Properties()));
+    public static Item WHITE_MARTIAN_ALLOY;
 
-    public static final Item MARTIAN_GLASS = register("martian_glass",
-            new BlockItem(ModBlocks.MARTIAN_GLASS, new Item.Properties()));
+    public static Item MARTIAN_GLASS;
 
-    public static final Item BLOOD_ROOTS = register("blood_roots",
-            new BlockItem(ModBlocks.BLOOD_ROOTS, new Item.Properties()));
+    public static Item BLOOD_ROOTS;
 
-    public static final Item TRIPOD_BLUEPRINT = register("tripod_blueprint",
-            new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Properties()));
+    public static Item TRIPOD_BLUEPRINT;
 
-    public static final Item MARTIAN_HULL = register("martian_hull",
-            new BlockItem(ModBlocks.MARTIAN_HULL, new Item.Properties()));
+    public static Item MARTIAN_HULL;
 
-    public static final Item MARTIAN_CONSOLE = register("martian_console",
-            new BlockItem(ModBlocks.MARTIAN_CONSOLE, new Item.Properties()));
+    public static Item MARTIAN_CONSOLE;
 
-    public static final Item MARTIAN_LAMP = register("martian_lamp",
-            new BlockItem(ModBlocks.MARTIAN_LAMP, new Item.Properties()));
+    public static Item MARTIAN_LAMP;
 
-    public static final Item MARTIAN_CRATE = register("martian_crate",
-            new BlockItem(ModBlocks.MARTIAN_CRATE, new Item.Properties()));
+    public static Item MARTIAN_CRATE;
 
-    public static final Item HUMAN_CRATE = register("human_crate",
-            new BlockItem(ModBlocks.HUMAN_CRATE, new Item.Properties()));
+    public static Item HUMAN_CRATE;
 
-    public static final Item MILITARY_CRATE = register("military_crate",
-            new BlockItem(ModBlocks.MILITARY_CRATE, new Item.Properties()));
+    public static Item MILITARY_CRATE;
 
-    public static final Item MARTIAN_TURRET = register("martian_turret",
-            new BlockItem(ModBlocks.MARTIAN_TURRET, new Item.Properties()));
+    public static Item MARTIAN_TURRET;
 
-    public static final Item BLOOD_VINES = register("blood_vines",
-            new BlockItem(ModBlocks.BLOOD_VINES, new Item.Properties()));
+    public static Item BLOOD_VINES;
 
-    public static final Item INFESTED_COBBLESTONE = register("infested_cobblestone",
-            new BlockItem(ModBlocks.INFESTED_COBBLESTONE, new Item.Properties()));
+    public static Item INFESTED_COBBLESTONE;
 
-    public static final Item INFESTED_BRICKS = register("infested_bricks",
-            new BlockItem(ModBlocks.INFESTED_BRICKS, new Item.Properties()));
+    public static Item INFESTED_BRICKS;
 
-    public static final Item ARC_RIFLE = register("arc_rifle",
-            new ArcRifleItem(new Item.Properties().stacksTo(1).durability(320)));
+    public static Item ARC_RIFLE;
 
-    public static final Item ALLOY_CANNON = register("alloy_cannon",
-            new AlloyCannonItem(new Item.Properties().stacksTo(1).durability(220)));
+    public static Item ALLOY_CANNON;
 
     public static final CreativeModeTab ITEM_GROUP = CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.wotw"))
@@ -178,26 +156,158 @@ public final class ModItems {
                         entries.accept(INFESTED_COBBLESTONE);
                         entries.accept(INFESTED_BRICKS);
                         entries.accept(MARTIAN_ALLOY);
-                entries.accept(HEAT_RAY_EMITTER);
+                        entries.accept(HEAT_RAY_EMITTER);
             })
             .build();
 
+    /*
+     * The items are built here, not next to the fields: Forge freezes the vanilla item registry before
+     * a mod is constructed and {@code Item} registers a holder for itself in its own constructor. Doing
+     * the work inside the supplier keeps it in the register event, where Forge expects it, and every
+     * field above is ready by the time the game asks for it.
+     *
+     * <p>The spawn eggs are Forge's own {@code ForgeSpawnEggItem}: it wants a supplier of the entity
+     * type because items are registered before entity types, so the type is not known yet.</p>
+     */
     static {
         TABS.register("main", () -> ITEM_GROUP);
+        ITEMS.register("martian_alloy", () -> MARTIAN_ALLOY = new Item(new Item.Properties()));
+        ITEMS.register("tripod_2005_spawn_egg",
+                () -> TRIPOD_2005_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TRIPOD_2005, 0x3D4038, 0xC9F5C0,
+                        new Item.Properties()));
+        ITEMS.register("bbc_white_tripod_spawn_egg",
+                () -> BBC_WHITE_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BBC_WHITE_TRIPOD, 0xD8D5C8, 0xFFFCE8,
+                        new Item.Properties()));
+        ITEMS.register("bbc_red_tripod_spawn_egg",
+                () -> BBC_RED_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BBC_RED_TRIPOD, 0x8E2B22, 0xFF5A3C,
+                        new Item.Properties()));
+        ITEMS.register("flying_manta_spawn_egg",
+                () -> FLYING_MANTA_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FLYING_MANTA, 0x4A4F52, 0x9CFF7A,
+                        new Item.Properties()));
+        ITEMS.register("book_tripod_spawn_egg",
+                () -> BOOK_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BOOK_TRIPOD, 0x5A5A4A, 0xD8C38A,
+                        new Item.Properties()));
+        ITEMS.register("asylum_walker_spawn_egg",
+                () -> ASYLUM_WALKER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ASYLUM_WALKER, 0x3B2B20, 0x6DFF4A,
+                        new Item.Properties()));
+        ITEMS.register("goliath_tripod_spawn_egg",
+                () -> GOLIATH_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.GOLIATH_TRIPOD, 0x7A5A2E, 0xFFB347,
+                        new Item.Properties()));
+        ITEMS.register("martian_heron_spawn_egg",
+                () -> MARTIAN_HERON_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MARTIAN_HERON, 0xB9B3A2, 0xFF2A1A,
+                        new Item.Properties()));
+        ITEMS.register("martian_spider_spawn_egg",
+                () -> MARTIAN_SPIDER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MARTIAN_SPIDER, 0x2C2620, 0xFF4A1F,
+                        new Item.Properties()));
+        ITEMS.register("martian_louse_spawn_egg",
+                () -> MARTIAN_LOUSE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MARTIAN_LOUSE, 0x5C3A24, 0xFFCF5A,
+                        new Item.Properties()));
+        ITEMS.register("martian_spawn_egg",
+                () -> MARTIAN_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MARTIAN, 0x68604A, 0xFF764A,
+                        new Item.Properties()));
+        ITEMS.register("martian_master_spawn_egg",
+                () -> MARTIAN_MASTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MARTIAN_MASTER, 0x4A3E3E, 0xFF4030,
+                        new Item.Properties()));
+        ITEMS.register("flying_machine_spawn_egg",
+                () -> FLYING_MACHINE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FLYING_MACHINE, 0x5A6470, 0x96FF78,
+                        new Item.Properties()));
+        ITEMS.register("electric_machine_spawn_egg",
+                () -> ELECTRIC_MACHINE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ELECTRIC_MACHINE, 0x3E4248, 0x8CF0FF,
+                        new Item.Properties()));
+        ITEMS.register("handling_machine_spawn_egg",
+                () -> HANDLING_MACHINE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HANDLING_MACHINE, 0x6B6152, 0xFFE278,
+                        new Item.Properties()));
+        ITEMS.register("digging_machine_spawn_egg",
+                () -> DIGGING_MACHINE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.DIGGING_MACHINE, 0x7C6040, 0xFFAA50,
+                        new Item.Properties()));
+        ITEMS.register("tempest_spawn_egg",
+                () -> TEMPEST_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TEMPEST, 0x6F6A60, 0xFF7838,
+                        new Item.Properties()));
+        ITEMS.register("bombarding_machine_spawn_egg",
+                () -> BOMBARDING_MACHINE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BOMBARDING_MACHINE, 0x585C40, 0xFFBE46,
+                        new Item.Properties()));
+        ITEMS.register("drone_spawn_egg",
+                () -> DRONE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.DRONE, 0x8A8E94, 0xBE6EFF,
+                        new Item.Properties()));
+        ITEMS.register("pilot_tripod_spawn_egg",
+                () -> PILOT_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.PILOT_TRIPOD, 0x5C685E, 0x8CFFAA,
+                        new Item.Properties()));
+        ITEMS.register("human_soldier_spawn_egg",
+                () -> HUMAN_SOLDIER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_SOLDIER, 0x5E6B4A, 0xC9B98A,
+                        new Item.Properties()));
+        ITEMS.register("human_tank_spawn_egg",
+                () -> HUMAN_TANK_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_TANK, 0x4A5238, 0x8E9A6A,
+                        new Item.Properties()));
+        ITEMS.register("human_fighter_spawn_egg",
+                () -> HUMAN_FIGHTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_FIGHTER, 0x6B7078, 0xB9C2CC,
+                        new Item.Properties()));
+        ITEMS.register("human_warship_spawn_egg",
+                () -> HUMAN_WARSHIP_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_WARSHIP, 0x3E464E, 0x9AA6B0,
+                        new Item.Properties()));
+        ITEMS.register("water_tripod_spawn_egg",
+                () -> WATER_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.WATER_TRIPOD, 0x2E4A4A, 0x8CF0D0,
+                        new Item.Properties()));
+        ITEMS.register("scout_tripod_spawn_egg",
+                () -> SCOUT_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SCOUT_TRIPOD, 0x4A4E44, 0xD8A85A,
+                        new Item.Properties()));
+        ITEMS.register("ram_tripod_spawn_egg",
+                () -> RAM_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.RAM_TRIPOD, 0x5A4232, 0xFF7040,
+                        new Item.Properties()));
+        ITEMS.register("uberpod_spawn_egg",
+                () -> UBERPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.UBERPOD, 0x585C5A, 0x9CFFB0,
+                        new Item.Properties()));
+        ITEMS.register("bunker_tripod_spawn_egg",
+                () -> BUNKER_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BUNKER_TRIPOD, 0x6E7076, 0xD0D6DE,
+                        new Item.Properties()));
+        ITEMS.register("flamer_tripod_spawn_egg",
+                () -> FLAMER_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FLAMER_TRIPOD, 0x5E4A3A, 0xFF9A30,
+                        new Item.Properties()));
+        ITEMS.register("tank_tripod_spawn_egg",
+                () -> TANK_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TANK_TRIPOD, 0x3E4436, 0xE0A050,
+                        new Item.Properties()));
+        ITEMS.register("taxi_tripod_spawn_egg",
+                () -> TAXI_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TAXI_TRIPOD, 0x6A6250, 0xC8B88C,
+                        new Item.Properties()));
+        ITEMS.register("heat_ray_emitter",
+                () -> HEAT_RAY_EMITTER = new HeatRayEmitterItem(new Item.Properties().stacksTo(1).durability(384)));
+        ITEMS.register("martian_cylinder",
+                () -> MARTIAN_CYLINDER = new BlockItem(ModBlocks.MARTIAN_CYLINDER, new Item.Properties()));
+        ITEMS.register("martian_alloy_block",
+                () -> MARTIAN_ALLOY_BLOCK = new BlockItem(ModBlocks.MARTIAN_ALLOY_BLOCK, new Item.Properties()));
+        ITEMS.register("martian_capsule",
+                () -> MARTIAN_CAPSULE = new MartianCapsuleItem(new Item.Properties().stacksTo(16)));
+        ITEMS.register("white_martian_alloy",
+                () -> WHITE_MARTIAN_ALLOY = new BlockItem(ModBlocks.WHITE_MARTIAN_ALLOY, new Item.Properties()));
+        ITEMS.register("martian_glass",
+                () -> MARTIAN_GLASS = new BlockItem(ModBlocks.MARTIAN_GLASS, new Item.Properties()));
+        ITEMS.register("blood_roots", () -> BLOOD_ROOTS = new BlockItem(ModBlocks.BLOOD_ROOTS, new Item.Properties()));
+        ITEMS.register("tripod_blueprint",
+                () -> TRIPOD_BLUEPRINT = new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Properties()));
+        ITEMS.register("martian_hull",
+                () -> MARTIAN_HULL = new BlockItem(ModBlocks.MARTIAN_HULL, new Item.Properties()));
+        ITEMS.register("martian_console",
+                () -> MARTIAN_CONSOLE = new BlockItem(ModBlocks.MARTIAN_CONSOLE, new Item.Properties()));
+        ITEMS.register("martian_lamp",
+                () -> MARTIAN_LAMP = new BlockItem(ModBlocks.MARTIAN_LAMP, new Item.Properties()));
+        ITEMS.register("martian_crate",
+                () -> MARTIAN_CRATE = new BlockItem(ModBlocks.MARTIAN_CRATE, new Item.Properties()));
+        ITEMS.register("human_crate", () -> HUMAN_CRATE = new BlockItem(ModBlocks.HUMAN_CRATE, new Item.Properties()));
+        ITEMS.register("military_crate",
+                () -> MILITARY_CRATE = new BlockItem(ModBlocks.MILITARY_CRATE, new Item.Properties()));
+        ITEMS.register("martian_turret",
+                () -> MARTIAN_TURRET = new BlockItem(ModBlocks.MARTIAN_TURRET, new Item.Properties()));
+        ITEMS.register("blood_vines", () -> BLOOD_VINES = new BlockItem(ModBlocks.BLOOD_VINES, new Item.Properties()));
+        ITEMS.register("infested_cobblestone",
+                () -> INFESTED_COBBLESTONE = new BlockItem(ModBlocks.INFESTED_COBBLESTONE, new Item.Properties()));
+        ITEMS.register("infested_bricks",
+                () -> INFESTED_BRICKS = new BlockItem(ModBlocks.INFESTED_BRICKS, new Item.Properties()));
+        ITEMS.register("arc_rifle",
+                () -> ARC_RIFLE = new ArcRifleItem(new Item.Properties().stacksTo(1).durability(320)));
+        ITEMS.register("alloy_cannon",
+                () -> ALLOY_CANNON = new AlloyCannonItem(new Item.Properties().stacksTo(1).durability(220)));
     }
 
     private ModItems() {
-    }
-
-    /** Registers an item: the instance is built at once, the deferred register hands it out later. */
-    private static <T extends Item> T register(String name, T item) {
-        ITEMS.register(name, () -> item);
-        return item;
-    }
-
-    private static Item spawnEgg(String name, EntityType<? extends Mob> type,
-                                 int primaryColor, int secondaryColor) {
-        return register(name, new SpawnEggItem(type, primaryColor, secondaryColor, new Item.Properties()));
     }
 
     public static void register(IEventBus bus) {

@@ -13,11 +13,13 @@ public final class ModBlockEntities {
             DeferredRegister.create(net.minecraftforge.registries.ForgeRegistries.BLOCK_ENTITY_TYPES,
                     WotwMod.MOD_ID);
 
-    public static final BlockEntityType<MartianTurretBlockEntity> MARTIAN_TURRET =
-            BlockEntityType.Builder.of(MartianTurretBlockEntity::new, ModBlocks.MARTIAN_TURRET).build(null);
+    /** Set by the register event; the turret block is registered before this, so it is already there. */
+    public static BlockEntityType<MartianTurretBlockEntity> MARTIAN_TURRET;
 
     static {
-        BLOCK_ENTITIES.register("martian_turret", () -> MARTIAN_TURRET);
+        BLOCK_ENTITIES.register("martian_turret",
+                () -> MARTIAN_TURRET = BlockEntityType.Builder.of(MartianTurretBlockEntity::new, ModBlocks.MARTIAN_TURRET)
+                        .build(null));
     }
 
     private ModBlockEntities() {

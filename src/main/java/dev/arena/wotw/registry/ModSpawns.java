@@ -47,7 +47,10 @@ public final class ModSpawns {
         }
     }
 
-    private static final List<Entry> TABLE = List.of(
+    private static List<Entry> table;
+
+    private static List<Entry> buildTable() {
+        return List.of(
             new Entry(ModEntities.TRIPOD_2005, true, 4, 2, 1, 1),
             new Entry(ModEntities.BBC_WHITE_TRIPOD, true, 4, 2, 1, 2),
             new Entry(ModEntities.BBC_RED_TRIPOD, true, 4, 2, 1, 2),
@@ -61,13 +64,23 @@ public final class ModSpawns {
             // opened or a Martian structure stands, so caves and nights are quiet again.
             new Entry(ModEntities.MARTIAN, false, 2, 5, 1, 2),
             new Entry(ModEntities.MARTIAN_MASTER, false, 2, 1, 1, 1));
+    }
 
     private ModSpawns() {
     }
 
-    /** The spawn table, after the config switches have been applied. */
+    /**
+     * The spawn table.
+     *
+     * <p>It is built on first use rather than next to the field: the entity types only exist once
+     * Forge has fired the register event, and this class is loaded before that, while the mod is
+     * being constructed.</p>
+     */
     public static List<Entry> table() {
-        return TABLE;
+        if (table == null) {
+            table = buildTable();
+        }
+        return table;
     }
 
     /**
@@ -78,7 +91,7 @@ public final class ModSpawns {
         if (!WotwConfig.NATURAL_SPAWNS) {
             return;
         }
-        for (Entry entry : TABLE) {
+        for (Entry entry : table()) {
             if (!entry.allowed()) {
                 continue;
             }
@@ -90,7 +103,7 @@ public final class ModSpawns {
 
     /** Spawn placement rules: machines need solid ground under them and head room above. */
     public static void registerPlacements(SpawnPlacementRegisterEvent event) {
-        for (Entry entry : TABLE) {
+        for (Entry entry : table()) {
             addPlacement(event, entry.type(), entry.clearance());
         }
     }
