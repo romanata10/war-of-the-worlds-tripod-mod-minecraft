@@ -66,9 +66,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh issue list --state open --search 'Build failure in:title' --limit 50 --json number             --jq '.[].number' | while read -r number; do
-              gh issue close "$number" --reason completed -c "Build is green again." || true
-            done
+          for search in 'Build failure in:title' 'Server smoke test in:title'; do
+            gh issue list --state open --search "$search" --limit 50 --json number --jq '.[].number' |
+              while read -r number; do
+                gh issue close "$number" --reason completed -c "The build is green again." || true
+              done
+          done
 
       - name: Show what was built
         run: ls -la build/libs
