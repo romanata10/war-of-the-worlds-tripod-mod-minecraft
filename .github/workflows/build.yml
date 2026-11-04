@@ -118,14 +118,23 @@ jobs:
           {
             echo 'Server smoke test:'
             echo '```'
-            grep -E "Done|Exception|ERROR|Caused by|Failed to|Missing|Unknown" server.log | head -80
+            grep -E "Done|Exception|ERROR|Caused by|Failed to|Missing|Unknown" server.log | head -60
             echo '```'
+            for report in run/crash-reports/*.txt; do
+              [ -f "$report" ] || continue
+              echo
+              echo "Crash report $(basename "$report"), first 200 lines:"
+              echo '```'
+              head -200 "$report"
+              echo '```'
+            done
+            echo
             echo 'Tail:'
             echo '```'
-            tail -c 4000 server.log
+            tail -c 2500 server.log
             echo '```'
           } > smoke.md
-          cat smoke.md
+          wc -c smoke.md
 
       - name: Report the smoke test
         if: always()
