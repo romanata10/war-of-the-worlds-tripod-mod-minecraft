@@ -18,6 +18,8 @@ for f in RES.rglob("*.json"):
 # 2. items from ModItems -> item models
 items = set(re.findall(r'register\("([a-z0-9_]+)"', (JAVA / "dev/arena/wotw/registry/ModItems.java").read_text()))
 items |= set(re.findall(r'spawnEgg\("([a-z0-9_]+)"', (JAVA / "dev/arena/wotw/registry/ModItems.java").read_text()))
+# the creative tab is registered in the same class but is not an item
+items -= set(re.findall(r'TABS\.register\("([a-z0-9_]+)"', (JAVA / "dev/arena/wotw/registry/ModItems.java").read_text()))
 for item in sorted(items):
     model = ASSETS / "models/item" / f"{item}.json"
     if not model.exists():

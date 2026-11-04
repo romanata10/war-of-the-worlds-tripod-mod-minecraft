@@ -11,8 +11,12 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 /**
  * The three hooks Forge only offers as events: default attributes of every living entity, the spawn
  * placement predicates and "the config file was loaded, re-read the switches".
+ *
+ * <p>All three are mod bus events (they happen while Forge builds its registries), which is why this
+ * class subscribes to {@link Mod.EventBusSubscriber.Bus#MOD} while the two world classes
+ * ({@code InvasionManager}, {@code CagedDeathHandler}) stay on the game bus.</p>
  */
-@Mod.EventBusSubscriber(modid = WotwMod.MOD_ID)
+@Mod.EventBusSubscriber(modid = WotwMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ForgeEvents {
 
     private ForgeEvents() {
