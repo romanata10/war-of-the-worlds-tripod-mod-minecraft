@@ -53,6 +53,12 @@ jobs:
             echo '```'
           } > report.md
           gh issue create --title "Build failure on ${GITHUB_SHA:0:7}" --body-file report.md || true
+          # Pull request builds also leave the report as a PR comment, which is the channel the
+          # sandbox can always read back.
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" \
+              -F "body=@report.md" > /dev/null || true
+          fi
 
       # Successful builds tidy up the failure reports that older runs left behind.
       - name: Close stale failure reports
