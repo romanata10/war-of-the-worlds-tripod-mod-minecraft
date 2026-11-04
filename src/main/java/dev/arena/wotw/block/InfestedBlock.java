@@ -29,7 +29,7 @@ public class InfestedBlock extends Block {
         BlockPos above = pos.above();
         if (world.getBlockState(above).isAir()) {
             world.setBlock(above, (random.nextBoolean() ? ModBlocks.RED_ROOT : ModBlocks.BLOOD_ROOTS)
-                    .defaultBlockState());
+                    .defaultBlockState(), 3);
             return;
         }
         for (Direction direction : Direction.Plane.HORIZONTAL) {
