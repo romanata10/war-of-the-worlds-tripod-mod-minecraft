@@ -64,8 +64,8 @@ public class MartianMasterEntity extends MartianEntity {
         AABB area = new AABB(this.position().add(-24.0D, -10.0D, -24.0D), this.position().add(24.0D, 10.0D, 24.0D));
         for (AbstractTripodEntity ally : world.getEntitiesOfClass(AbstractTripodEntity.class, area,
                 entity -> entity.isAlive())) {
-            ally.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 300, 0));
-            ally.addEffect(new MobEffectInstance(MobEffects.SPEED, 300, 0));
+            ally.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300, 0));
+            ally.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 300, 0));
         }
         world.sendParticles(ParticleTypes.ENCHANT, this.getX(), this.getY() + 1.0D, this.getZ(),
                 60, 6.0D, 2.0D, 6.0D, 0.4D);

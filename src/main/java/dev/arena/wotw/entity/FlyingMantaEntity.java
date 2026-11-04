@@ -43,8 +43,8 @@ public class FlyingMantaEntity extends AbstractTripodEntity {
     protected void addExtraGoals() {
         // The beam has a higher priority than the flight pattern, so the manta stops circling
         // for the half second it needs to charge and fire, then resumes its orbit.
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 8.0F, 48.0D, 24, 80));
-        this.goalSelector.add(3, new HoverGoal(this, 11.0D, 9.0D, 0.85D));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 8.0F, 48.0D, 24, 80));
+        this.goalSelector.addGoal(3, new HoverGoal(this, 11.0D, 9.0D, 0.85D));
     }
 
     @Override

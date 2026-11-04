@@ -42,7 +42,7 @@ public class BloodRootsBlock extends Block {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        return world.getBlockState(pos.down()).canOcclude();
+        return world.getBlockState(pos.below()).canOcclude();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class BloodRootsBlock extends Block {
         if (entity instanceof Player player) {
             player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 60, 0, false, false, false));
         }
-        if (living.age % 10 == 0 && world instanceof ServerLevel serverWorld) {
+        if (living.tickCount % 10 == 0 && world instanceof ServerLevel serverWorld) {
             serverWorld.sendParticles(ParticleTypes.ASH, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
                     4, 0.4D, 0.2D, 0.4D, 0.01D);
         }
@@ -87,8 +87,8 @@ public class BloodRootsBlock extends Block {
         }
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos target = pos.relative(direction);
-            if (world.getBlockState(target).isAir() && world.getBlockState(target.down()).canOcclude()) {
-                world.setBlock(target, this.defaultBlockState());
+            if (world.getBlockState(target).isAir() && world.getBlockState(target.below()).canOcclude()) {
+                world.setBlock(target, this.defaultBlockState(), 3);
                 return;
             }
         }
@@ -96,10 +96,10 @@ public class BloodRootsBlock extends Block {
 
     /** Helper used by capsules and structures: plant a vine if the spot allows it. */
     public static boolean plant(Level world, BlockPos pos) {
-        if (!world.getBlockState(pos).isAir() || !world.getBlockState(pos.down()).canOcclude()) {
+        if (!world.getBlockState(pos).isAir() || !world.getBlockState(pos.below()).canOcclude()) {
             return false;
         }
-        world.setBlock(pos, dev.arena.wotw.registry.ModBlocks.BLOOD_ROOTS.defaultBlockState());
+        world.setBlock(pos, dev.arena.wotw.registry.ModBlocks.BLOOD_ROOTS.defaultBlockState(), 3);
         return true;
     }
 }

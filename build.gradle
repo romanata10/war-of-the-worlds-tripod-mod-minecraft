@@ -56,6 +56,8 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.release = 17
+    // javac stops after 100 errors by default; during a port we want the whole list at once
+    options.compilerArgs += ['-Xmaxerrs', '2000']
 }
 
 // mods.toml carries the version number of the build.

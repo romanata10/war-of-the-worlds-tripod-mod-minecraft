@@ -36,7 +36,7 @@ public class MartianHeronEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.LANCE, 16.0F, 52.0D, 40, 150));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.LANCE, 16.0F, 52.0D, 40, 150));
     }
 
     @Override

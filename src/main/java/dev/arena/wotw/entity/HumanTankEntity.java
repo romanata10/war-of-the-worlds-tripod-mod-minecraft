@@ -21,7 +21,7 @@ public class HumanTankEntity extends AbstractHumanCombatantEntity {
 
     @Override
     protected void addCombatGoals() {
-        this.goalSelector.add(3, new GunAttackGoal(this, 42.0D, 80, 2.2F, 0.0F));
-        this.goalSelector.add(4, new WaterAvoidingRandomStrollGoal(this, 0.5D));
+        this.goalSelector.addGoal(3, new GunAttackGoal(this, 42.0D, 80, 2.2F, 0.0F));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.5D));
     }
 }

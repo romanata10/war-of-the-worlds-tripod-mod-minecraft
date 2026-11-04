@@ -36,7 +36,7 @@ public class DroneEntity extends AbstractTripodEntity {
     @Override
     protected void initGoals() {
         super.initGoals();
-        this.goalSelector.add(1, new net.minecraft.world.entity.ai.goal.PanicGoal(this, 1.2D));
+        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.PanicGoal(this, 1.2D));
     }
 
     @Override
@@ -81,6 +81,6 @@ public class DroneEntity extends AbstractTripodEntity {
     /** Drones hunt villagers as eagerly as players. */
     @Override
     protected void addExtraGoals() {
-        this.targetSelector.add(1, new NearestAttackableTargetGoal<>(this, Villager.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Villager.class, true));
     }
 }

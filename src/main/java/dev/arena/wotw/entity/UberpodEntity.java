@@ -34,7 +34,7 @@ public class UberpodEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 14.0F, 50.0D, 20, 70, 2, 6, true));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 14.0F, 50.0D, 20, 70, 2, 6, true));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UberpodEntity extends AbstractTripodEntity {
         if (this.isShielded() || !this.isAbilityReady()) {
             return;
         }
-        if (this.getTarget() == null || this.getAttacker() == null) {
+        if (this.getTarget() == null || this.getLastHurtByMob() == null) {
             return;
         }
         this.startShield(SHIELD_TICKS);

@@ -37,8 +37,8 @@ public class AsylumWalkerEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new StompGoal(this, 9.0F, 8.0D, 140));
-        this.goalSelector.add(3, new BeamAttackGoal(this, BeamKind.GREEN_BEAM, 7.5F, 36.0D, 28, 85));
+        this.goalSelector.addGoal(2, new StompGoal(this, 9.0F, 8.0D, 140));
+        this.goalSelector.addGoal(3, new BeamAttackGoal(this, BeamKind.GREEN_BEAM, 7.5F, 36.0D, 28, 85));
     }
 
     @Override

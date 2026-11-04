@@ -107,7 +107,7 @@ public class HandlingMachineEntity extends AbstractTripodEntity {
         // keep the tag topped up so the other machines keep ignoring him, but only for the
         // length of the cage — the prisoner eventually pries the bars open and runs
         this.cageTicks++;
-        if (this.cageTicks <= CAGE_TICKS && player.age % 20 == 0) {
+        if (this.cageTicks <= CAGE_TICKS && player.tickCount % 20 == 0) {
             player.addEffect(new MobEffectInstance(ModStatusEffects.CAGED, 60, 0, false, false, false));
         }
 

@@ -35,7 +35,7 @@ public class RedRootBlock extends Block {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-        return world.getBlockState(pos.down()).canOcclude();
+        return world.getBlockState(pos.below()).canOcclude();
     }
 
     @Override
@@ -55,8 +55,8 @@ public class RedRootBlock extends Block {
         }
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos target = pos.relative(direction);
-            if (world.getBlockState(target).isAir() && world.getBlockState(target.down()).canOcclude()) {
-                world.setBlock(target, this.defaultBlockState());
+            if (world.getBlockState(target).isAir() && world.getBlockState(target.below()).canOcclude()) {
+                world.setBlock(target, this.defaultBlockState(), 3);
                 return;
             }
         }
@@ -67,10 +67,10 @@ public class RedRootBlock extends Block {
         if (!world.getBlockState(pos).isAir()) {
             return false;
         }
-        if (!world.getBlockState(pos.down()).canOcclude()) {
+        if (!world.getBlockState(pos.below()).canOcclude()) {
             return false;
         }
-        world.setBlock(pos, dev.arena.wotw.registry.ModBlocks.RED_ROOT.defaultBlockState());
+        world.setBlock(pos, dev.arena.wotw.registry.ModBlocks.RED_ROOT.defaultBlockState(), 3);
         return true;
     }
 }

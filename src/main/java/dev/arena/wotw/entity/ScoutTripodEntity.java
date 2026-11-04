@@ -38,7 +38,7 @@ public class ScoutTripodEntity extends AbstractTripodEntity {
     @Override
     protected void addExtraGoals() {
         // machine gun: short bursts, small damage, no charge up
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.LANCE, 3.0F, 42.0D, 6, 34, 4, 4, true));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.LANCE, 3.0F, 42.0D, 6, 34, 4, 4, true));
     }
 
     @Override

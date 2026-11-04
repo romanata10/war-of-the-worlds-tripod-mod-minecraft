@@ -98,21 +98,21 @@ public abstract class AbstractTripodEntity extends Monster {
     @Override
     protected void initGoals() {
         if (!isFlyer()) {
-            this.goalSelector.add(0, new FloatGoal(this));
-            this.goalSelector.add(6, new MeleeAttackGoal(this, 1.0D, true));
-            this.goalSelector.add(8, new WaterAvoidingRandomStrollGoal(this, 0.7D));
-            this.goalSelector.add(9, new LookAtPlayerGoal(this, Player.class, 40.0F));
-            this.goalSelector.add(9, new RandomLookAroundGoal(this));
+            this.goalSelector.addGoal(0, new FloatGoal(this));
+            this.goalSelector.addGoal(6, new MeleeAttackGoal(this, 1.0D, true));
+            this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+            this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 40.0F));
+            this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
         }
-        this.targetSelector.add(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         // A player already locked in the cage of a Handling Machine is not prey any more.
-        this.targetSelector.add(2, new NearestAttackableTargetGoal<>(this, Player.class, true,
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true,
                 entity -> !(entity instanceof Player player
                         && player.hasEffect(dev.arena.wotw.registry.ModStatusEffects.CAGED))));
         // the human army shoots at us, so we shoot back
-        this.targetSelector.add(3, new NearestAttackableTargetGoal<>(this, AbstractHumanCombatantEntity.class, true));
-        this.targetSelector.add(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.add(4, new NearestAttackableTargetGoal<>(this, Villager.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractHumanCombatantEntity.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.addExtraGoals();
     }
 
@@ -248,7 +248,7 @@ public abstract class AbstractTripodEntity extends Monster {
     public void fireBeamAt(Vec3 target, BeamKind kind, float damage) {
         Vec3 origin = this.getBeamOrigin();
         Vec3 delta = target.subtract(origin);
-        if (delta.lengthSquared() < 0.05D) {
+        if (delta.lengthSqr() < 0.05D) {
             return;
         }
         this.fireBeam(origin, delta.normalize(), kind, damage);

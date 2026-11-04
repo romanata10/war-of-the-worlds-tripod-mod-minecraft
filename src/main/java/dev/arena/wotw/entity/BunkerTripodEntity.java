@@ -53,7 +53,7 @@ public class BunkerTripodEntity extends AbstractTripodEntity {
                     this.getY() + this.getBbHeight() * (0.35D + 0.06D * (port % 3)),
                     this.getZ() + Math.sin(angle + this.yBodyRot * 0.0175D) * radius);
             Vec3 delta = aim.subtract(origin);
-            if (delta.lengthSquared() < 0.1D) {
+            if (delta.lengthSqr() < 0.1D) {
                 continue;
             }
             this.fireBeam(origin, delta.normalize(), BeamKind.LANCE, 3.5F);

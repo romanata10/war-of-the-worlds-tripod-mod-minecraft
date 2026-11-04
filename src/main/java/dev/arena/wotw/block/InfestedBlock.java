@@ -26,7 +26,7 @@ public class InfestedBlock extends Block {
         if (random.nextFloat() > 0.08F) {
             return;
         }
-        BlockPos above = pos.up();
+        BlockPos above = pos.above();
         if (world.getBlockState(above).isAir()) {
             world.setBlock(above, (random.nextBoolean() ? ModBlocks.RED_ROOT : ModBlocks.BLOOD_ROOTS)
                     .defaultBlockState());
@@ -34,8 +34,8 @@ public class InfestedBlock extends Block {
         }
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos target = pos.relative(direction);
-            if (world.getBlockState(target).isAir() && world.getBlockState(target.down()).canOcclude()) {
-                world.setBlock(target, ModBlocks.BLOOD_ROOTS.defaultBlockState());
+            if (world.getBlockState(target).isAir() && world.getBlockState(target.below()).canOcclude()) {
+                world.setBlock(target, ModBlocks.BLOOD_ROOTS.defaultBlockState(), 3);
                 return;
             }
         }

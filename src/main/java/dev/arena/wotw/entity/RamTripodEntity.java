@@ -68,13 +68,13 @@ public class RamTripodEntity extends AbstractTripodEntity {
             return;
         }
         Vec3 flat = new Vec3(target.getX() - this.getX(), 0.0D, target.getZ() - this.getZ());
-        if (flat.lengthSquared() < 0.01D) {
+        if (flat.lengthSqr() < 0.01D) {
             return;
         }
         Vec3 forward = flat.normalize();
         this.setDeltaMovement(forward.x * 0.95D, this.getDeltaMovement().y, forward.z * 0.95D);
         this.hurtMarked = true;
-        this.getLookControl().lookAt(target.getX(), target.getY() + 1.0D, target.getZ(), 60.0F, 60.0F);
+        this.getLookControl().setLookAt(target.getX(), target.getY() + 1.0D, target.getZ(), 60.0F, 60.0F);
         this.smashAhead(forward);
 
         if (this.distanceToSqr(target) < 12.0D) {
@@ -100,7 +100,7 @@ public class RamTripodEntity extends AbstractTripodEntity {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
                 for (int dy = 0; dy <= 2; dy++) {
-                    BlockPos pos = front.add(dx, dy, dz);
+                    BlockPos pos = front.offset(dx, dy, dz);
                     BlockState state = world.getBlockState(pos);
                     if (state.isAir()) {
                         continue;

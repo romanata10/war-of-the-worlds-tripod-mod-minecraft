@@ -47,7 +47,7 @@ public class MartianTurretBlockEntity extends BlockEntity {
         }
         Vec3 origin = new Vec3(this.pos.getX() + 0.5D, this.pos.getY() + 1.9D, this.pos.getZ() + 0.5D);
         Vec3 direction = player.getEyePosition().subtract(origin);
-        if (direction.lengthSquared() < 0.1D) {
+        if (direction.lengthSqr() < 0.1D) {
             return;
         }
         BeamEntity beam = new BeamEntity(world, origin, direction.normalize(), BeamKind.LANCE, null, 5.0F);

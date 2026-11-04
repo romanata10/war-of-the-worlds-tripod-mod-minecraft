@@ -54,8 +54,8 @@ public class HeatRayEmitterItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-        tooltip.add(Component.translatable("item.wotw.heat_ray_emitter.tooltip").formatted(ChatFormatting.GREEN));
-        tooltip.add(Component.translatable("item.wotw.heat_ray_emitter.tooltip2").formatted(ChatFormatting.DARK_GRAY));
+        tooltip.add(Component.translatable("item.wotw.heat_ray_emitter.tooltip").withStyle(ChatFormatting.GREEN));
+        tooltip.add(Component.translatable("item.wotw.heat_ray_emitter.tooltip2").withStyle(ChatFormatting.DARK_GRAY));
     }
 
     @Override

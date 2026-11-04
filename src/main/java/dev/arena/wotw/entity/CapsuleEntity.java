@@ -69,8 +69,8 @@ public class CapsuleEntity extends Entity {
         capsule.tripodsCarryRoots = world.getRandom().nextFloat() < 0.65F;
         world.addFreshEntity(capsule);
         if (announce) {
-            Component warning = Component.translatable("wotw.event.capsule_incoming").formatted(ChatFormatting.GOLD);
-            for (ServerPlayer player : world.getPlayers()) {
+            Component warning = Component.translatable("wotw.event.capsule_incoming").withStyle(ChatFormatting.GOLD);
+            for (ServerPlayer player : world.getPlayers(player -> true)) {
                 if (player.distanceToSqr(x, top, z) < 200.0D * 200.0D) {
                     player.displayClientMessage(warning, false);
                 }
@@ -134,7 +134,7 @@ public class CapsuleEntity extends Entity {
         BlockPos center = this.blockPosition();
 
         this.digCrater(world, center);
-        world.setBlock(center.down(), ModBlocks.MARTIAN_CYLINDER.defaultBlockState(), Block.UPDATE_ALL);
+        world.setBlock(center.below(), ModBlocks.MARTIAN_CYLINDER.defaultBlockState(), Block.UPDATE_ALL);
         world.setBlock(center, ModBlocks.MARTIAN_CYLINDER.defaultBlockState(), Block.UPDATE_ALL);
 
         world.playSound(null, center, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 8.0F, 0.35F);
@@ -147,8 +147,8 @@ public class CapsuleEntity extends Entity {
         this.burn(world, center);
 
         if (this.announced) {
-            Component message = Component.translatable("wotw.event.landing").formatted(ChatFormatting.RED);
-            for (ServerPlayer player : world.getPlayers()) {
+            Component message = Component.translatable("wotw.event.landing").withStyle(ChatFormatting.RED);
+            for (ServerPlayer player : world.getPlayers(player -> true)) {
                 if (player.distanceToSqr(center.getX(), center.getY(), center.getZ()) < 160.0D * 160.0D) {
                     player.displayClientMessage(message, false);
                 }
@@ -157,7 +157,7 @@ public class CapsuleEntity extends Entity {
     }
 
     private void digCrater(ServerLevel world, BlockPos center) {
-        for (BlockPos pos : BlockPos.betweenClosed(center.add(-4, -4, -4), center.add(4, 1, 4))) {
+        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-4, -4, -4), center.offset(4, 1, 4))) {
             double distance = pos.distToCenterSqr(center.getX() + 0.5D, center.getY() + 0.5D, center.getZ() + 0.5D);
             if (distance > 17.0D || pos.getY() <= world.getMinBuildHeight()) {
                 continue;
@@ -197,7 +197,7 @@ public class CapsuleEntity extends Entity {
         BlockPos center = this.blockPosition();
         // a capsule that came down in the sea brings the water tripod instead of a walker
         boolean atSea = world.getFluidState(center).is(net.minecraft.tags.FluidTags.WATER)
-                || world.getFluidState(center.down(3)).is(net.minecraft.tags.FluidTags.WATER);
+                || world.getFluidState(center.below(3)).is(net.minecraft.tags.FluidTags.WATER);
         for (int i = 0; i < MARTIAN_COUNT; i++) {
             EntityType<?> type = i == 0 && world.getRandom().nextFloat() < 0.25F
                     ? ModEntities.MARTIAN_MASTER

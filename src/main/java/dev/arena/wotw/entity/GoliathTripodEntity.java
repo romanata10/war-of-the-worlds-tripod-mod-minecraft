@@ -35,7 +35,7 @@ public class GoliathTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 9.5F, 44.0D, 26, 80, 3, 8, true));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 9.5F, 44.0D, 26, 80, 3, 8, true));
     }
 
     @Override

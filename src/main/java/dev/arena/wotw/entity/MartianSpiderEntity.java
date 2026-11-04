@@ -35,7 +35,7 @@ public class MartianSpiderEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new PounceGoal(this, 12.0D, 90));
+        this.goalSelector.addGoal(2, new PounceGoal(this, 12.0D, 90));
     }
 
     @Override

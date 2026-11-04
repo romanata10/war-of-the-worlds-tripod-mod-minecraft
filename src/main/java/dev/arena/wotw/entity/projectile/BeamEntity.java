@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 public class BeamEntity extends Entity {
 
     private static final EntityDataAccessor<Integer> KIND =
-            SynchedEntityData.defineId(BeamEntity.class, EntityDataSerializers.INTEGER);
+            SynchedEntityData.defineId(BeamEntity.class, EntityDataSerializers.INT);
 
     private Vec3 direction = new Vec3(0.0D, 0.0D, 1.0D);
     private float damage = 6.0F;
@@ -39,7 +39,7 @@ public class BeamEntity extends Entity {
     public BeamEntity(EntityType<? extends BeamEntity> type, Level world) {
         super(type, world);
         this.setNoGravity(true);
-        this.noClip = true;
+        this.noPhysics = true;
     }
 
     public BeamEntity(Level world, Vec3 origin, Vec3 direction, BeamKind kind, @Nullable Entity owner, float damage) {
@@ -62,7 +62,7 @@ public class BeamEntity extends Entity {
         return BeamKind.byId(this.entityData.get(KIND));
     }
 
-    public Vec3 getDirection() {
+    public Vec3 getBeamDirection() {
         return this.direction;
     }
 
@@ -99,7 +99,7 @@ public class BeamEntity extends Entity {
         // The server is authoritative about the position, the client just interpolates the
         // tracked position it receives every tick.
         AABB sweep = new AABB(from, to).inflate(kind.getRadius());
-        for (Entity candidate : this.level().getOtherEntities(this, sweep, this::canHit)) {
+        for (Entity candidate : this.level().getEntities(this, sweep, this::canHit)) {
             this.hitLiving((LivingEntity) candidate, kind);
         }
 
@@ -142,10 +142,10 @@ public class BeamEntity extends Entity {
         this.level().playSound(null, pos, ModSounds.HEAT_RAY, SoundSource.HOSTILE, 0.9F,
                 kind.getSoundPitch() * 1.1F);
 
-        BlockPos above = pos.up();
+        BlockPos above = pos.above();
         if (kind.getIgniteSeconds() >= 6 && this.level().getBlockState(above).isAir()
                 && this.random.nextFloat() < 0.6F) {
-            this.level().setBlock(above, Blocks.FIRE.defaultBlockState());
+            this.level().setBlock(above, Blocks.FIRE.defaultBlockState(), 3);
         }
     }
 
@@ -155,7 +155,7 @@ public class BeamEntity extends Entity {
         this.life = nbt.getInt("Life");
         this.damage = nbt.getFloat("Damage");
         this.direction = new Vec3(nbt.getDouble("DirX"), nbt.getDouble("DirY"), nbt.getDouble("DirZ"));
-        if (this.direction.lengthSquared() < 1.0E-4D) {
+        if (this.direction.lengthSqr() < 1.0E-4D) {
             this.direction = new Vec3(0.0D, 0.0D, 1.0D);
         }
     }
@@ -171,7 +171,7 @@ public class BeamEntity extends Entity {
     }
 
     @Override
-    public boolean shouldRender(double distance) {
+    public boolean shouldRenderAtSqrDistance(double distance) {
         return distance < 16384.0D;
     }
 }

@@ -30,7 +30,7 @@ public class BbcRedTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.LASER, 6.0F, 44.0D, 18, 90, 3, 7, true));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.LASER, 6.0F, 44.0D, 18, 90, 3, 7, true));
     }
 
     @Override

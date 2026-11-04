@@ -60,7 +60,7 @@ public class MartianEntity extends AbstractTripodEntity {
         if (!(this.level() instanceof ServerLevel world)) {
             return;
         }
-        AreaEffectCloudEntity cloud = new AreaEffectCloudEntity(world,
+        AreaEffectCloud cloud = new AreaEffectCloud(world,
                 target.getX(), target.getY() + 0.4D, target.getZ());
         cloud.setOwner(this);
         cloud.setRadius(3.2F);

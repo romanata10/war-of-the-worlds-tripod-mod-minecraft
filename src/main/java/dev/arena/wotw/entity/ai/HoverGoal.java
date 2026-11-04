@@ -75,6 +75,6 @@ public class HoverGoal extends Goal {
         }
         this.tripod.setDeltaMovement(velocity);
         this.tripod.hurtMarked = true;
-        this.tripod.getLookControl().lookAt(target, 25.0F, 25.0F);
+        this.tripod.getLookControl().setLookAt(target, 25.0F, 25.0F);
     }
 }

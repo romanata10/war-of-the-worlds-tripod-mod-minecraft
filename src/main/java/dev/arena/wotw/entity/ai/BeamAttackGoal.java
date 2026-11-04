@@ -99,7 +99,7 @@ public class BeamAttackGoal extends Goal {
         this.timer++;
         LivingEntity target = this.tripod.getTarget();
         if (target != null) {
-            this.tripod.getLookControl().lookAt(target, 40.0F, 40.0F);
+            this.tripod.getLookControl().setLookAt(target, 40.0F, 40.0F);
         }
 
         if (this.timer == this.chargeTicks) {

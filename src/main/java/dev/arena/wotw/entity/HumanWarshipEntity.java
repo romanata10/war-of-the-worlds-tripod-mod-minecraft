@@ -21,8 +21,8 @@ public class HumanWarshipEntity extends AbstractHumanCombatantEntity {
 
     @Override
     protected void addCombatGoals() {
-        this.goalSelector.add(3, new GunAttackGoal(this, 48.0D, 100, 3.2F, 0.0F));
-        this.goalSelector.add(4, new WaterAvoidingRandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(3, new GunAttackGoal(this, 48.0D, 100, 3.2F, 0.0F));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.4D));
     }
 
     @Override

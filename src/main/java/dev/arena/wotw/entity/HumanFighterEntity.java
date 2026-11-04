@@ -25,7 +25,7 @@ public class HumanFighterEntity extends AbstractHumanCombatantEntity {
 
     @Override
     protected void addCombatGoals() {
-        this.goalSelector.add(3, new GunAttackGoal(this, 44.0D, 24, 0.0F, 6.0F));
+        this.goalSelector.addGoal(3, new GunAttackGoal(this, 44.0D, 24, 0.0F, 6.0F));
     }
 
     @Override
@@ -41,11 +41,11 @@ public class HumanFighterEntity extends AbstractHumanCombatantEntity {
         if (target != null) {
             Vec3 aim = new Vec3(target.getX(), Math.max(target.getY() + 9.0D, patrolHeight), target.getZ());
             Vec3 delta = aim.subtract(this.position());
-            if (delta.lengthSquared() > 4.0D) {
+            if (delta.lengthSqr() > 4.0D) {
                 Vec3 velocity = delta.normalize().scale(0.34D);
                 this.setDeltaMovement(velocity);
             }
-            this.getLookControl().lookAt(target, 40.0F, 40.0F);
+            this.getLookControl().setLookAt(target, 40.0F, 40.0F);
         } else {
             double lift = Math.max(-0.12D, Math.min(0.12D, (patrolHeight - this.getY()) * 0.05D));
             this.setDeltaMovement(this.getDeltaMovement().x, lift, this.getDeltaMovement().z);

@@ -47,7 +47,7 @@ public final class CagedDeathHandler {
                 if (world.getRandom().nextFloat() > 0.55F) {
                     continue;
                 }
-                BlockPos column = base.add(dx, 0, dz);
+                BlockPos column = base.offset(dx, 0, dz);
                 for (int dy = 0; dy <= 2; dy++) {
                     BlockPos pos = column.up(dy);
                     boolean planted = world.getRandom().nextFloat() < 0.35F

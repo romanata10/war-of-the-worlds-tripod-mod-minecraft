@@ -39,7 +39,7 @@ public class GunAttackGoal extends Goal {
         if (target == null || !target.isAlive()) {
             return false;
         }
-        if (this.shooter.age - this.lastShot < this.cooldownTicks) {
+        if (this.shooter.tickCount - this.lastShot < this.cooldownTicks) {
             return false;
         }
         if (this.shooter.distanceToSqr(target) > this.range * this.range) {
@@ -55,9 +55,9 @@ public class GunAttackGoal extends Goal {
             return;
         }
         this.shooter.getNavigation().stop();
-        this.shooter.getLookControl().lookAt(target, 40.0F, 40.0F);
+        this.shooter.getLookControl().setLookAt(target, 40.0F, 40.0F);
         this.fire(target);
-        this.lastShot = this.shooter.age;
+        this.lastShot = this.shooter.tickCount;
     }
 
     @Override

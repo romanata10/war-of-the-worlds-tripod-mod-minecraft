@@ -37,7 +37,7 @@ public class TankTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 10.0F, 62.0D, 26, 90, 3, 8, true));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 10.0F, 62.0D, 26, 90, 3, 8, true));
     }
 
     @Override

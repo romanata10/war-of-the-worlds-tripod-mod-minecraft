@@ -73,10 +73,10 @@ public class DiggingMachineEntity extends AbstractTripodEntity {
     /** Removes the diggable blocks around the given centre. Returns true if anything was removed. */
     private boolean carve(ServerLevel world, BlockPos center) {
         boolean carved = false;
-        for (BlockPos pos : BlockPos.betweenClosed(center.add(-DIG_RADIUS, -DIG_RADIUS, -DIG_RADIUS),
-                center.add(DIG_RADIUS, DIG_RADIUS, DIG_RADIUS))) {
+        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-DIG_RADIUS, -DIG_RADIUS, -DIG_RADIUS),
+                center.offset(DIG_RADIUS, DIG_RADIUS, DIG_RADIUS))) {
             BlockState state = world.getBlockState(pos);
-            if (state.isAir() || state.isOf(Blocks.BEDROCK) || state.is(BlockTags.PORTALS)) {
+            if (state.isAir() || state.is(Blocks.BEDROCK) || state.is(BlockTags.PORTALS)) {
                 continue;
             }
             if (state.getDestroySpeed(world, pos) < 0.0F) {

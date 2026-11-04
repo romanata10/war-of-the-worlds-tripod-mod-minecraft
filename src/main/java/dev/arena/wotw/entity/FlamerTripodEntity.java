@@ -53,7 +53,7 @@ public class FlamerTripodEntity extends AbstractTripodEntity {
                 entity -> entity.isAlive() && entity != this && !(entity instanceof AbstractTripodEntity))) {
             Vec3 toVictim = victim.position().add(0.0D, victim.getBbHeight() * 0.5D, 0.0D)
                     .subtract(this.getBeamOrigin());
-            if (toVictim.lengthSquared() > RANGE * RANGE) {
+            if (toVictim.lengthSqr() > RANGE * RANGE) {
                 continue;
             }
             if (forward.dotProduct(toVictim.normalize()) < 0.55D) {

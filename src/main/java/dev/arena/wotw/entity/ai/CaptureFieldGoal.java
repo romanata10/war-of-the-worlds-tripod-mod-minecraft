@@ -68,7 +68,7 @@ public class CaptureFieldGoal extends Goal {
         this.timer++;
         LivingEntity target = this.tripod.getTarget();
         if (target != null) {
-            this.tripod.getLookControl().lookAt(target, 30.0F, 30.0F);
+            this.tripod.getLookControl().setLookAt(target, 30.0F, 30.0F);
         }
 
         if (this.timer % 5 != 0) {
@@ -79,7 +79,7 @@ public class CaptureFieldGoal extends Goal {
         Vec3 center = base.add(0.0D, this.tripod.getBbHeight() * 0.5D, 0.0D);
         AABB area = new AABB(base.x - this.radius, base.y - 1.0D, base.z - this.radius,
                 base.x + this.radius, base.y + this.tripod.getBbHeight() + 2.0D, base.z + this.radius);
-        for (Entity entity : this.tripod.level().getOtherEntities(this.tripod, area,
+        for (Entity entity : this.tripod.level().getEntities(this.tripod, area,
                 e -> e instanceof LivingEntity && e.isAlive())) {
             LivingEntity living = (LivingEntity) entity;
             if (living instanceof AbstractTripodEntity) {
@@ -94,7 +94,7 @@ public class CaptureFieldGoal extends Goal {
             living.push(direction.x * 0.16D, 0.13D, direction.z * 0.16D);
             living.hurtMarked = true;
             living.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0, false, false, false));
-            living.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 1, false, true, true));
+            living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1, false, true, true));
         }
 
         if (this.tripod.level() instanceof ServerLevel serverWorld) {

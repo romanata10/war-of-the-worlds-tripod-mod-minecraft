@@ -40,9 +40,9 @@ public class TaxiTripodEntity extends AbstractTripodEntity {
     /** The shuttle has no weapons and never picks a fight, so it gets no target goals at all. */
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new FloatGoal(this));
-        this.goalSelector.add(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
-        this.goalSelector.add(9, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+        this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TaxiTripodEntity extends AbstractTripodEntity {
     private void boardPassengers() {
         for (MartianEntity martian : this.level().getEntitiesOfClass(MartianEntity.class,
                 this.getBoundingBox().inflate(PICKUP_RANGE),
-                martian -> martian.isAlive() && !martian.hasVehicle() && martian.getPassengers().isEmpty())) {
+                martian -> martian.isAlive() && !martian.isPassenger() && martian.getPassengers().isEmpty())) {
             martian.startRiding(this, true);
             if (this.getPassengers().size() >= MAX_PASSENGERS) {
                 break;

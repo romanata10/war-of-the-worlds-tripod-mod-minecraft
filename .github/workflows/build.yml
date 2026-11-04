@@ -42,9 +42,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           {
+            echo 'Compiler errors:'
+            echo '```'
+            grep -A2 -E 'error:' build.log | head -600
+            echo '```'
+            echo
             echo 'Build output (tail):'
             echo '```'
-            tail -c 50000 build.log
+            tail -c 6000 build.log
             echo '```'
           } > report.md
           gh issue create --title "Build failure on ${GITHUB_SHA:0:7}" --body-file report.md || true

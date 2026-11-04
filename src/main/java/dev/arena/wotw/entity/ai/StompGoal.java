@@ -77,7 +77,7 @@ public class StompGoal extends Goal {
         Vec3 center = this.tripod.position();
         AABB area = new AABB(center.x - this.radius, center.y - 2.0D, center.z - this.radius,
                 center.x + this.radius, center.y + 3.0D, center.z + this.radius);
-        for (Entity entity : this.tripod.level().getOtherEntities(this.tripod, area, e -> e instanceof LivingEntity)) {
+        for (Entity entity : this.tripod.level().getEntities(this.tripod, area, e -> e instanceof LivingEntity)) {
             LivingEntity living = (LivingEntity) entity;
             if (living instanceof AbstractTripodEntity || !living.isAlive()) {
                 continue;

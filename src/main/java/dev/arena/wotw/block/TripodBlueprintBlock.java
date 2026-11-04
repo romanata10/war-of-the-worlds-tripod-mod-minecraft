@@ -67,7 +67,7 @@ public class TripodBlueprintBlock extends Block {
         if (tripod == null) {
             return;
         }
-        BlockPos spawn = pos.up();
+        BlockPos spawn = pos.above();
         tripod.moveTo(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D,
                 world.getRandom().nextFloat() * 360.0F, 0.0F);
         tripod.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(spawn), MobSpawnType.SPAWN_EGG, null, null);

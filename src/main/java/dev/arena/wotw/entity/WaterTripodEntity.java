@@ -59,13 +59,13 @@ public class WaterTripodEntity extends AbstractTripodEntity {
             return;
         }
         Vec3 pull = new Vec3(this.getX() - target.getX(), 0.0D, this.getZ() - target.getZ());
-        if (pull.lengthSquared() < 0.01D) {
+        if (pull.lengthSqr() < 0.01D) {
             return;
         }
         pull = pull.normalize().scale(0.55D);
         target.push(pull.x, 0.18D, pull.z);
         target.hurtMarked = true;
-        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 1, false, false, false));
+        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1, false, false, false));
 
         this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
                 SoundEvents.DOLPHIN_SPLASH, SoundSource.HOSTILE, 2.0F, 0.6F);

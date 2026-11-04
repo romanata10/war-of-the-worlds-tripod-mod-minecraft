@@ -50,7 +50,7 @@ public final class InvasionManager {
         if (world == null) {
             return;
         }
-        List<ServerPlayer> players = world.getPlayers();
+        List<ServerPlayer> players = world.getPlayers(player -> true);
         if (players.isEmpty()) {
             return;
         }

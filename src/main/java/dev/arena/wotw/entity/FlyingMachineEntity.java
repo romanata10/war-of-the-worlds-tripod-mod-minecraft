@@ -39,8 +39,8 @@ public class FlyingMachineEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 8.5F, 46.0D, 26, 80));
-        this.goalSelector.add(3, new HoverGoal(this, 10.0D, 12.0D, 1.0D));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 8.5F, 46.0D, 26, 80));
+        this.goalSelector.addGoal(3, new HoverGoal(this, 10.0D, 12.0D, 1.0D));
     }
 
     @Override

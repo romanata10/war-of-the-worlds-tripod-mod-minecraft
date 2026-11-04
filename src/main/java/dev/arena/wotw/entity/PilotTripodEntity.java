@@ -53,13 +53,13 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     /** Friendly machine: it hunts monsters instead of players, and only fights when provoked. */
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new FloatGoal(this));
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.add(7, new WaterAvoidingRandomStrollGoal(this, 0.7D));
-        this.goalSelector.add(8, new LookAtPlayerGoal(this, Player.class, 16.0F));
-        this.goalSelector.add(9, new RandomLookAroundGoal(this));
-        this.targetSelector.add(1, new HurtByTargetGoal(this));
-        this.targetSelector.add(2, new NearestAttackableTargetGoal<>(this, Monster.class, true,
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 16.0F));
+        this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Monster.class, true,
                 entity -> !(entity instanceof PilotTripodEntity)));
     }
 
@@ -69,11 +69,11 @@ public class PilotTripodEntity extends AbstractTripodEntity {
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.getPassengers().isEmpty() && !player.isSneaking() && this.isAlive()) {
+        if (this.getPassengers().isEmpty() && !player.isShiftKeyDown() && this.isAlive()) {
             if (!this.level().isClientSide) {
                 player.startRiding(this);
             }
-            return InteractionResult.success(this.level().isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         return InteractionResult.PASS;
     }
@@ -81,13 +81,6 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     @Override
     protected boolean canAddPassenger(Entity passenger) {
         return this.getPassengers().isEmpty();
-    }
-
-    @Override
-    public Vec3 getPassengerAttachmentPoint(net.minecraft.world.entity.Entity passenger,
-                                            net.minecraft.world.entity.EntityDimensions dimensions,
-                                            float partialTick) {
-        return super.getPassengerAttachmentPoint(passenger, dimensions, partialTick).add(0.0D, 1.55D, 0.0D);
     }
 
     @Override
@@ -129,7 +122,7 @@ public class PilotTripodEntity extends AbstractTripodEntity {
 
     @Nullable
     private LivingEntity pickTarget(Player player) {
-        Entity attacking = player.getAttacking();
+        Entity attacking = player.getLastHurtMob();
         if (attacking instanceof LivingEntity living && living.isAlive() && this.hasLineOfSight(living)) {
             return living;
         }
@@ -152,7 +145,7 @@ public class PilotTripodEntity extends AbstractTripodEntity {
         Vec3 origin = new Vec3(this.getX(), this.getY() + this.getBbHeight() * 0.78D, this.getZ())
                 .add(forward.scale(2.2D));
         Vec3 delta = target.getEyePosition().subtract(origin);
-        if (delta.lengthSquared() < 0.01D) {
+        if (delta.lengthSqr() < 0.01D) {
             return;
         }
         BeamEntity beam = new BeamEntity(this.level(), origin, delta.normalize(), BeamKind.HEAT_RAY, this, BEAM_DAMAGE);

@@ -67,7 +67,7 @@ public class BlackSmokeGoal extends Goal {
         this.timer++;
         LivingEntity target = this.tripod.getTarget();
         if (target != null) {
-            this.tripod.getLookControl().lookAt(target, 30.0F, 30.0F);
+            this.tripod.getLookControl().setLookAt(target, 30.0F, 30.0F);
         }
         if (this.timer == 22) {
             this.launch(target);
@@ -76,7 +76,7 @@ public class BlackSmokeGoal extends Goal {
 
     private void launch(LivingEntity target) {
         Vec3 impact = target != null ? target.position() : this.tripod.position().add(this.tripod.getViewVector(1.0F).scale(8.0D));
-        AreaEffectCloudEntity cloud = new AreaEffectCloudEntity(this.tripod.level(), impact.x, impact.y, impact.z);
+        AreaEffectCloud cloud = new AreaEffectCloud(this.tripod.level(), impact.x, impact.y, impact.z);
         cloud.setOwner(this.tripod);
         cloud.setParticle(ParticleTypes.LARGE_SMOKE);
         cloud.setRadius(4.5F);

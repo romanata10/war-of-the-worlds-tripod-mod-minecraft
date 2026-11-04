@@ -31,8 +31,8 @@ public class TempestEntity extends AbstractTripodEntity {
     @Override
     protected void addExtraGoals() {
         // two shots, so both cannon pods fire
-        this.goalSelector.add(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 11.0F, 52.0D, 32, 110, 2, 10, true));
-        this.goalSelector.add(3, new BlackSmokeGoal(this, 28.0D, 260));
+        this.goalSelector.addGoal(2, new BeamAttackGoal(this, BeamKind.HEAT_RAY, 11.0F, 52.0D, 32, 110, 2, 10, true));
+        this.goalSelector.addGoal(3, new BlackSmokeGoal(this, 28.0D, 260));
     }
 
     @Override

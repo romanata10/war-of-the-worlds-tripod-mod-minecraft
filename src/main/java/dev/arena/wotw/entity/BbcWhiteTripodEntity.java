@@ -29,7 +29,7 @@ public class BbcWhiteTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected void addExtraGoals() {
-        this.goalSelector.add(2, new CaptureFieldGoal(this, 12.0D, 120, 260));
+        this.goalSelector.addGoal(2, new CaptureFieldGoal(this, 12.0D, 120, 260));
     }
 
     @Override

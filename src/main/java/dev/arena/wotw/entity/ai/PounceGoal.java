@@ -63,12 +63,12 @@ public class PounceGoal extends Goal {
         this.timer++;
         LivingEntity target = this.tripod.getTarget();
         if (target != null) {
-            this.tripod.getLookControl().lookAt(target, 40.0F, 40.0F);
+            this.tripod.getLookControl().setLookAt(target, 40.0F, 40.0F);
         }
         if (this.timer == 8 && target != null) {
             Vec3 delta = target.position().subtract(this.tripod.position());
             Vec3 flat = new Vec3(delta.x, 0.0D, delta.z);
-            if (flat.lengthSquared() > 0.01D) {
+            if (flat.lengthSqr() > 0.01D) {
                 flat = flat.normalize().scale(1.35D);
             }
             this.tripod.setDeltaMovement(flat.x, 0.55D, flat.z);
