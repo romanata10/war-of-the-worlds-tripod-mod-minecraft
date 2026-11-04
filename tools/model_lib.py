@@ -241,12 +241,12 @@ def emit_java(model, method_name, indent="    "):
         lines.append(f'{indent}    PartDefinition {variable} = {variables[part.parent]}.addOrReplaceChild("{part.name}",')
         lines.append(f"{indent}            CubeListBuilder.create()")
         for index, (uv, (x, y, z, dx, dy, dz)) in enumerate(part.boxes):
-            prefix = f".uv({uv[0]}, {uv[1]})" if index == 0 else ""
-            lines.append(f"{indent}                    {prefix}.cuboid({x}, {y}, {z}, {dx}, {dy}, {dz})")
+            prefix = f".texOffs({uv[0]}, {uv[1]})" if index == 0 else ""
+            lines.append(f"{indent}                    {prefix}.addBox({x}, {y}, {z}, {dx}, {dy}, {dz})")
         lines[-1] += ","
         px, py, pz = part.pivot
         pitch, yaw, roll = part.rot
-        lines.append(f"{indent}            PartPose.of({px}, {py}, {pz}, "
+        lines.append(f"{indent}            PartPose.offsetAndRotation({px}, {py}, {pz}, "
                      f"{_radians(pitch)}, {_radians(yaw)}, {_radians(roll)}));")
 
     lines.append("")

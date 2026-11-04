@@ -23,7 +23,7 @@ public final class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, WotwMod.MOD_ID);
     public static final DeferredRegister<CreativeModeTab> TABS =
-            DeferredRegister.create(net.minecraft.core.registries.BuiltInRegistries.CREATIVE_MODE_TAB, WotwMod.MOD_ID);
+            DeferredRegister.create(net.minecraft.core.registries.net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, WotwMod.MOD_ID);
 
     public static final Item MARTIAN_ALLOY = register("martian_alloy", new Item(new Item.Properties()));
 
@@ -197,7 +197,7 @@ public final class ModItems {
 
     private static Item spawnEgg(String name, EntityType<? extends Mob> type,
                                  int primaryColor, int secondaryColor) {
-        return register(name, new SpawnEggItem(() -> type, primaryColor, secondaryColor, new Item.Properties()));
+        return register(name, new SpawnEggItem(type, primaryColor, secondaryColor, new Item.Properties()));
     }
 
     public static void register(IEventBus bus) {

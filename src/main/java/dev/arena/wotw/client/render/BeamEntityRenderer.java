@@ -47,7 +47,7 @@ public class BeamEntityRenderer extends EntityRenderer<BeamEntity> {
         matrices.scale(kind.getBbWidth(), kind.getBbWidth(), length);
 
         VertexConsumer consumer = vertexConsumers.getBuffer(RenderType.eyes(this.getTextureLocation(entity)));
-        this.model.render(matrices, consumer, FULL_BRIGHT, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.render(matrices, consumer, FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         matrices.popPose();
     }
 }

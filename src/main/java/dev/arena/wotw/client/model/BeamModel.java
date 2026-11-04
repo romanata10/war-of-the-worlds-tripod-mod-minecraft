@@ -26,7 +26,7 @@ public class BeamModel extends EntityModel<BeamEntity> {
         MeshDefinition data = new MeshDefinition();
         data.getRoot().addOrReplaceChild("beam", CubeListBuilder.create()
                         .addBox(-4, -4, -8, 8, 8, 16),
-                PartPose.NONE);
+                PartPose.ZERO);
         return LayerDefinition.create(data, 64, 64);
     }
 

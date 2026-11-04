@@ -81,10 +81,9 @@ public class BlackSmokeGoal extends Goal {
         cloud.setParticle(ParticleTypes.LARGE_SMOKE);
         cloud.setRadius(4.5F);
         cloud.setRadiusPerTick(0.02F);
-        cloud.setDurationOnUse(-0.05F);
+        cloud.setRadiusOnUse(-0.05F);
         cloud.setDuration(260);
         cloud.setWaitTime(0);
-        cloud.setColor(0x121212);
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 220, 1));
         cloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 220, 0));
         cloud.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0));

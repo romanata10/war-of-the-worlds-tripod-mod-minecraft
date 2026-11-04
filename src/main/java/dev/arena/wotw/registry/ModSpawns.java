@@ -2,12 +2,12 @@ package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -73,7 +73,7 @@ public final class ModSpawns {
      * Adds the table to a biome. Called by the biome modifier, which is where Forge wants the
      * "which biomes" decision to live.
      */
-    public static void addSpawners(net.minecraftforge.common.world.ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+    public static void addSpawners(ModifiableBiomeInfo.BiomeInfo.Builder builder) {
         if (!WotwConfig.NATURAL_SPAWNS) {
             return;
         }
@@ -82,22 +82,26 @@ public final class ModSpawns {
                 continue;
             }
             builder.getMobSpawnSettings().addSpawn(entry.category(),
-                    new net.minecraft.world.entity.MobSpawnSettings.SpawnerData(
-                            entry.type(), entry.weight(), entry.minGroup(), entry.maxGroup()));
+                    new MobSpawnSettings.SpawnerData(entry.type(), entry.weight(),
+                            entry.minGroup(), entry.maxGroup()));
         }
     }
 
     /** Spawn placement rules: machines need solid ground under them and head room above. */
     public static void registerPlacements(SpawnPlacementRegisterEvent event) {
         for (Entry entry : TABLE) {
-            event.register(entry.type(), SpawnPlacementTypes.ON_GROUND,
-                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    (type, world, spawnType, pos, random) -> isClear(world, pos, entry.clearance(), random),
-                    SpawnPlacementRegisterEvent.Operation.OR);
+            addPlacement(event, entry.type(), entry.clearance());
         }
     }
 
-    private static boolean isClear(ServerLevelAccessor world, BlockPos pos, int clearance, RandomSource random) {
+    private static <T extends Mob> void addPlacement(SpawnPlacementRegisterEvent event, EntityType<T> type,
+                                                     int clearance) {
+        event.register(type, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (entityType, world, spawnType, pos, random) -> isClear(world, pos, clearance),
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
+    }
+
+    private static boolean isClear(ServerLevelAccessor world, BlockPos pos, int clearance) {
         BlockPos below = pos.below();
         if (!world.getBlockState(below).canOcclude()) {
             return false;

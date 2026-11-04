@@ -39,7 +39,7 @@ public class TaxiTripodEntity extends AbstractTripodEntity {
 
     /** The shuttle has no weapons and never picks a fight, so it gets no target goals at all. */
     @Override
-    protected void initGoals() {
+    protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));

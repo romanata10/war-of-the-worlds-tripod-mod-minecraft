@@ -34,8 +34,8 @@ public class DroneEntity extends AbstractTripodEntity {
     }
 
     @Override
-    protected void initGoals() {
-        super.initGoals();
+    protected void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.PanicGoal(this, 1.2D));
     }
 

@@ -56,7 +56,7 @@ public class FlamerTripodEntity extends AbstractTripodEntity {
             if (toVictim.lengthSqr() > RANGE * RANGE) {
                 continue;
             }
-            if (forward.dotProduct(toVictim.normalize()) < 0.55D) {
+            if (forward.dot(toVictim.normalize()) < 0.55D) {
                 continue;
             }
             victim.setSecondsOnFire(6);

@@ -31,7 +31,7 @@ public class MartianTurretBlockEntity extends BlockEntity {
 
     /** Called from the block's ticker every game tick. */
     public void tick() {
-        Level world = this.level();
+        Level world = this.getLevel();
         if (world == null || world.isClientSide) {
             return;
         }
@@ -39,20 +39,20 @@ public class MartianTurretBlockEntity extends BlockEntity {
             this.cooldown--;
             return;
         }
-        Player player = world.getNearestPlayer(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D,
-                this.pos.getZ() + 0.5D, RANGE, false);
+        Player player = world.getNearestPlayer(this.worldPosition.getX() + 0.5D, this.worldPosition.getY() + 0.5D,
+                this.worldPosition.getZ() + 0.5D, RANGE, false);
         if (player == null || !player.isAlive()) {
             this.cooldown = 10;
             return;
         }
-        Vec3 origin = new Vec3(this.pos.getX() + 0.5D, this.pos.getY() + 1.9D, this.pos.getZ() + 0.5D);
+        Vec3 origin = new Vec3(this.worldPosition.getX() + 0.5D, this.worldPosition.getY() + 1.9D, this.worldPosition.getZ() + 0.5D);
         Vec3 direction = player.getEyePosition().subtract(origin);
         if (direction.lengthSqr() < 0.1D) {
             return;
         }
         BeamEntity beam = new BeamEntity(world, origin, direction.normalize(), BeamKind.LANCE, null, 5.0F);
         world.addFreshEntity(beam);
-        world.playSound(null, this.pos, net.minecraft.sounds.SoundEvents.BEACON_ACTIVATE,
+        world.playSound(null, this.worldPosition, net.minecraft.sounds.SoundEvents.BEACON_ACTIVATE,
                 SoundSource.BLOCKS, 1.2F, 1.6F);
         if (world instanceof ServerLevel serverWorld) {
             serverWorld.sendParticles(ParticleTypes.ELECTRIC_SPARK, origin.x, origin.y, origin.z,

@@ -44,7 +44,7 @@ public abstract class AbstractHumanCombatantEntity extends PathfinderMob {
     }
 
     @Override
-    protected void initGoals() {
+    protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 12.0F));

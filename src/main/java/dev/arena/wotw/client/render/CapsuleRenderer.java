@@ -20,7 +20,7 @@ public class CapsuleRenderer extends EntityRenderer<CapsuleEntity> {
     private static final float SCALE = 3.0F;
     private static final ResourceLocation BLOCK_ATLAS = new ResourceLocation("textures/atlas/blocks.png");
 
-    private final BlockRenderManager blockRenderManager;
+    private final BlockRenderDispatcher blockRenderManager;
 
     public CapsuleRenderer(EntityRendererProvider.Context context) {
         super(context);

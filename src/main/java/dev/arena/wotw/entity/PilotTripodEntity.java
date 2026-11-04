@@ -52,7 +52,7 @@ public class PilotTripodEntity extends AbstractTripodEntity {
 
     /** Friendly machine: it hunts monsters instead of players, and only fights when provoked. */
     @Override
-    protected void initGoals() {
+    protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 0.7D));
@@ -176,7 +176,7 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     }
 
     @Override
-    protected void dropCustomDeathLoot(DamageSource source, boolean causedByPlayer) {
+    protected void dropCustomDeathLoot(DamageSource source, int looting, boolean causedByPlayer) {
         super.dropCustomDeathLoot(source, causedByPlayer);
         this.spawnAtLocation(new ItemStack(ModItems.WHITE_MARTIAN_ALLOY, 1 + this.getRandom().nextInt(2)));
     }

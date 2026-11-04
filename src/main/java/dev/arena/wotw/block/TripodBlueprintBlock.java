@@ -43,7 +43,7 @@ public class TripodBlueprintBlock extends Block {
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
                               BlockHitResult hit) {
         if (world.isClientSide) {
             return InteractionResult.SUCCESS;

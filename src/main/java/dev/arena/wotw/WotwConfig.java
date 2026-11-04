@@ -52,7 +52,7 @@ public final class WotwConfig {
 
     /** Re-reads the config file. Called from {@link ForgeEvents} when Forge loads or reloads it. */
     public static void reload(ModConfigEvent event) {
-        if (event.getConfig().getSpec() != SPEC || !event.getConfig().getSpec().isLoaded()) {
+        if (!SPEC.isLoaded() || event.getConfig().getSpec() != SPEC) {
             return;
         }
         NATURAL_SPAWNS = NATURAL_SPAWNS_VALUE.get();

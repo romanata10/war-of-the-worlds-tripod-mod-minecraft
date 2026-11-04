@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>The block itself is only the pylon; the gun lives in {@link MartianTurretBlockEntity}, which
  * fires a lance beam at any player that comes within range.</p>
  */
-public class MartianTurretBlock extends Block implements BlockEntityProvider {
+public class MartianTurretBlock extends Block implements EntityBlock {
 
     public MartianTurretBlock(BlockBehaviour.Properties settings) {
         super(settings);

@@ -96,7 +96,7 @@ public abstract class AbstractTripodEntity extends Monster {
     /* ------------------------------------------------------------------ */
 
     @Override
-    protected void initGoals() {
+    protected void registerGoals() {
         if (!isFlyer()) {
             this.goalSelector.addGoal(0, new FloatGoal(this));
             this.goalSelector.addGoal(6, new MeleeAttackGoal(this, 1.0D, true));
@@ -310,7 +310,7 @@ public abstract class AbstractTripodEntity extends Monster {
     }
 
     @Override
-    protected void dropCustomDeathLoot(DamageSource source, boolean causedByPlayer) {
+    protected void dropCustomDeathLoot(DamageSource source, int looting, boolean causedByPlayer) {
         int amount = 1 + this.getRandom().nextInt(1 + (int) (this.getMaxHealth() / 100.0F));
         this.spawnAtLocation(new ItemStack(ModItems.MARTIAN_ALLOY, amount));
     }
