@@ -40,13 +40,13 @@ public class ShellRenderer extends EntityRenderer<ShellEntity> {
         float r = 1.0F;
         float g = entity.isElectricCharge() ? 0.95F : 1.0F;
         float b = entity.isElectricCharge() ? 1.0F : 0.55F;
-        consumer.vertex(matrix, -size, -size, 0.0F).color(r, g, b, 0.9F).texture(0.0F, 1.0F)
+        consumer.vertex(matrix, -size, -size, 0.0F).color(r, g, b, 0.9F).uv(0.0F, 1.0F)
                 .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
-        consumer.vertex(matrix, size, -size, 0.0F).color(r, g, b, 0.9F).texture(1.0F, 1.0F)
+        consumer.vertex(matrix, size, -size, 0.0F).color(r, g, b, 0.9F).uv(1.0F, 1.0F)
                 .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
-        consumer.vertex(matrix, size, size, 0.0F).color(r, g, b, 0.9F).texture(1.0F, 0.0F)
+        consumer.vertex(matrix, size, size, 0.0F).color(r, g, b, 0.9F).uv(1.0F, 0.0F)
                 .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
-        consumer.vertex(matrix, -size, size, 0.0F).color(r, g, b, 0.9F).texture(0.0F, 0.0F)
+        consumer.vertex(matrix, -size, size, 0.0F).color(r, g, b, 0.9F).uv(0.0F, 0.0F)
                 .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
         matrices.popPose();
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);

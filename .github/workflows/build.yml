@@ -44,7 +44,7 @@ jobs:
           {
             echo 'Compiler errors:'
             echo '```'
-            grep -A2 -E 'error:' build.log | head -600
+            grep -A3 -E 'error:' build.log | head -600
             echo '```'
             echo
             echo 'Build output (tail):'

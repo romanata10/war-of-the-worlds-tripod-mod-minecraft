@@ -10,6 +10,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import java.util.List;

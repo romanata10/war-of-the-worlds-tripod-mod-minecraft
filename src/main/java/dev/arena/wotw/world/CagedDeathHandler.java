@@ -49,7 +49,7 @@ public final class CagedDeathHandler {
                 }
                 BlockPos column = base.offset(dx, 0, dz);
                 for (int dy = 0; dy <= 2; dy++) {
-                    BlockPos pos = column.up(dy);
+                    BlockPos pos = column.above(dy);
                     boolean planted = world.getRandom().nextFloat() < 0.35F
                             ? BloodRootsBlock.plant(world, pos)
                             : RedRootBlock.plant(world, pos);

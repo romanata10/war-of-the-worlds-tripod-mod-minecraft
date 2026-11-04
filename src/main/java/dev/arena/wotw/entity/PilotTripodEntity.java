@@ -177,7 +177,7 @@ public class PilotTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int looting, boolean causedByPlayer) {
-        super.dropCustomDeathLoot(source, causedByPlayer);
+        super.dropCustomDeathLoot(source, looting, causedByPlayer);
         this.spawnAtLocation(new ItemStack(ModItems.WHITE_MARTIAN_ALLOY, 1 + this.getRandom().nextInt(2)));
     }
 

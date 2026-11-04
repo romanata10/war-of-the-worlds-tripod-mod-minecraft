@@ -44,10 +44,10 @@ public class BeamEntityRenderer extends EntityRenderer<BeamEntity> {
         // Point the model's -Z axis (the "forward" of every entity model) along the beam.
         matrices.mulPose(Axis.YP.rotationDegrees(180.0F - entity.getYRot()));
         matrices.mulPose(Axis.XP.rotationDegrees(-entity.getXRot()));
-        matrices.scale(kind.getBbWidth(), kind.getBbWidth(), length);
+        matrices.scale(kind.getWidth(), kind.getWidth(), length);
 
         VertexConsumer consumer = vertexConsumers.getBuffer(RenderType.eyes(this.getTextureLocation(entity)));
-        this.model.render(matrices, consumer, FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.renderToBuffer(matrices, consumer, FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         matrices.popPose();
     }
 }
