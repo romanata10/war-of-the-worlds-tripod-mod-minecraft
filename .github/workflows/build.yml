@@ -136,8 +136,18 @@ jobs:
           } > smoke.md
           if grep -q 'Done (' server.log; then
             echo "the server reached Done, the mod loaded"
-            rm -f smoke.md
-            exit 0
+            problems=$(grep -nE "Couldn't parse|Failed to parse|Unknown (structure|recipe|loot|biome)|\[minecraft/ERROR\]" server.log | head -25 || true)
+            if [ -z "$problems" ]; then
+              echo "no datapack or worldgen complaints"
+              rm -f smoke.md
+              exit 0
+            fi
+            echo "::error::the server started but complained about the data"
+            echo "Complaints after the server started:"
+            echo '```'
+            echo "$problems"
+            echo '```'
+            exit 1
           fi
           echo "::error::the dedicated server did not finish loading"
           exit 1
