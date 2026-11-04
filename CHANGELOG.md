@@ -3,6 +3,29 @@
 Все заметные изменения мода. Формат — [Keep a Changelog](https://keepachangelog.com/ru/1.1.0/),
 версии — [SemVer](https://semver.org/lang/ru/).
 
+## [1.4.0] — перенос на Forge 1.20.1
+
+Глобальное изменение: мод больше не собирается под Fabric, теперь это **Forge-мод для Minecraft
+1.20.1** (Forge 47.x, Java 17). Всё содержимое 1.3.0 осталось на месте.
+
+### Что изменилось
+
+- **Сборка**: ForgeGradle 6, официальные мэппинги Mojang (`official`), `META-INF/mods.toml` вместо
+  `fabric.mod.json`. Зависимость от Fabric API убрана полностью.
+- **Исходники**: все 85 классов переведены с Yarn-имён на мэппинги Mojang (`World` → `Level`,
+  `PlayerEntity` → `Player`, `StatusEffect` → `MobEffect`, `TexturedModelData` → `LayerDefinition` и
+  так далее). Скрипт перевода — `tools/port_to_forge.py`; им же обновлён генератор моделей.
+- **Регистрация**: `DeferredRegister` для блоков, предметов, сущностей, блок-сущностей, звуков,
+  эффектов и творческой вкладки.
+- **События**: атрибуты (`EntityAttributeCreationEvent`), правила спавна
+  (`SpawnPlacementRegisterEvent`), биом-модификатор спавна (`wotw:natural_spawns`), тик сервера
+  (`TickEvent.ServerTickEvent`), смерть в клетке (`LivingDeathEvent`), клиент
+  (`EntityRenderersEvent`, `FMLClientSetupEvent`).
+- **Конфиг**: вместо только system properties теперь настоящий Forge-конфиг
+  `config/wotw-common.toml` (`spawning.naturalSpawns`, `spawning.smallTripodsOnly`,
+  `invasion.invasionEvents`); system properties работают как значения по умолчанию.
+- Ресурсы (текстуры, модели, структуры, worldgen, лут, рецепты, локализация) перенесены без потерь.
+
 ## [1.3.0] — 2026-10-31
 
 Война перестала быть односторонней: у людей появилась армия, у марсиан — третья волна машин,
