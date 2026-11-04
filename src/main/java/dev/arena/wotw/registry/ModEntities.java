@@ -38,13 +38,14 @@ import dev.arena.wotw.entity.MartianSpiderEntity;
 import dev.arena.wotw.entity.Tripod2005Entity;
 import dev.arena.wotw.entity.projectile.BeamEntity;
 import dev.arena.wotw.entity.projectile.ShellEntity;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.util.RandomSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,9 @@ import java.util.List;
  */
 public final class ModEntities {
 
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
+            DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, WotwMod.MOD_ID);
+
     private static final List<EntityType<?>> ALL_TRIPODS = new ArrayList<>();
 
     /* ------------------------------------------------------------------ */
@@ -63,97 +67,97 @@ public final class ModEntities {
 
     /** The giant falling capsule used by the invasion events and by the capsule item. */
     public static final EntityType<CapsuleEntity> CAPSULE = register("capsule",
-            EntityType.Builder.<CapsuleEntity>create(CapsuleEntity::new, SpawnGroup.MISC)
-                    .setDimensions(2.4F, 3.2F)
-                    .maxTrackingRange(12)
-                    .trackingTickInterval(2));
+            EntityType.Builder.<CapsuleEntity>of(CapsuleEntity::new, MobCategory.MISC)
+                    .sized(2.4F, 3.2F)
+                    .clientTrackingRange(12)
+                    .updateInterval(2));
 
     public static final EntityType<BeamEntity> BEAM = register("beam",
-            EntityType.Builder.<BeamEntity>create(BeamEntity::new, SpawnGroup.MISC)
-                    .setDimensions(0.8F, 0.8F)
-                    .maxTrackingRange(8)
-                    .trackingTickInterval(1));
+            EntityType.Builder.<BeamEntity>of(BeamEntity::new, MobCategory.MISC)
+                    .sized(0.8F, 0.8F)
+                    .clientTrackingRange(8)
+                    .updateInterval(1));
 
     /* ------------------------------------------------------------------ */
     /*  Tripods                                                            */
     /* ------------------------------------------------------------------ */
 
     public static final EntityType<Tripod2005Entity> TRIPOD_2005 = tripod("tripod_2005",
-            EntityType.Builder.create(Tripod2005Entity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 11.3F));
+            EntityType.Builder.of(Tripod2005Entity::new, MobCategory.MONSTER).sized(5.0F, 11.3F));
 
     public static final EntityType<BbcWhiteTripodEntity> BBC_WHITE_TRIPOD = tripod("bbc_white_tripod",
-            EntityType.Builder.create(BbcWhiteTripodEntity::new, SpawnGroup.MONSTER).setDimensions(2.9F, 9.3F));
+            EntityType.Builder.of(BbcWhiteTripodEntity::new, MobCategory.MONSTER).sized(2.9F, 9.3F));
 
     public static final EntityType<BbcRedTripodEntity> BBC_RED_TRIPOD = tripod("bbc_red_tripod",
-            EntityType.Builder.create(BbcRedTripodEntity::new, SpawnGroup.MONSTER).setDimensions(4.4F, 9.3F));
+            EntityType.Builder.of(BbcRedTripodEntity::new, MobCategory.MONSTER).sized(4.4F, 9.3F));
 
     public static final EntityType<FlyingMantaEntity> FLYING_MANTA = tripod("flying_manta",
-            EntityType.Builder.create(FlyingMantaEntity::new, SpawnGroup.MONSTER).setDimensions(9.0F, 3.2F));
+            EntityType.Builder.of(FlyingMantaEntity::new, MobCategory.MONSTER).sized(9.0F, 3.2F));
 
     public static final EntityType<BookTripodEntity> BOOK_TRIPOD = tripod("book_tripod",
-            EntityType.Builder.create(BookTripodEntity::new, SpawnGroup.MONSTER).setDimensions(5.5F, 12.4F));
+            EntityType.Builder.of(BookTripodEntity::new, MobCategory.MONSTER).sized(5.5F, 12.4F));
 
     public static final EntityType<AsylumWalkerEntity> ASYLUM_WALKER = tripod("asylum_walker",
-            EntityType.Builder.create(AsylumWalkerEntity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 6.7F));
+            EntityType.Builder.of(AsylumWalkerEntity::new, MobCategory.MONSTER).sized(5.0F, 6.7F));
 
     public static final EntityType<GoliathTripodEntity> GOLIATH_TRIPOD = tripod("goliath_tripod",
-            EntityType.Builder.create(GoliathTripodEntity::new, SpawnGroup.MONSTER).setDimensions(6.7F, 14.1F));
+            EntityType.Builder.of(GoliathTripodEntity::new, MobCategory.MONSTER).sized(6.7F, 14.1F));
 
     public static final EntityType<MartianHeronEntity> MARTIAN_HERON = tripod("martian_heron",
-            EntityType.Builder.create(MartianHeronEntity::new, SpawnGroup.MONSTER).setDimensions(4.5F, 14.2F));
+            EntityType.Builder.of(MartianHeronEntity::new, MobCategory.MONSTER).sized(4.5F, 14.2F));
 
     public static final EntityType<MartianSpiderEntity> MARTIAN_SPIDER = tripod("martian_spider",
-            EntityType.Builder.create(MartianSpiderEntity::new, SpawnGroup.MONSTER).setDimensions(5.9F, 4.8F));
+            EntityType.Builder.of(MartianSpiderEntity::new, MobCategory.MONSTER).sized(5.9F, 4.8F));
 
     public static final EntityType<MartianLouseEntity> MARTIAN_LOUSE = tripod("martian_louse",
-            EntityType.Builder.create(MartianLouseEntity::new, SpawnGroup.MONSTER).setDimensions(1.7F, 2.2F));
+            EntityType.Builder.of(MartianLouseEntity::new, MobCategory.MONSTER).sized(1.7F, 2.2F));
 
     /* The creatures themselves, not their machines. */
 
     public static final EntityType<MartianEntity> MARTIAN = tripod("martian",
-            EntityType.Builder.create(MartianEntity::new, SpawnGroup.MONSTER).setDimensions(2.6F, 2.3F));
+            EntityType.Builder.of(MartianEntity::new, MobCategory.MONSTER).sized(2.6F, 2.3F));
 
     public static final EntityType<MartianMasterEntity> MARTIAN_MASTER = tripod("martian_master",
-            EntityType.Builder.create(MartianMasterEntity::new, SpawnGroup.MONSTER).setDimensions(3.6F, 3.0F));
+            EntityType.Builder.of(MartianMasterEntity::new, MobCategory.MONSTER).sized(3.6F, 3.0F));
 
     /* ------------------------------------------------------------------ */
     /*  Second wave: Martian machines that are not tripods                 */
     /* ------------------------------------------------------------------ */
 
     public static final EntityType<FlyingMachineEntity> FLYING_MACHINE = tripod("flying_machine",
-            EntityType.Builder.create(FlyingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(4.8F, 3.8F));
+            EntityType.Builder.of(FlyingMachineEntity::new, MobCategory.MONSTER).sized(4.8F, 3.8F));
 
     public static final EntityType<ElectricMachineEntity> ELECTRIC_MACHINE = tripod("electric_machine",
-            EntityType.Builder.create(ElectricMachineEntity::new, SpawnGroup.MONSTER).setDimensions(4.2F, 9.4F));
+            EntityType.Builder.of(ElectricMachineEntity::new, MobCategory.MONSTER).sized(4.2F, 9.4F));
 
     public static final EntityType<HandlingMachineEntity> HANDLING_MACHINE = tripod("handling_machine",
-            EntityType.Builder.create(HandlingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(4.9F, 6.5F));
+            EntityType.Builder.of(HandlingMachineEntity::new, MobCategory.MONSTER).sized(4.9F, 6.5F));
 
     public static final EntityType<DiggingMachineEntity> DIGGING_MACHINE = tripod("digging_machine",
-            EntityType.Builder.create(DiggingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 3.2F));
+            EntityType.Builder.of(DiggingMachineEntity::new, MobCategory.MONSTER).sized(5.0F, 3.2F));
 
     public static final EntityType<TempestEntity> TEMPEST = tripod("tempest",
-            EntityType.Builder.create(TempestEntity::new, SpawnGroup.MONSTER).setDimensions(7.0F, 15.0F));
+            EntityType.Builder.of(TempestEntity::new, MobCategory.MONSTER).sized(7.0F, 15.0F));
 
     public static final EntityType<BombardingMachineEntity> BOMBARDING_MACHINE = tripod("bombarding_machine",
-            EntityType.Builder.create(BombardingMachineEntity::new, SpawnGroup.MONSTER).setDimensions(3.8F, 8.0F));
+            EntityType.Builder.of(BombardingMachineEntity::new, MobCategory.MONSTER).sized(3.8F, 8.0F));
 
     public static final EntityType<DroneEntity> DRONE = tripod("drone",
-            EntityType.Builder.create(DroneEntity::new, SpawnGroup.MONSTER).setDimensions(1.9F, 2.0F));
+            EntityType.Builder.of(DroneEntity::new, MobCategory.MONSTER).sized(1.9F, 2.0F));
 
     /** The human built tripod from the blueprint: rideable, not part of the Martian waves. */
     public static final EntityType<PilotTripodEntity> PILOT_TRIPOD = register("pilot_tripod",
-            EntityType.Builder.create(PilotTripodEntity::new, SpawnGroup.MONSTER)
-                    .setDimensions(4.5F, 8.0F)
-                    .maxTrackingRange(10)
-                    .trackingTickInterval(2));
+            EntityType.Builder.of(PilotTripodEntity::new, MobCategory.MONSTER)
+                    .sized(4.5F, 8.0F)
+                    .clientTrackingRange(10)
+                    .updateInterval(2));
 
     /** Shells of the Bombarding Machine and the charges of the Electric Machine. */
     public static final EntityType<ShellEntity> SHELL = register("shell",
-            EntityType.Builder.<ShellEntity>create(ShellEntity::new, SpawnGroup.MISC)
-                    .setDimensions(0.6F, 0.6F)
-                    .maxTrackingRange(6)
-                    .trackingTickInterval(1));
+            EntityType.Builder.<ShellEntity>of(ShellEntity::new, MobCategory.MISC)
+                    .sized(0.6F, 0.6F)
+                    .clientTrackingRange(6)
+                    .updateInterval(1));
 
 
     /* ------------------------------------------------------------------ */
@@ -161,59 +165,66 @@ public final class ModEntities {
     /* ------------------------------------------------------------------ */
 
     public static final EntityType<HumanSoldierEntity> HUMAN_SOLDIER = register("human_soldier",
-            EntityType.Builder.create(HumanSoldierEntity::new, SpawnGroup.CREATURE).setDimensions(1.0F, 2.6F));
+            EntityType.Builder.of(HumanSoldierEntity::new, MobCategory.CREATURE).sized(1.0F, 2.6F));
 
     public static final EntityType<HumanTankEntity> HUMAN_TANK = register("human_tank",
-            EntityType.Builder.create(HumanTankEntity::new, SpawnGroup.CREATURE).setDimensions(4.1F, 2.6F));
+            EntityType.Builder.of(HumanTankEntity::new, MobCategory.CREATURE).sized(4.1F, 2.6F));
 
     public static final EntityType<HumanFighterEntity> HUMAN_FIGHTER = register("human_fighter",
-            EntityType.Builder.create(HumanFighterEntity::new, SpawnGroup.CREATURE).setDimensions(4.9F, 2.0F));
+            EntityType.Builder.of(HumanFighterEntity::new, MobCategory.CREATURE).sized(4.9F, 2.0F));
 
     public static final EntityType<HumanWarshipEntity> HUMAN_WARSHIP = register("human_warship",
-            EntityType.Builder.create(HumanWarshipEntity::new, SpawnGroup.CREATURE).setDimensions(7.0F, 3.3F));
+            EntityType.Builder.of(HumanWarshipEntity::new, MobCategory.CREATURE).sized(7.0F, 3.3F));
 
     /** Not part of the random waves: it only climbs out of a capsule that fell into the sea. */
     public static final EntityType<WaterTripodEntity> WATER_TRIPOD = register("water_tripod",
-            EntityType.Builder.create(WaterTripodEntity::new, SpawnGroup.MONSTER)
-                    .setDimensions(8.8F, 16.6F)
-                    .maxTrackingRange(10)
-                    .trackingTickInterval(2));
+            EntityType.Builder.of(WaterTripodEntity::new, MobCategory.MONSTER)
+                    .sized(8.8F, 16.6F)
+                    .clientTrackingRange(10)
+                    .updateInterval(2));
 
     public static final EntityType<ScoutTripodEntity> SCOUT_TRIPOD = tripod("scout_tripod",
-            EntityType.Builder.create(ScoutTripodEntity::new, SpawnGroup.MONSTER).setDimensions(2.9F, 5.0F));
+            EntityType.Builder.of(ScoutTripodEntity::new, MobCategory.MONSTER).sized(2.9F, 5.0F));
 
     public static final EntityType<RamTripodEntity> RAM_TRIPOD = tripod("ram_tripod",
-            EntityType.Builder.create(RamTripodEntity::new, SpawnGroup.MONSTER).setDimensions(3.8F, 3.1F));
+            EntityType.Builder.of(RamTripodEntity::new, MobCategory.MONSTER).sized(3.8F, 3.1F));
 
     public static final EntityType<UberpodEntity> UBERPOD = tripod("uberpod",
-            EntityType.Builder.create(UberpodEntity::new, SpawnGroup.MONSTER).setDimensions(5.4F, 10.1F));
+            EntityType.Builder.of(UberpodEntity::new, MobCategory.MONSTER).sized(5.4F, 10.1F));
 
     public static final EntityType<BunkerTripodEntity> BUNKER_TRIPOD = tripod("bunker_tripod",
-            EntityType.Builder.create(BunkerTripodEntity::new, SpawnGroup.MONSTER).setDimensions(7.0F, 7.1F));
+            EntityType.Builder.of(BunkerTripodEntity::new, MobCategory.MONSTER).sized(7.0F, 7.1F));
 
     public static final EntityType<FlamerTripodEntity> FLAMER_TRIPOD = tripod("flamer_tripod",
-            EntityType.Builder.create(FlamerTripodEntity::new, SpawnGroup.MONSTER).setDimensions(5.0F, 6.9F));
+            EntityType.Builder.of(FlamerTripodEntity::new, MobCategory.MONSTER).sized(5.0F, 6.9F));
 
     public static final EntityType<TankTripodEntity> TANK_TRIPOD = tripod("tank_tripod",
-            EntityType.Builder.create(TankTripodEntity::new, SpawnGroup.MONSTER).setDimensions(11.3F, 16.6F));
+            EntityType.Builder.of(TankTripodEntity::new, MobCategory.MONSTER).sized(11.3F, 16.6F));
 
     public static final EntityType<TaxiTripodEntity> TAXI_TRIPOD = tripod("taxi_tripod",
-            EntityType.Builder.create(TaxiTripodEntity::new, SpawnGroup.MONSTER).setDimensions(4.1F, 4.0F));
+            EntityType.Builder.of(TaxiTripodEntity::new, MobCategory.MONSTER).sized(4.1F, 4.0F));
 
     /** True for every Martian war machine, including the creatures. Used by the human army AI. */
-    public static boolean isMartianInvader(net.minecraft.entity.Entity entity) {
+    public static boolean isMartianInvader(net.minecraft.world.entity.Entity entity) {
         return entity instanceof AbstractTripodEntity && !(entity instanceof PilotTripodEntity);
     }
 
     private ModEntities() {
     }
 
+    /**
+     * Registers an entity type. The {@link EntityType} itself is built at once and the deferred
+     * register only gets a supplier, which keeps plain {@code EntityType} constants in the rest of
+     * the mod.
+     */
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
-        return Registry.register(Registries.ENTITY_TYPE, WotwMod.id(name), builder.build(name));
+        EntityType<T> type = builder.build(name);
+        ENTITY_TYPES.register(name, () -> type);
+        return type;
     }
 
     private static <T extends AbstractTripodEntity> EntityType<T> tripod(String name, EntityType.Builder<T> builder) {
-        EntityType<T> type = register(name, builder.maxTrackingRange(10).trackingTickInterval(2));
+        EntityType<T> type = register(name, builder.clientTrackingRange(10).updateInterval(2));
         ALL_TRIPODS.add(type);
         return type;
     }
@@ -227,47 +238,49 @@ public final class ModEntities {
         return tripods();
     }
 
-    public static EntityType<?> randomTripod(Random random) {
+    public static EntityType<?> randomTripod(RandomSource random) {
         List<EntityType<?>> types = tripods();
         return types.get(random.nextInt(types.size()));
     }
 
-    public static void register() {
+    public static void register(IEventBus bus) {
+        ENTITY_TYPES.register(bus);
         WotwMod.LOGGER.debug("Registered {} entity types", 1 + ALL_TRIPODS.size());
     }
 
-    public static void registerAttributes() {
-        FabricDefaultAttributeRegistry.register(TRIPOD_2005, Tripod2005Entity.createAttributes());
-        FabricDefaultAttributeRegistry.register(BBC_WHITE_TRIPOD, BbcWhiteTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(BBC_RED_TRIPOD, BbcRedTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(FLYING_MANTA, FlyingMantaEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(BOOK_TRIPOD, BookTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(ASYLUM_WALKER, AsylumWalkerEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(GOLIATH_TRIPOD, GoliathTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(MARTIAN_HERON, MartianHeronEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(MARTIAN_SPIDER, MartianSpiderEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(MARTIAN_LOUSE, MartianLouseEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(MARTIAN, MartianEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(MARTIAN_MASTER, MartianMasterEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(FLYING_MACHINE, FlyingMachineEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(ELECTRIC_MACHINE, ElectricMachineEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(HANDLING_MACHINE, HandlingMachineEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(DIGGING_MACHINE, DiggingMachineEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(TEMPEST, TempestEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(BOMBARDING_MACHINE, BombardingMachineEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(DRONE, DroneEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(PILOT_TRIPOD, PilotTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(HUMAN_SOLDIER, HumanSoldierEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(HUMAN_TANK, HumanTankEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(HUMAN_FIGHTER, HumanFighterEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(HUMAN_WARSHIP, HumanWarshipEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(WATER_TRIPOD, WaterTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(SCOUT_TRIPOD, ScoutTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(RAM_TRIPOD, RamTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(UBERPOD, UberpodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(BUNKER_TRIPOD, BunkerTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(FLAMER_TRIPOD, FlamerTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(TANK_TRIPOD, TankTripodEntity.createAttributes());
-        FabricDefaultAttributeRegistry.register(TAXI_TRIPOD, TaxiTripodEntity.createAttributes());
+    /** Forge wants the default attributes of every living entity through its own event. */
+    public static void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(TRIPOD_2005, Tripod2005Entity.createAttributes().build());
+        event.put(BBC_WHITE_TRIPOD, BbcWhiteTripodEntity.createAttributes().build());
+        event.put(BBC_RED_TRIPOD, BbcRedTripodEntity.createAttributes().build());
+        event.put(FLYING_MANTA, FlyingMantaEntity.createAttributes().build());
+        event.put(BOOK_TRIPOD, BookTripodEntity.createAttributes().build());
+        event.put(ASYLUM_WALKER, AsylumWalkerEntity.createAttributes().build());
+        event.put(GOLIATH_TRIPOD, GoliathTripodEntity.createAttributes().build());
+        event.put(MARTIAN_HERON, MartianHeronEntity.createAttributes().build());
+        event.put(MARTIAN_SPIDER, MartianSpiderEntity.createAttributes().build());
+        event.put(MARTIAN_LOUSE, MartianLouseEntity.createAttributes().build());
+        event.put(MARTIAN, MartianEntity.createAttributes().build());
+        event.put(MARTIAN_MASTER, MartianMasterEntity.createAttributes().build());
+        event.put(FLYING_MACHINE, FlyingMachineEntity.createAttributes().build());
+        event.put(ELECTRIC_MACHINE, ElectricMachineEntity.createAttributes().build());
+        event.put(HANDLING_MACHINE, HandlingMachineEntity.createAttributes().build());
+        event.put(DIGGING_MACHINE, DiggingMachineEntity.createAttributes().build());
+        event.put(TEMPEST, TempestEntity.createAttributes().build());
+        event.put(BOMBARDING_MACHINE, BombardingMachineEntity.createAttributes().build());
+        event.put(DRONE, DroneEntity.createAttributes().build());
+        event.put(PILOT_TRIPOD, PilotTripodEntity.createAttributes().build());
+        event.put(HUMAN_SOLDIER, HumanSoldierEntity.createAttributes().build());
+        event.put(HUMAN_TANK, HumanTankEntity.createAttributes().build());
+        event.put(HUMAN_FIGHTER, HumanFighterEntity.createAttributes().build());
+        event.put(HUMAN_WARSHIP, HumanWarshipEntity.createAttributes().build());
+        event.put(WATER_TRIPOD, WaterTripodEntity.createAttributes().build());
+        event.put(SCOUT_TRIPOD, ScoutTripodEntity.createAttributes().build());
+        event.put(RAM_TRIPOD, RamTripodEntity.createAttributes().build());
+        event.put(UBERPOD, UberpodEntity.createAttributes().build());
+        event.put(BUNKER_TRIPOD, BunkerTripodEntity.createAttributes().build());
+        event.put(FLAMER_TRIPOD, FlamerTripodEntity.createAttributes().build());
+        event.put(TANK_TRIPOD, TankTripodEntity.createAttributes().build());
+        event.put(TAXI_TRIPOD, TaxiTripodEntity.createAttributes().build());
     }
 }

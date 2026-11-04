@@ -1,17 +1,17 @@
 package dev.arena.wotw.entity.ai;
 
 import dev.arena.wotw.entity.AbstractTripodEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -32,26 +32,26 @@ public class CaptureFieldGoal extends Goal {
         this.radius = radius;
         this.duration = duration;
         this.cooldown = cooldown;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         if (!this.tripod.isAbilityReady()) {
             return false;
         }
         LivingEntity target = this.tripod.getTarget();
         return target != null && target.isAlive()
-                && this.tripod.squaredDistanceTo(target) <= this.radius * this.radius * 1.44D;
+                && this.tripod.distanceToSqr(target) <= this.radius * this.radius * 1.44D;
     }
 
     @Override
-    public boolean shouldContinue() {
+    public boolean canContinueToUse() {
         return this.timer < this.duration;
     }
 
     @Override
-    public boolean shouldRunEveryTick() {
+    public boolean requiresUpdateEveryTick() {
         return true;
     }
 
@@ -75,38 +75,38 @@ public class CaptureFieldGoal extends Goal {
             return;
         }
 
-        Vec3d base = this.tripod.getPos();
-        Vec3d center = base.add(0.0D, this.tripod.getHeight() * 0.5D, 0.0D);
-        Box area = new Box(base.x - this.radius, base.y - 1.0D, base.z - this.radius,
-                base.x + this.radius, base.y + this.tripod.getHeight() + 2.0D, base.z + this.radius);
-        for (Entity entity : this.tripod.getWorld().getOtherEntities(this.tripod, area,
+        Vec3 base = this.tripod.position();
+        Vec3 center = base.add(0.0D, this.tripod.getBbHeight() * 0.5D, 0.0D);
+        AABB area = new AABB(base.x - this.radius, base.y - 1.0D, base.z - this.radius,
+                base.x + this.radius, base.y + this.tripod.getBbHeight() + 2.0D, base.z + this.radius);
+        for (Entity entity : this.tripod.level().getOtherEntities(this.tripod, area,
                 e -> e instanceof LivingEntity && e.isAlive())) {
             LivingEntity living = (LivingEntity) entity;
             if (living instanceof AbstractTripodEntity) {
                 continue;
             }
-            Vec3d pull = center.subtract(living.getPos());
+            Vec3 pull = center.subtract(living.position());
             double length = pull.length();
             if (length < 0.5D) {
                 continue;
             }
-            Vec3d direction = pull.multiply(1.0D / length);
-            living.addVelocity(direction.x * 0.16D, 0.13D, direction.z * 0.16D);
-            living.velocityModified = true;
-            living.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, false, false, false));
-            living.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 60, 1, false, true, true));
+            Vec3 direction = pull.scale(1.0D / length);
+            living.push(direction.x * 0.16D, 0.13D, direction.z * 0.16D);
+            living.hurtMarked = true;
+            living.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 40, 0, false, false, false));
+            living.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 1, false, true, true));
         }
 
-        if (this.tripod.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(ParticleTypes.END_ROD,
+        if (this.tripod.level() instanceof ServerLevel serverWorld) {
+            serverWorld.sendParticles(ParticleTypes.END_ROD,
                     this.tripod.getX(), this.tripod.getY() + 1.0D, this.tripod.getZ(),
                     20, this.radius * 0.35D, 0.6D, this.radius * 0.35D, 0.06D);
-            serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK,
-                    this.tripod.getX(), this.tripod.getY() + this.tripod.getHeight() * 0.5D, this.tripod.getZ(),
+            serverWorld.sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                    this.tripod.getX(), this.tripod.getY() + this.tripod.getBbHeight() * 0.5D, this.tripod.getZ(),
                     14, this.radius * 0.3D, 1.0D, this.radius * 0.3D, 0.12D);
         }
-        this.tripod.getWorld().playSound(null, this.tripod.getX(), this.tripod.getY(), this.tripod.getZ(),
-                SoundEvents.BLOCK_BEACON_AMBIENT, SoundCategory.HOSTILE, 1.6F, 0.6F);
+        this.tripod.level().playSound(null, this.tripod.getX(), this.tripod.getY(), this.tripod.getZ(),
+                SoundEvents.BEACON_AMBIENT, SoundSource.HOSTILE, 1.6F, 0.6F);
     }
 
     @Override

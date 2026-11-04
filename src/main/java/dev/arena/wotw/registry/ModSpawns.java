@@ -1,14 +1,18 @@
 package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwConfig;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Heightmap;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+
+import java.util.List;
 
 /**
  * Natural spawning. Tripods are deliberately rare: their weights are tiny compared to zombies
@@ -16,49 +20,100 @@ import net.minecraft.world.Heightmap;
  *
  * <p>The Martian louse is the exception — it never spawns on its own. Lice come out of capsules and
  * infested structures only, which keeps caves free of the swarm.</p>
+ *
+ * <p>The spawn table lives here; the biome modifier in {@code data/wotw/forge/biome_modifier}
+ * decides *where* it is applied, so the two can never drift apart.</p>
  */
 public final class ModSpawns {
+
+    /**
+     * One line of the spawn table.
+     *
+     * @param clearance how many free blocks the machine needs above the spawn position
+     * @param weight    the vanilla spawn weight (zombies are 100, so these are very rare)
+     * @param minGroup  smallest group
+     * @param maxGroup  largest group
+     */
+    public record Entry(EntityType<? extends Mob> type, boolean big, int clearance, int weight,
+                        int minGroup, int maxGroup) {
+
+        boolean allowed() {
+            return !big || !WotwConfig.SMALL_TRIPODS_ONLY;
+        }
+
+        public MobCategory category() {
+            return MobCategory.MONSTER;
+        }
+    }
+
+    private static final List<Entry> TABLE = List.of(
+            new Entry(ModEntities.TRIPOD_2005, true, 4, 2, 1, 1),
+            new Entry(ModEntities.BBC_WHITE_TRIPOD, true, 4, 2, 1, 2),
+            new Entry(ModEntities.BBC_RED_TRIPOD, true, 4, 2, 1, 2),
+            new Entry(ModEntities.BOOK_TRIPOD, true, 4, 2, 1, 1),
+            new Entry(ModEntities.ASYLUM_WALKER, true, 3, 3, 1, 1),
+            new Entry(ModEntities.GOLIATH_TRIPOD, true, 5, 1, 1, 1),
+            new Entry(ModEntities.MARTIAN_HERON, true, 5, 2, 1, 1),
+            new Entry(ModEntities.FLYING_MANTA, true, 4, 1, 1, 1),
+            new Entry(ModEntities.MARTIAN_SPIDER, false, 3, 3, 1, 2),
+            // The louse is deliberately *not* in this list any more: lice only exist where a capsule
+            // opened or a Martian structure stands, so caves and nights are quiet again.
+            new Entry(ModEntities.MARTIAN, false, 2, 5, 1, 2),
+            new Entry(ModEntities.MARTIAN_MASTER, false, 2, 1, 1, 1));
 
     private ModSpawns() {
     }
 
-    public static void register() {
+    /** The spawn table, after the config switches have been applied. */
+    public static List<Entry> table() {
+        return TABLE;
+    }
+
+    /**
+     * Adds the table to a biome. Called by the biome modifier, which is where Forge wants the
+     * "which biomes" decision to live.
+     */
+    public static void addSpawners(net.minecraftforge.common.world.ModifiableBiomeInfo.BiomeInfo.Builder builder) {
         if (!WotwConfig.NATURAL_SPAWNS) {
             return;
         }
-
-        if (!WotwConfig.SMALL_TRIPODS_ONLY) {
-            groundSpawn(ModEntities.TRIPOD_2005, 4, 2, 1, 1);
-            groundSpawn(ModEntities.BBC_WHITE_TRIPOD, 4, 2, 1, 2);
-            groundSpawn(ModEntities.BBC_RED_TRIPOD, 4, 2, 1, 2);
-            groundSpawn(ModEntities.BOOK_TRIPOD, 4, 2, 1, 1);
-            groundSpawn(ModEntities.ASYLUM_WALKER, 3, 3, 1, 1);
-            groundSpawn(ModEntities.GOLIATH_TRIPOD, 5, 1, 1, 1);
-            groundSpawn(ModEntities.MARTIAN_HERON, 5, 2, 1, 1);
-            groundSpawn(ModEntities.FLYING_MANTA, 4, 1, 1, 1);
+        for (Entry entry : TABLE) {
+            if (!entry.allowed()) {
+                continue;
+            }
+            builder.getMobSpawnSettings().addSpawn(entry.category(),
+                    new net.minecraft.world.entity.MobSpawnSettings.SpawnerData(
+                            entry.type(), entry.weight(), entry.minGroup(), entry.maxGroup()));
         }
-        groundSpawn(ModEntities.MARTIAN_SPIDER, 3, 3, 1, 2);
-        // The louse is deliberately *not* in this list any more: lice only exist where a capsule
-        // opened or a Martian structure stands, so caves and nights are quiet again.
-        groundSpawn(ModEntities.MARTIAN, 2, 5, 1, 2);
-        groundSpawn(ModEntities.MARTIAN_MASTER, 2, 1, 1, 1);
     }
 
-    private static <T extends MobEntity> void groundSpawn(EntityType<T> type, int clearance, int weight,
-                                                          int minGroup, int maxGroup) {
-        SpawnRestriction.register(type, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-                (entityType, world, spawnReason, pos, random) -> {
-                    BlockPos below = pos.down();
-                    if (!world.getBlockState(below).isOpaque()) {
-                        return false;
-                    }
-                    for (int i = 0; i < clearance; i++) {
-                        if (!world.getBlockState(pos.up(i)).isAir()) {
-                            return false;
-                        }
-                    }
-                    return world.getBlockState(pos).getFluidState().isEmpty();
-                });
-        BiomeModifications.addSpawn(BiomeSelectors.foundInOverworld(), SpawnGroup.MONSTER, type, weight, minGroup, maxGroup);
+    /** Spawn placement rules: machines need solid ground under them and head room above. */
+    public static void registerPlacements(SpawnPlacementRegisterEvent event) {
+        for (Entry entry : TABLE) {
+            event.register(entry.type(), SpawnPlacementTypes.ON_GROUND,
+                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    (type, world, spawnType, pos, random) -> isClear(world, pos, entry.clearance(), random),
+                    SpawnPlacementRegisterEvent.Operation.OR);
+        }
+    }
+
+    private static boolean isClear(ServerLevelAccessor world, BlockPos pos, int clearance, RandomSource random) {
+        BlockPos below = pos.below();
+        if (!world.getBlockState(below).canOcclude()) {
+            return false;
+        }
+        for (int i = 0; i < clearance; i++) {
+            if (!world.getBlockState(pos.above(i)).isAir()) {
+                return false;
+            }
+        }
+        return world.getBlockState(pos).getFluidState().isEmpty();
+    }
+
+    /** Forge still needs a plain hook in case somebody switches spawning off in the config. */
+    public static void register() {
+        if (!WotwConfig.NATURAL_SPAWNS) {
+            dev.arena.wotw.WotwMod.LOGGER.info("Natural spawns are switched off in the config");
+        }
     }
 }

@@ -1,16 +1,16 @@
 package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.projectile.ShellEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Electric Machine — a walking capacitor that throws lightning instead of heat.
@@ -25,11 +25,11 @@ public class ElectricMachineEntity extends AbstractTripodEntity {
 
     private static final int CHARGE_INTERVAL = 80;
 
-    public ElectricMachineEntity(EntityType<? extends ElectricMachineEntity> type, World world) {
+    public ElectricMachineEntity(EntityType<? extends ElectricMachineEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(170.0D, 0.30D, 10.0D, 8.0D, 4.0D, 0.9D, 48.0D);
     }
 
@@ -42,7 +42,7 @@ public class ElectricMachineEntity extends AbstractTripodEntity {
         if (target == null || !target.isAlive()) {
             return;
         }
-        double squared = this.squaredDistanceTo(target);
+        double squared = this.distanceToSqr(target);
         if (squared > 40.0D * 40.0D || squared < 16.0D || !this.canSeeTarget(target)) {
             return;
         }
@@ -51,20 +51,20 @@ public class ElectricMachineEntity extends AbstractTripodEntity {
     }
 
     private void throwCharge(LivingEntity target) {
-        Vec3d origin = this.getBeamOrigin();
-        Vec3d velocity = arcVelocity(origin, target.getPos().add(0.0D, 0.4D, 0.0D));
-        ShellEntity.launch(this.getWorld(), this, origin, velocity, 2.2F, true);
+        Vec3 origin = this.getBeamOrigin();
+        Vec3 velocity = arcVelocity(origin, target.position().add(0.0D, 0.4D, 0.0D));
+        ShellEntity.launch(this.level(), this, origin, velocity, 2.2F, true);
 
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.HOSTILE, 1.6F, 1.5F);
-        if (this.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK, origin.x, origin.y, origin.z,
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.HOSTILE, 1.6F, 1.5F);
+        if (this.level() instanceof ServerLevel serverWorld) {
+            serverWorld.sendParticles(ParticleTypes.ELECTRIC_SPARK, origin.x, origin.y, origin.z,
                     40, 0.6D, 0.6D, 0.6D, 0.35D);
         }
     }
 
     /** Ballistic solution so the charge lands on the target instead of at its feet. */
-    private Vec3d arcVelocity(Vec3d origin, Vec3d target) {
+    private Vec3 arcVelocity(Vec3 origin, Vec3 target) {
         double dx = target.x - origin.x;
         double dy = target.y - origin.y;
         double dz = target.z - origin.z;
@@ -72,7 +72,7 @@ public class ElectricMachineEntity extends AbstractTripodEntity {
         double speed = 0.9D + Math.min(0.8D, distance * 0.02D);
         double time = Math.max(0.6D, distance / speed);
         double vy = (dy + 0.5D * 0.055D * time * time) / time;
-        return new Vec3d(dx / time, MathHelper.clamp(vy, -1.5D, 2.0D), dz / time);
+        return new Vec3(dx / time, Mth.clamp(vy, -1.5D, 2.0D), dz / time);
     }
 
     @Override
@@ -80,8 +80,8 @@ public class ElectricMachineEntity extends AbstractTripodEntity {
         if (this.random.nextInt(4) != 0) {
             return;
         }
-        double y = this.getY() + this.getHeight() * 0.9D;
-        this.getWorld().addParticle(ParticleTypes.ELECTRIC_SPARK,
+        double y = this.getY() + this.getBbHeight() * 0.9D;
+        this.level().addParticle(ParticleTypes.ELECTRIC_SPARK,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 0.8D, y,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 0.8D, 0.0D, 0.03D, 0.0D);
     }

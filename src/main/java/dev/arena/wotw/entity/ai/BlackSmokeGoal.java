@@ -1,15 +1,15 @@
 package dev.arena.wotw.entity.ai;
 
 import dev.arena.wotw.entity.AbstractTripodEntity;
-import net.minecraft.entity.AreaEffectCloudEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -28,11 +28,11 @@ public class BlackSmokeGoal extends Goal {
         this.tripod = tripod;
         this.range = range;
         this.cooldown = cooldown;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         if (!this.tripod.isAbilityReady()) {
             return false;
         }
@@ -40,17 +40,17 @@ public class BlackSmokeGoal extends Goal {
         if (target == null || !target.isAlive()) {
             return false;
         }
-        double squared = this.tripod.squaredDistanceTo(target);
+        double squared = this.tripod.distanceToSqr(target);
         return squared <= this.range * this.range && squared > 16.0D;
     }
 
     @Override
-    public boolean shouldContinue() {
+    public boolean canContinueToUse() {
         return this.timer < 40;
     }
 
     @Override
-    public boolean shouldRunEveryTick() {
+    public boolean requiresUpdateEveryTick() {
         return true;
     }
 
@@ -75,26 +75,26 @@ public class BlackSmokeGoal extends Goal {
     }
 
     private void launch(LivingEntity target) {
-        Vec3d impact = target != null ? target.getPos() : this.tripod.getPos().add(this.tripod.getRotationVec(1.0F).multiply(8.0D));
-        AreaEffectCloudEntity cloud = new AreaEffectCloudEntity(this.tripod.getWorld(), impact.x, impact.y, impact.z);
+        Vec3 impact = target != null ? target.position() : this.tripod.position().add(this.tripod.getViewVector(1.0F).scale(8.0D));
+        AreaEffectCloudEntity cloud = new AreaEffectCloudEntity(this.tripod.level(), impact.x, impact.y, impact.z);
         cloud.setOwner(this.tripod);
-        cloud.setParticleType(ParticleTypes.LARGE_SMOKE);
+        cloud.setParticle(ParticleTypes.LARGE_SMOKE);
         cloud.setRadius(4.5F);
-        cloud.setRadiusGrowth(0.02F);
-        cloud.setRadiusOnUse(-0.05F);
+        cloud.setRadiusPerTick(0.02F);
+        cloud.setDurationOnUse(-0.05F);
         cloud.setDuration(260);
         cloud.setWaitTime(0);
         cloud.setColor(0x121212);
-        cloud.addEffect(new StatusEffectInstance(StatusEffects.POISON, 220, 1));
-        cloud.addEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 220, 0));
-        cloud.addEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 120, 0));
-        cloud.addEffect(new StatusEffectInstance(StatusEffects.WITHER, 120, 0));
-        this.tripod.getWorld().spawnEntity(cloud);
+        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 220, 1));
+        cloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 220, 0));
+        cloud.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 120, 0));
+        cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 120, 0));
+        this.tripod.level().addFreshEntity(cloud);
 
-        this.tripod.getWorld().playSound(null, impact.x, impact.y, impact.z,
-                SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.HOSTILE, 1.8F, 0.5F);
-        this.tripod.getWorld().playSound(null, impact.x, impact.y, impact.z,
-                SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.HOSTILE, 2.0F, 0.4F);
+        this.tripod.level().playSound(null, impact.x, impact.y, impact.z,
+                SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 1.8F, 0.5F);
+        this.tripod.level().playSound(null, impact.x, impact.y, impact.z,
+                SoundEvents.FIRE_EXTINGUISH, SoundSource.HOSTILE, 2.0F, 0.4F);
     }
 
     @Override

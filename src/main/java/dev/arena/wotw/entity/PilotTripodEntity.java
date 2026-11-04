@@ -4,27 +4,27 @@ import dev.arena.wotw.entity.projectile.BeamEntity;
 import dev.arena.wotw.entity.projectile.BeamKind;
 import dev.arena.wotw.registry.ModItems;
 import dev.arena.wotw.registry.ModSounds;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -42,24 +42,24 @@ public class PilotTripodEntity extends AbstractTripodEntity {
 
     private int beamCooldown;
 
-    public PilotTripodEntity(EntityType<? extends PilotTripodEntity> type, World world) {
+    public PilotTripodEntity(EntityType<? extends PilotTripodEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(160.0D, 0.32D, 10.0D, 12.0D, 6.0D, 1.0D, 32.0D);
     }
 
     /** Friendly machine: it hunts monsters instead of players, and only fights when provoked. */
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(0, new FloatGoal(this));
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.add(7, new WanderAroundFarGoal(this, 0.7D));
-        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
-        this.goalSelector.add(9, new LookAroundGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, HostileEntity.class, true,
+        this.goalSelector.add(7, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+        this.goalSelector.add(8, new LookAtPlayerGoal(this, Player.class, 16.0F));
+        this.goalSelector.add(9, new RandomLookAroundGoal(this));
+        this.targetSelector.add(1, new HurtByTargetGoal(this));
+        this.targetSelector.add(2, new NearestAttackableTargetGoal<>(this, Monster.class, true,
                 entity -> !(entity instanceof PilotTripodEntity)));
     }
 
@@ -68,34 +68,36 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     /* ------------------------------------------------------------------ */
 
     @Override
-    public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if (this.getPassengerList().isEmpty() && !player.isSneaking() && this.isAlive()) {
-            if (!this.getWorld().isClient) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (this.getPassengers().isEmpty() && !player.isSneaking() && this.isAlive()) {
+            if (!this.level().isClientSide) {
                 player.startRiding(this);
             }
-            return ActionResult.success(this.getWorld().isClient);
+            return InteractionResult.success(this.level().isClientSide);
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
     protected boolean canAddPassenger(Entity passenger) {
-        return this.getPassengerList().isEmpty();
+        return this.getPassengers().isEmpty();
     }
 
     @Override
-    public double getMountedHeightOffset() {
-        return 1.55D;
+    public Vec3 getPassengerAttachmentPoint(net.minecraft.world.entity.Entity passenger,
+                                            net.minecraft.world.entity.EntityDimensions dimensions,
+                                            float partialTick) {
+        return super.getPassengerAttachmentPoint(passenger, dimensions, partialTick).add(0.0D, 1.55D, 0.0D);
     }
 
     @Override
-    public void travel(Vec3d movementInput) {
-        if (this.isLogicalSideForUpdatingMovement() && this.getFirstPassenger() instanceof PlayerEntity player) {
-            this.setYaw(player.getYaw());
-            this.prevYaw = this.getYaw();
-            this.setPitch(player.getPitch() * 0.4F);
-            this.prevPitch = this.getPitch();
-            super.travel(new Vec3d(player.sidewaysSpeed, 0.0D, player.forwardSpeed));
+    public void travel(Vec3 movementInput) {
+        if (this.isControlledByLocalInstance() && this.getFirstPassenger() instanceof Player player) {
+            this.setYRot(player.getYRot());
+            this.yRotO = this.getYRot();
+            this.setXRot(player.getXRot() * 0.4F);
+            this.xRotO = this.getXRot();
+            super.travel(new Vec3(player.xxa, 0.0D, player.zza));
             return;
         }
         super.travel(movementInput);
@@ -108,14 +110,14 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     @Override
     public void tick() {
         super.tick();
-        if (this.getWorld().isClient) {
+        if (this.level().isClientSide) {
             this.spawnEyeSparks();
             return;
         }
         if (this.beamCooldown > 0) {
             this.beamCooldown--;
         }
-        if (!(this.getFirstPassenger() instanceof PlayerEntity player) || this.beamCooldown > 0) {
+        if (!(this.getFirstPassenger() instanceof Player player) || this.beamCooldown > 0) {
             return;
         }
         LivingEntity target = this.pickTarget(player);
@@ -126,17 +128,17 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     }
 
     @Nullable
-    private LivingEntity pickTarget(PlayerEntity player) {
+    private LivingEntity pickTarget(Player player) {
         Entity attacking = player.getAttacking();
-        if (attacking instanceof LivingEntity living && living.isAlive() && this.canSee(living)) {
+        if (attacking instanceof LivingEntity living && living.isAlive() && this.hasLineOfSight(living)) {
             return living;
         }
         LivingEntity best = null;
         double bestDistance = TARGET_RANGE * TARGET_RANGE;
-        for (LivingEntity candidate : this.getWorld().getEntitiesByClass(LivingEntity.class,
-                this.getBoundingBox().expand(TARGET_RANGE),
-                entity -> entity instanceof HostileEntity && entity.isAlive() && this.canSee(entity))) {
-            double distance = this.squaredDistanceTo(candidate);
+        for (LivingEntity candidate : this.level().getEntitiesOfClass(LivingEntity.class,
+                this.getBoundingBox().inflate(TARGET_RANGE),
+                entity -> entity instanceof Monster && entity.isAlive() && this.hasLineOfSight(entity))) {
+            double distance = this.distanceToSqr(candidate);
             if (distance < bestDistance) {
                 bestDistance = distance;
                 best = candidate;
@@ -146,27 +148,27 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     }
 
     private void fireBeam(LivingEntity target) {
-        Vec3d forward = this.getRotationVec(1.0F);
-        Vec3d origin = new Vec3d(this.getX(), this.getY() + this.getHeight() * 0.78D, this.getZ())
-                .add(forward.multiply(2.2D));
-        Vec3d delta = target.getEyePos().subtract(origin);
+        Vec3 forward = this.getViewVector(1.0F);
+        Vec3 origin = new Vec3(this.getX(), this.getY() + this.getBbHeight() * 0.78D, this.getZ())
+                .add(forward.scale(2.2D));
+        Vec3 delta = target.getEyePosition().subtract(origin);
         if (delta.lengthSquared() < 0.01D) {
             return;
         }
-        BeamEntity beam = new BeamEntity(this.getWorld(), origin, delta.normalize(), BeamKind.HEAT_RAY, this, BEAM_DAMAGE);
-        this.getWorld().spawnEntity(beam);
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.HEAT_RAY,
-                SoundCategory.PLAYERS, 1.6F, 1.15F);
+        BeamEntity beam = new BeamEntity(this.level(), origin, delta.normalize(), BeamKind.HEAT_RAY, this, BEAM_DAMAGE);
+        this.level().addFreshEntity(beam);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.HEAT_RAY,
+                SoundSource.PLAYERS, 1.6F, 1.15F);
     }
 
     private void spawnEyeSparks() {
-        if (this.getPassengerList().isEmpty() || this.beamCooldown > 0 || this.random.nextInt(3) != 0) {
+        if (this.getPassengers().isEmpty() || this.beamCooldown > 0 || this.random.nextInt(3) != 0) {
             return;
         }
-        Vec3d forward = this.getRotationVec(1.0F);
-        this.getWorld().addParticle(ParticleTypes.ELECTRIC_SPARK,
+        Vec3 forward = this.getViewVector(1.0F);
+        this.level().addParticle(ParticleTypes.ELECTRIC_SPARK,
                 this.getX() + forward.x * 1.8D,
-                this.getY() + this.getHeight() * 0.78D,
+                this.getY() + this.getBbHeight() * 0.78D,
                 this.getZ() + forward.z * 1.8D, 0.0D, 0.0D, 0.0D);
     }
 
@@ -175,15 +177,15 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     /* ------------------------------------------------------------------ */
 
     @Override
-    public void onDeath(DamageSource source) {
-        this.removeAllPassengers();
-        super.onDeath(source);
+    public void die(DamageSource source) {
+        this.ejectPassengers();
+        super.die(source);
     }
 
     @Override
-    protected void dropLoot(DamageSource source, boolean causedByPlayer) {
-        super.dropLoot(source, causedByPlayer);
-        this.dropStack(new ItemStack(ModItems.WHITE_MARTIAN_ALLOY, 1 + this.getRandom().nextInt(2)));
+    protected void dropCustomDeathLoot(DamageSource source, boolean causedByPlayer) {
+        super.dropCustomDeathLoot(source, causedByPlayer);
+        this.spawnAtLocation(new ItemStack(ModItems.WHITE_MARTIAN_ALLOY, 1 + this.getRandom().nextInt(2)));
     }
 
     @Override
@@ -192,17 +194,17 @@ public class PilotTripodEntity extends AbstractTripodEntity {
     }
 
     @Override
-    public boolean isFireImmune() {
+    public boolean fireImmune() {
         return true;
     }
 
     @Override
-    public float getStepHeight() {
+    public float maxUpStep() {
         return 2.5F;
     }
 
     @Override
-    protected int computeFallDamage(float fallDistance, float damageMultiplier) {
+    protected int calculateFallDamage(float fallDistance, float damageMultiplier) {
         return 0;
     }
 }

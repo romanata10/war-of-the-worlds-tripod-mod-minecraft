@@ -1,9 +1,9 @@
 package dev.arena.wotw.entity.ai;
 
 import dev.arena.wotw.entity.AbstractTripodEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -24,23 +24,23 @@ public class HoverGoal extends Goal {
         this.hoverHeight = hoverHeight;
         this.orbitRadius = orbitRadius;
         this.maxSpeed = maxSpeed;
-        this.setControls(EnumSet.of(Goal.Control.MOVE));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         LivingEntity target = this.tripod.getTarget();
         return target != null && target.isAlive();
     }
 
     @Override
-    public boolean shouldContinue() {
+    public boolean canContinueToUse() {
         LivingEntity target = this.tripod.getTarget();
         return target != null && target.isAlive();
     }
 
     @Override
-    public boolean shouldRunEveryTick() {
+    public boolean requiresUpdateEveryTick() {
         return true;
     }
 
@@ -60,21 +60,21 @@ public class HoverGoal extends Goal {
         double closeness = Math.min(1.0D, this.tripod.distanceTo(target) / 40.0D);
         double radius = this.orbitRadius * (0.35D + closeness);
 
-        Vec3d orbit = new Vec3d(Math.cos(this.angle) * radius, 0.0D, Math.sin(this.angle) * radius);
+        Vec3 orbit = new Vec3(Math.cos(this.angle) * radius, 0.0D, Math.sin(this.angle) * radius);
         double desiredY = Math.max(this.tripod.getY(), target.getY() + this.hoverHeight);
-        Vec3d desired = target.getPos().add(orbit).add(0.0D, this.hoverHeight * 0.5D + (desiredY - target.getY()) * 0.5D, 0.0D);
+        Vec3 desired = target.position().add(orbit).add(0.0D, this.hoverHeight * 0.5D + (desiredY - target.getY()) * 0.5D, 0.0D);
 
-        Vec3d delta = desired.subtract(this.tripod.getPos());
+        Vec3 delta = desired.subtract(this.tripod.position());
         double distance = delta.length();
-        Vec3d velocity = this.tripod.getVelocity().multiply(0.86D);
+        Vec3 velocity = this.tripod.getDeltaMovement().scale(0.86D);
         if (distance > 1.0D) {
-            velocity = velocity.add(delta.multiply(1.0D / distance).multiply(0.18D));
+            velocity = velocity.add(delta.scale(1.0D / distance).scale(0.18D));
         }
         if (velocity.length() > this.maxSpeed) {
-            velocity = velocity.normalize().multiply(this.maxSpeed);
+            velocity = velocity.normalize().scale(this.maxSpeed);
         }
-        this.tripod.setVelocity(velocity);
-        this.tripod.velocityModified = true;
+        this.tripod.setDeltaMovement(velocity);
+        this.tripod.hurtMarked = true;
         this.tripod.getLookControl().lookAt(target, 25.0F, 25.0F);
     }
 }

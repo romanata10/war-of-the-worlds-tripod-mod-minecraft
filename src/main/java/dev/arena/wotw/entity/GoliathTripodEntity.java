@@ -2,16 +2,16 @@ package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
 import dev.arena.wotw.entity.projectile.BeamKind;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * The tripod of "War of the Worlds: Goliath" (2012) — the dieselpunk, armour plated colossus.
@@ -25,11 +25,11 @@ import net.minecraft.world.World;
  */
 public class GoliathTripodEntity extends AbstractTripodEntity {
 
-    public GoliathTripodEntity(EntityType<? extends GoliathTripodEntity> type, World world) {
+    public GoliathTripodEntity(EntityType<? extends GoliathTripodEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(320.0D, 0.22D, 24.0D, 20.0D, 12.0D, 1.0D, 56.0D);
     }
 
@@ -42,8 +42,8 @@ public class GoliathTripodEntity extends AbstractTripodEntity {
     protected void serverTick() {
         if (this.getTarget() != null && !this.isShielded() && this.onIntervalZero(300)) {
             this.startShield(120);
-            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                    SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.HOSTILE, 3.0F, 0.5F);
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                    SoundEvents.BEACON_ACTIVATE, SoundSource.HOSTILE, 3.0F, 0.5F);
         }
         if (this.isShielded() && this.onIntervalZero(20) && this.getHealth() < this.getMaxHealth()) {
             this.heal(3.0F);
@@ -52,10 +52,10 @@ public class GoliathTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected void onMeleeHit(LivingEntity victim) {
-        Vec3d push = victim.getPos().subtract(this.getPos());
+        Vec3 push = victim.position().subtract(this.position());
         double length = Math.max(0.5D, push.length());
-        victim.setVelocity(push.x / length * 1.1D, 0.6D, push.z / length * 1.1D);
-        victim.velocityModified = true;
+        victim.setDeltaMovement(push.x / length * 1.1D, 0.6D, push.z / length * 1.1D);
+        victim.hurtMarked = true;
     }
 
     @Override
@@ -63,14 +63,14 @@ public class GoliathTripodEntity extends AbstractTripodEntity {
         if (!this.isShielded()) {
             return;
         }
-        if (this.getWorld() instanceof ServerWorld) {
+        if (this.level() instanceof ServerLevel) {
             return;
         }
-        double radius = this.getWidth() * 0.9D;
+        double radius = this.getBbWidth() * 0.9D;
         for (int i = 0; i < 2; i++) {
             double angle = this.random.nextDouble() * Math.PI * 2.0D;
-            double y = this.random.nextDouble() * this.getHeight();
-            this.getWorld().addParticle(ParticleTypes.ELECTRIC_SPARK,
+            double y = this.random.nextDouble() * this.getBbHeight();
+            this.level().addParticle(ParticleTypes.ELECTRIC_SPARK,
                     this.getX() + Math.cos(angle) * radius, this.getY() + y, this.getZ() + Math.sin(angle) * radius,
                     0.0D, 0.01D, 0.0D);
         }
@@ -78,6 +78,6 @@ public class GoliathTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_RAVAGER_ROAR;
+        return SoundEvents.RAVAGER_ROAR;
     }
 }

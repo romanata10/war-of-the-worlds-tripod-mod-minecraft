@@ -2,22 +2,23 @@ package dev.arena.wotw.block;
 
 import dev.arena.wotw.entity.PilotTripodEntity;
 import dev.arena.wotw.registry.ModEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -29,37 +30,37 @@ import org.jetbrains.annotations.Nullable;
  */
 public class TripodBlueprintBlock extends Block {
 
-    public TripodBlueprintBlock(Settings settings) {
+    public TripodBlueprintBlock(BlockBehaviour.Properties settings) {
         super(settings);
     }
 
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        super.onPlaced(world, pos, state, placer, itemStack);
-        if (!world.isClient) {
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        super.setPlacedBy(world, pos, state, placer, itemStack);
+        if (!world.isClientSide) {
             this.build(world, pos);
         }
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
                               BlockHitResult hit) {
-        if (world.isClient) {
-            return ActionResult.SUCCESS;
+        if (world.isClientSide) {
+            return InteractionResult.SUCCESS;
         }
         // one workshop, one machine: a blueprint will not assemble a second tripod while the
         // first one is still standing next to it
-        if (!world.getEntitiesByClass(PilotTripodEntity.class, new Box(pos).expand(14.0D),
+        if (!world.getEntitiesOfClass(PilotTripodEntity.class, new AABB(pos).inflate(14.0D),
                 PilotTripodEntity::isAlive).isEmpty()) {
-            world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_BASS.value(), SoundCategory.BLOCKS, 0.7F, 0.6F);
-            return ActionResult.FAIL;
+            world.playSound(null, pos, SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.BLOCKS, 0.7F, 0.6F);
+            return InteractionResult.FAIL;
         }
         this.build(world, pos);
-        return ActionResult.CONSUME;
+        return InteractionResult.CONSUME;
     }
 
-    private void build(World world, BlockPos pos) {
-        if (!(world instanceof ServerWorld serverWorld)) {
+    private void build(Level world, BlockPos pos) {
+        if (!(world instanceof ServerLevel serverWorld)) {
             return;
         }
         PilotTripodEntity tripod = ModEntities.PILOT_TRIPOD.create(serverWorld);
@@ -67,14 +68,14 @@ public class TripodBlueprintBlock extends Block {
             return;
         }
         BlockPos spawn = pos.up();
-        tripod.refreshPositionAndAngles(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D,
+        tripod.moveTo(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D,
                 world.getRandom().nextFloat() * 360.0F, 0.0F);
-        tripod.initialize(serverWorld, serverWorld.getLocalDifficulty(spawn), SpawnReason.SPAWN_EGG, null, null);
-        tripod.setPersistent();
-        serverWorld.spawnEntity(tripod);
+        tripod.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(spawn), MobSpawnType.SPAWN_EGG, null, null);
+        tripod.setPersistenceRequired();
+        serverWorld.addFreshEntity(tripod);
 
-        serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK, spawn.getX() + 0.5D, spawn.getY() + 1.5D,
+        serverWorld.sendParticles(ParticleTypes.ELECTRIC_SPARK, spawn.getX() + 0.5D, spawn.getY() + 1.5D,
                 spawn.getZ() + 0.5D, 60, 1.2D, 1.2D, 1.2D, 0.2D);
-        world.playSound(null, pos, SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.BLOCKS, 1.6F, 1.1F);
+        world.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 1.6F, 1.1F);
     }
 }

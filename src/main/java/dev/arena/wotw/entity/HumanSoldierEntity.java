@@ -1,8 +1,8 @@
 package dev.arena.wotw.entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.level.Level;
 
 /**
  * A conscript of the human resistance: a rifle, a helmet and a grudge.
@@ -12,11 +12,11 @@ import net.minecraft.world.World;
  */
 public class HumanSoldierEntity extends AbstractHumanCombatantEntity {
 
-    public HumanSoldierEntity(EntityType<? extends HumanSoldierEntity> type, World world) {
+    public HumanSoldierEntity(EntityType<? extends HumanSoldierEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return humanAttributes(24.0D, 0.30D, 3.0D, 4.0D, 0.0D, 28.0D);
     }
 }

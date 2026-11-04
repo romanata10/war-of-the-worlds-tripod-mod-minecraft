@@ -1,12 +1,12 @@
 package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.ai.CaptureFieldGoal;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * The white tripod of the 1984 BBC series "The Tripods". It does not fight — it harvests.
@@ -19,11 +19,11 @@ import net.minecraft.world.World;
  */
 public class BbcWhiteTripodEntity extends AbstractTripodEntity {
 
-    public BbcWhiteTripodEntity(EntityType<? extends BbcWhiteTripodEntity> type, World world) {
+    public BbcWhiteTripodEntity(EntityType<? extends BbcWhiteTripodEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(130.0D, 0.24D, 10.0D, 8.0D, 4.0D, 0.9D, 48.0D);
     }
 
@@ -40,7 +40,7 @@ public class BbcWhiteTripodEntity extends AbstractTripodEntity {
         for (int i = 0; i < 2; i++) {
             double angle = this.random.nextDouble() * Math.PI * 2.0D;
             double radius = 2.0D + this.random.nextDouble() * 7.0D;
-            this.getWorld().addParticle(ParticleTypes.END_ROD,
+            this.level().addParticle(ParticleTypes.END_ROD,
                     this.getX() + Math.cos(angle) * radius,
                     this.getY() + this.random.nextDouble() * 5.0D,
                     this.getZ() + Math.sin(angle) * radius,
@@ -50,6 +50,6 @@ public class BbcWhiteTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.BLOCK_BEACON_AMBIENT;
+        return SoundEvents.BEACON_AMBIENT;
     }
 }

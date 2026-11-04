@@ -1,11 +1,11 @@
 package dev.arena.wotw.entity.ai;
 
 import dev.arena.wotw.entity.AbstractTripodEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -23,29 +23,29 @@ public class PounceGoal extends Goal {
         this.tripod = tripod;
         this.range = range;
         this.cooldown = cooldown;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.JUMP, Goal.Control.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
     }
 
     @Override
-    public boolean canStart() {
-        if (!this.tripod.isAbilityReady() || !this.tripod.isOnGround()) {
+    public boolean canUse() {
+        if (!this.tripod.isAbilityReady() || !this.tripod.onGround()) {
             return false;
         }
         LivingEntity target = this.tripod.getTarget();
         if (target == null || !target.isAlive()) {
             return false;
         }
-        double squared = this.tripod.squaredDistanceTo(target);
+        double squared = this.tripod.distanceToSqr(target);
         return squared <= this.range * this.range && squared > 4.0D;
     }
 
     @Override
-    public boolean shouldContinue() {
+    public boolean canContinueToUse() {
         return this.timer < 16;
     }
 
     @Override
-    public boolean shouldRunEveryTick() {
+    public boolean requiresUpdateEveryTick() {
         return true;
     }
 
@@ -54,8 +54,8 @@ public class PounceGoal extends Goal {
         this.timer = 0;
         this.tripod.setAbilityCharging(true);
         this.tripod.getNavigation().stop();
-        this.tripod.getWorld().playSound(null, this.tripod.getX(), this.tripod.getY(), this.tripod.getZ(),
-                SoundEvents.ENTITY_SPIDER_AMBIENT, SoundCategory.HOSTILE, 2.0F, 1.4F);
+        this.tripod.level().playSound(null, this.tripod.getX(), this.tripod.getY(), this.tripod.getZ(),
+                SoundEvents.SPIDER_AMBIENT, SoundSource.HOSTILE, 2.0F, 1.4F);
     }
 
     @Override
@@ -66,15 +66,15 @@ public class PounceGoal extends Goal {
             this.tripod.getLookControl().lookAt(target, 40.0F, 40.0F);
         }
         if (this.timer == 8 && target != null) {
-            Vec3d delta = target.getPos().subtract(this.tripod.getPos());
-            Vec3d flat = new Vec3d(delta.x, 0.0D, delta.z);
+            Vec3 delta = target.position().subtract(this.tripod.position());
+            Vec3 flat = new Vec3(delta.x, 0.0D, delta.z);
             if (flat.lengthSquared() > 0.01D) {
-                flat = flat.normalize().multiply(1.35D);
+                flat = flat.normalize().scale(1.35D);
             }
-            this.tripod.setVelocity(flat.x, 0.55D, flat.z);
-            this.tripod.velocityModified = true;
-            this.tripod.getWorld().playSound(null, this.tripod.getX(), this.tripod.getY(), this.tripod.getZ(),
-                    SoundEvents.ENTITY_SPIDER_STEP, SoundCategory.HOSTILE, 2.0F, 1.2F);
+            this.tripod.setDeltaMovement(flat.x, 0.55D, flat.z);
+            this.tripod.hurtMarked = true;
+            this.tripod.level().playSound(null, this.tripod.getX(), this.tripod.getY(), this.tripod.getZ(),
+                    SoundEvents.SPIDER_STEP, SoundSource.HOSTILE, 2.0F, 1.2F);
         }
     }
 

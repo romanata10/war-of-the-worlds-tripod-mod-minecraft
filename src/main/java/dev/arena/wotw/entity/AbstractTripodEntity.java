@@ -4,37 +4,37 @@ import dev.arena.wotw.entity.projectile.BeamEntity;
 import dev.arena.wotw.entity.projectile.BeamKind;
 import dev.arena.wotw.registry.ModItems;
 import dev.arena.wotw.registry.ModSounds;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Shared behaviour of every tripod in the mod.
@@ -42,14 +42,14 @@ import net.minecraft.world.World;
  * <p>Subclasses only have to describe their stats ({@link #createTripodAttributes}) and plug in
  * their signature ability through the goal system plus {@link #serverTick()}.</p>
  */
-public abstract class AbstractTripodEntity extends HostileEntity {
+public abstract class AbstractTripodEntity extends Monster {
 
     /** Synced flag used by the model to make the "eye" and the legs quiver while charging. */
-    private static final TrackedData<Boolean> CHARGING =
-            DataTracker.registerData(AbstractTripodEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> CHARGING =
+            SynchedEntityData.defineId(AbstractTripodEntity.class, EntityDataSerializers.BOOLEAN);
     /** Synced flag: the energy shield is up, incoming projectiles are deflected. */
-    private static final TrackedData<Boolean> SHIELDED =
-            DataTracker.registerData(AbstractTripodEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SHIELDED =
+            SynchedEntityData.defineId(AbstractTripodEntity.class, EntityDataSerializers.BOOLEAN);
 
     private int abilityCooldown;
     private int shieldTicks;
@@ -57,38 +57,38 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     /** When true this machine plants red roots behind it while it walks. */
     private boolean rootTrail;
 
-    protected AbstractTripodEntity(EntityType<? extends AbstractTripodEntity> type, World world) {
+    protected AbstractTripodEntity(EntityType<? extends AbstractTripodEntity> type, Level world) {
         super(type, world);
     }
 
     @Override
-    public int getXpToDrop() {
+    public int getExperienceReward() {
         return 60;
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(CHARGING, Boolean.FALSE);
-        this.dataTracker.startTracking(SHIELDED, Boolean.FALSE);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(CHARGING, Boolean.FALSE);
+        this.entityData.define(SHIELDED, Boolean.FALSE);
     }
 
     /* ------------------------------------------------------------------ */
     /*  Stats                                                              */
     /* ------------------------------------------------------------------ */
 
-    protected static DefaultAttributeContainer.Builder tripodAttributes(double health, double speed,
+    protected static AttributeSupplier.Builder tripodAttributes(double health, double speed,
                                                                         double attackDamage, double armor,
                                                                         double toughness, double knockbackResistance,
                                                                         double followRange) {
-        return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, health)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, attackDamage)
-                .add(EntityAttributes.GENERIC_ARMOR, armor)
-                .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, toughness)
-                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, knockbackResistance)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, followRange);
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, health)
+                .add(Attributes.MOVEMENT_SPEED, speed)
+                .add(Attributes.ATTACK_DAMAGE, attackDamage)
+                .add(Attributes.ARMOR, armor)
+                .add(Attributes.ARMOR_TOUGHNESS, toughness)
+                .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
+                .add(Attributes.FOLLOW_RANGE, followRange);
     }
 
     /* ------------------------------------------------------------------ */
@@ -98,21 +98,21 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     @Override
     protected void initGoals() {
         if (!isFlyer()) {
-            this.goalSelector.add(0, new SwimGoal(this));
+            this.goalSelector.add(0, new FloatGoal(this));
             this.goalSelector.add(6, new MeleeAttackGoal(this, 1.0D, true));
-            this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.7D));
-            this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 40.0F));
-            this.goalSelector.add(9, new LookAroundGoal(this));
+            this.goalSelector.add(8, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+            this.goalSelector.add(9, new LookAtPlayerGoal(this, Player.class, 40.0F));
+            this.goalSelector.add(9, new RandomLookAroundGoal(this));
         }
-        this.targetSelector.add(1, new RevengeGoal(this));
+        this.targetSelector.add(1, new HurtByTargetGoal(this));
         // A player already locked in the cage of a Handling Machine is not prey any more.
-        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true,
-                entity -> !(entity instanceof PlayerEntity player
-                        && player.hasStatusEffect(dev.arena.wotw.registry.ModStatusEffects.CAGED))));
+        this.targetSelector.add(2, new NearestAttackableTargetGoal<>(this, Player.class, true,
+                entity -> !(entity instanceof Player player
+                        && player.hasEffect(dev.arena.wotw.registry.ModStatusEffects.CAGED))));
         // the human army shoots at us, so we shoot back
-        this.targetSelector.add(3, new ActiveTargetGoal<>(this, AbstractHumanCombatantEntity.class, true));
-        this.targetSelector.add(3, new ActiveTargetGoal<>(this, IronGolemEntity.class, true));
-        this.targetSelector.add(4, new ActiveTargetGoal<>(this, VillagerEntity.class, true));
+        this.targetSelector.add(3, new NearestAttackableTargetGoal<>(this, AbstractHumanCombatantEntity.class, true));
+        this.targetSelector.add(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+        this.targetSelector.add(4, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.addExtraGoals();
     }
 
@@ -137,13 +137,13 @@ public abstract class AbstractTripodEntity extends HostileEntity {
         }
         if (this.shieldTicks > 0) {
             this.shieldTicks--;
-            if (this.getWorld().isClient) {
+            if (this.level().isClientSide) {
                 this.clientShieldParticles();
             } else if (this.shieldTicks == 0) {
-                this.dataTracker.set(SHIELDED, Boolean.FALSE);
+                this.entityData.set(SHIELDED, Boolean.FALSE);
             }
         }
-        if (this.getWorld().isClient) {
+        if (this.level().isClientSide) {
             this.clientTick();
         } else {
             this.lifeTicks++;
@@ -165,15 +165,15 @@ public abstract class AbstractTripodEntity extends HostileEntity {
 
     /** Plants a root on the tile this machine is standing on, if the ground allows it. */
     private void plantRoot() {
-        if (!(this.getWorld() instanceof ServerWorld world)) {
+        if (!(this.level() instanceof ServerLevel world)) {
             return;
         }
-        BlockPos feet = this.getBlockPos();
+        BlockPos feet = this.blockPosition();
         if (world.getRandom().nextFloat() > 0.5F) {
             return;
         }
         if (dev.arena.wotw.block.RedRootBlock.plant(world, feet)) {
-            world.spawnParticles(ParticleTypes.CRIMSON_SPORE, feet.getX() + 0.5D, feet.getY() + 0.4D,
+            world.sendParticles(ParticleTypes.CRIMSON_SPORE, feet.getX() + 0.5D, feet.getY() + 0.4D,
                     feet.getZ() + 0.5D, 6, 0.3D, 0.2D, 0.3D, 0.0D);
         }
     }
@@ -191,20 +191,20 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     /* ------------------------------------------------------------------ */
 
     public boolean isAbilityCharging() {
-        return this.dataTracker.get(CHARGING);
+        return this.entityData.get(CHARGING);
     }
 
     public void setAbilityCharging(boolean charging) {
-        this.dataTracker.set(CHARGING, charging);
+        this.entityData.set(CHARGING, charging);
     }
 
     public boolean isShielded() {
-        return this.dataTracker.get(SHIELDED);
+        return this.entityData.get(SHIELDED);
     }
 
     public void startShield(int ticks) {
         this.shieldTicks = ticks;
-        this.dataTracker.set(SHIELDED, Boolean.TRUE);
+        this.entityData.set(SHIELDED, Boolean.TRUE);
     }
 
     public boolean isAbilityReady() {
@@ -233,37 +233,37 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     /* ------------------------------------------------------------------ */
 
     /** Where a heat ray leaves the machine. */
-    public Vec3d getBeamOrigin() {
-        return new Vec3d(this.getX(), this.getY() + this.getHeight() * 0.72D, this.getZ())
-                .add(this.getRotationVec(1.0F).multiply(this.getWidth() * 0.45D));
+    public Vec3 getBeamOrigin() {
+        return new Vec3(this.getX(), this.getY() + this.getBbHeight() * 0.72D, this.getZ())
+                .add(this.getViewVector(1.0F).scale(this.getBbWidth() * 0.45D));
     }
 
     public void fireBeamAt(LivingEntity target, BeamKind kind, float damage) {
         if (target == null) {
             return;
         }
-        this.fireBeamAt(target.getEyePos(), kind, damage);
+        this.fireBeamAt(target.getEyePosition(), kind, damage);
     }
 
-    public void fireBeamAt(Vec3d target, BeamKind kind, float damage) {
-        Vec3d origin = this.getBeamOrigin();
-        Vec3d delta = target.subtract(origin);
+    public void fireBeamAt(Vec3 target, BeamKind kind, float damage) {
+        Vec3 origin = this.getBeamOrigin();
+        Vec3 delta = target.subtract(origin);
         if (delta.lengthSquared() < 0.05D) {
             return;
         }
         this.fireBeam(origin, delta.normalize(), kind, damage);
     }
 
-    public void fireBeam(Vec3d origin, Vec3d direction, BeamKind kind, float damage) {
-        if (this.getWorld().isClient) {
+    public void fireBeam(Vec3 origin, Vec3 direction, BeamKind kind, float damage) {
+        if (this.level().isClientSide) {
             return;
         }
-        BeamEntity beam = new BeamEntity(this.getWorld(), origin, direction, kind, this, damage);
-        this.getWorld().spawnEntity(beam);
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                ModSounds.HEAT_RAY, SoundCategory.HOSTILE, 2.2F, kind.getSoundPitch());
-        if (this.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK,
+        BeamEntity beam = new BeamEntity(this.level(), origin, direction, kind, this, damage);
+        this.level().addFreshEntity(beam);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                ModSounds.HEAT_RAY, SoundSource.HOSTILE, 2.2F, kind.getSoundPitch());
+        if (this.level() instanceof ServerLevel serverWorld) {
+            serverWorld.sendParticles(ParticleTypes.ELECTRIC_SPARK,
                     origin.x, origin.y, origin.z, 12, 0.3D, 0.3D, 0.3D, 0.25D);
         }
     }
@@ -271,8 +271,8 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     /** Charge up sound, played when a beam attack starts. */
     public void playChargeSound() {
         // The siren rising before the shot is half of the scare factor.
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 1.8F, 1.05F);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                ModSounds.TRIPOD_HORN, SoundSource.HOSTILE, 1.8F, 1.05F);
     }
 
     /* ------------------------------------------------------------------ */
@@ -280,25 +280,25 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     /* ------------------------------------------------------------------ */
 
     @Override
-    public boolean damage(DamageSource source, float amount) {
-        if (this.isShielded() && source.isIn(DamageTypeTags.IS_PROJECTILE)) {
-            if (!this.getWorld().isClient) {
-                this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                        SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.HOSTILE, 1.4F, 1.7F);
-                if (this.getWorld() instanceof ServerWorld serverWorld) {
-                    serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK,
-                            this.getX(), this.getY() + this.getHeight() * 0.6D, this.getZ(),
-                            22, this.getWidth() * 0.5D, this.getHeight() * 0.4D, this.getWidth() * 0.5D, 0.2D);
+    public boolean hurt(DamageSource source, float amount) {
+        if (this.isShielded() && source.is(DamageTypeTags.IS_PROJECTILE)) {
+            if (!this.level().isClientSide) {
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                        SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.HOSTILE, 1.4F, 1.7F);
+                if (this.level() instanceof ServerLevel serverWorld) {
+                    serverWorld.sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            this.getX(), this.getY() + this.getBbHeight() * 0.6D, this.getZ(),
+                            22, this.getBbWidth() * 0.5D, this.getBbHeight() * 0.4D, this.getBbWidth() * 0.5D, 0.2D);
                 }
             }
             return false;
         }
-        return super.damage(source, amount);
+        return super.hurt(source, amount);
     }
 
     @Override
-    public boolean tryAttack(Entity target) {
-        boolean hit = super.tryAttack(target);
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
         if (hit && target instanceof LivingEntity living) {
             this.onMeleeHit(living);
         }
@@ -310,32 +310,32 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     }
 
     @Override
-    protected void dropLoot(DamageSource source, boolean causedByPlayer) {
+    protected void dropCustomDeathLoot(DamageSource source, boolean causedByPlayer) {
         int amount = 1 + this.getRandom().nextInt(1 + (int) (this.getMaxHealth() / 100.0F));
-        this.dropStack(new ItemStack(ModItems.MARTIAN_ALLOY, amount));
+        this.spawnAtLocation(new ItemStack(ModItems.MARTIAN_ALLOY, amount));
     }
 
     @Override
-    public void onDeath(DamageSource source) {
-        super.onDeath(source);
-        if (!this.getWorld().isClient && this.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(ParticleTypes.EXPLOSION,
-                    this.getX(), this.getY() + this.getHeight() * 0.5D, this.getZ(),
-                    8, this.getWidth() * 0.4D, this.getHeight() * 0.3D, this.getWidth() * 0.4D, 0.02D);
-            serverWorld.spawnParticles(ParticleTypes.LARGE_SMOKE,
-                    this.getX(), this.getY() + this.getHeight() * 0.4D, this.getZ(),
-                    40, this.getWidth() * 0.4D, this.getHeight() * 0.4D, this.getWidth() * 0.4D, 0.03D);
+    public void die(DamageSource source) {
+        super.die(source);
+        if (!this.level().isClientSide && this.level() instanceof ServerLevel serverWorld) {
+            serverWorld.sendParticles(ParticleTypes.EXPLOSION,
+                    this.getX(), this.getY() + this.getBbHeight() * 0.5D, this.getZ(),
+                    8, this.getBbWidth() * 0.4D, this.getBbHeight() * 0.3D, this.getBbWidth() * 0.4D, 0.02D);
+            serverWorld.sendParticles(ParticleTypes.LARGE_SMOKE,
+                    this.getX(), this.getY() + this.getBbHeight() * 0.4D, this.getZ(),
+                    40, this.getBbWidth() * 0.4D, this.getBbHeight() * 0.4D, this.getBbWidth() * 0.4D, 0.03D);
         }
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.ENTITY_IRON_GOLEM_DEATH, SoundCategory.HOSTILE, 2.4F, 0.55F);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                SoundEvents.IRON_GOLEM_DEATH, SoundSource.HOSTILE, 2.4F, 0.55F);
     }
 
     private void clientShieldParticles() {
-        double radius = this.getWidth() * 0.65D;
+        double radius = this.getBbWidth() * 0.65D;
         for (int i = 0; i < 3; i++) {
             double angle = this.random.nextDouble() * Math.PI * 2.0D;
-            double y = this.random.nextDouble() * this.getHeight() * 0.8D;
-            this.getWorld().addParticle(ParticleTypes.ELECTRIC_SPARK,
+            double y = this.random.nextDouble() * this.getBbHeight() * 0.8D;
+            this.level().addParticle(ParticleTypes.ELECTRIC_SPARK,
                     this.getX() + Math.cos(angle) * radius, this.getY() + y, this.getZ() + Math.sin(angle) * radius,
                     0.0D, 0.02D, 0.0D);
         }
@@ -351,27 +351,27 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     }
 
     @Override
-    public boolean canBeLeashedBy(PlayerEntity player) {
+    public boolean canBeLeashed(Player player) {
         return false;
     }
 
     @Override
-    public boolean isFireImmune() {
+    public boolean fireImmune() {
         return true;
     }
 
     @Override
-    public boolean canBreatheInWater() {
+    public boolean canBreatheUnderwater() {
         return true;
     }
 
     @Override
-    public float getStepHeight() {
+    public float maxUpStep() {
         return 2.5F;
     }
 
     @Override
-    protected int computeFallDamage(float fallDistance, float damageMultiplier) {
+    protected int calculateFallDamage(float fallDistance, float damageMultiplier) {
         return 0;
     }
 
@@ -384,12 +384,12 @@ public abstract class AbstractTripodEntity extends HostileEntity {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_IRON_GOLEM_HURT;
+        return SoundEvents.IRON_GOLEM_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_IRON_GOLEM_DEATH;
+        return SoundEvents.IRON_GOLEM_DEATH;
     }
 
     @Override
@@ -403,7 +403,7 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     }
 
     @Override
-    public int getMinAmbientSoundDelay() {
+    public int getAmbientSoundInterval() {
         // The siren is meant to be a rare, unsettling event, not a metronome.
         return 400 + this.random.nextInt(500);
     }
@@ -413,11 +413,11 @@ public abstract class AbstractTripodEntity extends HostileEntity {
     /* ------------------------------------------------------------------ */
 
     public boolean canSeeTarget(LivingEntity target) {
-        return target != null && this.canSee(target);
+        return target != null && this.hasLineOfSight(target);
     }
 
     protected double squaredDistanceToTarget(LivingEntity target) {
-        return target == null ? Double.MAX_VALUE : this.squaredDistanceTo(target);
+        return target == null ? Double.MAX_VALUE : this.distanceToSqr(target);
     }
 
 }

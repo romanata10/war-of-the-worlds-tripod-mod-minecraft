@@ -1,15 +1,15 @@
 package dev.arena.wotw.client.render;
 
 import dev.arena.wotw.entity.projectile.ShellEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.RenderType;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 
 /**
@@ -18,42 +18,42 @@ import org.joml.Matrix4f;
  */
 public class ShellRenderer extends EntityRenderer<ShellEntity> {
 
-    private static final Identifier SHELL_TEXTURE = new Identifier("wotw", "textures/entity/beam_heat_ray.png");
-    private static final Identifier CHARGE_TEXTURE = new Identifier("wotw", "textures/entity/beam_laser.png");
+    private static final ResourceLocation SHELL_TEXTURE = new ResourceLocation("wotw", "textures/entity/beam_heat_ray.png");
+    private static final ResourceLocation CHARGE_TEXTURE = new ResourceLocation("wotw", "textures/entity/beam_laser.png");
     private static final int FULL_BRIGHT = 15728880;
 
-    public ShellRenderer(EntityRendererFactory.Context context) {
+    public ShellRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.4F;
     }
 
     @Override
-    public void render(ShellEntity entity, float yaw, float tickDelta, MatrixStack matrices,
-                       VertexConsumerProvider vertexConsumers, int light) {
-        matrices.push();
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-this.dispatcher.camera.getYaw()));
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(this.dispatcher.camera.getPitch()));
-        VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentEmissive(
+    public void render(ShellEntity entity, float yaw, float tickDelta, PoseStack matrices,
+                       MultiBufferSource vertexConsumers, int light) {
+        matrices.pushPose();
+        matrices.mulPose(Axis.YP.rotationDegrees(-this.entityRenderDispatcher.camera.getYRot()));
+        matrices.mulPose(Axis.XP.rotationDegrees(this.entityRenderDispatcher.camera.getXRot()));
+        VertexConsumer consumer = vertexConsumers.getBuffer(RenderType.entityTranslucentEmissive(
                 entity.isElectricCharge() ? CHARGE_TEXTURE : SHELL_TEXTURE));
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
+        Matrix4f matrix = matrices.last().pose();
         float size = 0.35F;
         float r = 1.0F;
         float g = entity.isElectricCharge() ? 0.95F : 1.0F;
         float b = entity.isElectricCharge() ? 1.0F : 0.55F;
         consumer.vertex(matrix, -size, -size, 0.0F).color(r, g, b, 0.9F).texture(0.0F, 1.0F)
-                .overlay(OverlayTexture.DEFAULT_UV).light(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).next();
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
         consumer.vertex(matrix, size, -size, 0.0F).color(r, g, b, 0.9F).texture(1.0F, 1.0F)
-                .overlay(OverlayTexture.DEFAULT_UV).light(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).next();
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
         consumer.vertex(matrix, size, size, 0.0F).color(r, g, b, 0.9F).texture(1.0F, 0.0F)
-                .overlay(OverlayTexture.DEFAULT_UV).light(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).next();
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
         consumer.vertex(matrix, -size, size, 0.0F).color(r, g, b, 0.9F).texture(0.0F, 0.0F)
-                .overlay(OverlayTexture.DEFAULT_UV).light(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).next();
-        matrices.pop();
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(FULL_BRIGHT).normal(0.0F, 0.0F, 1.0F).endVertex();
+        matrices.popPose();
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 
     @Override
-    public Identifier getTexture(ShellEntity entity) {
+    public ResourceLocation getTextureLocation(ShellEntity entity) {
         return entity.isElectricCharge() ? CHARGE_TEXTURE : SHELL_TEXTURE;
     }
 }

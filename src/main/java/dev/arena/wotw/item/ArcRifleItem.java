@@ -1,16 +1,16 @@
 package dev.arena.wotw.item;
 
 import dev.arena.wotw.entity.projectile.ShellEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Arc rifle: the human copy of the Electric Machine's coil.
@@ -23,22 +23,22 @@ public class ArcRifleItem extends Item {
     private static final int COOLDOWN = 22;
     private static final float POWER = 1.8F;
 
-    public ArcRifleItem(Settings settings) {
-        super(settings);
+    public ArcRifleItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-        if (world instanceof ServerWorld serverWorld) {
-            Vec3d origin = user.getEyePos().add(user.getRotationVec(1.0F).multiply(0.8D));
-            Vec3d velocity = user.getRotationVec(1.0F).multiply(1.85D);
+    public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        ItemStack stack = user.getItemInHand(hand);
+        if (world instanceof ServerLevel serverWorld) {
+            Vec3 origin = user.getEyePosition().add(user.getViewVector(1.0F).scale(0.8D));
+            Vec3 velocity = user.getViewVector(1.0F).scale(1.85D);
             ShellEntity.launch(serverWorld, user, origin, velocity, POWER, true);
-            stack.damage(1, user, player -> player.sendToolBreakStatus(hand));
+            stack.hurtAndBreak(1, user, player -> player.broadcastBreakEvent(hand));
         }
-        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_TRIDENT_THROW,
-                SoundCategory.PLAYERS, 1.0F, 1.7F);
-        user.getItemCooldownManager().set(this, COOLDOWN);
-        return TypedActionResult.success(stack);
+        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.TRIDENT_THROW,
+                SoundSource.PLAYERS, 1.0F, 1.7F);
+        user.getCooldowns().addCooldown(this, COOLDOWN);
+        return InteractionResultHolder.success(stack);
     }
 }

@@ -1,16 +1,16 @@
 package dev.arena.wotw.entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * The water tripod — an oil rig standing on three enormous legs.
@@ -28,21 +28,21 @@ public class WaterTripodEntity extends AbstractTripodEntity {
     private static final int PULL_INTERVAL = 80;
     private static final double PULL_RANGE = 14.0D;
 
-    public WaterTripodEntity(EntityType<? extends WaterTripodEntity> type, World world) {
+    public WaterTripodEntity(EntityType<? extends WaterTripodEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(260.0D, 0.22D, 16.0D, 12.0D, 8.0D, 1.0D, 44.0D);
     }
 
     @Override
-    public boolean isPushedByFluids() {
+    public boolean isPushedByFluid() {
         return false;
     }
 
     @Override
-    public float getStepHeight() {
+    public float maxUpStep() {
         return 4.0F;
     }
 
@@ -55,22 +55,22 @@ public class WaterTripodEntity extends AbstractTripodEntity {
         if (target == null || !target.isAlive()) {
             return;
         }
-        if (this.squaredDistanceTo(target) > PULL_RANGE * PULL_RANGE) {
+        if (this.distanceToSqr(target) > PULL_RANGE * PULL_RANGE) {
             return;
         }
-        Vec3d pull = new Vec3d(this.getX() - target.getX(), 0.0D, this.getZ() - target.getZ());
+        Vec3 pull = new Vec3(this.getX() - target.getX(), 0.0D, this.getZ() - target.getZ());
         if (pull.lengthSquared() < 0.01D) {
             return;
         }
-        pull = pull.normalize().multiply(0.55D);
-        target.addVelocity(pull.x, 0.18D, pull.z);
-        target.velocityModified = true;
-        target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 60, 1, false, false, false));
+        pull = pull.normalize().scale(0.55D);
+        target.push(pull.x, 0.18D, pull.z);
+        target.hurtMarked = true;
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 1, false, false, false));
 
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.ENTITY_DOLPHIN_SPLASH, SoundCategory.HOSTILE, 2.0F, 0.6F);
-        if (this.getWorld() instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(ParticleTypes.SPLASH,
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                SoundEvents.DOLPHIN_SPLASH, SoundSource.HOSTILE, 2.0F, 0.6F);
+        if (this.level() instanceof ServerLevel serverWorld) {
+            serverWorld.sendParticles(ParticleTypes.SPLASH,
                     this.getX(), this.getY() + 0.5D, this.getZ(), 40, 2.4D, 0.6D, 2.4D, 0.1D);
         }
         this.setAbilityCooldown(PULL_INTERVAL);

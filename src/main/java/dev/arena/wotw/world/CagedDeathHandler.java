@@ -3,16 +3,21 @@ package dev.arena.wotw.world;
 import dev.arena.wotw.block.BloodRootsBlock;
 import dev.arena.wotw.block.RedRootBlock;
 import dev.arena.wotw.registry.ModStatusEffects;
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import dev.arena.wotw.WotwMod;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.BlockPos;
 
 /**
  * A player who dies inside the cage of a Handling Machine leaves a whole thicket of red roots
  * behind — the Martians plant their weeds in the corpse.
  */
+@Mod.EventBusSubscriber(modid = WotwMod.MOD_ID)
 public final class CagedDeathHandler {
 
     private static final int RADIUS = 3;
@@ -20,19 +25,23 @@ public final class CagedDeathHandler {
     private CagedDeathHandler() {
     }
 
-    public static void register() {
-        ServerLivingEntityEvents.AFTER_DEATH.register(CagedDeathHandler::onDeath);
+    @SubscribeEvent
+    public static void onLivingDeath(LivingDeathEvent event) {
+        if (event.isCanceled()) {
+            return;
+        }
+        onDeath(event.getEntity(), event.getSource());
     }
 
-    private static void onDeath(LivingEntity entity, net.minecraft.entity.damage.DamageSource source) {
-        if (!(entity.getWorld() instanceof ServerWorld world)) {
+    private static void onDeath(LivingEntity entity, DamageSource source) {
+        if (!(entity.level() instanceof ServerLevel world)) {
             return;
         }
-        if (!entity.hasStatusEffect(ModStatusEffects.CAGED)) {
+        if (!entity.hasEffect(ModStatusEffects.CAGED)) {
             return;
         }
 
-        BlockPos base = entity.getBlockPos();
+        BlockPos base = entity.blockPosition();
         for (int dx = -RADIUS; dx <= RADIUS; dx++) {
             for (int dz = -RADIUS; dz <= RADIUS; dz++) {
                 if (world.getRandom().nextFloat() > 0.55F) {
@@ -51,7 +60,7 @@ public final class CagedDeathHandler {
             }
         }
 
-        world.spawnParticles(ParticleTypes.CRIMSON_SPORE, base.getX() + 0.5D, base.getY() + 0.8D, base.getZ() + 0.5D,
+        world.sendParticles(ParticleTypes.CRIMSON_SPORE, base.getX() + 0.5D, base.getY() + 0.8D, base.getZ() + 0.5D,
                 90, 2.4D, 0.8D, 2.4D, 0.02D);
     }
 }

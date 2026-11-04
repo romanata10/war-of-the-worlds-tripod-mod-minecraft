@@ -3,14 +3,14 @@ package dev.arena.wotw.entity;
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
 import dev.arena.wotw.entity.ai.HoverGoal;
 import dev.arena.wotw.entity.projectile.BeamKind;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * The flying manta machine from George Pal's 1953 "The War of the Worlds".
@@ -25,12 +25,12 @@ import net.minecraft.world.World;
  */
 public class FlyingMantaEntity extends AbstractTripodEntity {
 
-    public FlyingMantaEntity(EntityType<? extends FlyingMantaEntity> type, World world) {
+    public FlyingMantaEntity(EntityType<? extends FlyingMantaEntity> type, Level world) {
         super(type, world);
         this.setNoGravity(true);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(180.0D, 0.30D, 12.0D, 6.0D, 4.0D, 0.9D, 64.0D);
     }
 
@@ -48,35 +48,35 @@ public class FlyingMantaEntity extends AbstractTripodEntity {
     }
 
     @Override
-    public void onDeath(DamageSource source) {
-        super.onDeath(source);
-        if (!this.getWorld().isClient) {
-            this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), 3.0F, false,
-                    World.ExplosionSourceType.MOB);
+    public void die(DamageSource source) {
+        super.die(source);
+        if (!this.level().isClientSide) {
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 3.0F, false,
+                    Level.ExplosionInteraction.MOB);
         }
     }
 
     @Override
     protected void clientTick() {
-        double wingY = this.getY() + this.getHeight() * 0.45D;
-        this.getWorld().addParticle(ParticleTypes.SMOKE,
+        double wingY = this.getY() + this.getBbHeight() * 0.45D;
+        this.level().addParticle(ParticleTypes.SMOKE,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 3.0D, wingY,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 3.0D, 0.0D, -0.01D, 0.0D);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_PHANTOM_AMBIENT;
+        return SoundEvents.PHANTOM_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_PHANTOM_HURT;
+        return SoundEvents.PHANTOM_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PHANTOM_DEATH;
+        return SoundEvents.PHANTOM_DEATH;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class FlyingMantaEntity extends AbstractTripodEntity {
 
     @Override
     public void playChargeSound() {
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.ENTITY_PHANTOM_SWOOP, SoundCategory.HOSTILE, 2.2F, 0.5F);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                SoundEvents.PHANTOM_SWOOP, SoundSource.HOSTILE, 2.2F, 0.5F);
     }
 }

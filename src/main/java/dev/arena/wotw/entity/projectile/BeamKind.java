@@ -1,10 +1,10 @@
 package dev.arena.wotw.entity.projectile;
 
 import dev.arena.wotw.WotwMod;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 /**
  * Every heat ray variant in the mod. The kind decides speed, reach, area of effect,
@@ -27,11 +27,11 @@ public enum BeamKind {
     private final int igniteSeconds;
     private final float width;
     private final float soundPitch;
-    private final ParticleEffect particle;
-    private final Identifier texture;
+    private final ParticleOptions particle;
+    private final ResourceLocation texture;
 
     BeamKind(String id, double speed, double maxDistance, double radius, int igniteSeconds,
-             float width, float soundPitch, ParticleEffect particle) {
+             float width, float soundPitch, ParticleOptions particle) {
         this.id = id;
         this.speed = speed;
         this.maxDistance = maxDistance;
@@ -57,7 +57,7 @@ public enum BeamKind {
     }
 
     public int getMaxLife() {
-        return MathHelper.ceil(this.maxDistance / this.speed) + 2;
+        return Mth.ceil(this.maxDistance / this.speed) + 2;
     }
 
     /** Half thickness of the damaging sweep. */
@@ -78,11 +78,11 @@ public enum BeamKind {
         return this.soundPitch;
     }
 
-    public ParticleEffect getParticle() {
+    public ParticleOptions getParticle() {
         return this.particle;
     }
 
-    public Identifier getTexture() {
+    public ResourceLocation getTexture() {
         return this.texture;
     }
 

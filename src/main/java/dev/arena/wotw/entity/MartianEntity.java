@@ -1,17 +1,17 @@
 package dev.arena.wotw.entity;
 
-import net.minecraft.entity.AreaEffectCloudEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * The Martian itself — the creature from H. G. Wells' novel: a leathery, oily blob the size of a
@@ -23,11 +23,11 @@ import net.minecraft.world.World;
  */
 public class MartianEntity extends AbstractTripodEntity {
 
-    public MartianEntity(EntityType<? extends MartianEntity> type, World world) {
+    public MartianEntity(EntityType<? extends MartianEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(30.0D, 0.34D, 6.0D, 0.0D, 0.0D, 0.0D, 26.0D);
     }
 
@@ -49,7 +49,7 @@ public class MartianEntity extends AbstractTripodEntity {
         if (target == null || !this.canSeeTarget(target)) {
             return;
         }
-        if (this.squaredDistanceTo(target) > 12.0D * 12.0D) {
+        if (this.distanceToSqr(target) > 12.0D * 12.0D) {
             return;
         }
         this.spitBlackSmoke(target);
@@ -57,21 +57,21 @@ public class MartianEntity extends AbstractTripodEntity {
     }
 
     protected void spitBlackSmoke(LivingEntity target) {
-        if (!(this.getWorld() instanceof ServerWorld world)) {
+        if (!(this.level() instanceof ServerLevel world)) {
             return;
         }
         AreaEffectCloudEntity cloud = new AreaEffectCloudEntity(world,
                 target.getX(), target.getY() + 0.4D, target.getZ());
         cloud.setOwner(this);
         cloud.setRadius(3.2F);
-        cloud.setRadiusGrowth(0.02F);
+        cloud.setRadiusPerTick(0.02F);
         cloud.setDuration(160);
-        cloud.addEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 150, 0));
-        cloud.addEffect(new StatusEffectInstance(StatusEffects.POISON, 120, 1));
-        world.spawnEntity(cloud);
-        world.spawnParticles(ParticleTypes.SQUID_INK, target.getX(), target.getY() + 0.8D, target.getZ(),
+        cloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 150, 0));
+        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 1));
+        world.addFreshEntity(cloud);
+        world.sendParticles(ParticleTypes.SQUID_INK, target.getX(), target.getY() + 0.8D, target.getZ(),
                 30, 1.2D, 0.8D, 1.2D, 0.05D);
-        this.playSound(SoundEvents.ENTITY_LLAMA_SPIT, 1.4F, 0.6F);
+        this.playSound(SoundEvents.LLAMA_SPIT, 1.4F, 0.6F);
     }
 
     /** The master is the one that commands the war machines. */
@@ -82,7 +82,7 @@ public class MartianEntity extends AbstractTripodEntity {
     /* The creatures are flesh and blood, unlike their machines. */
 
     @Override
-    public boolean isFireImmune() {
+    public boolean fireImmune() {
         return false;
     }
 
@@ -92,28 +92,28 @@ public class MartianEntity extends AbstractTripodEntity {
     }
 
     @Override
-    public float getStepHeight() {
+    public float maxUpStep() {
         return 1.0F;
     }
 
     @Override
-    protected int computeFallDamage(float fallDistance, float damageMultiplier) {
-        return super.computeFallDamage(fallDistance, damageMultiplier);
+    protected int calculateFallDamage(float fallDistance, float damageMultiplier) {
+        return super.calculateFallDamage(fallDistance, damageMultiplier);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_PHANTOM_AMBIENT;
+        return SoundEvents.PHANTOM_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_PHANTOM_HURT;
+        return SoundEvents.PHANTOM_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PHANTOM_DEATH;
+        return SoundEvents.PHANTOM_DEATH;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class MartianEntity extends AbstractTripodEntity {
     }
 
     @Override
-    public int getXpToDrop() {
+    public int getExperienceReward() {
         return 24;
     }
 

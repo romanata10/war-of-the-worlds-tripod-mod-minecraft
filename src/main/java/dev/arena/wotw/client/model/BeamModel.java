@@ -1,14 +1,14 @@
 package dev.arena.wotw.client.model;
 
 import dev.arena.wotw.entity.projectile.BeamEntity;
-import net.minecraft.client.model.ModelData;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.ModelPartBuilder;
-import net.minecraft.client.model.ModelTransform;
-import net.minecraft.client.model.TexturedModelData;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 /**
  * A single elongated glowing cuboid. Its long axis is local -Z (the "forward" of every entity
@@ -22,23 +22,23 @@ public class BeamModel extends EntityModel<BeamEntity> {
         this.beam = root.getChild("beam");
     }
 
-    public static TexturedModelData getTexturedModelData() {
-        ModelData data = new ModelData();
-        data.getRoot().addChild("beam", ModelPartBuilder.create()
-                        .cuboid(-4, -4, -8, 8, 8, 16),
-                ModelTransform.NONE);
-        return TexturedModelData.of(data, 64, 64);
+    public static LayerDefinition getTexturedModelData() {
+        MeshDefinition data = new MeshDefinition();
+        data.getRoot().addOrReplaceChild("beam", CubeListBuilder.create()
+                        .addBox(-4, -4, -8, 8, 8, 16),
+                PartPose.NONE);
+        return LayerDefinition.create(data, 64, 64);
     }
 
     @Override
-    public void setAngles(BeamEntity entity, float limbAngle, float limbDistance, float animationProgress,
-                          float headYaw, float headPitch) {
+    public void setupAnim(BeamEntity entity, float limbAngle, float limbDistance, float animationProgress,
+                          float yHeadRot, float headPitch) {
         // Beams do not animate, they only glow.
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay,
-                       float red, float green, float blue, float alpha) {
-        this.beam.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight,
+                               int packedOverlay, float red, float green, float blue, float alpha) {
+        this.beam.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

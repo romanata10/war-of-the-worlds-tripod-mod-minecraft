@@ -4,7 +4,7 @@
 Geometry lives here (in model pixels, 16 per block, +y downwards, feet at y = 24), and two
 outputs are produced from it:
 
-    src/main/java/dev/arena/wotw/client/model/TripodModels.java   (10 machines)
+    src/main/java/dev/arena/wotw/client/model/TripodModels.java   (25 machines)
     src/main/java/dev/arena/wotw/client/model/MartianModels.java  (2 Martians)
 
 `tools/preview_models.py` renders the very same objects, so the preview cannot drift away from
@@ -903,11 +903,11 @@ MARTIANS = [
 
 HEADER = '''package dev.arena.wotw.client.model;
 
-import net.minecraft.client.model.ModelData;
-import net.minecraft.client.model.ModelPartBuilder;
-import net.minecraft.client.model.ModelPartData;
-import net.minecraft.client.model.ModelTransform;
-import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.PartPose;
 
 /**
  * {doc}
@@ -928,7 +928,7 @@ def write_tripods():
     for method, model in TRIPODS:
         parts.append(emit_java(model, method) + "\n")
     parts.append('''    /** The BBC machines differ only by the laser cannon, so one entry point serves both. */
-    public static TexturedModelData bbc(boolean armed) {
+    public static LayerDefinition bbc(boolean armed) {
         return armed ? bbcRed() : bbcWhite();
     }
 }

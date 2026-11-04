@@ -3,14 +3,14 @@ package dev.arena.wotw.entity;
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
 import dev.arena.wotw.entity.ai.HoverGoal;
 import dev.arena.wotw.entity.projectile.BeamKind;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * Flying Machine — a flat Martian disc that never touches the ground.
@@ -23,12 +23,12 @@ import net.minecraft.world.World;
  */
 public class FlyingMachineEntity extends AbstractTripodEntity {
 
-    public FlyingMachineEntity(EntityType<? extends FlyingMachineEntity> type, World world) {
+    public FlyingMachineEntity(EntityType<? extends FlyingMachineEntity> type, Level world) {
         super(type, world);
         this.setNoGravity(true);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(190.0D, 0.33D, 14.0D, 8.0D, 5.0D, 1.0D, 56.0D);
     }
 
@@ -44,35 +44,35 @@ public class FlyingMachineEntity extends AbstractTripodEntity {
     }
 
     @Override
-    public void onDeath(DamageSource source) {
-        super.onDeath(source);
-        if (!this.getWorld().isClient) {
-            this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), 2.6F, false,
-                    World.ExplosionSourceType.MOB);
+    public void die(DamageSource source) {
+        super.die(source);
+        if (!this.level().isClientSide) {
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2.6F, false,
+                    Level.ExplosionInteraction.MOB);
         }
     }
 
     @Override
     protected void clientTick() {
-        double rotorY = this.getY() + this.getHeight() * 0.72D;
-        this.getWorld().addParticle(ParticleTypes.CLOUD,
+        double rotorY = this.getY() + this.getBbHeight() * 0.72D;
+        this.level().addParticle(ParticleTypes.CLOUD,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 4.0D, rotorY,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 4.0D, 0.0D, -0.02D, 0.0D);
     }
 
     @Override
     public void playChargeSound() {
-        this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.ENTITY_PHANTOM_SWOOP, SoundCategory.HOSTILE, 2.0F, 0.7F);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                SoundEvents.PHANTOM_SWOOP, SoundSource.HOSTILE, 2.0F, 0.7F);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_PHANTOM_AMBIENT;
+        return SoundEvents.PHANTOM_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_PHANTOM_HURT;
+        return SoundEvents.PHANTOM_HURT;
     }
 }

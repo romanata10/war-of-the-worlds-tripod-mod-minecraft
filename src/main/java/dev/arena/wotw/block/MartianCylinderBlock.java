@@ -2,22 +2,23 @@ package dev.arena.wotw.block;
 
 import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.registry.ModEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * The Martian cylinder. Right-click it and the hatch opens: one random tripod climbs out
@@ -25,42 +26,42 @@ import net.minecraft.world.World;
  */
 public class MartianCylinderBlock extends Block {
 
-    public MartianCylinderBlock(Settings settings) {
+    public MartianCylinderBlock(BlockBehaviour.Properties settings) {
         super(settings);
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
                               BlockHitResult hit) {
-        if (world.isClient) {
-            return ActionResult.SUCCESS;
+        if (world.isClientSide) {
+            return InteractionResult.SUCCESS;
         }
 
         EntityType<?> type = ModEntities.randomTripod(world.getRandom());
         Entity entity = type.create(world);
         if (entity == null) {
-            return ActionResult.FAIL;
+            return InteractionResult.FAIL;
         }
 
-        entity.refreshPositionAndAngles(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D,
+        entity.moveTo(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D,
                 world.getRandom().nextFloat() * 360.0F, 0.0F);
-        if (entity instanceof MobEntity mob) {
-            mob.setPersistent();
-            if (world instanceof ServerWorld serverWorld) {
-                mob.initialize(serverWorld, serverWorld.getLocalDifficulty(pos), SpawnReason.SPAWN_EGG, null, null);
+        if (entity instanceof Mob mob) {
+            mob.setPersistenceRequired();
+            if (world instanceof ServerLevel serverWorld) {
+                mob.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(pos), MobSpawnType.SPAWN_EGG, null, null);
             }
         }
-        world.spawnEntity(entity);
+        world.addFreshEntity(entity);
 
-        if (world instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(ParticleTypes.EXPLOSION_EMITTER, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D,
+        if (world instanceof ServerLevel serverWorld) {
+            serverWorld.sendParticles(ParticleTypes.EXPLOSION_EMITTER, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D,
                     1, 0.0D, 0.0D, 0.0D, 0.0D);
-            serverWorld.spawnParticles(ParticleTypes.LARGE_SMOKE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D,
+            serverWorld.sendParticles(ParticleTypes.LARGE_SMOKE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D,
                     60, 1.2D, 1.2D, 1.2D, 0.05D);
         }
-        world.playSound(null, pos, ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 3.0F, 0.5F);
-        world.playSound(null, pos, SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.BLOCKS, 2.0F, 0.6F);
+        world.playSound(null, pos, ModSounds.TRIPOD_HORN, SoundSource.HOSTILE, 3.0F, 0.5F);
+        world.playSound(null, pos, SoundEvents.IRON_DOOR_OPEN, SoundSource.BLOCKS, 2.0F, 0.6F);
         world.removeBlock(pos, false);
-        return ActionResult.CONSUME;
+        return InteractionResult.CONSUME;
     }
 }

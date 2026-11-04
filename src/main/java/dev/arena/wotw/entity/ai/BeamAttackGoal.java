@@ -2,8 +2,8 @@ package dev.arena.wotw.entity.ai;
 
 import dev.arena.wotw.entity.AbstractTripodEntity;
 import dev.arena.wotw.entity.projectile.BeamKind;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
 
@@ -41,7 +41,7 @@ public class BeamAttackGoal extends Goal {
         this.burstShots = Math.max(1, burstShots);
         this.burstInterval = Math.max(1, burstInterval);
         this.needsSight = needsSight;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
     /** Convenience constructor for a single shot. */
@@ -51,7 +51,7 @@ public class BeamAttackGoal extends Goal {
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         if (!this.tripod.isAbilityReady() || this.tripod.isAbilityCharging()) {
             return false;
         }
@@ -59,7 +59,7 @@ public class BeamAttackGoal extends Goal {
         if (target == null || !target.isAlive()) {
             return false;
         }
-        double squared = this.tripod.squaredDistanceTo(target);
+        double squared = this.tripod.distanceToSqr(target);
         if (squared > this.range * this.range || squared < 9.0D) {
             return false;
         }
@@ -67,7 +67,7 @@ public class BeamAttackGoal extends Goal {
     }
 
     @Override
-    public boolean shouldContinue() {
+    public boolean canContinueToUse() {
         if (this.finished) {
             return false;
         }
@@ -75,11 +75,11 @@ public class BeamAttackGoal extends Goal {
         if (target == null || !target.isAlive()) {
             return false;
         }
-        return this.timer < 600 && this.tripod.squaredDistanceTo(target) <= this.range * this.range * 1.6D;
+        return this.timer < 600 && this.tripod.distanceToSqr(target) <= this.range * this.range * 1.6D;
     }
 
     @Override
-    public boolean shouldRunEveryTick() {
+    public boolean requiresUpdateEveryTick() {
         return true;
     }
 

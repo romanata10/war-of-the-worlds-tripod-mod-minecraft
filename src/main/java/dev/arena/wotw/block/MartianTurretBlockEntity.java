@@ -3,16 +3,16 @@ package dev.arena.wotw.block;
 import dev.arena.wotw.entity.projectile.BeamEntity;
 import dev.arena.wotw.entity.projectile.BeamKind;
 import dev.arena.wotw.registry.ModBlockEntities;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * The gun of the tall Martian turret: it sweeps for players and shoots a lance beam at the closest
@@ -31,45 +31,45 @@ public class MartianTurretBlockEntity extends BlockEntity {
 
     /** Called from the block's ticker every game tick. */
     public void tick() {
-        World world = this.getWorld();
-        if (world == null || world.isClient) {
+        Level world = this.level();
+        if (world == null || world.isClientSide) {
             return;
         }
         if (this.cooldown > 0) {
             this.cooldown--;
             return;
         }
-        PlayerEntity player = world.getClosestPlayer(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D,
+        Player player = world.getNearestPlayer(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D,
                 this.pos.getZ() + 0.5D, RANGE, false);
         if (player == null || !player.isAlive()) {
             this.cooldown = 10;
             return;
         }
-        Vec3d origin = new Vec3d(this.pos.getX() + 0.5D, this.pos.getY() + 1.9D, this.pos.getZ() + 0.5D);
-        Vec3d direction = player.getEyePos().subtract(origin);
+        Vec3 origin = new Vec3(this.pos.getX() + 0.5D, this.pos.getY() + 1.9D, this.pos.getZ() + 0.5D);
+        Vec3 direction = player.getEyePosition().subtract(origin);
         if (direction.lengthSquared() < 0.1D) {
             return;
         }
         BeamEntity beam = new BeamEntity(world, origin, direction.normalize(), BeamKind.LANCE, null, 5.0F);
-        world.spawnEntity(beam);
-        world.playSound(null, this.pos, net.minecraft.sound.SoundEvents.BLOCK_BEACON_ACTIVATE,
-                SoundCategory.BLOCKS, 1.2F, 1.6F);
-        if (world instanceof ServerWorld serverWorld) {
-            serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK, origin.x, origin.y, origin.z,
+        world.addFreshEntity(beam);
+        world.playSound(null, this.pos, net.minecraft.sounds.SoundEvents.BEACON_ACTIVATE,
+                SoundSource.BLOCKS, 1.2F, 1.6F);
+        if (world instanceof ServerLevel serverWorld) {
+            serverWorld.sendParticles(ParticleTypes.ELECTRIC_SPARK, origin.x, origin.y, origin.z,
                     14, 0.2D, 0.2D, 0.2D, 0.2D);
         }
         this.cooldown = COOLDOWN;
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
+    protected void saveAdditional(CompoundTag nbt) {
+        super.saveAdditional(nbt);
         nbt.putInt("Cooldown", this.cooldown);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         this.cooldown = nbt.getInt("Cooldown");
     }
 }

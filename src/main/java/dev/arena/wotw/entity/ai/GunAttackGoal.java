@@ -1,12 +1,12 @@
 package dev.arena.wotw.entity.ai;
 
 import dev.arena.wotw.entity.projectile.ShellEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -16,7 +16,7 @@ import java.util.EnumSet;
  */
 public class GunAttackGoal extends Goal {
 
-    private final MobEntity shooter;
+    private final Mob shooter;
     private final double range;
     private final int cooldownTicks;
     private final float shellPower;
@@ -24,17 +24,17 @@ public class GunAttackGoal extends Goal {
 
     private int lastShot = -10000;
 
-    public GunAttackGoal(MobEntity shooter, double range, int cooldownTicks, float shellPower, float bulletDamage) {
+    public GunAttackGoal(Mob shooter, double range, int cooldownTicks, float shellPower, float bulletDamage) {
         this.shooter = shooter;
         this.range = range;
         this.cooldownTicks = cooldownTicks;
         this.shellPower = shellPower;
         this.bulletDamage = bulletDamage;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         LivingEntity target = this.shooter.getTarget();
         if (target == null || !target.isAlive()) {
             return false;
@@ -42,10 +42,10 @@ public class GunAttackGoal extends Goal {
         if (this.shooter.age - this.lastShot < this.cooldownTicks) {
             return false;
         }
-        if (this.shooter.squaredDistanceTo(target) > this.range * this.range) {
+        if (this.shooter.distanceToSqr(target) > this.range * this.range) {
             return false;
         }
-        return this.shooter.canSee(target);
+        return this.shooter.hasLineOfSight(target);
     }
 
     @Override
@@ -61,28 +61,28 @@ public class GunAttackGoal extends Goal {
     }
 
     @Override
-    public boolean shouldContinue() {
+    public boolean canContinueToUse() {
         return false;
     }
 
     private void fire(LivingEntity target) {
-        Vec3d origin = this.shooter.getEyePos();
-        Vec3d delta = target.getEyePos().subtract(origin);
+        Vec3 origin = this.shooter.getEyePosition();
+        Vec3 delta = target.getEyePosition().subtract(origin);
         double distance = delta.length();
         if (distance < 0.1D) {
             return;
         }
         if (this.shellPower > 0.0F) {
-            Vec3d velocity = delta.normalize().multiply(0.9D + distance * 0.02D);
-            ShellEntity.launch(this.shooter.getWorld(), this.shooter, origin,
-                    new Vec3d(velocity.x, velocity.y + 0.05D * distance, velocity.z), this.shellPower, false);
-            this.shooter.getWorld().playSound(null, this.shooter.getX(), this.shooter.getY(), this.shooter.getZ(),
-                    SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.8F, 0.6F);
+            Vec3 velocity = delta.normalize().scale(0.9D + distance * 0.02D);
+            ShellEntity.launch(this.shooter.level(), this.shooter, origin,
+                    new Vec3(velocity.x, velocity.y + 0.05D * distance, velocity.z), this.shellPower, false);
+            this.shooter.level().playSound(null, this.shooter.getX(), this.shooter.getY(), this.shooter.getZ(),
+                    SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 0.8F, 0.6F);
         } else {
-            ShellEntity.launchBullet(this.shooter.getWorld(), this.shooter, origin,
-                    delta.normalize().multiply(3.2D), this.bulletDamage);
-            this.shooter.getWorld().playSound(null, this.shooter.getX(), this.shooter.getY(), this.shooter.getZ(),
-                    SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.8F);
+            ShellEntity.launchBullet(this.shooter.level(), this.shooter, origin,
+                    delta.normalize().scale(3.2D), this.bulletDamage);
+            this.shooter.level().playSound(null, this.shooter.getX(), this.shooter.getY(), this.shooter.getZ(),
+                    SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 1.0F, 1.8F);
         }
     }
 }

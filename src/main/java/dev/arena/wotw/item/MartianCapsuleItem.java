@@ -2,16 +2,16 @@ package dev.arena.wotw.item;
 
 import dev.arena.wotw.entity.CapsuleEntity;
 import dev.arena.wotw.registry.ModEntities;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * A sealed Martian capsule. Used from the hand it is launched forty blocks straight up and comes
@@ -19,23 +19,23 @@ import net.minecraft.world.World;
  */
 public class MartianCapsuleItem extends Item {
 
-    public MartianCapsuleItem(Settings settings) {
-        super(settings);
+    public MartianCapsuleItem(Item.Properties properties) {
+        super(properties);
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-        if (world instanceof ServerWorld serverWorld) {
-            BlockPos target = user.getBlockPos();
+    public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        ItemStack stack = user.getItemInHand(hand);
+        if (world instanceof ServerLevel serverWorld) {
+            BlockPos target = user.blockPosition();
             CapsuleEntity capsule = CapsuleEntity.drop(serverWorld, target.getX() + 0.5D, target.getZ() + 0.5D, true);
             if (capsule == null) {
-                return TypedActionResult.fail(stack);
+                return InteractionResultHolder.fail(stack);
             }
-            stack.decrement(1);
+            stack.shrink(1);
         }
-        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WITHER_SHOOT,
-                SoundCategory.PLAYERS, 1.2F, 0.5F);
-        return TypedActionResult.success(stack);
+        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.WITHER_SHOOT,
+                SoundSource.PLAYERS, 1.2F, 0.5F);
+        return InteractionResultHolder.success(stack);
     }
 }

@@ -3,14 +3,14 @@ package dev.arena.wotw.entity;
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
 import dev.arena.wotw.entity.ai.BlackSmokeGoal;
 import dev.arena.wotw.entity.projectile.BeamKind;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * The original 1898 H.G. Wells tripod: a hooded milking-stool of metal striding on three legs,
@@ -25,11 +25,11 @@ import net.minecraft.world.World;
  */
 public class BookTripodEntity extends AbstractTripodEntity {
 
-    public BookTripodEntity(EntityType<? extends BookTripodEntity> type, World world) {
+    public BookTripodEntity(EntityType<? extends BookTripodEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(170.0D, 0.22D, 14.0D, 6.0D, 3.0D, 1.0D, 48.0D);
     }
 
@@ -41,12 +41,12 @@ public class BookTripodEntity extends AbstractTripodEntity {
 
     @Override
     protected void onMeleeHit(LivingEntity victim) {
-        victim.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 80, 0));
-        victim.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 80, 0));
+        victim.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0));
+        victim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 0));
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_ENDER_DRAGON_AMBIENT;
+        return SoundEvents.ENDER_DRAGON_AMBIENT;
     }
 }

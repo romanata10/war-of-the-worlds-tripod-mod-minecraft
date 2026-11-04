@@ -2,10 +2,10 @@
 """Tiny modelling DSL shared by the Java model generator and the preview renderer.
 
 A model is a tree of parts. Every part has a pivot (in model pixels, 16 per block, +y downwards,
-feet at y = 24) and an optional rotation in degrees, exactly like Minecraft's `ModelTransform`.
+feet at y = 24) and an optional rotation in degrees, exactly like Minecraft's `PartPose`.
 Boxes are plain axis aligned cuboids with a texture offset.
 
-`emit_java()` turns a model into the `TexturedModelData` code that goes into
+`emit_java()` turns a model into the `LayerDefinition` code that goes into
 `client/model/*.java`, so the geometry has a single source of truth: this file plus the specs in
 `generate_models.py`. The preview renderer reads the same objects.
 """
@@ -221,10 +221,10 @@ def _identifier(name):
 
 
 def emit_java(model, method_name, indent="    "):
-    """Emits one `public static TexturedModelData <method>()` method."""
-    lines = [f"{indent}public static TexturedModelData {method_name}() {{",
-             f"{indent}    ModelData data = new ModelData();",
-             f"{indent}    ModelPartData root = data.getRoot();"]
+    """Emits one `public static LayerDefinition <method>()` method (Mojang mappings)."""
+    lines = [f"{indent}public static LayerDefinition {method_name}() {{",
+             f"{indent}    MeshDefinition data = new MeshDefinition();",
+             f"{indent}    PartDefinition root = data.getRoot();"]
 
     variables = {"root": "root"}
     used = set()
@@ -238,19 +238,19 @@ def emit_java(model, method_name, indent="    "):
             raise ValueError(f"part {part.name} of {model.name} has no boxes")
 
         lines.append("")
-        lines.append(f'{indent}    ModelPartData {variable} = {variables[part.parent]}.addChild("{part.name}",')
-        lines.append(f"{indent}            ModelPartBuilder.create()")
+        lines.append(f'{indent}    PartDefinition {variable} = {variables[part.parent]}.addOrReplaceChild("{part.name}",')
+        lines.append(f"{indent}            CubeListBuilder.create()")
         for index, (uv, (x, y, z, dx, dy, dz)) in enumerate(part.boxes):
             prefix = f".uv({uv[0]}, {uv[1]})" if index == 0 else ""
             lines.append(f"{indent}                    {prefix}.cuboid({x}, {y}, {z}, {dx}, {dy}, {dz})")
         lines[-1] += ","
         px, py, pz = part.pivot
         pitch, yaw, roll = part.rot
-        lines.append(f"{indent}            ModelTransform.of({px}, {py}, {pz}, "
+        lines.append(f"{indent}            PartPose.of({px}, {py}, {pz}, "
                      f"{_radians(pitch)}, {_radians(yaw)}, {_radians(roll)}));")
 
     lines.append("")
-    lines.append(f"{indent}    return TexturedModelData.of(data, {model.texture[0]}, {model.texture[1]});")
+    lines.append(f"{indent}    return LayerDefinition.create(data, {model.texture[0]}, {model.texture[1]});")
     lines.append(f"{indent}}}")
     return "\n".join(lines)
 

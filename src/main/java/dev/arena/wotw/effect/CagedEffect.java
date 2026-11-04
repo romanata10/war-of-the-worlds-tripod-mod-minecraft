@@ -1,7 +1,7 @@
 package dev.arena.wotw.effect;
 
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
 /**
  * Marks a player who has been stuffed into the cage of a Handling Machine.
@@ -10,14 +10,14 @@ import net.minecraft.entity.effect.StatusEffectCategory;
  * carry it (they are already caught, after all), and the Handling Machine keeps the prisoner
  * teleported inside its cage and drains five hit points every two seconds while it lasts.</p>
  */
-public class CagedEffect extends StatusEffect {
+public class CagedEffect extends MobEffect {
 
     public CagedEffect() {
-        super(StatusEffectCategory.HARMFUL, 0xB03A6E);
+        super(MobEffectCategory.HARMFUL, 0xB03A6E);
     }
 
     @Override
-    public boolean canApplyUpdateEffect(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return false;
     }
 }

@@ -1,16 +1,16 @@
 package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.ai.PounceGoal;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * "Martian Spider" from <i>The Great Martian War 1913-1917</i>.
@@ -25,11 +25,11 @@ import net.minecraft.world.World;
  */
 public class MartianSpiderEntity extends AbstractTripodEntity {
 
-    public MartianSpiderEntity(EntityType<? extends MartianSpiderEntity> type, World world) {
+    public MartianSpiderEntity(EntityType<? extends MartianSpiderEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(75.0D, 0.42D, 8.0D, 2.0D, 1.0D, 0.5D, 44.0D);
     }
 
@@ -44,30 +44,30 @@ public class MartianSpiderEntity extends AbstractTripodEntity {
         if (target == null || !this.horizontalCollision) {
             return;
         }
-        if (target.getY() > this.getY() + 1.5D && this.squaredDistanceTo(target) < 25.0D) {
-            Vec3d velocity = this.getVelocity();
-            this.setVelocity(velocity.x * 0.9D, 0.24D, velocity.z * 0.9D);
-            this.velocityModified = true;
+        if (target.getY() > this.getY() + 1.5D && this.distanceToSqr(target) < 25.0D) {
+            Vec3 velocity = this.getDeltaMovement();
+            this.setDeltaMovement(velocity.x * 0.9D, 0.24D, velocity.z * 0.9D);
+            this.hurtMarked = true;
         }
     }
 
     @Override
     protected void onMeleeHit(LivingEntity victim) {
-        victim.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 60, 0));
+        victim.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0));
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SPIDER_AMBIENT;
+        return SoundEvents.SPIDER_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_SPIDER_HURT;
+        return SoundEvents.SPIDER_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SPIDER_DEATH;
+        return SoundEvents.SPIDER_DEATH;
     }
 }

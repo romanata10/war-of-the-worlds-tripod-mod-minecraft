@@ -3,10 +3,10 @@ package dev.arena.wotw.entity;
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
 import dev.arena.wotw.entity.ai.BlackSmokeGoal;
 import dev.arena.wotw.entity.projectile.BeamKind;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.Level;
 
 /**
  * Tempest — the tallest Martian walker: a tower on four heavy legs.
@@ -20,11 +20,11 @@ import net.minecraft.world.World;
  */
 public class TempestEntity extends AbstractTripodEntity {
 
-    public TempestEntity(EntityType<? extends TempestEntity> type, World world) {
+    public TempestEntity(EntityType<? extends TempestEntity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(300.0D, 0.24D, 22.0D, 16.0D, 10.0D, 1.0D, 52.0D);
     }
 
@@ -41,8 +41,8 @@ public class TempestEntity extends AbstractTripodEntity {
             if (this.random.nextInt(3) != 0) {
                 continue;
             }
-            this.getWorld().addParticle(ParticleTypes.LARGE_SMOKE,
-                    this.getX() + side * 0.9D, this.getY() + this.getHeight() * 0.92D,
+            this.level().addParticle(ParticleTypes.LARGE_SMOKE,
+                    this.getX() + side * 0.9D, this.getY() + this.getBbHeight() * 0.92D,
                     this.getZ() + 1.2D, 0.0D, 0.05D, 0.0D);
         }
     }

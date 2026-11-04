@@ -1,11 +1,11 @@
 package dev.arena.wotw.client.model;
 
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.geom.ModelPart;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.util.Mth;
 
 /**
  * The rig for the human side: a soldier walks with two legs, a tank rolls, a fighter banks and a
@@ -34,9 +34,9 @@ public class GenericHumanModel<T extends LivingEntity> extends EntityModel<T> {
         this.armRight = child(root, "arm_r");
         this.turret = child(root, "turret");
         this.head = child(root, "head");
-        this.legPitch = this.legLeft == null ? 0.0F : this.legLeft.pitch;
-        this.turretYawBase = this.turret == null ? 0.0F : this.turret.yaw;
-        this.rootPivotY = root.pivotY;
+        this.legPitch = this.legLeft == null ? 0.0F : this.legLeft.xRot;
+        this.turretYawBase = this.turret == null ? 0.0F : this.turret.yRot;
+        this.rootPivotY = root.y;
     }
 
     private static ModelPart child(ModelPart parent, String name) {
@@ -44,36 +44,36 @@ public class GenericHumanModel<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress,
-                          float headYaw, float headPitch) {
-        float walk = MathHelper.clamp(limbDistance, 0.0F, 1.0F);
+    public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress,
+                          float yHeadRot, float headPitch) {
+        float walk = Mth.clamp(limbDistance, 0.0F, 1.0F);
         if (this.legLeft != null) {
-            this.legLeft.pitch = this.legPitch + MathHelper.cos(limbAngle) * 0.7F * walk;
-            this.legLeft.roll = MathHelper.sin(limbAngle) * 0.06F * walk;
+            this.legLeft.xRot = this.legPitch + Mth.cos(limbAngle) * 0.7F * walk;
+            this.legLeft.zRot = Mth.sin(limbAngle) * 0.06F * walk;
         }
         if (this.legRight != null) {
-            this.legRight.pitch = this.legPitch + MathHelper.cos(limbAngle + (float) Math.PI) * 0.7F * walk;
-            this.legRight.roll = MathHelper.sin(limbAngle + (float) Math.PI) * 0.06F * walk;
+            this.legRight.xRot = this.legPitch + Mth.cos(limbAngle + (float) Math.PI) * 0.7F * walk;
+            this.legRight.zRot = Mth.sin(limbAngle + (float) Math.PI) * 0.06F * walk;
         }
         if (this.armLeft != null) {
-            this.armLeft.pitch = MathHelper.cos(limbAngle + (float) Math.PI) * 0.5F * walk;
+            this.armLeft.xRot = Mth.cos(limbAngle + (float) Math.PI) * 0.5F * walk;
         }
         if (this.armRight != null) {
-            this.armRight.pitch = MathHelper.cos(limbAngle) * 0.5F * walk;
+            this.armRight.xRot = Mth.cos(limbAngle) * 0.5F * walk;
         }
         if (this.head != null) {
-            this.head.yaw = headYaw * 0.017453292F;
-            this.head.pitch = headPitch * 0.017453292F;
+            this.head.yRot = yHeadRot * 0.017453292F;
+            this.head.xRot = headPitch * 0.017453292F;
         }
         if (this.turret != null) {
-            this.turret.yaw = this.turretYawBase + headYaw * 0.017453292F * 0.6F;
+            this.turret.yRot = this.turretYawBase + yHeadRot * 0.017453292F * 0.6F;
         }
-        this.root.pivotY = this.rootPivotY + MathHelper.sin(animationProgress * 0.08F) * 0.02F;
+        this.root.y = this.rootPivotY + Mth.sin(animationProgress * 0.08F) * 0.02F;
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay,
-                       float red, float green, float blue, float alpha) {
-        this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight,
+                               int packedOverlay, float red, float green, float blue, float alpha) {
+        this.root.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

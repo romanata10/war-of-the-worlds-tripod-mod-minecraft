@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="MIT"
+issueTrackerURL="https://github.com/romanata10/war-of-the-worlds-tripod-mod-minecraft/issues"
+
+[[mods]]
+modId="wotw"
+version="${mod_version}"
+displayName="War of the Worlds: Tripods"
+authors="Arena.ai"
+description='''
+Twenty-five walking machines from every War of the Worlds adaptation — the 1953 film, the 1984 BBC
+series, the 2005 Spielberg film, the 2005 Asylum film, Goliath, The Great Martian War, Jeff Wayne's
+musical, the 1898 novel and the Martian army that fights back — plus the humans who fight them:
+soldiers, tanks, interceptors and warships. Every machine has its own weapon, its own silhouette and
+its own way of ruining your day.
+'''
+logoFile="assets/wotw/icon.png"
+
+[[dependencies.wotw]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forge_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.wotw]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"

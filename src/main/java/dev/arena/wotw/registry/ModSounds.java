@@ -1,16 +1,20 @@
 package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwMod;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Custom sounds, all synthesised by {@code tools/generate_sounds.py}:
  * the tripod siren, the heat ray zap and the machine's footstep.
  */
 public final class ModSounds {
+
+    public static final DeferredRegister<SoundEvent> SOUNDS =
+            DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, WotwMod.MOD_ID);
 
     /** The iconic wailing horn. */
     public static final SoundEvent TRIPOD_HORN = register("entity.tripod.horn", 96.0F);
@@ -23,11 +27,14 @@ public final class ModSounds {
     }
 
     private static SoundEvent register(String id, float distanceToTravel) {
-        Identifier identifier = WotwMod.id(id);
-        return Registry.register(Registries.SOUND_EVENT, identifier, SoundEvent.of(identifier, distanceToTravel));
+        ResourceLocation identifier = WotwMod.id(id);
+        SoundEvent sound = SoundEvent.createVariableRangeEvent(identifier);
+        SOUNDS.register(id, () -> sound);
+        return sound;
     }
 
-    public static void register() {
+    public static void register(IEventBus bus) {
+        SOUNDS.register(bus);
         WotwMod.LOGGER.debug("Registered custom tripod sounds");
     }
 }

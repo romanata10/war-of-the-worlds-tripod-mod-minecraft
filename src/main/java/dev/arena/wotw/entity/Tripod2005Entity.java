@@ -3,16 +3,16 @@ package dev.arena.wotw.entity;
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
 import dev.arena.wotw.registry.ModSounds;
 import dev.arena.wotw.entity.projectile.BeamKind;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * The 2005 Steven Spielberg tripod. The iconic one: a smooth black-green hull, a single glowing
@@ -28,11 +28,11 @@ import net.minecraft.world.World;
  */
 public class Tripod2005Entity extends AbstractTripodEntity {
 
-    public Tripod2005Entity(EntityType<? extends Tripod2005Entity> type, World world) {
+    public Tripod2005Entity(EntityType<? extends Tripod2005Entity> type, Level world) {
         super(type, world);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
+    public static AttributeSupplier.Builder createAttributes() {
         return tripodAttributes(220.0D, 0.28D, 18.0D, 12.0D, 8.0D, 1.0D, 48.0D);
     }
 
@@ -46,22 +46,22 @@ public class Tripod2005Entity extends AbstractTripodEntity {
         // The war machine idles its shield up and down while it has prey.
         if (this.getTarget() != null && !this.isShielded() && this.onIntervalZero(240)) {
             this.startShield(80);
-            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                    SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.HOSTILE, 2.4F, 0.7F);
-            this.getWorld().playSound(null, this.getX(), this.getY(), this.getZ(),
-                    ModSounds.TRIPOD_HORN, SoundCategory.HOSTILE, 3.0F, 0.45F);
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                    SoundEvents.BEACON_ACTIVATE, SoundSource.HOSTILE, 2.4F, 0.7F);
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
+                    ModSounds.TRIPOD_HORN, SoundSource.HOSTILE, 3.0F, 0.45F);
         }
     }
 
     @Override
     protected void onMeleeHit(LivingEntity victim) {
-        victim.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 30, 1));
+        victim.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 30, 1));
     }
 
     @Override
     protected void clientTick() {
-        double eyeY = this.getY() + this.getHeight() * 0.78D;
-        this.getWorld().addParticle(ParticleTypes.SMOKE,
+        double eyeY = this.getY() + this.getBbHeight() * 0.78D;
+        this.level().addParticle(ParticleTypes.SMOKE,
                 this.getX() + (this.random.nextDouble() - 0.5D) * 0.4D, eyeY,
                 this.getZ() + (this.random.nextDouble() - 0.5D) * 0.4D, 0.0D, 0.01D, 0.0D);
     }
