@@ -73,6 +73,22 @@ jobs:
       - name: Show what was built
         run: ls -la build/libs
 
+      - name: The jar really is a Forge mod
+        run: |
+          jar=$(ls build/libs/*.jar | grep -vE "sources|javadoc" | head -1)
+          echo "checking $jar"
+          unzip -l "$jar" > jar.txt
+          for entry in META-INF/mods.toml META-INF/MANIFEST.MF dev/arena/wotw/WotwMod.class \
+                       assets/wotw/lang/en_us.json assets/wotw/lang/ru_ru.json \
+                       data/wotw/worldgen/structure/landing_site.json \
+                       data/wotw/forge/biome_modifier/natural_spawns.json \
+                       data/wotw/tags/worldgen/biome/has_structure/landing_site.json; do
+            if ! grep -q "$entry" jar.txt; then
+              echo "::error::$entry is missing from $jar"
+              exit 1
+            fi
+          done
+
       - name: Upload jar
         uses: actions/upload-artifact@v4
         with:
