@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:complex",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 90,
+    "separation": 32,
+    "salt": 3417004,
+    "spread_type": "linear"
+  }
+}

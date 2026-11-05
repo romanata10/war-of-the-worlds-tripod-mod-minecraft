@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RR",
+    "RR"
+  ],
+  "key": {
+    "R": {
+      "item": "wotw:blood_roots"
+    }
+  },
+  "result": {
+    "item": "wotw:blood_vines",
+    "count": 2
+  }
+}

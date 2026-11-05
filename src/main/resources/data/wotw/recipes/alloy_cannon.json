@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WGW",
+    " S "
+  ],
+  "key": {
+    "W": {
+      "item": "wotw:white_martian_alloy"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "wotw:alloy_cannon",
+    "count": 1
+  }
+}

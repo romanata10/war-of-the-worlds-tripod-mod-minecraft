@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WAW",
+    "AAA",
+    "WAW"
+  ],
+  "key": {
+    "W": {
+      "item": "wotw:white_martian_alloy"
+    },
+    "A": {
+      "item": "wotw:martian_alloy"
+    }
+  },
+  "result": {
+    "item": "wotw:martian_hull",
+    "count": 4
+  }
+}

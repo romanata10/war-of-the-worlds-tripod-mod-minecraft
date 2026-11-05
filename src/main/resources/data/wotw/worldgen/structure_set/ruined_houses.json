@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:ruined_houses",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 58,
+    "separation": 16,
+    "salt": 3417014,
+    "spread_type": "linear"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "entity.tripod.horn": {
+    "subtitle": "subtitles.entity.wotw.tripod.horn",
+    "sounds": [
+      {
+        "name": "wotw:tripod_horn",
+        "stream": false,
+        "attenuation_distance": 96
+      }
+    ]
+  },
+  "entity.tripod.step": {
+    "subtitle": "subtitles.entity.wotw.tripod.step",
+    "sounds": [
+      {
+        "name": "wotw:tripod_step",
+        "stream": false,
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "entity.tripod.heat_ray": {
+    "subtitle": "subtitles.entity.wotw.tripod.heat_ray",
+    "sounds": [
+      {
+        "name": "wotw:heat_ray",
+        "stream": false,
+        "attenuation_distance": 128
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CB",
+    "BC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:cobblestone"
+    },
+    "B": {
+      "item": "wotw:blood_roots"
+    }
+  },
+  "result": {
+    "item": "wotw:infested_cobblestone",
+    "count": 2
+  }
+}

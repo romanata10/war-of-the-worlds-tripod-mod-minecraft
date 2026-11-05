@@ -1,0 +1,102 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    withSourcesJar()
+}
+
+minecraft {
+    // Mojang's own names, the same ones Forge itself uses for 1.20.1.
+    mappings channel: 'official', version: project.minecraft_version
+    copyIdeResources = true
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                wotw {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            args '--nogui'
+            mods {
+                wotw {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+    // javac stops after 100 errors by default; during a port we want the whole list at once
+    options.compilerArgs += ['-Xmaxerrs', '2000']
+}
+
+// mods.toml carries the version number of the build.
+tasks.named('processResources', ProcessResources).configure {
+    def replacements = [
+            minecraft_version      : project.minecraft_version,
+            minecraft_version_range: project.minecraft_version_range,
+            forge_version_range    : project.forge_version_range,
+            loader_version_range   : project.loader_version_range,
+            mod_version            : project.mod_version,
+    ]
+    inputs.properties replacements
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replacements + [project: project]
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                'Specification-Title'     : 'wotw',
+                'Specification-Vendor'    : 'War of the Worlds: Tripods contributors',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : 'War of the Worlds: Tripods contributors',
+        ])
+    }
+    from('LICENSE') {
+        rename { "${it}_${project.archives_base_name}" }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+    }
+}

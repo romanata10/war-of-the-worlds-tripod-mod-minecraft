@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "wotw:martian_cylinder",
+    "wotw:martian_alloy_block",
+    "wotw:white_martian_alloy",
+    "wotw:martian_glass",
+    "wotw:martian_hull",
+    "wotw:martian_console",
+    "wotw:martian_lamp",
+    "wotw:military_crate",
+    "wotw:martian_turret",
+    "wotw:infested_cobblestone",
+    "wotw:infested_bricks"
+  ]
+}

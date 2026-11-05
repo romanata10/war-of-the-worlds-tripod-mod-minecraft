@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:tripod_workshop",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 96,
+    "separation": 30,
+    "salt": 3417020,
+    "spread_type": "linear"
+  }
+}

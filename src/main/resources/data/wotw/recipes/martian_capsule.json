@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "key": {
+    "A": {
+      "item": "wotw:martian_alloy_block"
+    },
+    "B": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "result": {
+    "item": "wotw:martian_capsule",
+    "count": 1
+  }
+}

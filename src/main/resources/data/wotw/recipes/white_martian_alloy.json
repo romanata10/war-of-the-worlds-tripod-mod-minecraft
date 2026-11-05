@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "wotw:martian_alloy"
+    },
+    {
+      "item": "wotw:martian_alloy"
+    },
+    {
+      "item": "minecraft:quartz"
+    }
+  ],
+  "result": {
+    "item": "wotw:white_martian_alloy",
+    "count": 2
+  }
+}

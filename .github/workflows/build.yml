@@ -1,0 +1,180 @@
+name: build
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
+
+      - name: Build
+        run: |
+          set -o pipefail
+          gradle build --no-daemon --stacktrace 2>&1 | tee build.log
+
+      # The sandbox cannot read action logs (they live in blob storage), so a failed build
+      # reports its errors as an issue, which is readable through the GitHub API.
+      - name: Report failure as an issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo 'Compiler errors:'
+            echo '```'
+            grep -A3 -E 'error:' build.log | head -600
+            echo '```'
+            echo
+            echo 'Build output (tail):'
+            echo '```'
+            tail -c 6000 build.log
+            echo '```'
+          } > report.md
+          gh issue create --title "Build failure on ${GITHUB_SHA:0:7}" --body-file report.md || true
+          # Pull request builds also leave the report as a PR comment, which is the channel the
+          # sandbox can always read back.
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" \
+              -F "body=@report.md" > /dev/null || true
+          fi
+
+      # Successful builds tidy up the failure reports that older runs left behind.
+      - name: Close stale failure reports
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for search in 'Build failure in:title' 'Server smoke test in:title'; do
+            gh issue list --state open --search "$search" --limit 50 --json number --jq '.[].number' |
+              while read -r number; do
+                gh issue close "$number" --reason completed -c "The build is green again." || true
+              done
+          done
+
+      - name: Show what was built
+        run: ls -la build/libs
+
+      - name: The jar really is a Forge mod
+        run: |
+          jar=$(ls build/libs/*.jar | grep -vE "sources|javadoc" | head -1)
+          echo "checking $jar"
+          unzip -l "$jar" > jar.txt
+          for entry in META-INF/mods.toml META-INF/MANIFEST.MF dev/arena/wotw/WotwMod.class \
+                       assets/wotw/lang/en_us.json assets/wotw/lang/ru_ru.json \
+                       data/wotw/worldgen/structure/landing_site.json \
+                       data/wotw/forge/biome_modifier/natural_spawns.json \
+                       data/wotw/tags/worldgen/biome/has_structure/landing_site.json; do
+            if ! grep -q "$entry" jar.txt; then
+              echo "::error::$entry is missing from $jar"
+              exit 1
+            fi
+          done
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: wotw-tripods
+          path: build/libs/*.jar
+          if-no-files-found: error
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/libs/*.jar
+          generate_release_notes: true
+
+  # A dedicated server really loads every registry, every datapack file and every worldgen entry,
+  # which is the only part of a port that a compiler cannot check. The job is advisory: it stops the
+  # server after a few minutes and reports whatever landmine it found.
+  smoke:
+    runs-on: ubuntu-latest
+    needs: build
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
+
+      - name: Dedicated server smoke test
+        run: |
+          mkdir -p run
+          echo "eula=true" > run/eula.txt
+          printf 'online-mode=false\nlevel-type=flat\nmax-tick-time=-1\n' > run/server.properties
+          timeout 480 gradle runServer --no-daemon > server.log 2>&1 || true
+          {
+            echo 'Server smoke test:'
+            echo '```'
+            grep -E "Done|Exception|ERROR|Caused by|Failed to|Missing|Unknown" server.log | head -60
+            echo '```'
+            for report in run/crash-reports/*.txt; do
+              [ -f "$report" ] || continue
+              echo
+              echo "Crash report $(basename "$report"), first 200 lines:"
+              echo '```'
+              head -200 "$report"
+              echo '```'
+            done
+            echo
+            echo 'Tail:'
+            echo '```'
+            tail -c 2500 server.log
+            echo '```'
+          } > smoke.md
+          if grep -q 'Done (' server.log; then
+            echo "the server reached Done, the mod loaded"
+            problems=$(grep -nE "Couldn't parse|Failed to parse|Unknown (structure|recipe|loot|biome)|\[minecraft/ERROR\]" server.log | head -25 || true)
+            if [ -z "$problems" ]; then
+              echo "no datapack or worldgen complaints"
+              rm -f smoke.md
+              exit 0
+            fi
+            echo "::error::the server started but complained about the data"
+            echo "Complaints after the server started:"
+            echo '```'
+            echo "$problems"
+            echo '```'
+            exit 1
+          fi
+          echo "::error::the dedicated server did not finish loading"
+          exit 1
+
+      - name: Report the smoke test
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Server smoke test on ${{ github.sha }}" --body-file smoke.md || true
+
