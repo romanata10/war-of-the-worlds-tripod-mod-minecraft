@@ -108,5 +108,9 @@
   "wotw.command.apocalypse.on": "Апокалипсис вшей включён: они будут размножаться без остановки.",
   "wotw.command.apocalypse.off": "Апокалипсис вшей выключен: поле снова безопасно.",
   "wotw.command.apocalypse.state.on": "Апокалипсис вшей: включён.",
-  "wotw.command.apocalypse.state.off": "Апокалипсис вшей: выключен (по умолчанию)."
+  "wotw.command.apocalypse.state.off": "Апокалипсис вшей: выключен (по умолчанию).",
+  "item.wotw.pistol": "Пистолет",
+  "item.wotw.machine_gun": "Пулемёт",
+  "item.wotw.rocket_launcher": "РПГ",
+  "item.wotw.nuclear_bomb": "Ядерная бомба"
 }

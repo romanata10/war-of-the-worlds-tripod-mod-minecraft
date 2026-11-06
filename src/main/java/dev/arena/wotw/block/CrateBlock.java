@@ -1,6 +1,5 @@
 package dev.arena.wotw.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
@@ -28,11 +27,6 @@ public class CrateBlock extends BaseEntityBlock {
 
     public CrateBlock(BlockBehaviour.Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(CrateBlock::new);
     }
 
     @Override

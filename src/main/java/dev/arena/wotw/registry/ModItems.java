@@ -3,7 +3,11 @@ import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.item.AlloyCannonItem;
 import dev.arena.wotw.item.ArcRifleItem;
 import dev.arena.wotw.item.HeatRayEmitterItem;
+import dev.arena.wotw.item.MachineGunItem;
 import dev.arena.wotw.item.MartianCapsuleItem;
+import dev.arena.wotw.item.NuclearBombItem;
+import dev.arena.wotw.item.PistolItem;
+import dev.arena.wotw.item.RocketLauncherItem;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -101,6 +105,16 @@ public final class ModItems {
 
     public static Item ALLOY_CANNON;
 
+    /* The human arsenal: two guns, a rocket launcher and one very large bomb. */
+
+    public static Item PISTOL;
+
+    public static Item MACHINE_GUN;
+
+    public static Item ROCKET_LAUNCHER;
+
+    public static Item NUCLEAR_BOMB;
+
     public static final CreativeModeTab ITEM_GROUP = CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.wotw"))
             .icon(() -> new ItemStack(TRIPOD_2005_SPAWN_EGG))
@@ -133,6 +147,10 @@ public final class ModItems {
                         entries.accept(TRIPOD_BLUEPRINT);
                         entries.accept(ARC_RIFLE);
                         entries.accept(ALLOY_CANNON);
+                        entries.accept(PISTOL);
+                        entries.accept(MACHINE_GUN);
+                        entries.accept(ROCKET_LAUNCHER);
+                        entries.accept(NUCLEAR_BOMB);
                         entries.accept(HUMAN_SOLDIER_SPAWN_EGG);
                         entries.accept(HUMAN_TANK_SPAWN_EGG);
                         entries.accept(HUMAN_FIGHTER_SPAWN_EGG);
@@ -305,6 +323,12 @@ public final class ModItems {
                 () -> ARC_RIFLE = new ArcRifleItem(new Item.Properties().stacksTo(1).durability(320)));
         ITEMS.register("alloy_cannon",
                 () -> ALLOY_CANNON = new AlloyCannonItem(new Item.Properties().stacksTo(1).durability(220)));
+        ITEMS.register("pistol", () -> PISTOL = new PistolItem(new Item.Properties().stacksTo(1).durability(260)));
+        ITEMS.register("machine_gun",
+                () -> MACHINE_GUN = new MachineGunItem(new Item.Properties().stacksTo(1).durability(640)));
+        ITEMS.register("rocket_launcher",
+                () -> ROCKET_LAUNCHER = new RocketLauncherItem(new Item.Properties().stacksTo(1).durability(90)));
+        ITEMS.register("nuclear_bomb", () -> NUCLEAR_BOMB = new NuclearBombItem(new Item.Properties().stacksTo(16)));
     }
 
     private ModItems() {

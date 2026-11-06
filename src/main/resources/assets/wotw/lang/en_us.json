@@ -108,5 +108,9 @@
   "wotw.command.apocalypse.on": "The louse apocalypse is on: they will breed without end.",
   "wotw.command.apocalypse.off": "The louse apocalypse is off: the field is safe again.",
   "wotw.command.apocalypse.state.on": "Louse apocalypse: on.",
-  "wotw.command.apocalypse.state.off": "Louse apocalypse: off (the default)."
+  "wotw.command.apocalypse.state.off": "Louse apocalypse: off (the default).",
+  "item.wotw.pistol": "Pistol",
+  "item.wotw.machine_gun": "Machine Gun",
+  "item.wotw.rocket_launcher": "RPG",
+  "item.wotw.nuclear_bomb": "Nuclear Bomb"
 }
