@@ -904,8 +904,8 @@ def finalise(model, method):
 
 # built once, already stretched: the preview renderer and the Java emitter share these objects
 def construction_tripod():
-    """The builder: three enormously thick legs, a glass control tower, an open cargo frame and a
-    long crane that ends in a two fingered claw. A single machine gun sits under the cabin."""
+    """The builder: three enormously thick legs, a glass control tower, two open cargo holds and a
+    long crane whose clamshell claw hangs out in front of the machine. One machine gun, chin mounted."""
     m = Model("construction_tripod")
     leg(m, "leg_l", (-28, -176, -16), 84, 88, 10, splay_x=-10, splay_z=-8, foot=12)
     leg(m, "leg_r", (28, -176, -16), 84, 88, 10, splay_x=10, splay_z=-8, foot=12)
@@ -922,27 +922,31 @@ def construction_tripod():
     eye(m, "eye", "head", (0, -16, -13), (20, 14))               # tower glass
 
     for side, name in ((-1, "hold_l"), (1, "hold_r")):
-        hold = m.part(name, parent="body", pivot=(side * 20, -246, 6))
-        hold.box(-6, 0, -24, 12, 18, 48)                         # open cargo box
-        hold.glow_box(-5, 15, -20, 10, 3, 40)                    # lit cargo mouth
+        hold = m.part(name, parent="body", pivot=(side * 26, -248, 4))
+        hold.box(-7, 0, -26, 14, 22, 52)                         # open cargo box, proud of the hull
+        hold.glow_box(-6, 18, -22, 12, 3, 44)                    # lit cargo mouth
 
-    crane = m.part("crane", parent="body", pivot=(0, -268, 22))
-    crane.box(-4, -6, 0, 8, 8, 54)                               # jib
-    crane.box(-3, -36, 44, 6, 32, 6)                             # riser
-    claw = m.part("claw", parent="crane", pivot=(0, -36, 48))
-    claw.box(-6, -4, -4, 12, 6, 10)                              # wrist
-    claw.box(-10, 0, 4, 4, 5, 20)                                # left finger
-    claw.box(6, 0, 4, 4, 5, 20)                                  # right finger
-    claw.glow_box(-2, -1, 22, 4, 3, 3)                           # claw lamp
+    # the crane: a long jib out over the cabin, a counterweight behind it, and the claw hanging
+    crane = m.part("crane", parent="body", pivot=(0, -276, 20))
+    crane.box(-5, -8, -52, 10, 12, 86)                           # jib, out over the cabin
+    crane.box(-9, -10, 28, 18, 14, 16)                           # counterweight
+    crane.box(-3, 4, -50, 6, 20, 6)                              # hanging post
+    claw = m.part("claw", parent="crane", pivot=(0, 24, -48))
+    claw.box(-7, 0, -5, 14, 6, 12)                               # wrist
+    claw.box(-11, 6, -4, 5, 14, 10)                              # left finger
+    claw.box(6, 6, -4, 5, 14, 10)                                # right finger
+    claw.box(-9, 18, -3, 18, 4, 8)                               # the two fingers close on this
+    claw.glow_box(-2, 2, 6, 4, 4, 2)                             # claw lamp
 
-    gun = m.part("gun", parent="body", pivot=(0, -212, -28))
-    gun.box(-7, -7, -12, 14, 14, 14)                             # mantlet
-    gun.box(-2, -2, -30, 4, 4, 20)                               # machine gun barrel
+    gun = m.part("gun", parent="body", pivot=(0, -206, -30))
+    gun.box(-8, -8, -14, 16, 16, 16)                             # mantlet
+    gun.box(-2, -2, -34, 4, 4, 22)                               # machine gun barrel
     return m
 
 
 def smoke_tripod():
-    """A boiler on legs: a fat riveted drum ringed with vent stacks that pour out the black smoke."""
+    """A boiler on legs: a fat riveted drum ringed with two tall vent stacks that pour out the black
+    smoke, and a manifold across the back."""
     m = Model("smoke_tripod")
     leg(m, "leg_l", (-20, -124, 0), 62, 64, 6, splay_x=-13, splay_z=2, foot=9)
     leg(m, "leg_r", (20, -124, 0), 62, 64, 6, splay_x=13, splay_z=2, foot=9)
@@ -959,17 +963,19 @@ def smoke_tripod():
     eye(m, "eye", "head", (0, -4, -11), (12, 6))
 
     for side, name in ((-1, "vent_l"), (1, "vent_r")):
-        vent = m.part(name, parent="body", pivot=(side * 19, -168, 6))
-        vent.box(-5, 0, -9, 10, 30, 18)                          # chimney
-        eye(m, name + "_mouth", name, (0, 30, -1), (8, 8))
+        vent = m.part(name, parent="body", pivot=(side * 17, -196, 6))
+        vent.box(-5, -34, -9, 10, 34, 18)                        # chimney, rising above the boiler
+        vent.box(-7, -38, -11, 14, 5, 22)                        # chimney cap
+        eye(m, name + "_mouth", name, (0, -40, -1), (8, 8))      # glowing mouth
 
-    pipe = m.part("pipe", parent="body", pivot=(0, -196, 20))
-    pipe.box(-14, -4, 0, 28, 8, 8)                               # manifold across the back
+    pipe = m.part("pipe", parent="body", pivot=(0, -196, 22))
+    pipe.box(-16, -6, 0, 32, 10, 8)                              # manifold across the back
     return m
 
 
 def bomb_tripod():
-    """A mortar on legs: a stubby hull with a long tube angled at the sky and a wide muzzle."""
+    """A mortar on legs: a stubby hull, a long thick tube angled at the sky, and bomb racks on the
+    flanks where the smoke bombs are stacked."""
     m = Model("bomb_tripod")
     leg(m, "leg_l", (-22, -142, -6), 68, 70, 7, splay_x=-12, splay_z=-4, foot=10)
     leg(m, "leg_r", (22, -142, -6), 68, 70, 7, splay_x=12, splay_z=-4, foot=10)
@@ -983,15 +989,16 @@ def bomb_tripod():
     head.box(-9, -12, -11, 18, 14, 16)
     eye(m, "eye", "head", (0, -4, -12), (10, 6))
 
-    mortar = m.part("mortar", parent="body", pivot=(0, -208, 10), rot=(-0.55, 0.0, 0.0))
-    mortar.box(-8, -6, -8, 16, 14, 16)                           # breech
-    mortar.box(-5, -38, -5, 10, 38, 10)                          # tube
-    eye(m, "muzzle", "mortar", (0, -38, 0), (9, 9))
+    mortar = m.part("mortar", parent="body", pivot=(0, -206, 12), rot=(-0.7, 0.0, 0.0))
+    mortar.box(-10, -8, -10, 20, 16, 20)                         # breech
+    mortar.box(-7, -56, -7, 14, 48, 14)                          # the tube itself
+    mortar.box(-9, -60, -9, 18, 6, 18)                           # muzzle brake
+    eye(m, "muzzle", "mortar", (0, -60, 0), (11, 11))
 
     for side, name in ((-1, "rack_l"), (1, "rack_r")):
-        rack = m.part(name, parent="body", pivot=(side * 17, -204, 12))
-        rack.box(-4, 0, -10, 8, 12, 22)                          # bomb racks
-        rack.glow_box(-3, 11, -8, 6, 2, 18)
+        rack = m.part(name, parent="body", pivot=(side * 22, -204, 10))
+        rack.box(-6, 0, -12, 12, 14, 26)                         # bomb rack, proud of the hull
+        rack.glow_box(-5, 12, -10, 10, 2, 22)
     return m
 
 
@@ -1013,17 +1020,17 @@ def constrictor():
     eye(m, "eye", "head", (0, -5, -13), (14, 7))                 # heat lens
 
     for side, name in ((-1, "nozzle_l"), (1, "nozzle_r")):
-        spray = m.part(name, parent="body", pivot=(side * 16, -176, -18))
-        spray.box(-4, -4, -22, 8, 8, 24)                         # foam barrel
-        spray.glow_box(-3, -3, -25, 6, 6, 3)
-        tank = m.part(name + "_tank", parent="body", pivot=(side * 20, -168, 10))
-        tank.box(-7, -10, -14, 14, 22, 28)                       # chemical tank
+        spray = m.part(name, parent="body", pivot=(side * 14, -176, -20))
+        spray.box(-4, -4, -24, 8, 8, 26)                         # foam barrel
+        spray.glow_box(-3, -3, -27, 6, 6, 3)
+        tank = m.part(name + "_tank", parent="body", pivot=(side * 26, -168, 8))
+        tank.box(-7, -12, -16, 14, 24, 32)                       # chemical tank, hung outside
     return m
 
 
 def xeno_telepath():
-    """Xeno-Telepath: a glass dome with a Martian folded inside it on three slender legs, its
-    antennae broadcasting the telepathic carrier wave."""
+    """Xeno-Telepath: an open cabin with a Martian standing in the glow of its own lens, roofed by a
+    glass bell that broadcasts the telepathic carrier wave on two antennae."""
     m = Model("xeno_telepath")
     leg(m, "leg_l", (-18, -150, 0), 72, 78, 5, splay_x=-12, splay_z=2, foot=8)
     leg(m, "leg_r", (18, -150, 0), 72, 78, 5, splay_x=12, splay_z=2, foot=8)
@@ -1033,21 +1040,24 @@ def xeno_telepath():
     body.shell(0, -158, 0, 40, 10, 38, cell=12)                  # collar
     body.shell(0, -186, 0, 34, 28, 34, cell=12)                  # drum
 
-    dome = m.part("dome", parent="body", pivot=(0, -190, 0))
-    dome.dome(0, -30, 0, 34, 34, ((8, 30, 30), (8, 22, 22), (6, 12, 12)), cell=10)
+    cabin = m.part("head", parent="body", pivot=(0, -186, 0))
+    cabin.box(-16, -30, -13, 32, 30, 26)                         # cabin shell
+    cabin.glow_box(-13, -26, -14, 26, 20, 1)                     # the glow it stands in
+    cabin.box(-16, -32, -13, 32, 3, 26)                          # cabin roof
 
-    pilot = m.part("pilot", parent="body", pivot=(0, -186, 0))
-    pilot.box(-8, -22, -6, 16, 20, 12)                           # the Martian inside
-    pilot.box(-11, -12, -11, 22, 6, 22)                          # tentacles bunched up
-    pilot.glow_box(-8, -16, -7, 4, 4, 2)                         # its eye, through the glass
-    pilot.glow_box(4, -16, -7, 4, 4, 2)
+    pilot = m.part("pilot", parent="head", pivot=(0, 0, 0))
+    pilot.box(-8, -16, -17, 16, 18, 10)                          # the Martian, in front of the glow
+    pilot.box(-10, -6, -16, 20, 6, 14)                           # its tentacles
+    pilot.glow_box(-6, -13, -18, 4, 4, 2)                        # eyes through the glass
+    pilot.glow_box(2, -13, -18, 4, 4, 2)
 
-    eye(m, "eye", "body", (0, -176, -18), (10, 8))               # mind lens
+    bell = m.part("dome", parent="body", pivot=(0, -218, 0))
+    bell.dome(0, -16, 0, 26, 26, ((6, 24, 24), (6, 16, 16), (4, 8, 8)), cell=10)
 
     for side, name in ((-1, "antenna_l"), (1, "antenna_r")):
-        ant = m.part(name, parent="body", pivot=(side * 11, -214, 0), rot=(-0.25, 0.0, -side * 0.3))
-        ant.box(-1, 0, -1, 2, 26, 2)
-        eye(m, name + "_tip", name, (0, 26, 0), (5, 5))
+        ant = m.part(name, parent="body", pivot=(side * 15, -216, 0), rot=(-0.2, 0.0, -side * 0.35))
+        ant.box(-1, -30, -1, 2, 30, 2)                           # whip antenna, rising
+        eye(m, name + "_tip", name, (0, -30, 0), (5, 5))
     return m
 
 

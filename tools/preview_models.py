@@ -66,11 +66,20 @@ TRIPODS = [
     ("flamer_tripod", "flamerTripod", "Тринога-огнемёт", "3-я волна", "Огненный конус"),
     ("tank_tripod", "tankTripod", "Тринога-танк", "3-я волна", "Три луча · миномёт"),
     ("taxi_tripod", "taxiTripod", "Тринога-такси", "3-я волна", "Возит марсиан"),
+    # fifth wave: the Martian engineers and the psychological weapons
+    ("construction_tripod", "constructionTripod", "Строительная тринога", "5-я волна", "Клешня · строит бункер"),
+    ("smoke_tripod", "smokeTripod", "Дымовая тринога", "5-я волна", "Туман · чёрный дым"),
+    ("bomb_tripod", "bombTripod", "Тринога-бомбардир", "5-я волна", "Бомбы чёрного дыма"),
+    ("constrictor", "constrictor", "Констриктор", "5-я волна", "Пена · тепловая линза"),
+    ("xeno_telepath", "xenoTelepath", "Ксено-Телепат", "5-я волна", "Телепатия · свои против своих"),
     # the human army
     ("human_soldier", "soldier", "Солдат", "люди", "Винтовка · воюет с марсианами"),
     ("human_tank", "tank", "Танк", "люди", "Снаряды по марсианам"),
     ("human_fighter", "fighter", "Истребитель", "люди", "Полёт · пулемёты"),
     ("human_warship", "warship", "Военный корабль", "люди", "Орудия по берегу"),
+    ("human_helicopter", "helicopter", "Военный вертолёт", "люди", "Кружит · дверные пулемёты"),
+    ("human_submarine", "submarine", "Подводная лодка", "люди", "Торпеды со дна"),
+    ("human_bomber", "bomber", "Бомбардировщик", "люди", "Серия бомб с высоты"),
 ]
 
 

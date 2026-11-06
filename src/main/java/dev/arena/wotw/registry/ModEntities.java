@@ -357,17 +357,17 @@ public final class ModEntities {
                         .build("human_warship"));
         ENTITY_TYPES.register("human_helicopter",
                 () -> HUMAN_HELICOPTER = EntityType.Builder.of(HumanHelicopterEntity::new, MobCategory.CREATURE)
-                        .sized(7.0F, 3.4F)
+                        .sized(5.1F, 1.7F)
                         .clientTrackingRange(10)
                         .build("human_helicopter"));
         ENTITY_TYPES.register("human_submarine",
                 () -> HUMAN_SUBMARINE = EntityType.Builder.of(HumanSubmarineEntity::new, MobCategory.CREATURE)
-                        .sized(6.5F, 3.0F)
+                        .sized(5.4F, 2.4F)
                         .clientTrackingRange(10)
                         .build("human_submarine"));
         ENTITY_TYPES.register("human_bomber",
                 () -> HUMAN_BOMBER = EntityType.Builder.of(HumanBomberEntity::new, MobCategory.CREATURE)
-                        .sized(12.0F, 3.6F)
+                        .sized(7.1F, 2.1F)
                         .clientTrackingRange(12)
                         .build("human_bomber"));
         ENTITY_TYPES.register("water_tripod",
@@ -420,31 +420,31 @@ public final class ModEntities {
                         .build("taxi_tripod")));
         ENTITY_TYPES.register("construction_tripod",
                 () -> CONSTRUCTION_TRIPOD = track(EntityType.Builder.of(ConstructionTripodEntity::new, MobCategory.MONSTER)
-                        .sized(13.0F, 22.0F)
+                        .sized(8.7F, 18.4F)
                         .clientTrackingRange(12)
                         .updateInterval(2)
                         .build("construction_tripod")));
         ENTITY_TYPES.register("smoke_tripod",
                 () -> SMOKE_TRIPOD = track(EntityType.Builder.of(SmokeTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.0F, 11.0F)
+                        .sized(7.3F, 15.1F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("smoke_tripod")));
         ENTITY_TYPES.register("bomb_tripod",
                 () -> BOMB_TRIPOD = track(EntityType.Builder.of(BombTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.5F, 12.0F)
+                        .sized(7.6F, 16.7F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("bomb_tripod")));
         ENTITY_TYPES.register("constrictor",
                 () -> CONSTRICTOR = track(EntityType.Builder.of(ConstrictorEntity::new, MobCategory.MONSTER)
-                        .sized(7.0F, 9.0F)
+                        .sized(6.6F, 13.0F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("constrictor")));
         ENTITY_TYPES.register("xeno_telepath",
                 () -> XENO_TELEPATH = track(EntityType.Builder.of(XenoTelepathEntity::new, MobCategory.MONSTER)
-                        .sized(5.5F, 13.0F)
+                        .sized(7.4F, 15.5F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("xeno_telepath")));

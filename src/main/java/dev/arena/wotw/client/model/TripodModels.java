@@ -3842,35 +3842,37 @@ public final class TripodModels {
 
         PartDefinition hold_l = body.addOrReplaceChild("hold_l",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-6, 0, -24, 12, 18, 48)
-                        .addBox(-5, 15, -20, 10, 3, 40),
-                PartPose.offsetAndRotation(-20, -246, 6, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-7, 0, -26, 14, 22, 52)
+                        .addBox(-6, 18, -22, 12, 3, 44),
+                PartPose.offsetAndRotation(-26, -248, 4, 0.0F, 0.0F, 0.0F));
 
         PartDefinition hold_r = body.addOrReplaceChild("hold_r",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-6, 0, -24, 12, 18, 48)
-                        .addBox(-5, 15, -20, 10, 3, 40),
-                PartPose.offsetAndRotation(20, -246, 6, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-7, 0, -26, 14, 22, 52)
+                        .addBox(-6, 18, -22, 12, 3, 44),
+                PartPose.offsetAndRotation(26, -248, 4, 0.0F, 0.0F, 0.0F));
 
         PartDefinition crane = body.addOrReplaceChild("crane",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-4, -6, 0, 8, 8, 54)
-                        .addBox(-3, -36, 44, 6, 32, 6),
-                PartPose.offsetAndRotation(0, -268, 22, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-5, -8, -52, 10, 12, 86)
+                        .addBox(-9, -10, 28, 18, 14, 16)
+                        .addBox(-3, 4, -50, 6, 20, 6),
+                PartPose.offsetAndRotation(0, -276, 20, 0.0F, 0.0F, 0.0F));
 
         PartDefinition claw = crane.addOrReplaceChild("claw",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-6, -4, -4, 12, 6, 10)
-                        .addBox(-10, 0, 4, 4, 5, 20)
-                        .addBox(6, 0, 4, 4, 5, 20)
-                        .addBox(-2, -1, 22, 4, 3, 3),
-                PartPose.offsetAndRotation(0, -36, 48, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-7, 0, -5, 14, 6, 12)
+                        .addBox(-11, 6, -4, 5, 14, 10)
+                        .addBox(6, 6, -4, 5, 14, 10)
+                        .addBox(-9, 18, -3, 18, 4, 8)
+                        .addBox(-2, 2, 6, 4, 4, 2),
+                PartPose.offsetAndRotation(0, 24, -48, 0.0F, 0.0F, 0.0F));
 
         PartDefinition gun = body.addOrReplaceChild("gun",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-7, -7, -12, 14, 14, 14)
-                        .addBox(-2, -2, -30, 4, 4, 20),
-                PartPose.offsetAndRotation(0, -212, -28, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-8, -8, -14, 16, 16, 16)
+                        .addBox(-2, -2, -34, 4, 4, 22),
+                PartPose.offsetAndRotation(0, -206, -30, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
     }
@@ -4068,28 +4070,30 @@ public final class TripodModels {
 
         PartDefinition vent_l = body.addOrReplaceChild("vent_l",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-5, 0, -9, 10, 30, 18),
-                PartPose.offsetAndRotation(-19, -168, 6, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-5, -34, -9, 10, 34, 18)
+                        .addBox(-7, -38, -11, 14, 5, 22),
+                PartPose.offsetAndRotation(-17, -196, 6, 0.0F, 0.0F, 0.0F));
 
         PartDefinition vent_l_mouth = vent_l.addOrReplaceChild("vent_l_mouth",
                 CubeListBuilder.create()
                         .texOffs(96, 96).addBox(-4, -4, -1, 8, 8, 2),
-                PartPose.offsetAndRotation(0, 30, -1, 0.0F, 0.0F, 0.0F));
+                PartPose.offsetAndRotation(0, -40, -1, 0.0F, 0.0F, 0.0F));
 
         PartDefinition vent_r = body.addOrReplaceChild("vent_r",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-5, 0, -9, 10, 30, 18),
-                PartPose.offsetAndRotation(19, -168, 6, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-5, -34, -9, 10, 34, 18)
+                        .addBox(-7, -38, -11, 14, 5, 22),
+                PartPose.offsetAndRotation(17, -196, 6, 0.0F, 0.0F, 0.0F));
 
         PartDefinition vent_r_mouth = vent_r.addOrReplaceChild("vent_r_mouth",
                 CubeListBuilder.create()
                         .texOffs(96, 96).addBox(-4, -4, -1, 8, 8, 2),
-                PartPose.offsetAndRotation(0, 30, -1, 0.0F, 0.0F, 0.0F));
+                PartPose.offsetAndRotation(0, -40, -1, 0.0F, 0.0F, 0.0F));
 
         PartDefinition pipe = body.addOrReplaceChild("pipe",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-14, -4, 0, 28, 8, 8),
-                PartPose.offsetAndRotation(0, -196, 20, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-16, -6, 0, 32, 10, 8),
+                PartPose.offsetAndRotation(0, -196, 22, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
     }
@@ -4259,26 +4263,27 @@ public final class TripodModels {
 
         PartDefinition mortar = body.addOrReplaceChild("mortar",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-8, -6, -8, 16, 14, 16)
-                        .addBox(-5, -38, -5, 10, 38, 10),
-                PartPose.offsetAndRotation(0, -208, 10, -0.0096F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-10, -8, -10, 20, 16, 20)
+                        .addBox(-7, -56, -7, 14, 48, 14)
+                        .addBox(-9, -60, -9, 18, 6, 18),
+                PartPose.offsetAndRotation(0, -206, 12, -0.0122F, 0.0F, 0.0F));
 
         PartDefinition muzzle = mortar.addOrReplaceChild("muzzle",
                 CubeListBuilder.create()
-                        .texOffs(96, 96).addBox(-5, -5, -1, 9, 9, 2),
-                PartPose.offsetAndRotation(0, -38, 0, 0.0F, 0.0F, 0.0F));
+                        .texOffs(96, 96).addBox(-6, -6, -1, 11, 11, 2),
+                PartPose.offsetAndRotation(0, -60, 0, 0.0F, 0.0F, 0.0F));
 
         PartDefinition rack_l = body.addOrReplaceChild("rack_l",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-4, 0, -10, 8, 12, 22)
-                        .addBox(-3, 11, -8, 6, 2, 18),
-                PartPose.offsetAndRotation(-17, -204, 12, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-6, 0, -12, 12, 14, 26)
+                        .addBox(-5, 12, -10, 10, 2, 22),
+                PartPose.offsetAndRotation(-22, -204, 10, 0.0F, 0.0F, 0.0F));
 
         PartDefinition rack_r = body.addOrReplaceChild("rack_r",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-4, 0, -10, 8, 12, 22)
-                        .addBox(-3, 11, -8, 6, 2, 18),
-                PartPose.offsetAndRotation(17, -204, 12, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-6, 0, -12, 12, 14, 26)
+                        .addBox(-5, 12, -10, 10, 2, 22),
+                PartPose.offsetAndRotation(22, -204, 10, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
     }
@@ -4420,25 +4425,25 @@ public final class TripodModels {
 
         PartDefinition nozzle_l = body.addOrReplaceChild("nozzle_l",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-4, -4, -22, 8, 8, 24)
-                        .addBox(-3, -3, -25, 6, 6, 3),
-                PartPose.offsetAndRotation(-16, -176, -18, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-4, -4, -24, 8, 8, 26)
+                        .addBox(-3, -3, -27, 6, 6, 3),
+                PartPose.offsetAndRotation(-14, -176, -20, 0.0F, 0.0F, 0.0F));
 
         PartDefinition nozzle_l_tank = body.addOrReplaceChild("nozzle_l_tank",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-7, -10, -14, 14, 22, 28),
-                PartPose.offsetAndRotation(-20, -168, 10, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-7, -12, -16, 14, 24, 32),
+                PartPose.offsetAndRotation(-26, -168, 8, 0.0F, 0.0F, 0.0F));
 
         PartDefinition nozzle_r = body.addOrReplaceChild("nozzle_r",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-4, -4, -22, 8, 8, 24)
-                        .addBox(-3, -3, -25, 6, 6, 3),
-                PartPose.offsetAndRotation(16, -176, -18, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-4, -4, -24, 8, 8, 26)
+                        .addBox(-3, -3, -27, 6, 6, 3),
+                PartPose.offsetAndRotation(14, -176, -20, 0.0F, 0.0F, 0.0F));
 
         PartDefinition nozzle_r_tank = body.addOrReplaceChild("nozzle_r_tank",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-7, -10, -14, 14, 22, 28),
-                PartPose.offsetAndRotation(20, -168, 10, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-7, -12, -16, 14, 24, 32),
+                PartPose.offsetAndRotation(26, -168, 8, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
     }
@@ -4527,64 +4532,58 @@ public final class TripodModels {
                         .addBox(6, -167, 6, 11, 9, 11),
                 PartPose.offsetAndRotation(0, 26, 0, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition dome = body.addOrReplaceChild("dome",
+        PartDefinition head = body.addOrReplaceChild("head",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-15, -30, -15, 10, 8, 10)
-                        .addBox(-15, -30, -5, 10, 8, 10)
-                        .addBox(-15, -30, 5, 10, 8, 10)
-                        .addBox(-5, -30, -15, 10, 8, 10)
-                        .addBox(-5, -30, -5, 10, 8, 10)
-                        .addBox(-5, -30, 5, 10, 8, 10)
-                        .addBox(5, -30, -15, 10, 8, 10)
-                        .addBox(5, -30, -5, 10, 8, 10)
-                        .addBox(5, -30, 5, 10, 8, 10)
-                        .addBox(-11, -22, -11, 7, 8, 7)
-                        .addBox(-11, -22, -4, 7, 8, 7)
-                        .addBox(-11, -22, 4, 7, 8, 7)
-                        .addBox(-4, -22, -11, 7, 8, 7)
-                        .addBox(-4, -22, -4, 7, 8, 7)
-                        .addBox(-4, -22, 4, 7, 8, 7)
-                        .addBox(4, -22, -11, 7, 8, 7)
-                        .addBox(4, -22, -4, 7, 8, 7)
-                        .addBox(4, -22, 4, 7, 8, 7)
-                        .addBox(-6, -14, -6, 6, 6, 6)
-                        .addBox(-6, -14, 0, 6, 6, 6)
-                        .addBox(0, -14, -6, 6, 6, 6)
-                        .addBox(0, -14, 0, 6, 6, 6),
-                PartPose.offsetAndRotation(0, -190, 0, 0.0F, 0.0F, 0.0F));
-
-        PartDefinition pilot = body.addOrReplaceChild("pilot",
-                CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-8, -22, -6, 16, 20, 12)
-                        .addBox(-11, -12, -11, 22, 6, 22)
-                        .addBox(-8, -16, -7, 4, 4, 2)
-                        .addBox(4, -16, -7, 4, 4, 2),
+                        .texOffs(0, 0).addBox(-16, -30, -13, 32, 30, 26)
+                        .addBox(-13, -26, -14, 26, 20, 1)
+                        .addBox(-16, -32, -13, 32, 3, 26),
                 PartPose.offsetAndRotation(0, -186, 0, 0.0F, 0.0F, 0.0F));
 
-        PartDefinition eye = body.addOrReplaceChild("eye",
+        PartDefinition pilot = head.addOrReplaceChild("pilot",
                 CubeListBuilder.create()
-                        .texOffs(96, 96).addBox(-5, -4, -1, 10, 8, 2),
-                PartPose.offsetAndRotation(0, -176, -18, 0.0F, 0.0F, 0.0F));
+                        .texOffs(0, 0).addBox(-8, -16, -17, 16, 18, 10)
+                        .addBox(-10, -6, -16, 20, 6, 14)
+                        .addBox(-6, -13, -18, 4, 4, 2)
+                        .addBox(2, -13, -18, 4, 4, 2),
+                PartPose.offsetAndRotation(0, 0, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition dome = body.addOrReplaceChild("dome",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-12, -16, -12, 8, 6, 8)
+                        .addBox(-12, -16, -4, 8, 6, 8)
+                        .addBox(-12, -16, 4, 8, 6, 8)
+                        .addBox(-4, -16, -12, 8, 6, 8)
+                        .addBox(-4, -16, -4, 8, 6, 8)
+                        .addBox(-4, -16, 4, 8, 6, 8)
+                        .addBox(4, -16, -12, 8, 6, 8)
+                        .addBox(4, -16, -4, 8, 6, 8)
+                        .addBox(4, -16, 4, 8, 6, 8)
+                        .addBox(-8, -10, -8, 8, 6, 8)
+                        .addBox(-8, -10, 0, 8, 6, 8)
+                        .addBox(0, -10, -8, 8, 6, 8)
+                        .addBox(0, -10, 0, 8, 6, 8)
+                        .addBox(-4, -4, -4, 8, 4, 8),
+                PartPose.offsetAndRotation(0, -218, 0, 0.0F, 0.0F, 0.0F));
 
         PartDefinition antenna_l = body.addOrReplaceChild("antenna_l",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-1, 0, -1, 2, 26, 2),
-                PartPose.offsetAndRotation(-11, -214, 0, -0.0044F, 0.0F, 0.0052F));
+                        .texOffs(0, 0).addBox(-1, -30, -1, 2, 30, 2),
+                PartPose.offsetAndRotation(-15, -216, 0, -0.0035F, 0.0F, 0.0061F));
 
         PartDefinition antenna_l_tip = antenna_l.addOrReplaceChild("antenna_l_tip",
                 CubeListBuilder.create()
                         .texOffs(96, 96).addBox(-3, -3, -1, 5, 5, 2),
-                PartPose.offsetAndRotation(0, 26, 0, 0.0F, 0.0F, 0.0F));
+                PartPose.offsetAndRotation(0, -30, 0, 0.0F, 0.0F, 0.0F));
 
         PartDefinition antenna_r = body.addOrReplaceChild("antenna_r",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-1, 0, -1, 2, 26, 2),
-                PartPose.offsetAndRotation(11, -214, 0, -0.0044F, 0.0F, -0.0052F));
+                        .texOffs(0, 0).addBox(-1, -30, -1, 2, 30, 2),
+                PartPose.offsetAndRotation(15, -216, 0, -0.0035F, 0.0F, -0.0061F));
 
         PartDefinition antenna_r_tip = antenna_r.addOrReplaceChild("antenna_r_tip",
                 CubeListBuilder.create()
                         .texOffs(96, 96).addBox(-3, -3, -1, 5, 5, 2),
-                PartPose.offsetAndRotation(0, 26, 0, 0.0F, 0.0F, 0.0F));
+                PartPose.offsetAndRotation(0, -30, 0, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
     }
