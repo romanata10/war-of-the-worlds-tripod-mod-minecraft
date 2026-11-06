@@ -72,7 +72,8 @@ en = json.loads((ASSETS / "lang/en_us.json").read_text())
 ru = json.loads((ASSETS / "lang/ru_ru.json").read_text())
 used = set(re.findall(r'Text\.translatable\("([\w.]+)"', "\n".join(p.read_text() for p in JAVA.rglob("*.java"))))
 used.add("itemGroup.wotw")
-entities = re.findall(r'tripod\("([a-z0-9_]+)"', (JAVA / "dev/arena/wotw/registry/ModEntities.java").read_text())
+entities = re.findall(r'ENTITY_TYPES\.register\("([a-z0-9_]+)"',
+                      (JAVA / "dev/arena/wotw/registry/ModEntities.java").read_text())
 for e in entities:
     if e == "beam":      # rays are not nameable living entities
         continue

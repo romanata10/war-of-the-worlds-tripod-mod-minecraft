@@ -1,6 +1,7 @@
 package dev.arena.wotw.entity;
 
 import dev.arena.wotw.registry.ModEntities;
+import dev.arena.wotw.world.LouseApocalypse;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -20,14 +21,19 @@ import java.util.List;
  *
  * <p><b>Signature ability</b></p>
  * <ul>
- *     <li><b>Swarm</b> — every 15 seconds a louse that is not surrounded by its kin spawns a new
- *     louse, so ignore them and you will drown in them.</li>
+ *     <li><b>Swarm</b> — lice breed. Left alone in a big open field they end up in the thousands,
+ *     which is a genuinely funny bug and a genuinely unfunny server, so the swarm is
+ *     <b>off in every new world</b>. {@code /wotw apocalypse on} turns it on, and then the field
+ *     fills up.</li>
  *     <li><b>Infested bite</b> — melee hits poison the victim.</li>
  * </ul>
  */
 public class MartianLouseEntity extends AbstractTripodEntity {
 
-    private static final int MAX_SWARM = 7;
+    /** How many kin a louse tolerates within sixteen blocks before it stops breeding. */
+    private static final int MAX_SWARM = 64;
+    /** One brood every ten seconds while the apocalypse runs. */
+    private static final int BROOD_INTERVAL = 200;
 
     public MartianLouseEntity(EntityType<? extends MartianLouseEntity> type, Level world) {
         super(type, world);
@@ -39,11 +45,15 @@ public class MartianLouseEntity extends AbstractTripodEntity {
 
     @Override
     protected void serverTick() {
-        if (!this.onIntervalZero(300) || this.getRandom().nextFloat() > 0.55F) {
+        // The swarm is a switch, not an accident: see dev.arena.wotw.world.LouseApocalypse.
+        if (!LouseApocalypse.isEnabled(this.level())) {
             return;
         }
-        AABB area = new AABB(this.getX() - 14.0D, this.getY() - 6.0D, this.getZ() - 14.0D,
-                this.getX() + 14.0D, this.getY() + 6.0D, this.getZ() + 14.0D);
+        if (!this.onIntervalZero(BROOD_INTERVAL) || this.getRandom().nextFloat() > 0.75F) {
+            return;
+        }
+        AABB area = new AABB(this.getX() - 16.0D, this.getY() - 6.0D, this.getZ() - 16.0D,
+                this.getX() + 16.0D, this.getY() + 6.0D, this.getZ() + 16.0D);
         List<MartianLouseEntity> swarm = this.level().getEntitiesOfClass(MartianLouseEntity.class, area,
                 louse -> louse.isAlive());
         if (swarm.size() >= MAX_SWARM) {

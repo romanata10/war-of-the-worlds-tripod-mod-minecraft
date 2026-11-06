@@ -103,5 +103,10 @@
   "subtitles.entity.wotw.tripod.step": "Tripod stomps",
   "wotw.cage.captured": "The machine has you. The cage is draining your life.",
   "wotw.event.capsule_incoming": "A screaming light tears across the sky — something is falling!",
-  "wotw.event.landing": "The War of the Worlds has begun. The Martians are here."
+  "wotw.event.landing": "The War of the Worlds has begun. The Martians are here.",
+  "container.wotw.crate": "Crate",
+  "wotw.command.apocalypse.on": "The louse apocalypse is on: they will breed without end.",
+  "wotw.command.apocalypse.off": "The louse apocalypse is off: the field is safe again.",
+  "wotw.command.apocalypse.state.on": "Louse apocalypse: on.",
+  "wotw.command.apocalypse.state.off": "Louse apocalypse: off (the default)."
 }

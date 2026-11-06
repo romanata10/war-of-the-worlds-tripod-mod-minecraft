@@ -103,5 +103,10 @@
   "subtitles.entity.wotw.tripod.step": "Тринога шагает",
   "wotw.cage.captured": "Машина поймала вас. Клетка вытягивает жизнь.",
   "wotw.event.capsule_incoming": "Небо прорезает воющий свет — что-то падает!",
-  "wotw.event.landing": "Война миров началась. Марсиане пришли."
+  "wotw.event.landing": "Война миров началась. Марсиане пришли.",
+  "container.wotw.crate": "Ящик",
+  "wotw.command.apocalypse.on": "Апокалипсис вшей включён: они будут размножаться без остановки.",
+  "wotw.command.apocalypse.off": "Апокалипсис вшей выключен: поле снова безопасно.",
+  "wotw.command.apocalypse.state.on": "Апокалипсис вшей: включён.",
+  "wotw.command.apocalypse.state.off": "Апокалипсис вшей: выключен (по умолчанию)."
 }
