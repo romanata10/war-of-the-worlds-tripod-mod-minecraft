@@ -137,7 +137,7 @@ public class ConstructionTripodEntity extends AbstractTripodEntity {
 
     /** Raises a small, roofed Martian bunker a few paces ahead, out of the rubble in the holds. */
     private void buildOutpost() {
-        if (this.cargo.size() < BUILD_THRESHOLD / 8) {
+        if (this.cargoCount() < BUILD_THRESHOLD) {
             return;
         }
         Direction facing = this.getDirection();
@@ -154,14 +154,14 @@ public class ConstructionTripodEntity extends AbstractTripodEntity {
                 }
             }
         }
-        // walls, two high with a two wide door on the near side
-        for (int dy = 1; dy <= 2 && placed < BLOCKS_PER_PASS; dy++) {
+        // walls, three high, with a two by two door on the near side
+        for (int dy = 1; dy <= 3 && placed < BLOCKS_PER_PASS; dy++) {
             for (int dx = -2; dx <= 2 && placed < BLOCKS_PER_PASS; dx++) {
                 for (int dz = -2; dz <= 2 && placed < BLOCKS_PER_PASS; dz++) {
                     if (Math.abs(dx) != 2 && Math.abs(dz) != 2) {
                         continue;
                     }
-                    if (dy < 2 && !(Math.abs(dx) == 2) && dz == 2) {
+                    if (dy <= 2 && dz == 2 && Math.abs(dx) < 2) {
                         continue;       // doorway, so the garrison can walk out
                     }
                     if (this.placeCollected(base.offset(dx, dy, dz))) {
@@ -173,7 +173,7 @@ public class ConstructionTripodEntity extends AbstractTripodEntity {
         // roof
         for (int dx = -2; dx <= 2 && placed < BLOCKS_PER_PASS; dx++) {
             for (int dz = -2; dz <= 2 && placed < BLOCKS_PER_PASS; dz++) {
-                if (this.placeCollected(base.offset(dx, 3, dz))) {
+                if (this.placeCollected(base.offset(dx, 4, dz))) {
                     placed++;
                 }
             }
@@ -184,6 +184,15 @@ public class ConstructionTripodEntity extends AbstractTripodEntity {
             server.sendParticles(ParticleTypes.CLOUD, base.getX() + 0.5D, base.getY() + 1.0D, base.getZ() + 0.5D,
                     20, 2.5D, 1.0D, 2.5D, 0.02D);
         }
+    }
+
+    /** Total number of blocks sitting in the holds. */
+    public int cargoCount() {
+        int total = 0;
+        for (ItemStack stack : this.cargo) {
+            total += stack.getCount();
+        }
+        return total;
     }
 
     /** Places one block out of the holds. Returns true when a block really went down. */
