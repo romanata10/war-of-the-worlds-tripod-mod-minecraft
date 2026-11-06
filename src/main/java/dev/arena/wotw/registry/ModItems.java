@@ -56,6 +56,22 @@ public final class ModItems {
     public static Item HUMAN_FIGHTER_SPAWN_EGG;
     public static Item HUMAN_WARSHIP_SPAWN_EGG;
 
+    public static Item CONSTRUCTION_TRIPOD_SPAWN_EGG;
+
+    public static Item SMOKE_TRIPOD_SPAWN_EGG;
+
+    public static Item BOMB_TRIPOD_SPAWN_EGG;
+
+    public static Item CONSTRICTOR_SPAWN_EGG;
+
+    public static Item XENO_TELEPATH_SPAWN_EGG;
+
+    public static Item HUMAN_HELICOPTER_SPAWN_EGG;
+
+    public static Item HUMAN_SUBMARINE_SPAWN_EGG;
+
+    public static Item HUMAN_BOMBER_SPAWN_EGG;
+
     public static Item WATER_TRIPOD_SPAWN_EGG;
     public static Item SCOUT_TRIPOD_SPAWN_EGG;
     public static Item RAM_TRIPOD_SPAWN_EGG;
@@ -155,6 +171,14 @@ public final class ModItems {
                         entries.accept(HUMAN_TANK_SPAWN_EGG);
                         entries.accept(HUMAN_FIGHTER_SPAWN_EGG);
                         entries.accept(HUMAN_WARSHIP_SPAWN_EGG);
+                        entries.accept(CONSTRUCTION_TRIPOD_SPAWN_EGG);
+                        entries.accept(SMOKE_TRIPOD_SPAWN_EGG);
+                        entries.accept(BOMB_TRIPOD_SPAWN_EGG);
+                        entries.accept(CONSTRICTOR_SPAWN_EGG);
+                        entries.accept(XENO_TELEPATH_SPAWN_EGG);
+                        entries.accept(HUMAN_HELICOPTER_SPAWN_EGG);
+                        entries.accept(HUMAN_SUBMARINE_SPAWN_EGG);
+                        entries.accept(HUMAN_BOMBER_SPAWN_EGG);
                         entries.accept(WATER_TRIPOD_SPAWN_EGG);
                         entries.accept(SCOUT_TRIPOD_SPAWN_EGG);
                         entries.accept(RAM_TRIPOD_SPAWN_EGG);
@@ -258,6 +282,30 @@ public final class ModItems {
                         new Item.Properties()));
         ITEMS.register("human_fighter_spawn_egg",
                 () -> HUMAN_FIGHTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_FIGHTER, 0x6B7078, 0xB9C2CC,
+                        new Item.Properties()));
+        ITEMS.register("construction_tripod_spawn_egg",
+                () -> CONSTRUCTION_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CONSTRUCTION_TRIPOD,
+                        0x6A6250, 0xFFC45A, new Item.Properties()));
+        ITEMS.register("smoke_tripod_spawn_egg",
+                () -> SMOKE_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SMOKE_TRIPOD,
+                        0x3A3A3E, 0xFF843C, new Item.Properties()));
+        ITEMS.register("bomb_tripod_spawn_egg",
+                () -> BOMB_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BOMB_TRIPOD,
+                        0x54524A, 0xFF7846, new Item.Properties()));
+        ITEMS.register("constrictor_spawn_egg",
+                () -> CONSTRICTOR_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CONSTRICTOR,
+                        0x4C604A, 0xA8FF8C, new Item.Properties()));
+        ITEMS.register("xeno_telepath_spawn_egg",
+                () -> XENO_TELEPATH_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.XENO_TELEPATH,
+                        0x464A68, 0xD09CFF, new Item.Properties()));
+        ITEMS.register("human_helicopter_spawn_egg",
+                () -> HUMAN_HELICOPTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_HELICOPTER, 0x55603F, 0xA9B27C,
+                        new Item.Properties()));
+        ITEMS.register("human_submarine_spawn_egg",
+                () -> HUMAN_SUBMARINE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_SUBMARINE, 0x2C3A46, 0x8FB0C4,
+                        new Item.Properties()));
+        ITEMS.register("human_bomber_spawn_egg",
+                () -> HUMAN_BOMBER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_BOMBER, 0x4A4E52, 0xC2C8CE,
                         new Item.Properties()));
         ITEMS.register("human_warship_spawn_egg",
                 () -> HUMAN_WARSHIP_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_WARSHIP, 0x3E464E, 0x9AA6B0,

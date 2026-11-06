@@ -112,5 +112,21 @@
   "item.wotw.pistol": "Pistol",
   "item.wotw.machine_gun": "Machine Gun",
   "item.wotw.rocket_launcher": "RPG",
-  "item.wotw.nuclear_bomb": "Nuclear Bomb"
+  "item.wotw.nuclear_bomb": "Nuclear Bomb",
+  "entity.wotw.human_helicopter": "Gunship Helicopter",
+  "entity.wotw.human_submarine": "Submarine",
+  "entity.wotw.human_bomber": "Bomber",
+  "item.wotw.human_helicopter_spawn_egg": "Gunship Helicopter Spawn Egg",
+  "item.wotw.human_submarine_spawn_egg": "Submarine Spawn Egg",
+  "item.wotw.human_bomber_spawn_egg": "Bomber Spawn Egg",
+  "entity.wotw.construction_tripod": "Construction Tripod",
+  "entity.wotw.smoke_tripod": "Smoke Tripod",
+  "entity.wotw.bomb_tripod": "Bombardier Tripod",
+  "entity.wotw.constrictor": "Martian Constrictor",
+  "entity.wotw.xeno_telepath": "Xeno-Telepath",
+  "item.wotw.construction_tripod_spawn_egg": "Construction Tripod Spawn Egg",
+  "item.wotw.smoke_tripod_spawn_egg": "Smoke Tripod Spawn Egg",
+  "item.wotw.bomb_tripod_spawn_egg": "Bombardier Tripod Spawn Egg",
+  "item.wotw.constrictor_spawn_egg": "Martian Constrictor Spawn Egg",
+  "item.wotw.xeno_telepath_spawn_egg": "Xeno-Telepath Spawn Egg"
 }

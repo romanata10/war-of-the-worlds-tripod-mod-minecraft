@@ -571,6 +571,8 @@ def military_base():
     # helicopter-less apron with a tank and sandbags
     s.fill(-8, 1, -12, 4, 1, -4, CONCRETE)
     s.spawn(-2, 1, -8, "wotw:human_tank")
+    s.spawn(4, 4, -7, "wotw:human_helicopter")             # gunship on overwatch
+    s.spawn(0, 26, -8, "wotw:human_bomber")                # the heavy stuff, high above
     for x in range(-8, 5, 2):
         s.set(x, 1, -13, COBBLE)
         s.set(x, 2, -13, COBBLE)
@@ -706,6 +708,7 @@ def port():
     s.fill(-7, 8, 12, -7, 9, 12, IRON)
     # the warship at anchor
     s.spawn(1, 1, -5, "wotw:human_warship")
+    s.spawn(-12, -2, -6, "wotw:human_submarine")           # the boat under the quay
     s.spawn(12, 1, 8, "wotw:human_soldier")
     s.spawn(-10, 1, 8, "wotw:human_soldier")
     s.spawn(-4, 2, -3, "wotw:human_soldier")

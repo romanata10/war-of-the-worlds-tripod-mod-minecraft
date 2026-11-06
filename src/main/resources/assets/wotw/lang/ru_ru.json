@@ -112,5 +112,21 @@
   "item.wotw.pistol": "Пистолет",
   "item.wotw.machine_gun": "Пулемёт",
   "item.wotw.rocket_launcher": "РПГ",
-  "item.wotw.nuclear_bomb": "Ядерная бомба"
+  "item.wotw.nuclear_bomb": "Ядерная бомба",
+  "entity.wotw.human_helicopter": "Военный вертолёт",
+  "entity.wotw.human_submarine": "Подводная лодка",
+  "entity.wotw.human_bomber": "Бомбардировщик",
+  "item.wotw.human_helicopter_spawn_egg": "Яйцо призыва: Военный вертолёт",
+  "item.wotw.human_submarine_spawn_egg": "Яйцо призыва: Подводная лодка",
+  "item.wotw.human_bomber_spawn_egg": "Яйцо призыва: Бомбардировщик",
+  "entity.wotw.construction_tripod": "Строительная тринога",
+  "entity.wotw.smoke_tripod": "Дымовая тринога",
+  "entity.wotw.bomb_tripod": "Тринога-бомбардир",
+  "entity.wotw.constrictor": "Марсианский Констриктор",
+  "entity.wotw.xeno_telepath": "Ксено-Телепат",
+  "item.wotw.construction_tripod_spawn_egg": "Яйцо призыва: Строительная тринога",
+  "item.wotw.smoke_tripod_spawn_egg": "Яйцо призыва: Дымовая тринога",
+  "item.wotw.bomb_tripod_spawn_egg": "Яйцо призыва: Тринога-бомбардир",
+  "item.wotw.constrictor_spawn_egg": "Яйцо призыва: Марсианский Констриктор",
+  "item.wotw.xeno_telepath_spawn_egg": "Яйцо призыва: Ксено-Телепат"
 }

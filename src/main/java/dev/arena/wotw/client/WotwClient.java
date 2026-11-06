@@ -68,6 +68,14 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.HUMAN_TANK, HumanModels::tank);
         event.registerLayerDefinition(ModModelLayers.HUMAN_FIGHTER, HumanModels::fighter);
         event.registerLayerDefinition(ModModelLayers.HUMAN_WARSHIP, HumanModels::warship);
+        event.registerLayerDefinition(ModModelLayers.CONSTRUCTION_TRIPOD, TripodModels::constructionTripod);
+        event.registerLayerDefinition(ModModelLayers.SMOKE_TRIPOD, TripodModels::smokeTripod);
+        event.registerLayerDefinition(ModModelLayers.BOMB_TRIPOD, TripodModels::bombTripod);
+        event.registerLayerDefinition(ModModelLayers.CONSTRICTOR, TripodModels::constrictor);
+        event.registerLayerDefinition(ModModelLayers.XENO_TELEPATH, TripodModels::xenoTelepath);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_HELICOPTER, HumanModels::helicopter);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_SUBMARINE, HumanModels::submarine);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_BOMBER, HumanModels::bomber);
     }
 
     @SubscribeEvent
@@ -139,6 +147,25 @@ public final class WotwClient {
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_FIGHTER, "human_fighter", 1.0F, 2.2F));
         event.registerEntityRenderer(ModEntities.HUMAN_WARSHIP,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_WARSHIP, "human_warship", 1.0F, 2.4F));
+        event.registerEntityRenderer(ModEntities.CONSTRUCTION_TRIPOD,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CONSTRUCTION_TRIPOD, "construction_tripod",
+                        1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.SMOKE_TRIPOD,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SMOKE_TRIPOD, "smoke_tripod", 1.0F, 1.1F));
+        event.registerEntityRenderer(ModEntities.BOMB_TRIPOD,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.BOMB_TRIPOD, "bomb_tripod", 1.0F, 1.15F));
+        event.registerEntityRenderer(ModEntities.CONSTRICTOR,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CONSTRICTOR, "constrictor", 1.0F, 1.1F));
+        event.registerEntityRenderer(ModEntities.XENO_TELEPATH,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.XENO_TELEPATH, "xeno_telepath", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
+                        1.8F));
+        event.registerEntityRenderer(ModEntities.HUMAN_SUBMARINE,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_SUBMARINE, "human_submarine", 1.0F,
+                        1.6F));
+        event.registerEntityRenderer(ModEntities.HUMAN_BOMBER,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_BOMBER, "human_bomber", 1.0F, 2.6F));
     }
 
     @SubscribeEvent

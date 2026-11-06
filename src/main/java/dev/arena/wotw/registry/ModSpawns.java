@@ -63,7 +63,13 @@ public final class ModSpawns {
             // The louse is deliberately *not* in this list any more: lice only exist where a capsule
             // opened or a Martian structure stands, so caves and nights are quiet again.
             new Entry(ModEntities.MARTIAN, false, 2, 5, 1, 2),
-            new Entry(ModEntities.MARTIAN_MASTER, false, 2, 1, 1, 1));
+            new Entry(ModEntities.MARTIAN_MASTER, false, 2, 1, 1, 1),
+            // the fifth wave: engineers and psychological weapons, rarer than the line machines
+            new Entry(ModEntities.CONSTRUCTION_TRIPOD, true, 8, 1, 1, 1),
+            new Entry(ModEntities.SMOKE_TRIPOD, true, 4, 2, 1, 1),
+            new Entry(ModEntities.BOMB_TRIPOD, true, 4, 2, 1, 1),
+            new Entry(ModEntities.CONSTRICTOR, true, 4, 2, 1, 1),
+            new Entry(ModEntities.XENO_TELEPATH, true, 4, 1, 1, 1));
     }
 
     private ModSpawns() {

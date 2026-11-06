@@ -1,6 +1,7 @@
 package dev.arena.wotw.entity.projectile;
 
 import dev.arena.wotw.registry.ModEntities;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,6 +41,9 @@ public class ShellEntity extends Entity {
     private boolean bullet;
     /** A nuclear bomb: the blast plus a fallout cloud that withers everything in it. */
     private boolean nuclear;
+
+    /** A mortar bomb of black smoke: a small blast, then a cloud of the 1898 stuff. */
+    private boolean gas;
     private int life;
     @Nullable
     private LivingEntity owner;
@@ -87,6 +91,17 @@ public class ShellEntity extends Entity {
         return bomb;
     }
 
+    /** A mortar bomb of the Martian smoke batteries: a small blast and a lingering black cloud. */
+    @Nullable
+    public static ShellEntity launchSmokeBomb(Level world, @Nullable LivingEntity owner, Vec3 origin,
+                                              Vec3 velocity) {
+        ShellEntity bomb = launch(world, owner, origin, velocity, 2.6F, false);
+        if (bomb != null) {
+            bomb.gas = true;
+        }
+        return bomb;
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -123,6 +138,10 @@ public class ShellEntity extends Entity {
             this.detonateNuclear();
             return;
         }
+        if (this.gas) {
+            this.detonateGas();
+            return;
+        }
         if (this.level() instanceof ServerLevel world) {
             world.explode(this, this.getX(), this.getY() + 0.2D, this.getZ(), this.power,
                     this.electric, Level.ExplosionInteraction.MOB);
@@ -137,6 +156,30 @@ public class ShellEntity extends Entity {
                 world.playSound(null, this.getX(), this.getY(), this.getZ(),
                         SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 2.0F, 0.8F);
             }
+        }
+        this.discard();
+    }
+
+    /** The smoke bomb: a burst that leaves the black smoke hanging over the impact. */
+    private void detonateGas() {
+        if (this.level() instanceof ServerLevel world) {
+            world.explode(this, this.getX(), this.getY() + 0.2D, this.getZ(), this.power, false,
+                    Level.ExplosionInteraction.MOB);
+            AreaEffectCloud cloud = new AreaEffectCloud(world, this.getX(), this.getY() + 0.3D, this.getZ());
+            cloud.setOwner(this.owner);
+            cloud.setParticle(ParticleTypes.LARGE_SMOKE);
+            cloud.setRadius(5.5F);
+            cloud.setRadiusPerTick(0.01F);
+            cloud.setRadiusOnUse(-0.05F);
+            cloud.setDuration(300);
+            cloud.setWaitTime(0);
+            cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 200, 1));
+            cloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 240, 0));
+            cloud.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160, 0));
+            cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0));
+            world.addFreshEntity(cloud);
+            world.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.FIRE_EXTINGUISH,
+                    SoundSource.HOSTILE, 2.0F, 0.4F);
         }
         this.discard();
     }
@@ -204,6 +247,7 @@ public class ShellEntity extends Entity {
         nbt.putBoolean("Electric", this.electric);
         nbt.putBoolean("Bullet", this.bullet);
         nbt.putBoolean("Nuclear", this.nuclear);
+        nbt.putBoolean("Gas", this.gas);
         nbt.putInt("Life", this.life);
     }
 
@@ -213,6 +257,7 @@ public class ShellEntity extends Entity {
         this.electric = nbt.getBoolean("Electric");
         this.bullet = nbt.getBoolean("Bullet");
         this.nuclear = nbt.getBoolean("Nuclear");
+        this.gas = nbt.getBoolean("Gas");
         this.life = nbt.getInt("Life");
     }
 }
