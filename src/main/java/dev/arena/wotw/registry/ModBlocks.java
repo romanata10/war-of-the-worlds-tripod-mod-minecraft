@@ -3,6 +3,7 @@ package dev.arena.wotw.registry;
 import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.block.MartianCylinderBlock;
 import dev.arena.wotw.block.BloodRootsBlock;
+import dev.arena.wotw.block.CrateBlock;
 import dev.arena.wotw.block.BloodVinesBlock;
 import dev.arena.wotw.block.InfestedBlock;
 import dev.arena.wotw.block.MartianTurretBlock;
@@ -54,7 +55,7 @@ public final class ModBlocks {
     /** Martian lamp: cold white light on a stalk. */
     public static Block MARTIAN_LAMP;
 
-    /** Martian supply crate. */
+    /** Martian supply crate: a container you can open, like a barrel. */
     public static Block MARTIAN_CRATE;
 
     /** Human wooden crate, left behind in the towns and the warehouses. */
@@ -142,15 +143,15 @@ public final class ModBlocks {
             .sound(SoundType.GLASS)
             .lightLevel(state -> 14)));
         BLOCKS.register("martian_crate",
-                () -> MARTIAN_CRATE = new Block(BlockBehaviour.Properties.of()
+                () -> MARTIAN_CRATE = new CrateBlock(BlockBehaviour.Properties.of()
             .strength(2.5F, 8.0F)
             .sound(SoundType.WOOD)));
         BLOCKS.register("human_crate",
-                () -> HUMAN_CRATE = new Block(BlockBehaviour.Properties.of()
+                () -> HUMAN_CRATE = new CrateBlock(BlockBehaviour.Properties.of()
             .strength(2.0F, 6.0F)
             .sound(SoundType.WOOD)));
         BLOCKS.register("military_crate",
-                () -> MILITARY_CRATE = new Block(BlockBehaviour.Properties.of()
+                () -> MILITARY_CRATE = new CrateBlock(BlockBehaviour.Properties.of()
             .strength(3.0F, 9.0F)
             .sound(SoundType.METAL)
             .requiresCorrectToolForDrops()));

@@ -37,6 +37,14 @@ PALETTES = {
     "digging_machine": ((124, 96, 62), (46, 34, 22), (176, 146, 102), (255, 170, 80), (150, 90, 50)),
     "tempest": ((112, 106, 96), (42, 38, 34), (168, 162, 148), (255, 120, 60), (150, 118, 80)),
     "bombarding_machine": ((88, 92, 64), (32, 34, 22), (132, 138, 100), (255, 190, 70), (120, 110, 70)),
+    "construction_tripod": ((104, 96, 70), (44, 40, 28), (158, 148, 112), (255, 196, 90), (196, 176, 96)),
+    "smoke_tripod": ((58, 58, 62), (22, 22, 24), (104, 106, 112), (255, 132, 60), (96, 88, 84)),
+    "bomb_tripod": ((84, 82, 70), (32, 30, 26), (132, 128, 110), (255, 120, 70), (150, 120, 80)),
+    "constrictor": ((76, 96, 74), (28, 38, 28), (128, 158, 120), (168, 255, 140), (140, 200, 90)),
+    "xeno_telepath": ((70, 74, 104), (26, 28, 40), (126, 132, 176), (208, 156, 255), (150, 120, 220)),
+    "human_helicopter": ((74, 82, 56), (30, 34, 22), (118, 128, 88), (255, 226, 120), (150, 160, 110)),
+    "human_submarine": ((44, 58, 70), (16, 22, 28), (86, 106, 122), (170, 220, 255), (120, 150, 170)),
+    "human_bomber": ((70, 74, 78), (26, 28, 31), (116, 120, 126), (255, 200, 120), (140, 146, 152)),
     "drone": ((136, 140, 146), (58, 60, 66), (184, 188, 196), (190, 110, 255), (150, 150, 160)),
     "human_tripod": ((92, 104, 96), (32, 38, 34), (146, 158, 148), (140, 255, 170), (120, 130, 120)),
     # third wave: Martian walkers
@@ -366,6 +374,62 @@ def make_alloy_cannon_texture():
     return img
 
 
+def make_pistol_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([2, 5, 12, 8], fill=(58, 62, 68, 255))          # slide
+    draw.rectangle([2, 5, 12, 6], fill=(96, 102, 110, 255))
+    draw.rectangle([9, 8, 12, 11], fill=(44, 48, 52, 255))         # grip
+    draw.rectangle([3, 8, 6, 10], fill=(40, 42, 46, 255))
+    draw.rectangle([12, 6, 15, 7], fill=(28, 30, 34, 255))         # muzzle
+    draw.rectangle([4, 9, 5, 12], fill=(74, 78, 84, 255))
+    draw.point((11, 5), fill=(120, 126, 134, 255))
+    return img
+
+
+def make_machine_gun_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([0, 5, 13, 8], fill=(52, 56, 62, 255))          # receiver
+    draw.rectangle([0, 5, 13, 6], fill=(88, 94, 102, 255))
+    draw.rectangle([13, 6, 15, 7], fill=(26, 28, 32, 255))         # barrel
+    draw.rectangle([2, 8, 6, 11], fill=(38, 40, 44, 255))          # magazine
+    draw.rectangle([8, 8, 10, 12], fill=(46, 48, 52, 255))         # stock grip
+    draw.rectangle([1, 9, 2, 11], fill=(70, 74, 80, 255))
+    draw.rectangle([10, 4, 12, 5], fill=(140, 146, 154, 255))      # sight
+    draw.point((14, 6), fill=(255, 190, 80, 255))
+    return img
+
+
+def make_rocket_launcher_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([0, 5, 14, 9], fill=(70, 74, 62, 255))          # tube
+    draw.rectangle([0, 5, 14, 6], fill=(112, 118, 100, 255))
+    draw.rectangle([14, 4, 15, 10], fill=(58, 62, 52, 255))        # muzzle ring
+    draw.rectangle([3, 9, 6, 12], fill=(54, 58, 48, 255))          # grip
+    draw.rectangle([8, 3, 11, 5], fill=(96, 102, 86, 255))         # sight
+    draw.rectangle([9, 10, 12, 12], fill=(120, 128, 110, 255))
+    draw.point((15, 6), fill=(255, 150, 60, 255))
+    return img
+
+
+def make_nuclear_bomb_texture():
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.ellipse([2, 3, 13, 14], fill=(74, 78, 70, 255))            # the fat body
+    draw.ellipse([3, 4, 12, 13], fill=(96, 100, 88, 255))
+    draw.rectangle([6, 0, 9, 4], fill=(58, 62, 56, 255))            # nose
+    draw.rectangle([7, 12, 8, 15], fill=(40, 44, 40, 255))          # tail
+    draw.rectangle([3, 7, 12, 9], fill=(48, 52, 46, 255))           # olive band
+    for x in range(4, 12, 3):
+        draw.point((x, 6), fill=(214, 120, 40, 255))                # rust
+    draw.rectangle([5, 5, 10, 6], fill=(60, 64, 58, 255))
+    draw.point((7, 8), fill=(200, 120, 60, 255))
+    draw.point((9, 10), fill=(180, 100, 50, 255))
+    return img
+
+
 def make_blueprint_item_texture():
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -564,6 +628,10 @@ def main():
     make_blueprint_texture().save(os.path.join(BLOCK, "tripod_blueprint.png"))
     make_arc_rifle_texture().save(os.path.join(ITEM, "arc_rifle.png"))
     make_alloy_cannon_texture().save(os.path.join(ITEM, "alloy_cannon.png"))
+    make_pistol_texture().save(os.path.join(ITEM, "pistol.png"))
+    make_machine_gun_texture().save(os.path.join(ITEM, "machine_gun.png"))
+    make_rocket_launcher_texture().save(os.path.join(ITEM, "rocket_launcher.png"))
+    make_nuclear_bomb_texture().save(os.path.join(ITEM, "nuclear_bomb.png"))
     make_blueprint_item_texture().save(os.path.join(ITEM, "blueprint.png"))
     make_martian_hull_texture().save(os.path.join(BLOCK, "martian_hull.png"))
     make_martian_console_texture().save(os.path.join(BLOCK, "martian_console.png"))

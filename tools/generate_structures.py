@@ -145,6 +145,22 @@ class Structure:
                     if edge or not hollow:
                         self.set(x, y, z, block)
 
+    def walls(self, x0, y0, z0, x1, y1, z1, block):
+        """Only the four side walls: the floor and the ceiling stay the caller's business.
+
+        `shell` treats the bottom and the top layer as edges too, which turns a five block tall
+        house into a solid slab with one walkable layer in the middle. Buildings want this instead.
+        """
+        for x in range(x0, x1 + 1):
+            for y in range(y0, y1 + 1):
+                for z in range(z0, z1 + 1):
+                    if x in (x0, x1) or z in (z0, z1):
+                        self.set(x, y, z, block)
+
+    def crate(self, x, y, z, block, loot_table):
+        """A crate that arrives with loot in it, the way a village chest does."""
+        self.set(x, y, z, block, {"LootTable": loot_table})
+
     def spawn(self, x, y, z, entity_id):
         self.entities.append({"pos": (x + 0.5, float(y), z + 0.5), "id": entity_id})
 
@@ -424,43 +440,61 @@ def beacon():
 #  Human settlements
 # --------------------------------------------------------------------------- #
 
-def house(s, x0, z0, width, depth, height, wall, floor, roof_tile, ruined=False, rnd_seed=0):
-    """A small house: floor, walls with windows, a door and a gabled roof. Ruined ones have holes.
+def house(s, x0, z0, width, depth, height, wall, floor, roof_tile, ruined=False, rnd_seed=0,
+          floor_y=0):
+    """A small house you can actually walk into.
 
-    The roof is walked row by row with a random skip so a ruined house reads as collapsed rather
-    than as a clean shell.
+    `height` is the interior height in blocks (three or more), the floor is a single layer at
+    `floor_y` and the walls are side walls only: the old version built a solid box, so the inside
+    was one block tall and had two floors — the ground one and its own.
+
+    Ruined houses are the same box with the roof partly missing and holes punched through the walls.
     """
     import random as _random
     rnd = _random.Random(rnd_seed)
-    s.fill(x0, 1, z0, x0 + width - 1, 1, z0 + depth - 1, floor)
-    s.shell(x0, 2, z0, x0 + width - 1, height, z0 + depth - 1, wall)
-    # windows on the long walls
-    for x in range(x0 + 2, x0 + width - 2, 3):
-        s.set(x, 3, z0, WINDOW)
-        s.set(x, 3, z0 + depth - 1, WINDOW)
-    # door
-    s.fill(x0 + width // 2, 2, z0, x0 + width // 2, 3, z0, AIR)
-    # interior light and furniture
-    s.set(x0 + 1, height - 1, z0 + 1, LANTERN)
-    s.set(x0 + width - 2, 2, z0 + depth - 2, CRATE_H)
-    # roof
+    x1, z1 = x0 + width - 1, z0 + depth - 1
+    top = floor_y + height
+
+    s.fill(x0, floor_y, z0, x1, floor_y, z1, floor)               # the single floor layer
+    s.walls(x0, floor_y + 1, z0, x1, top, z1, wall)               # four walls, no bottom, no lid
+    s.fill(x0 + 1, floor_y + 1, z0 + 1, x1 - 1, top, z1 - 1, AIR)  # the room itself
+
+    # a two block tall door in the middle of the front wall
+    door_x = x0 + width // 2
+    s.fill(door_x, floor_y + 1, z0, door_x, floor_y + 2, z0, AIR)
+    # windows all around at eye height
+    window_y = floor_y + 2
+    for x in range(x0 + 2, x1 - 1, 3):
+        s.set(x, window_y, z0, WINDOW)
+        s.set(x, window_y, z1, WINDOW)
+    for z in range(z0 + 2, z1 - 1, 3):
+        s.set(x0, window_y, z, WINDOW)
+        s.set(x1, window_y, z, WINDOW)
+
+    # a lantern under the ceiling and a crate in the corner
+    s.set(x0 + 1, top, z0 + 1, LANTERN)
+    if not ruined:
+        s.crate(x1 - 1, floor_y + 1, z1 - 1, CRATE_H, "wotw:crates/human")
+
+    # gabled roof, shrinking row by row
     for step in range(width // 2 + 1):
-        y = height + 1 + step
+        y = top + 1 + step
         if ruined and rnd.random() < 0.55:
             continue
-        s.fill(x0 + step, y, z0, x0 + width - 1 - step, y, z0 + depth - 1, roof_tile)
+        s.fill(x0 + step, y, z0, x1 - step, y, z1, roof_tile)
+
     if ruined:
         for _ in range(width * 2):
             x = x0 + rnd.randrange(width)
             z = z0 + rnd.randrange(depth)
-            y = 2 + rnd.randrange(max(1, height - 2))
+            y = floor_y + 1 + rnd.randrange(max(1, height - 1))
             s.set(x, y, z, AIR)
             if rnd.random() < 0.4:
-                s.set(x, 1, z, INF_COBBLE)
+                s.set(x, floor_y, z, INF_COBBLE)
         for _ in range(width):
             x = x0 + rnd.randrange(width)
             z = z0 + rnd.randrange(depth)
-            s.set(x, 1, z, rnd.choice([BLOOD_ROOTS, VINES, INF_BRICKS]))
+            s.set(x, floor_y + 1, z, rnd.choice([BLOOD_ROOTS, VINES, INF_BRICKS]))
 
 
 def town():
@@ -486,8 +520,8 @@ def town():
         s.set(x, 1, -4, LANTERN)
     # market stalls and crates
     s.fill(5, 1, 5, 8, 1, 7, SPRUCE)
-    s.set(6, 1, 5, CRATE_H)
-    s.set(7, 1, 7, CRATE_H)
+    s.crate(6, 1, 5, CRATE_H, "wotw:crates/human")
+    s.crate(7, 1, 7, CRATE_H, "wotw:crates/human")
     s.spawn(-10, 1, 4, "wotw:human_soldier")
     s.spawn(9, 1, 4, "wotw:human_soldier")
     s.spawn(2, 1, 10, "minecraft:villager")
@@ -511,15 +545,18 @@ def military_base():
 
     # barracks
     house(s, -14, 2, 14, 9, 4, STONE_BRICK, PLANKS, SPRUCE)
-    # armoury
-    s.shell(6, 1, 3, 14, 4, 9, STONE_BRICK)
-    s.fill(7, 1, 4, 13, 3, 8, AIR)
+    # armoury: four walls, a roof, a door and a hollow room you can walk into
+    s.fill(6, 0, 3, 14, 0, 9, SMOOTH)
+    s.walls(6, 1, 3, 14, 4, 9, STONE_BRICK)
+    s.fill(7, 1, 4, 13, 4, 8, AIR)
+    s.fill(6, 5, 3, 14, 5, 9, STONE_BRICK)
+    s.fill(10, 1, 3, 10, 2, 3, AIR)
     for x in (7, 13):
         for z in (4, 8):
             s.fill(x, 1, z, x, 3, z, STONE_BRICK)
-    s.set(10, 1, 5, CRATE_MIL)
-    s.set(11, 1, 5, CRATE_MIL)
-    s.set(10, 1, 7, CRATE_MIL)
+    s.crate(10, 1, 5, CRATE_MIL, "wotw:crates/military")
+    s.crate(11, 1, 5, CRATE_MIL, "wotw:crates/military")
+    s.crate(10, 1, 7, CRATE_MIL, "wotw:crates/military")
     s.chest(12, 1, 7, "wotw:chests/complex")
 
     # watchtower
@@ -534,6 +571,8 @@ def military_base():
     # helicopter-less apron with a tank and sandbags
     s.fill(-8, 1, -12, 4, 1, -4, CONCRETE)
     s.spawn(-2, 1, -8, "wotw:human_tank")
+    s.spawn(4, 4, -7, "wotw:human_helicopter")             # gunship on overwatch
+    s.spawn(0, 26, -8, "wotw:human_bomber")                # the heavy stuff, high above
     for x in range(-8, 5, 2):
         s.set(x, 1, -13, COBBLE)
         s.set(x, 2, -13, COBBLE)
@@ -564,11 +603,14 @@ def abandoned_base():
     s.fill(-2, 1, -15, 2, 3, -15, AIR)
 
     house(s, -14, 2, 14, 9, 4, STONE_BRICK, PLANKS, SPRUCE, ruined=True, rnd_seed=7)
-    s.shell(6, 1, 3, 14, 4, 9, STONE_BRICK)
-    s.fill(7, 1, 4, 13, 3, 8, AIR)
+    s.fill(6, 0, 3, 14, 0, 9, SMOOTH)
+    s.walls(6, 1, 3, 14, 4, 9, STONE_BRICK)
+    s.fill(7, 1, 4, 13, 4, 8, AIR)
+    s.fill(6, 5, 3, 14, 5, 9, STONE_BRICK)
+    s.fill(10, 1, 3, 10, 2, 3, AIR)
     for _ in range(10):
         s.set(rnd.randrange(7, 14), rnd.randrange(1, 4), rnd.randrange(4, 9), AIR)
-    s.set(10, 1, 5, CRATE_MIL)
+    s.crate(10, 1, 5, CRATE_MIL, "wotw:crates/military")
     s.set(11, 1, 5, INF_BRICKS)
     # wrecked tower
     for x in (-16, -12):
@@ -582,7 +624,7 @@ def abandoned_base():
         s.set(x, 1, z, rnd.choice([BLOOD_ROOTS, VINES, BLOOD_ROOTS, INF_COBBLE]))
     s.fill(-8, 1, -12, 4, 1, -4, CONCRETE)
     s.set(-6, 1, -9, INF_COBBLE)
-    s.set(-1, 1, -6, CRATE_MIL)
+    s.crate(-1, 1, -6, CRATE_MIL, "wotw:crates/military")
     s.spawn(-4, 1, -8, "wotw:human_tank")                  # the tank that never got out
     s.spawn(2, 1, 6, "wotw:martian")
     s.spawn(-9, 1, -1, "wotw:scout_tripod")
@@ -625,7 +667,7 @@ def road():
     s.set(2, 3, -6, GRAVEL)
     s.fill(-4, 1, 8, -4, 4, 8, LOG)
     s.set(-4, 5, 8, LANTERN)
-    s.set(3, 1, -10, CRATE_H)
+    s.crate(3, 1, -10, CRATE_H, "wotw:crates/human")
     s.spawn(1, 1, 12, "wotw:human_soldier")
     return s
 
@@ -657,15 +699,16 @@ def port():
         s.set(6, 1, z, LOG)
     # warehouse
     house(s, 8, 5, 8, 8, 5, STONE_BRICK, CONCRETE, SPRUCE)
-    s.set(10, 1, 6, CRATE_H)
-    s.set(13, 1, 6, CRATE_MIL)
-    s.set(11, 1, 11, CRATE_H)
+    s.crate(10, 1, 6, CRATE_H, "wotw:crates/human")
+    s.crate(13, 1, 6, CRATE_MIL, "wotw:crates/military")
+    s.crate(11, 1, 11, CRATE_H, "wotw:crates/human")
     # crane
     s.fill(-13, 1, 12, -13, 9, 12, IRON)
     s.fill(-13, 9, 12, -6, 9, 12, IRON)
     s.fill(-7, 8, 12, -7, 9, 12, IRON)
     # the warship at anchor
     s.spawn(1, 1, -5, "wotw:human_warship")
+    s.spawn(-12, -2, -6, "wotw:human_submarine")           # the boat under the quay
     s.spawn(12, 1, 8, "wotw:human_soldier")
     s.spawn(-10, 1, 8, "wotw:human_soldier")
     s.spawn(-4, 2, -3, "wotw:human_soldier")
@@ -749,7 +792,7 @@ def root_garden():
         s.set(x, 2, 0, HULL)
     s.set(0, 1, -6, CONSOLE)
     s.set(0, 5, 0, LAMP)
-    s.set(-6, 1, -6, CRATE_M)
+    s.crate(-6, 1, -6, CRATE_M, "wotw:crates/martian")
     s.fill(-1, 1, 6, 1, 3, 6, AIR)
     s.spawn(0, 1, 0, "wotw:martian_master")
     s.spawn(-5, 1, 2, "wotw:martian")
@@ -773,7 +816,7 @@ def tripod_garage():
     for z in (-6, 0, 6):
         s.fill(-11, 1, z - 2, 11, 1, z + 2, ALLOY)
         s.set(-12, 2, z, CONSOLE)
-        s.set(-12, 1, z - 1, CRATE_M)
+        s.crate(-12, 1, z - 1, CRATE_M, "wotw:crates/martian")
     s.set(12, 1, 0, TURRET)
     s.set(0, 10, 0, CYLINDER)
     s.spawn(-6, 1, -6, "wotw:bombarding_machine")
@@ -802,9 +845,9 @@ def tripod_workshop():
     s.set(-5, 2, 5, CONSOLE)
     s.set(0, 2, 5, CONSOLE)
     s.set(5, 2, 5, CONSOLE)
-    s.set(-8, 1, -5, CRATE_M)
-    s.set(8, 1, -5, CRATE_M)
-    s.set(6, 1, 2, CRATE_M)
+    s.crate(-8, 1, -5, CRATE_M, "wotw:crates/martian")
+    s.crate(8, 1, -5, CRATE_M, "wotw:crates/martian")
+    s.crate(6, 1, 2, CRATE_M, "wotw:crates/martian")
     s.chest(3, 1, 5, "wotw:chests/complex")
     s.set(0, 7, 0, LAMP)
     for x, z in ((-9, 6), (9, 6), (-4, -7)):

@@ -3648,6 +3648,946 @@ public final class TripodModels {
         return LayerDefinition.create(data, 128, 128);
     }
 
+    public static LayerDefinition constructionTripod() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition leg_l = root.addOrReplaceChild("leg_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, 0, -5, 10, 84, 10),
+                PartPose.offsetAndRotation(-28, -148, -16, -0.1396F, 0.0F, 0.1745F));
+
+        PartDefinition leg_l_shin = leg_l.addOrReplaceChild("leg_l_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, 0, -5, 10, 88, 10)
+                        .addBox(-6, 87, -6, 12, 3, 12),
+                PartPose.offsetAndRotation(0, 84, 0, -0.0489F, 0.0F, 0.0611F));
+
+        PartDefinition leg_r = root.addOrReplaceChild("leg_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, 0, -5, 10, 84, 10),
+                PartPose.offsetAndRotation(28, -148, -16, -0.1396F, 0.0F, -0.1745F));
+
+        PartDefinition leg_r_shin = leg_r.addOrReplaceChild("leg_r_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, 0, -5, 10, 88, 10)
+                        .addBox(-6, 87, -6, 12, 3, 12),
+                PartPose.offsetAndRotation(0, 84, 0, -0.0489F, 0.0F, -0.0611F));
+
+        PartDefinition leg_b = root.addOrReplaceChild("leg_b",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, 0, -5, 10, 84, 10),
+                PartPose.offsetAndRotation(0, -148, 30, 0.1571F, 0.0F, 0.0F));
+
+        PartDefinition leg_b_shin = leg_b.addOrReplaceChild("leg_b_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, 0, -5, 10, 88, 10)
+                        .addBox(-6, 87, -6, 12, 3, 12),
+                PartPose.offsetAndRotation(0, 84, 0, 0.0550F, 0.0F, 0.0F));
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-20, -268, -26, 13, 13, 13)
+                        .addBox(-20, -268, -13, 13, 13, 13)
+                        .addBox(-20, -268, 0, 13, 13, 13)
+                        .addBox(-20, -268, 13, 13, 13, 13)
+                        .addBox(-20, -255, -26, 13, 13, 13)
+                        .addBox(-20, -255, -13, 13, 13, 13)
+                        .addBox(-20, -255, 0, 13, 13, 13)
+                        .addBox(-20, -255, 13, 13, 13, 13)
+                        .addBox(-20, -242, -26, 13, 13, 13)
+                        .addBox(-20, -242, -13, 13, 13, 13)
+                        .addBox(-20, -242, 0, 13, 13, 13)
+                        .addBox(-20, -242, 13, 13, 13, 13)
+                        .addBox(-20, -230, -26, 13, 13, 13)
+                        .addBox(-20, -230, -13, 13, 13, 13)
+                        .addBox(-20, -230, 0, 13, 13, 13)
+                        .addBox(-20, -230, 13, 13, 13, 13)
+                        .addBox(-20, -217, -26, 13, 13, 13)
+                        .addBox(-20, -217, -13, 13, 13, 13)
+                        .addBox(-20, -217, 0, 13, 13, 13)
+                        .addBox(-20, -217, 13, 13, 13, 13)
+                        .addBox(-7, -268, -26, 13, 13, 13)
+                        .addBox(-7, -268, -13, 13, 13, 13)
+                        .addBox(-7, -268, 0, 13, 13, 13)
+                        .addBox(-7, -268, 13, 13, 13, 13)
+                        .addBox(-7, -255, -26, 13, 13, 13)
+                        .addBox(-7, -255, -13, 13, 13, 13)
+                        .addBox(-7, -255, 0, 13, 13, 13)
+                        .addBox(-7, -255, 13, 13, 13, 13)
+                        .addBox(-7, -242, -26, 13, 13, 13)
+                        .addBox(-7, -242, -13, 13, 13, 13)
+                        .addBox(-7, -242, 0, 13, 13, 13)
+                        .addBox(-7, -242, 13, 13, 13, 13)
+                        .addBox(-7, -230, -26, 13, 13, 13)
+                        .addBox(-7, -230, -13, 13, 13, 13)
+                        .addBox(-7, -230, 0, 13, 13, 13)
+                        .addBox(-7, -230, 13, 13, 13, 13)
+                        .addBox(-7, -217, -26, 13, 13, 13)
+                        .addBox(-7, -217, -13, 13, 13, 13)
+                        .addBox(-7, -217, 0, 13, 13, 13)
+                        .addBox(-7, -217, 13, 13, 13, 13)
+                        .addBox(7, -268, -26, 13, 13, 13)
+                        .addBox(7, -268, -13, 13, 13, 13)
+                        .addBox(7, -268, 0, 13, 13, 13)
+                        .addBox(7, -268, 13, 13, 13, 13)
+                        .addBox(7, -255, -26, 13, 13, 13)
+                        .addBox(7, -255, -13, 13, 13, 13)
+                        .addBox(7, -255, 0, 13, 13, 13)
+                        .addBox(7, -255, 13, 13, 13, 13)
+                        .addBox(7, -242, -26, 13, 13, 13)
+                        .addBox(7, -242, -13, 13, 13, 13)
+                        .addBox(7, -242, 0, 13, 13, 13)
+                        .addBox(7, -242, 13, 13, 13, 13)
+                        .addBox(7, -230, -26, 13, 13, 13)
+                        .addBox(7, -230, -13, 13, 13, 13)
+                        .addBox(7, -230, 0, 13, 13, 13)
+                        .addBox(7, -230, 13, 13, 13, 13)
+                        .addBox(7, -217, -26, 13, 13, 13)
+                        .addBox(7, -217, -13, 13, 13, 13)
+                        .addBox(7, -217, 0, 13, 13, 13)
+                        .addBox(7, -217, 13, 13, 13, 13)
+                        .addBox(-28, -182, -31, 14, 9, 12)
+                        .addBox(-28, -182, -19, 14, 9, 12)
+                        .addBox(-28, -182, -6, 14, 9, 12)
+                        .addBox(-28, -182, 6, 14, 9, 12)
+                        .addBox(-28, -182, 19, 14, 9, 12)
+                        .addBox(-28, -173, -31, 14, 9, 12)
+                        .addBox(-28, -173, -19, 14, 9, 12)
+                        .addBox(-28, -173, -6, 14, 9, 12)
+                        .addBox(-28, -173, 6, 14, 9, 12)
+                        .addBox(-28, -173, 19, 14, 9, 12)
+                        .addBox(-14, -182, -31, 14, 9, 12)
+                        .addBox(-14, -182, -19, 14, 9, 12)
+                        .addBox(-14, -182, -6, 14, 9, 12)
+                        .addBox(-14, -182, 6, 14, 9, 12)
+                        .addBox(-14, -182, 19, 14, 9, 12)
+                        .addBox(-14, -173, -31, 14, 9, 12)
+                        .addBox(-14, -173, -19, 14, 9, 12)
+                        .addBox(-14, -173, -6, 14, 9, 12)
+                        .addBox(-14, -173, 6, 14, 9, 12)
+                        .addBox(-14, -173, 19, 14, 9, 12)
+                        .addBox(0, -182, -31, 14, 9, 12)
+                        .addBox(0, -182, -19, 14, 9, 12)
+                        .addBox(0, -182, -6, 14, 9, 12)
+                        .addBox(0, -182, 6, 14, 9, 12)
+                        .addBox(0, -182, 19, 14, 9, 12)
+                        .addBox(0, -173, -31, 14, 9, 12)
+                        .addBox(0, -173, -19, 14, 9, 12)
+                        .addBox(0, -173, -6, 14, 9, 12)
+                        .addBox(0, -173, 6, 14, 9, 12)
+                        .addBox(0, -173, 19, 14, 9, 12)
+                        .addBox(14, -182, -31, 14, 9, 12)
+                        .addBox(14, -182, -19, 14, 9, 12)
+                        .addBox(14, -182, -6, 14, 9, 12)
+                        .addBox(14, -182, 6, 14, 9, 12)
+                        .addBox(14, -182, 19, 14, 9, 12)
+                        .addBox(14, -173, -31, 14, 9, 12)
+                        .addBox(14, -173, -19, 14, 9, 12)
+                        .addBox(14, -173, -6, 14, 9, 12)
+                        .addBox(14, -173, 6, 14, 9, 12)
+                        .addBox(14, -173, 19, 14, 9, 12)
+                        .addBox(-24, -250, -32, 12, 12, 13)
+                        .addBox(-24, -250, -19, 12, 12, 13)
+                        .addBox(-24, -250, -6, 12, 12, 13)
+                        .addBox(-24, -250, 6, 12, 12, 13)
+                        .addBox(-24, -250, 19, 12, 12, 13)
+                        .addBox(-24, -238, -32, 12, 12, 13)
+                        .addBox(-24, -238, -19, 12, 12, 13)
+                        .addBox(-24, -238, -6, 12, 12, 13)
+                        .addBox(-24, -238, 6, 12, 12, 13)
+                        .addBox(-24, -238, 19, 12, 12, 13)
+                        .addBox(-12, -250, -32, 12, 12, 13)
+                        .addBox(-12, -250, -19, 12, 12, 13)
+                        .addBox(-12, -250, -6, 12, 12, 13)
+                        .addBox(-12, -250, 6, 12, 12, 13)
+                        .addBox(-12, -250, 19, 12, 12, 13)
+                        .addBox(-12, -238, -32, 12, 12, 13)
+                        .addBox(-12, -238, -19, 12, 12, 13)
+                        .addBox(-12, -238, -6, 12, 12, 13)
+                        .addBox(-12, -238, 6, 12, 12, 13)
+                        .addBox(-12, -238, 19, 12, 12, 13)
+                        .addBox(0, -250, -32, 12, 12, 13)
+                        .addBox(0, -250, -19, 12, 12, 13)
+                        .addBox(0, -250, -6, 12, 12, 13)
+                        .addBox(0, -250, 6, 12, 12, 13)
+                        .addBox(0, -250, 19, 12, 12, 13)
+                        .addBox(0, -238, -32, 12, 12, 13)
+                        .addBox(0, -238, -19, 12, 12, 13)
+                        .addBox(0, -238, -6, 12, 12, 13)
+                        .addBox(0, -238, 6, 12, 12, 13)
+                        .addBox(0, -238, 19, 12, 12, 13)
+                        .addBox(12, -250, -32, 12, 12, 13)
+                        .addBox(12, -250, -19, 12, 12, 13)
+                        .addBox(12, -250, -6, 12, 12, 13)
+                        .addBox(12, -250, 6, 12, 12, 13)
+                        .addBox(12, -250, 19, 12, 12, 13)
+                        .addBox(12, -238, -32, 12, 12, 13)
+                        .addBox(12, -238, -19, 12, 12, 13)
+                        .addBox(12, -238, -6, 12, 12, 13)
+                        .addBox(12, -238, 6, 12, 12, 13)
+                        .addBox(12, -238, 19, 12, 12, 13),
+                PartPose.offsetAndRotation(0, 28, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition head = body.addOrReplaceChild("head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-13, -28, -12, 26, 28, 24)
+                        .addBox(-14, -6, -13, 28, 4, 26),
+                PartPose.offsetAndRotation(0, -270, -22, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition eye = head.addOrReplaceChild("eye",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-10, -7, -1, 20, 14, 2),
+                PartPose.offsetAndRotation(0, -16, -13, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition hold_l = body.addOrReplaceChild("hold_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-7, 0, -26, 14, 22, 52)
+                        .addBox(-6, 18, -22, 12, 3, 44),
+                PartPose.offsetAndRotation(-26, -248, 4, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition hold_r = body.addOrReplaceChild("hold_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-7, 0, -26, 14, 22, 52)
+                        .addBox(-6, 18, -22, 12, 3, 44),
+                PartPose.offsetAndRotation(26, -248, 4, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition crane = body.addOrReplaceChild("crane",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, -8, -52, 10, 12, 86)
+                        .addBox(-9, -10, 28, 18, 14, 16)
+                        .addBox(-3, 4, -50, 6, 20, 6),
+                PartPose.offsetAndRotation(0, -276, 20, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition claw = crane.addOrReplaceChild("claw",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-7, 0, -5, 14, 6, 12)
+                        .addBox(-11, 6, -4, 5, 14, 10)
+                        .addBox(6, 6, -4, 5, 14, 10)
+                        .addBox(-9, 18, -3, 18, 4, 8)
+                        .addBox(-2, 2, 6, 4, 4, 2),
+                PartPose.offsetAndRotation(0, 24, -48, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition gun = body.addOrReplaceChild("gun",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-8, -8, -14, 16, 16, 16)
+                        .addBox(-2, -2, -34, 4, 4, 22),
+                PartPose.offsetAndRotation(0, -206, -30, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition smokeTripod() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition leg_l = root.addOrReplaceChild("leg_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 62, 6),
+                PartPose.offsetAndRotation(-20, -101, 0, 0.0349F, 0.0F, 0.2269F));
+
+        PartDefinition leg_l_shin = leg_l.addOrReplaceChild("leg_l_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 64, 6)
+                        .addBox(-5, 63, -5, 9, 3, 9),
+                PartPose.offsetAndRotation(0, 62, 0, 0.0122F, 0.0F, 0.0794F));
+
+        PartDefinition leg_r = root.addOrReplaceChild("leg_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 62, 6),
+                PartPose.offsetAndRotation(20, -101, 0, 0.0349F, 0.0F, -0.2269F));
+
+        PartDefinition leg_r_shin = leg_r.addOrReplaceChild("leg_r_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 64, 6)
+                        .addBox(-5, 63, -5, 9, 3, 9),
+                PartPose.offsetAndRotation(0, 62, 0, 0.0122F, 0.0F, -0.0794F));
+
+        PartDefinition leg_b = root.addOrReplaceChild("leg_b",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 62, 6),
+                PartPose.offsetAndRotation(0, -101, 24, 0.2443F, 0.0F, 0.0F));
+
+        PartDefinition leg_b_shin = leg_b.addOrReplaceChild("leg_b_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 64, 6)
+                        .addBox(-5, 63, -5, 9, 3, 9),
+                PartPose.offsetAndRotation(0, 62, 0, 0.0855F, 0.0F, 0.0F));
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-22, -196, -21, 11, 11, 10)
+                        .addBox(-22, -196, -10, 11, 11, 10)
+                        .addBox(-22, -196, 0, 11, 11, 10)
+                        .addBox(-22, -196, 10, 11, 11, 10)
+                        .addBox(-22, -185, -21, 11, 11, 10)
+                        .addBox(-22, -185, -10, 11, 11, 10)
+                        .addBox(-22, -185, 0, 11, 11, 10)
+                        .addBox(-22, -185, 10, 11, 11, 10)
+                        .addBox(-22, -174, -21, 11, 11, 10)
+                        .addBox(-22, -174, -10, 11, 11, 10)
+                        .addBox(-22, -174, 0, 11, 11, 10)
+                        .addBox(-22, -174, 10, 11, 11, 10)
+                        .addBox(-22, -162, -21, 11, 11, 10)
+                        .addBox(-22, -162, -10, 11, 11, 10)
+                        .addBox(-22, -162, 0, 11, 11, 10)
+                        .addBox(-22, -162, 10, 11, 11, 10)
+                        .addBox(-22, -151, -21, 11, 11, 10)
+                        .addBox(-22, -151, -10, 11, 11, 10)
+                        .addBox(-22, -151, 0, 11, 11, 10)
+                        .addBox(-22, -151, 10, 11, 11, 10)
+                        .addBox(-11, -196, -21, 11, 11, 10)
+                        .addBox(-11, -196, -10, 11, 11, 10)
+                        .addBox(-11, -196, 0, 11, 11, 10)
+                        .addBox(-11, -196, 10, 11, 11, 10)
+                        .addBox(-11, -185, -21, 11, 11, 10)
+                        .addBox(-11, -185, -10, 11, 11, 10)
+                        .addBox(-11, -185, 0, 11, 11, 10)
+                        .addBox(-11, -185, 10, 11, 11, 10)
+                        .addBox(-11, -174, -21, 11, 11, 10)
+                        .addBox(-11, -174, -10, 11, 11, 10)
+                        .addBox(-11, -174, 0, 11, 11, 10)
+                        .addBox(-11, -174, 10, 11, 11, 10)
+                        .addBox(-11, -162, -21, 11, 11, 10)
+                        .addBox(-11, -162, -10, 11, 11, 10)
+                        .addBox(-11, -162, 0, 11, 11, 10)
+                        .addBox(-11, -162, 10, 11, 11, 10)
+                        .addBox(-11, -151, -21, 11, 11, 10)
+                        .addBox(-11, -151, -10, 11, 11, 10)
+                        .addBox(-11, -151, 0, 11, 11, 10)
+                        .addBox(-11, -151, 10, 11, 11, 10)
+                        .addBox(0, -196, -21, 11, 11, 10)
+                        .addBox(0, -196, -10, 11, 11, 10)
+                        .addBox(0, -196, 0, 11, 11, 10)
+                        .addBox(0, -196, 10, 11, 11, 10)
+                        .addBox(0, -185, -21, 11, 11, 10)
+                        .addBox(0, -185, -10, 11, 11, 10)
+                        .addBox(0, -185, 0, 11, 11, 10)
+                        .addBox(0, -185, 10, 11, 11, 10)
+                        .addBox(0, -174, -21, 11, 11, 10)
+                        .addBox(0, -174, -10, 11, 11, 10)
+                        .addBox(0, -174, 0, 11, 11, 10)
+                        .addBox(0, -174, 10, 11, 11, 10)
+                        .addBox(0, -162, -21, 11, 11, 10)
+                        .addBox(0, -162, -10, 11, 11, 10)
+                        .addBox(0, -162, 0, 11, 11, 10)
+                        .addBox(0, -162, 10, 11, 11, 10)
+                        .addBox(0, -151, -21, 11, 11, 10)
+                        .addBox(0, -151, -10, 11, 11, 10)
+                        .addBox(0, -151, 0, 11, 11, 10)
+                        .addBox(0, -151, 10, 11, 11, 10)
+                        .addBox(11, -196, -21, 11, 11, 10)
+                        .addBox(11, -196, -10, 11, 11, 10)
+                        .addBox(11, -196, 0, 11, 11, 10)
+                        .addBox(11, -196, 10, 11, 11, 10)
+                        .addBox(11, -185, -21, 11, 11, 10)
+                        .addBox(11, -185, -10, 11, 11, 10)
+                        .addBox(11, -185, 0, 11, 11, 10)
+                        .addBox(11, -185, 10, 11, 11, 10)
+                        .addBox(11, -174, -21, 11, 11, 10)
+                        .addBox(11, -174, -10, 11, 11, 10)
+                        .addBox(11, -174, 0, 11, 11, 10)
+                        .addBox(11, -174, 10, 11, 11, 10)
+                        .addBox(11, -162, -21, 11, 11, 10)
+                        .addBox(11, -162, -10, 11, 11, 10)
+                        .addBox(11, -162, 0, 11, 11, 10)
+                        .addBox(11, -162, 10, 11, 11, 10)
+                        .addBox(11, -151, -21, 11, 11, 10)
+                        .addBox(11, -151, -10, 11, 11, 10)
+                        .addBox(11, -151, 0, 11, 11, 10)
+                        .addBox(11, -151, 10, 11, 11, 10)
+                        .addBox(-20, -132, -19, 10, 12, 10)
+                        .addBox(-20, -132, -10, 10, 12, 10)
+                        .addBox(-20, -132, 0, 10, 12, 10)
+                        .addBox(-20, -132, 10, 10, 12, 10)
+                        .addBox(-10, -132, -19, 10, 12, 10)
+                        .addBox(-10, -132, -10, 10, 12, 10)
+                        .addBox(-10, -132, 0, 10, 12, 10)
+                        .addBox(-10, -132, 10, 10, 12, 10)
+                        .addBox(0, -132, -19, 10, 12, 10)
+                        .addBox(0, -132, -10, 10, 12, 10)
+                        .addBox(0, -132, 0, 10, 12, 10)
+                        .addBox(0, -132, 10, 10, 12, 10)
+                        .addBox(10, -132, -19, 10, 12, 10)
+                        .addBox(10, -132, -10, 10, 12, 10)
+                        .addBox(10, -132, 0, 10, 12, 10)
+                        .addBox(10, -132, 10, 10, 12, 10)
+                        .addBox(-25, -170, -23, 10, 10, 12)
+                        .addBox(-25, -170, -12, 10, 10, 12)
+                        .addBox(-25, -170, 0, 10, 10, 12)
+                        .addBox(-25, -170, 12, 10, 10, 12)
+                        .addBox(-15, -170, -23, 10, 10, 12)
+                        .addBox(-15, -170, -12, 10, 10, 12)
+                        .addBox(-15, -170, 0, 10, 10, 12)
+                        .addBox(-15, -170, 12, 10, 10, 12)
+                        .addBox(-5, -170, -23, 10, 10, 12)
+                        .addBox(-5, -170, -12, 10, 10, 12)
+                        .addBox(-5, -170, 0, 10, 10, 12)
+                        .addBox(-5, -170, 12, 10, 10, 12)
+                        .addBox(5, -170, -23, 10, 10, 12)
+                        .addBox(5, -170, -12, 10, 10, 12)
+                        .addBox(5, -170, 0, 10, 10, 12)
+                        .addBox(5, -170, 12, 10, 10, 12)
+                        .addBox(15, -170, -23, 10, 10, 12)
+                        .addBox(15, -170, -12, 10, 10, 12)
+                        .addBox(15, -170, 0, 10, 10, 12)
+                        .addBox(15, -170, 12, 10, 10, 12)
+                        .addBox(-16, -204, -15, 8, 8, 10)
+                        .addBox(-16, -204, -5, 8, 8, 10)
+                        .addBox(-16, -204, 5, 8, 8, 10)
+                        .addBox(-16, -196, -15, 8, 8, 10)
+                        .addBox(-16, -196, -5, 8, 8, 10)
+                        .addBox(-16, -196, 5, 8, 8, 10)
+                        .addBox(-8, -204, -15, 8, 8, 10)
+                        .addBox(-8, -204, -5, 8, 8, 10)
+                        .addBox(-8, -204, 5, 8, 8, 10)
+                        .addBox(-8, -196, -15, 8, 8, 10)
+                        .addBox(-8, -196, -5, 8, 8, 10)
+                        .addBox(-8, -196, 5, 8, 8, 10)
+                        .addBox(0, -204, -15, 8, 8, 10)
+                        .addBox(0, -204, -5, 8, 8, 10)
+                        .addBox(0, -204, 5, 8, 8, 10)
+                        .addBox(0, -196, -15, 8, 8, 10)
+                        .addBox(0, -196, -5, 8, 8, 10)
+                        .addBox(0, -196, 5, 8, 8, 10)
+                        .addBox(8, -204, -15, 8, 8, 10)
+                        .addBox(8, -204, -5, 8, 8, 10)
+                        .addBox(8, -204, 5, 8, 8, 10)
+                        .addBox(8, -196, -15, 8, 8, 10)
+                        .addBox(8, -196, -5, 8, 8, 10)
+                        .addBox(8, -196, 5, 8, 8, 10),
+                PartPose.offsetAndRotation(0, 23, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition head = body.addOrReplaceChild("head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-9, -12, -10, 18, 14, 14),
+                PartPose.offsetAndRotation(0, -204, -16, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition eye = head.addOrReplaceChild("eye",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-6, -3, -1, 12, 6, 2),
+                PartPose.offsetAndRotation(0, -4, -11, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition vent_l = body.addOrReplaceChild("vent_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, -34, -9, 10, 34, 18)
+                        .addBox(-7, -38, -11, 14, 5, 22),
+                PartPose.offsetAndRotation(-17, -196, 6, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition vent_l_mouth = vent_l.addOrReplaceChild("vent_l_mouth",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-4, -4, -1, 8, 8, 2),
+                PartPose.offsetAndRotation(0, -40, -1, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition vent_r = body.addOrReplaceChild("vent_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, -34, -9, 10, 34, 18)
+                        .addBox(-7, -38, -11, 14, 5, 22),
+                PartPose.offsetAndRotation(17, -196, 6, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition vent_r_mouth = vent_r.addOrReplaceChild("vent_r_mouth",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-4, -4, -1, 8, 8, 2),
+                PartPose.offsetAndRotation(0, -40, -1, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition pipe = body.addOrReplaceChild("pipe",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-16, -6, 0, 32, 10, 8),
+                PartPose.offsetAndRotation(0, -196, 22, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition bombTripod() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition leg_l = root.addOrReplaceChild("leg_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 7, 68, 7),
+                PartPose.offsetAndRotation(-22, -113, -6, -0.0698F, 0.0F, 0.2094F));
+
+        PartDefinition leg_l_shin = leg_l.addOrReplaceChild("leg_l_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 7, 70, 7)
+                        .addBox(-5, 69, -5, 10, 3, 10),
+                PartPose.offsetAndRotation(0, 68, 0, -0.0244F, 0.0F, 0.0733F));
+
+        PartDefinition leg_r = root.addOrReplaceChild("leg_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 7, 68, 7),
+                PartPose.offsetAndRotation(22, -113, -6, -0.0698F, 0.0F, -0.2094F));
+
+        PartDefinition leg_r_shin = leg_r.addOrReplaceChild("leg_r_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 7, 70, 7)
+                        .addBox(-5, 69, -5, 10, 3, 10),
+                PartPose.offsetAndRotation(0, 68, 0, -0.0244F, 0.0F, -0.0733F));
+
+        PartDefinition leg_b = root.addOrReplaceChild("leg_b",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 7, 68, 7),
+                PartPose.offsetAndRotation(0, -113, 26, 0.2094F, 0.0F, 0.0F));
+
+        PartDefinition leg_b_shin = leg_b.addOrReplaceChild("leg_b_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 7, 70, 7)
+                        .addBox(-5, 69, -5, 10, 3, 10),
+                PartPose.offsetAndRotation(0, 68, 0, 0.0733F, 0.0F, 0.0F));
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-19, -214, -21, 10, 11, 10)
+                        .addBox(-19, -214, -10, 10, 11, 10)
+                        .addBox(-19, -214, 0, 10, 11, 10)
+                        .addBox(-19, -214, 10, 10, 11, 10)
+                        .addBox(-19, -203, -21, 10, 11, 10)
+                        .addBox(-19, -203, -10, 10, 11, 10)
+                        .addBox(-19, -203, 0, 10, 11, 10)
+                        .addBox(-19, -203, 10, 10, 11, 10)
+                        .addBox(-19, -192, -21, 10, 11, 10)
+                        .addBox(-19, -192, -10, 10, 11, 10)
+                        .addBox(-19, -192, 0, 10, 11, 10)
+                        .addBox(-19, -192, 10, 10, 11, 10)
+                        .addBox(-19, -180, -21, 10, 11, 10)
+                        .addBox(-19, -180, -10, 10, 11, 10)
+                        .addBox(-19, -180, 0, 10, 11, 10)
+                        .addBox(-19, -180, 10, 10, 11, 10)
+                        .addBox(-19, -169, -21, 10, 11, 10)
+                        .addBox(-19, -169, -10, 10, 11, 10)
+                        .addBox(-19, -169, 0, 10, 11, 10)
+                        .addBox(-19, -169, 10, 10, 11, 10)
+                        .addBox(-10, -214, -21, 10, 11, 10)
+                        .addBox(-10, -214, -10, 10, 11, 10)
+                        .addBox(-10, -214, 0, 10, 11, 10)
+                        .addBox(-10, -214, 10, 10, 11, 10)
+                        .addBox(-10, -203, -21, 10, 11, 10)
+                        .addBox(-10, -203, -10, 10, 11, 10)
+                        .addBox(-10, -203, 0, 10, 11, 10)
+                        .addBox(-10, -203, 10, 10, 11, 10)
+                        .addBox(-10, -192, -21, 10, 11, 10)
+                        .addBox(-10, -192, -10, 10, 11, 10)
+                        .addBox(-10, -192, 0, 10, 11, 10)
+                        .addBox(-10, -192, 10, 10, 11, 10)
+                        .addBox(-10, -180, -21, 10, 11, 10)
+                        .addBox(-10, -180, -10, 10, 11, 10)
+                        .addBox(-10, -180, 0, 10, 11, 10)
+                        .addBox(-10, -180, 10, 10, 11, 10)
+                        .addBox(-10, -169, -21, 10, 11, 10)
+                        .addBox(-10, -169, -10, 10, 11, 10)
+                        .addBox(-10, -169, 0, 10, 11, 10)
+                        .addBox(-10, -169, 10, 10, 11, 10)
+                        .addBox(0, -214, -21, 10, 11, 10)
+                        .addBox(0, -214, -10, 10, 11, 10)
+                        .addBox(0, -214, 0, 10, 11, 10)
+                        .addBox(0, -214, 10, 10, 11, 10)
+                        .addBox(0, -203, -21, 10, 11, 10)
+                        .addBox(0, -203, -10, 10, 11, 10)
+                        .addBox(0, -203, 0, 10, 11, 10)
+                        .addBox(0, -203, 10, 10, 11, 10)
+                        .addBox(0, -192, -21, 10, 11, 10)
+                        .addBox(0, -192, -10, 10, 11, 10)
+                        .addBox(0, -192, 0, 10, 11, 10)
+                        .addBox(0, -192, 10, 10, 11, 10)
+                        .addBox(0, -180, -21, 10, 11, 10)
+                        .addBox(0, -180, -10, 10, 11, 10)
+                        .addBox(0, -180, 0, 10, 11, 10)
+                        .addBox(0, -180, 10, 10, 11, 10)
+                        .addBox(0, -169, -21, 10, 11, 10)
+                        .addBox(0, -169, -10, 10, 11, 10)
+                        .addBox(0, -169, 0, 10, 11, 10)
+                        .addBox(0, -169, 10, 10, 11, 10)
+                        .addBox(10, -214, -21, 10, 11, 10)
+                        .addBox(10, -214, -10, 10, 11, 10)
+                        .addBox(10, -214, 0, 10, 11, 10)
+                        .addBox(10, -214, 10, 10, 11, 10)
+                        .addBox(10, -203, -21, 10, 11, 10)
+                        .addBox(10, -203, -10, 10, 11, 10)
+                        .addBox(10, -203, 0, 10, 11, 10)
+                        .addBox(10, -203, 10, 10, 11, 10)
+                        .addBox(10, -192, -21, 10, 11, 10)
+                        .addBox(10, -192, -10, 10, 11, 10)
+                        .addBox(10, -192, 0, 10, 11, 10)
+                        .addBox(10, -192, 10, 10, 11, 10)
+                        .addBox(10, -180, -21, 10, 11, 10)
+                        .addBox(10, -180, -10, 10, 11, 10)
+                        .addBox(10, -180, 0, 10, 11, 10)
+                        .addBox(10, -180, 10, 10, 11, 10)
+                        .addBox(10, -169, -21, 10, 11, 10)
+                        .addBox(10, -169, -10, 10, 11, 10)
+                        .addBox(10, -169, 0, 10, 11, 10)
+                        .addBox(10, -169, 10, 10, 11, 10)
+                        .addBox(-23, -148, -23, 12, 7, 12)
+                        .addBox(-23, -148, -12, 12, 7, 12)
+                        .addBox(-23, -148, 0, 12, 7, 12)
+                        .addBox(-23, -148, 12, 12, 7, 12)
+                        .addBox(-23, -141, -23, 12, 7, 12)
+                        .addBox(-23, -141, -12, 12, 7, 12)
+                        .addBox(-23, -141, 0, 12, 7, 12)
+                        .addBox(-23, -141, 12, 12, 7, 12)
+                        .addBox(-12, -148, -23, 12, 7, 12)
+                        .addBox(-12, -148, -12, 12, 7, 12)
+                        .addBox(-12, -148, 0, 12, 7, 12)
+                        .addBox(-12, -148, 12, 12, 7, 12)
+                        .addBox(-12, -141, -23, 12, 7, 12)
+                        .addBox(-12, -141, -12, 12, 7, 12)
+                        .addBox(-12, -141, 0, 12, 7, 12)
+                        .addBox(-12, -141, 12, 12, 7, 12)
+                        .addBox(0, -148, -23, 12, 7, 12)
+                        .addBox(0, -148, -12, 12, 7, 12)
+                        .addBox(0, -148, 0, 12, 7, 12)
+                        .addBox(0, -148, 12, 12, 7, 12)
+                        .addBox(0, -141, -23, 12, 7, 12)
+                        .addBox(0, -141, -12, 12, 7, 12)
+                        .addBox(0, -141, 0, 12, 7, 12)
+                        .addBox(0, -141, 12, 12, 7, 12)
+                        .addBox(12, -148, -23, 12, 7, 12)
+                        .addBox(12, -148, -12, 12, 7, 12)
+                        .addBox(12, -148, 0, 12, 7, 12)
+                        .addBox(12, -148, 12, 12, 7, 12)
+                        .addBox(12, -141, -23, 12, 7, 12)
+                        .addBox(12, -141, -12, 12, 7, 12)
+                        .addBox(12, -141, 0, 12, 7, 12)
+                        .addBox(12, -141, 12, 12, 7, 12),
+                PartPose.offsetAndRotation(0, 29, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition head = body.addOrReplaceChild("head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-9, -12, -11, 18, 14, 16),
+                PartPose.offsetAndRotation(0, -214, -18, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition eye = head.addOrReplaceChild("eye",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-5, -3, -1, 10, 6, 2),
+                PartPose.offsetAndRotation(0, -4, -12, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition mortar = body.addOrReplaceChild("mortar",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-10, -8, -10, 20, 16, 20)
+                        .addBox(-7, -56, -7, 14, 48, 14)
+                        .addBox(-9, -60, -9, 18, 6, 18),
+                PartPose.offsetAndRotation(0, -206, 12, -0.0122F, 0.0F, 0.0F));
+
+        PartDefinition muzzle = mortar.addOrReplaceChild("muzzle",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-6, -6, -1, 11, 11, 2),
+                PartPose.offsetAndRotation(0, -60, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition rack_l = body.addOrReplaceChild("rack_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-6, 0, -12, 12, 14, 26)
+                        .addBox(-5, 12, -10, 10, 2, 22),
+                PartPose.offsetAndRotation(-22, -204, 10, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition rack_r = body.addOrReplaceChild("rack_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-6, 0, -12, 12, 14, 26)
+                        .addBox(-5, 12, -10, 10, 2, 22),
+                PartPose.offsetAndRotation(22, -204, 10, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition constrictor() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition leg_l = root.addOrReplaceChild("leg_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 8, 60, 8),
+                PartPose.offsetAndRotation(-26, -99, -10, -0.0873F, 0.0F, 0.1396F));
+
+        PartDefinition leg_l_shin = leg_l.addOrReplaceChild("leg_l_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 8, 62, 8)
+                        .addBox(-5, 61, -5, 10, 3, 10),
+                PartPose.offsetAndRotation(0, 60, 0, -0.0305F, 0.0F, 0.0489F));
+
+        PartDefinition leg_r = root.addOrReplaceChild("leg_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 8, 60, 8),
+                PartPose.offsetAndRotation(26, -99, -10, -0.0873F, 0.0F, -0.1396F));
+
+        PartDefinition leg_r_shin = leg_r.addOrReplaceChild("leg_r_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 8, 62, 8)
+                        .addBox(-5, 61, -5, 10, 3, 10),
+                PartPose.offsetAndRotation(0, 60, 0, -0.0305F, 0.0F, -0.0489F));
+
+        PartDefinition leg_b = root.addOrReplaceChild("leg_b",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 8, 60, 8),
+                PartPose.offsetAndRotation(0, -99, 28, 0.1745F, 0.0F, 0.0F));
+
+        PartDefinition leg_b_shin = leg_b.addOrReplaceChild("leg_b_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, 0, -4, 8, 62, 8)
+                        .addBox(-5, 61, -5, 10, 3, 10),
+                PartPose.offsetAndRotation(0, 60, 0, 0.0611F, 0.0F, 0.0F));
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-26, -186, -23, 13, 13, 12)
+                        .addBox(-26, -186, -12, 13, 13, 12)
+                        .addBox(-26, -186, 0, 13, 13, 12)
+                        .addBox(-26, -186, 12, 13, 13, 12)
+                        .addBox(-26, -173, -23, 13, 13, 12)
+                        .addBox(-26, -173, -12, 13, 13, 12)
+                        .addBox(-26, -173, 0, 13, 13, 12)
+                        .addBox(-26, -173, 12, 13, 13, 12)
+                        .addBox(-26, -159, -23, 13, 13, 12)
+                        .addBox(-26, -159, -12, 13, 13, 12)
+                        .addBox(-26, -159, 0, 13, 13, 12)
+                        .addBox(-26, -159, 12, 13, 13, 12)
+                        .addBox(-13, -186, -23, 13, 13, 12)
+                        .addBox(-13, -186, -12, 13, 13, 12)
+                        .addBox(-13, -186, 0, 13, 13, 12)
+                        .addBox(-13, -186, 12, 13, 13, 12)
+                        .addBox(-13, -173, -23, 13, 13, 12)
+                        .addBox(-13, -173, -12, 13, 13, 12)
+                        .addBox(-13, -173, 0, 13, 13, 12)
+                        .addBox(-13, -173, 12, 13, 13, 12)
+                        .addBox(-13, -159, -23, 13, 13, 12)
+                        .addBox(-13, -159, -12, 13, 13, 12)
+                        .addBox(-13, -159, 0, 13, 13, 12)
+                        .addBox(-13, -159, 12, 13, 13, 12)
+                        .addBox(0, -186, -23, 13, 13, 12)
+                        .addBox(0, -186, -12, 13, 13, 12)
+                        .addBox(0, -186, 0, 13, 13, 12)
+                        .addBox(0, -186, 12, 13, 13, 12)
+                        .addBox(0, -173, -23, 13, 13, 12)
+                        .addBox(0, -173, -12, 13, 13, 12)
+                        .addBox(0, -173, 0, 13, 13, 12)
+                        .addBox(0, -173, 12, 13, 13, 12)
+                        .addBox(0, -159, -23, 13, 13, 12)
+                        .addBox(0, -159, -12, 13, 13, 12)
+                        .addBox(0, -159, 0, 13, 13, 12)
+                        .addBox(0, -159, 12, 13, 13, 12)
+                        .addBox(13, -186, -23, 13, 13, 12)
+                        .addBox(13, -186, -12, 13, 13, 12)
+                        .addBox(13, -186, 0, 13, 13, 12)
+                        .addBox(13, -186, 12, 13, 13, 12)
+                        .addBox(13, -173, -23, 13, 13, 12)
+                        .addBox(13, -173, -12, 13, 13, 12)
+                        .addBox(13, -173, 0, 13, 13, 12)
+                        .addBox(13, -173, 12, 13, 13, 12)
+                        .addBox(13, -159, -23, 13, 13, 12)
+                        .addBox(13, -159, -12, 13, 13, 12)
+                        .addBox(13, -159, 0, 13, 13, 12)
+                        .addBox(13, -159, 12, 13, 13, 12)
+                        .addBox(-23, -126, -21, 12, 12, 10)
+                        .addBox(-23, -126, -10, 12, 12, 10)
+                        .addBox(-23, -126, 0, 12, 12, 10)
+                        .addBox(-23, -126, 10, 12, 12, 10)
+                        .addBox(-12, -126, -21, 12, 12, 10)
+                        .addBox(-12, -126, -10, 12, 12, 10)
+                        .addBox(-12, -126, 0, 12, 12, 10)
+                        .addBox(-12, -126, 10, 12, 12, 10)
+                        .addBox(0, -126, -21, 12, 12, 10)
+                        .addBox(0, -126, -10, 12, 12, 10)
+                        .addBox(0, -126, 0, 12, 12, 10)
+                        .addBox(0, -126, 10, 12, 12, 10)
+                        .addBox(12, -126, -21, 12, 12, 10)
+                        .addBox(12, -126, -10, 12, 12, 10)
+                        .addBox(12, -126, 0, 12, 12, 10)
+                        .addBox(12, -126, 10, 12, 12, 10)
+                        .addBox(-29, -160, -25, 12, 10, 12)
+                        .addBox(-29, -160, -12, 12, 10, 12)
+                        .addBox(-29, -160, 0, 12, 10, 12)
+                        .addBox(-29, -160, 12, 12, 10, 12)
+                        .addBox(-17, -160, -25, 12, 10, 12)
+                        .addBox(-17, -160, -12, 12, 10, 12)
+                        .addBox(-17, -160, 0, 12, 10, 12)
+                        .addBox(-17, -160, 12, 12, 10, 12)
+                        .addBox(-6, -160, -25, 12, 10, 12)
+                        .addBox(-6, -160, -12, 12, 10, 12)
+                        .addBox(-6, -160, 0, 12, 10, 12)
+                        .addBox(-6, -160, 12, 12, 10, 12)
+                        .addBox(6, -160, -25, 12, 10, 12)
+                        .addBox(6, -160, -12, 12, 10, 12)
+                        .addBox(6, -160, 0, 12, 10, 12)
+                        .addBox(6, -160, 12, 12, 10, 12)
+                        .addBox(17, -160, -25, 12, 10, 12)
+                        .addBox(17, -160, -12, 12, 10, 12)
+                        .addBox(17, -160, 0, 12, 10, 12)
+                        .addBox(17, -160, 12, 12, 10, 12),
+                PartPose.offsetAndRotation(0, 21, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition head = body.addOrReplaceChild("head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-12, -14, -12, 24, 16, 18),
+                PartPose.offsetAndRotation(0, -190, -18, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition eye = head.addOrReplaceChild("eye",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-7, -4, -1, 14, 7, 2),
+                PartPose.offsetAndRotation(0, -5, -13, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition nozzle_l = body.addOrReplaceChild("nozzle_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, -4, -24, 8, 8, 26)
+                        .addBox(-3, -3, -27, 6, 6, 3),
+                PartPose.offsetAndRotation(-14, -176, -20, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition nozzle_l_tank = body.addOrReplaceChild("nozzle_l_tank",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-7, -12, -16, 14, 24, 32),
+                PartPose.offsetAndRotation(-26, -168, 8, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition nozzle_r = body.addOrReplaceChild("nozzle_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, -4, -24, 8, 8, 26)
+                        .addBox(-3, -3, -27, 6, 6, 3),
+                PartPose.offsetAndRotation(14, -176, -20, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition nozzle_r_tank = body.addOrReplaceChild("nozzle_r_tank",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-7, -12, -16, 14, 24, 32),
+                PartPose.offsetAndRotation(26, -168, 8, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition xenoTelepath() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition leg_l = root.addOrReplaceChild("leg_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 5, 72, 5),
+                PartPose.offsetAndRotation(-18, -124, 0, 0.0349F, 0.0F, 0.2094F));
+
+        PartDefinition leg_l_shin = leg_l.addOrReplaceChild("leg_l_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 5, 78, 5)
+                        .addBox(-4, 77, -4, 8, 3, 8),
+                PartPose.offsetAndRotation(0, 72, 0, 0.0122F, 0.0F, 0.0733F));
+
+        PartDefinition leg_r = root.addOrReplaceChild("leg_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 5, 72, 5),
+                PartPose.offsetAndRotation(18, -124, 0, 0.0349F, 0.0F, -0.2094F));
+
+        PartDefinition leg_r_shin = leg_r.addOrReplaceChild("leg_r_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 5, 78, 5)
+                        .addBox(-4, 77, -4, 8, 3, 8),
+                PartPose.offsetAndRotation(0, 72, 0, 0.0122F, 0.0F, -0.0733F));
+
+        PartDefinition leg_b = root.addOrReplaceChild("leg_b",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 5, 72, 5),
+                PartPose.offsetAndRotation(0, -124, 22, 0.2269F, 0.0F, 0.0F));
+
+        PartDefinition leg_b_shin = leg_b.addOrReplaceChild("leg_b_shin",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, 0, -3, 5, 78, 5)
+                        .addBox(-4, 77, -4, 8, 3, 8),
+                PartPose.offsetAndRotation(0, 72, 0, 0.0794F, 0.0F, 0.0F));
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-20, -158, -19, 10, 10, 10)
+                        .addBox(-20, -158, -10, 10, 10, 10)
+                        .addBox(-20, -158, 0, 10, 10, 10)
+                        .addBox(-20, -158, 10, 10, 10, 10)
+                        .addBox(-10, -158, -19, 10, 10, 10)
+                        .addBox(-10, -158, -10, 10, 10, 10)
+                        .addBox(-10, -158, 0, 10, 10, 10)
+                        .addBox(-10, -158, 10, 10, 10, 10)
+                        .addBox(0, -158, -19, 10, 10, 10)
+                        .addBox(0, -158, -10, 10, 10, 10)
+                        .addBox(0, -158, 0, 10, 10, 10)
+                        .addBox(0, -158, 10, 10, 10, 10)
+                        .addBox(10, -158, -19, 10, 10, 10)
+                        .addBox(10, -158, -10, 10, 10, 10)
+                        .addBox(10, -158, 0, 10, 10, 10)
+                        .addBox(10, -158, 10, 10, 10, 10)
+                        .addBox(-17, -186, -17, 11, 9, 11)
+                        .addBox(-17, -186, -6, 11, 9, 11)
+                        .addBox(-17, -186, 6, 11, 9, 11)
+                        .addBox(-17, -177, -17, 11, 9, 11)
+                        .addBox(-17, -177, -6, 11, 9, 11)
+                        .addBox(-17, -177, 6, 11, 9, 11)
+                        .addBox(-17, -167, -17, 11, 9, 11)
+                        .addBox(-17, -167, -6, 11, 9, 11)
+                        .addBox(-17, -167, 6, 11, 9, 11)
+                        .addBox(-6, -186, -17, 11, 9, 11)
+                        .addBox(-6, -186, -6, 11, 9, 11)
+                        .addBox(-6, -186, 6, 11, 9, 11)
+                        .addBox(-6, -177, -17, 11, 9, 11)
+                        .addBox(-6, -177, -6, 11, 9, 11)
+                        .addBox(-6, -177, 6, 11, 9, 11)
+                        .addBox(-6, -167, -17, 11, 9, 11)
+                        .addBox(-6, -167, -6, 11, 9, 11)
+                        .addBox(-6, -167, 6, 11, 9, 11)
+                        .addBox(6, -186, -17, 11, 9, 11)
+                        .addBox(6, -186, -6, 11, 9, 11)
+                        .addBox(6, -186, 6, 11, 9, 11)
+                        .addBox(6, -177, -17, 11, 9, 11)
+                        .addBox(6, -177, -6, 11, 9, 11)
+                        .addBox(6, -177, 6, 11, 9, 11)
+                        .addBox(6, -167, -17, 11, 9, 11)
+                        .addBox(6, -167, -6, 11, 9, 11)
+                        .addBox(6, -167, 6, 11, 9, 11),
+                PartPose.offsetAndRotation(0, 26, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition head = body.addOrReplaceChild("head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-16, -30, -13, 32, 30, 26)
+                        .addBox(-13, -26, -14, 26, 20, 1)
+                        .addBox(-16, -32, -13, 32, 3, 26),
+                PartPose.offsetAndRotation(0, -186, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition pilot = head.addOrReplaceChild("pilot",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-8, -16, -17, 16, 18, 10)
+                        .addBox(-10, -6, -16, 20, 6, 14)
+                        .addBox(-6, -13, -18, 4, 4, 2)
+                        .addBox(2, -13, -18, 4, 4, 2),
+                PartPose.offsetAndRotation(0, 0, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition dome = body.addOrReplaceChild("dome",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-12, -16, -12, 8, 6, 8)
+                        .addBox(-12, -16, -4, 8, 6, 8)
+                        .addBox(-12, -16, 4, 8, 6, 8)
+                        .addBox(-4, -16, -12, 8, 6, 8)
+                        .addBox(-4, -16, -4, 8, 6, 8)
+                        .addBox(-4, -16, 4, 8, 6, 8)
+                        .addBox(4, -16, -12, 8, 6, 8)
+                        .addBox(4, -16, -4, 8, 6, 8)
+                        .addBox(4, -16, 4, 8, 6, 8)
+                        .addBox(-8, -10, -8, 8, 6, 8)
+                        .addBox(-8, -10, 0, 8, 6, 8)
+                        .addBox(0, -10, -8, 8, 6, 8)
+                        .addBox(0, -10, 0, 8, 6, 8)
+                        .addBox(-4, -4, -4, 8, 4, 8),
+                PartPose.offsetAndRotation(0, -218, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition antenna_l = body.addOrReplaceChild("antenna_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-1, -30, -1, 2, 30, 2),
+                PartPose.offsetAndRotation(-15, -216, 0, -0.0035F, 0.0F, 0.0061F));
+
+        PartDefinition antenna_l_tip = antenna_l.addOrReplaceChild("antenna_l_tip",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-3, -3, -1, 5, 5, 2),
+                PartPose.offsetAndRotation(0, -30, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition antenna_r = body.addOrReplaceChild("antenna_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-1, -30, -1, 2, 30, 2),
+                PartPose.offsetAndRotation(15, -216, 0, -0.0035F, 0.0F, -0.0061F));
+
+        PartDefinition antenna_r_tip = antenna_r.addOrReplaceChild("antenna_r_tip",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-3, -3, -1, 5, 5, 2),
+                PartPose.offsetAndRotation(0, -30, 0, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
     /** The BBC machines differ only by the laser cannon, so one entry point serves both. */
     public static LayerDefinition bbc(boolean armed) {
         return armed ? bbcRed() : bbcWhite();

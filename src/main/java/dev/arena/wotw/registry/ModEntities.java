@@ -6,18 +6,26 @@ import dev.arena.wotw.entity.AbstractTripodEntity;
 import dev.arena.wotw.entity.AsylumWalkerEntity;
 import dev.arena.wotw.entity.BunkerTripodEntity;
 import dev.arena.wotw.entity.FlamerTripodEntity;
+import dev.arena.wotw.entity.HumanBomberEntity;
 import dev.arena.wotw.entity.HumanFighterEntity;
+import dev.arena.wotw.entity.HumanHelicopterEntity;
+import dev.arena.wotw.entity.HumanSubmarineEntity;
 import dev.arena.wotw.entity.HumanSoldierEntity;
 import dev.arena.wotw.entity.HumanTankEntity;
 import dev.arena.wotw.entity.HumanWarshipEntity;
 import dev.arena.wotw.entity.RamTripodEntity;
 import dev.arena.wotw.entity.ScoutTripodEntity;
+import dev.arena.wotw.entity.SmokeTripodEntity;
 import dev.arena.wotw.entity.TankTripodEntity;
 import dev.arena.wotw.entity.TaxiTripodEntity;
 import dev.arena.wotw.entity.UberpodEntity;
 import dev.arena.wotw.entity.WaterTripodEntity;
+import dev.arena.wotw.entity.XenoTelepathEntity;
 import dev.arena.wotw.entity.CapsuleEntity;
 import dev.arena.wotw.entity.BombardingMachineEntity;
+import dev.arena.wotw.entity.BombTripodEntity;
+import dev.arena.wotw.entity.ConstrictorEntity;
+import dev.arena.wotw.entity.ConstructionTripodEntity;
 import dev.arena.wotw.entity.DiggingMachineEntity;
 import dev.arena.wotw.entity.DroneEntity;
 import dev.arena.wotw.entity.ElectricMachineEntity;
@@ -136,6 +144,17 @@ public final class ModEntities {
 
     public static EntityType<HumanWarshipEntity> HUMAN_WARSHIP;
 
+    /* The air force and the navy, fourth wave. */
+
+    /** Gunship: hovers low over the base and hoses the walkers with its door guns. */
+    public static EntityType<HumanHelicopterEntity> HUMAN_HELICOPTER;
+
+    /** Submarine: runs under the surface near the coast and launches torpedoes. */
+    public static EntityType<HumanSubmarineEntity> HUMAN_SUBMARINE;
+
+    /** Heavy bomber: flies a high orbit and drops a stick of bombs on whatever walks below. */
+    public static EntityType<HumanBomberEntity> HUMAN_BOMBER;
+
     /** Not part of the random waves: it only climbs out of a capsule that fell into the sea. */
     public static EntityType<WaterTripodEntity> WATER_TRIPOD;
 
@@ -152,6 +171,23 @@ public final class ModEntities {
     public static EntityType<TankTripodEntity> TANK_TRIPOD;
 
     public static EntityType<TaxiTripodEntity> TAXI_TRIPOD;
+
+    /* The Martian engineers and the psychological weapons, fifth wave. */
+
+    /** Colossal builder: a crane claw that loads rubble into its holds and raises bunkers with it. */
+    public static EntityType<ConstructionTripodEntity> CONSTRUCTION_TRIPOD;
+
+    /** Smoke machine: a permanent fog bank and the killing black smoke. */
+    public static EntityType<SmokeTripodEntity> SMOKE_TRIPOD;
+
+    /** Mortar machine: lobs bombs of black smoke instead of firing a ray. */
+    public static EntityType<BombTripodEntity> BOMB_TRIPOD;
+
+    /** Constrictor: chemical foam that glues a squad down, then the heat lens. */
+    public static EntityType<ConstrictorEntity> CONSTRICTOR;
+
+    /** Xeno-Telepath: a Martian in a glass dome that turns human crews on each other. */
+    public static EntityType<XenoTelepathEntity> XENO_TELEPATH;
 
     /** True for every Martian war machine, including the creatures. Used by the human army AI. */
     public static boolean isMartianInvader(net.minecraft.world.entity.Entity entity) {
@@ -319,6 +355,21 @@ public final class ModEntities {
                 () -> HUMAN_WARSHIP = EntityType.Builder.of(HumanWarshipEntity::new, MobCategory.CREATURE)
                         .sized(7.0F, 3.3F)
                         .build("human_warship"));
+        ENTITY_TYPES.register("human_helicopter",
+                () -> HUMAN_HELICOPTER = EntityType.Builder.of(HumanHelicopterEntity::new, MobCategory.CREATURE)
+                        .sized(5.1F, 1.7F)
+                        .clientTrackingRange(10)
+                        .build("human_helicopter"));
+        ENTITY_TYPES.register("human_submarine",
+                () -> HUMAN_SUBMARINE = EntityType.Builder.of(HumanSubmarineEntity::new, MobCategory.CREATURE)
+                        .sized(5.4F, 2.4F)
+                        .clientTrackingRange(10)
+                        .build("human_submarine"));
+        ENTITY_TYPES.register("human_bomber",
+                () -> HUMAN_BOMBER = EntityType.Builder.of(HumanBomberEntity::new, MobCategory.CREATURE)
+                        .sized(7.1F, 2.1F)
+                        .clientTrackingRange(12)
+                        .build("human_bomber"));
         ENTITY_TYPES.register("water_tripod",
                 () -> WATER_TRIPOD = EntityType.Builder.of(WaterTripodEntity::new, MobCategory.MONSTER)
                         .sized(8.8F, 16.6F)
@@ -367,6 +418,36 @@ public final class ModEntities {
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("taxi_tripod")));
+        ENTITY_TYPES.register("construction_tripod",
+                () -> CONSTRUCTION_TRIPOD = track(EntityType.Builder.of(ConstructionTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.7F, 18.4F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("construction_tripod")));
+        ENTITY_TYPES.register("smoke_tripod",
+                () -> SMOKE_TRIPOD = track(EntityType.Builder.of(SmokeTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.3F, 15.1F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("smoke_tripod")));
+        ENTITY_TYPES.register("bomb_tripod",
+                () -> BOMB_TRIPOD = track(EntityType.Builder.of(BombTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.6F, 16.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("bomb_tripod")));
+        ENTITY_TYPES.register("constrictor",
+                () -> CONSTRICTOR = track(EntityType.Builder.of(ConstrictorEntity::new, MobCategory.MONSTER)
+                        .sized(6.6F, 13.0F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("constrictor")));
+        ENTITY_TYPES.register("xeno_telepath",
+                () -> XENO_TELEPATH = track(EntityType.Builder.of(XenoTelepathEntity::new, MobCategory.MONSTER)
+                        .sized(7.4F, 15.5F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("xeno_telepath")));
     }
 
     private ModEntities() {
@@ -429,6 +510,9 @@ public final class ModEntities {
         event.put(HUMAN_TANK, HumanTankEntity.createAttributes().build());
         event.put(HUMAN_FIGHTER, HumanFighterEntity.createAttributes().build());
         event.put(HUMAN_WARSHIP, HumanWarshipEntity.createAttributes().build());
+        event.put(HUMAN_HELICOPTER, HumanHelicopterEntity.createAttributes().build());
+        event.put(HUMAN_SUBMARINE, HumanSubmarineEntity.createAttributes().build());
+        event.put(HUMAN_BOMBER, HumanBomberEntity.createAttributes().build());
         event.put(WATER_TRIPOD, WaterTripodEntity.createAttributes().build());
         event.put(SCOUT_TRIPOD, ScoutTripodEntity.createAttributes().build());
         event.put(RAM_TRIPOD, RamTripodEntity.createAttributes().build());
@@ -437,5 +521,10 @@ public final class ModEntities {
         event.put(FLAMER_TRIPOD, FlamerTripodEntity.createAttributes().build());
         event.put(TANK_TRIPOD, TankTripodEntity.createAttributes().build());
         event.put(TAXI_TRIPOD, TaxiTripodEntity.createAttributes().build());
+        event.put(CONSTRUCTION_TRIPOD, ConstructionTripodEntity.createAttributes().build());
+        event.put(SMOKE_TRIPOD, SmokeTripodEntity.createAttributes().build());
+        event.put(BOMB_TRIPOD, BombTripodEntity.createAttributes().build());
+        event.put(CONSTRICTOR, ConstrictorEntity.createAttributes().build());
+        event.put(XENO_TELEPATH, XenoTelepathEntity.createAttributes().build());
     }
 }

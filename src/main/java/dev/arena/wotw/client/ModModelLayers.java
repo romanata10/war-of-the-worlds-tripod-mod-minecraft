@@ -43,6 +43,14 @@ public final class ModModelLayers {
     public static final ModelLayerLocation HUMAN_TANK = layer("human_tank");
     public static final ModelLayerLocation HUMAN_FIGHTER = layer("human_fighter");
     public static final ModelLayerLocation HUMAN_WARSHIP = layer("human_warship");
+    public static final ModelLayerLocation CONSTRUCTION_TRIPOD = layer("construction_tripod");
+    public static final ModelLayerLocation SMOKE_TRIPOD = layer("smoke_tripod");
+    public static final ModelLayerLocation BOMB_TRIPOD = layer("bomb_tripod");
+    public static final ModelLayerLocation CONSTRICTOR = layer("constrictor");
+    public static final ModelLayerLocation XENO_TELEPATH = layer("xeno_telepath");
+    public static final ModelLayerLocation HUMAN_HELICOPTER = layer("human_helicopter");
+    public static final ModelLayerLocation HUMAN_SUBMARINE = layer("human_submarine");
+    public static final ModelLayerLocation HUMAN_BOMBER = layer("human_bomber");
 
     public static final ModelLayerLocation MARTIAN = layer("martian");
     public static final ModelLayerLocation MARTIAN_MASTER = layer("martian_master");
