@@ -83,6 +83,16 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.VEGETABLE, TripodModels::vegetable);
         event.registerLayerDefinition(ModModelLayers.MEXICAN, TripodModels::mexican);
         event.registerLayerDefinition(ModModelLayers.FOUR_LEGGED, TripodModels::fourLegged);
+        event.registerLayerDefinition(ModModelLayers.SERIES1998, TripodModels::series1998);
+        event.registerLayerDefinition(ModModelLayers.PENDRAGON, TripodModels::pendragon);
+        event.registerLayerDefinition(ModModelLayers.NEXTWAVE_CYBORG, TripodModels::nextwaveCyborg);
+        event.registerLayerDefinition(ModModelLayers.TRUE2012, TripodModels::true2012);
+        event.registerLayerDefinition(ModModelLayers.STEAM_TOWER, TripodModels::steamTower);
+        event.registerLayerDefinition(ModModelLayers.ALIEN_DAWN, TripodModels::alienDawn);
+        event.registerLayerDefinition(ModModelLayers.ALIEN_DAWN_MK2, TripodModels::alienDawnMk2);
+        event.registerLayerDefinition(ModModelLayers.SCARY_MOVIE, TripodModels::scaryMovie);
+        event.registerLayerDefinition(ModModelLayers.USSR_BOOK, TripodModels::ussrBook);
+        event.registerLayerDefinition(ModModelLayers.ANNIHILATION, TripodModels::annihilation);
         event.registerLayerDefinition(ModModelLayers.HUMAN_HELICOPTER, HumanModels::helicopter);
         event.registerLayerDefinition(ModModelLayers.HUMAN_SUBMARINE, HumanModels::submarine);
         event.registerLayerDefinition(ModModelLayers.HUMAN_BOMBER, HumanModels::bomber);
@@ -188,6 +198,26 @@ public final class WotwClient {
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.MEXICAN, "mexican_tripod", 1.0F, 1.2F));
         event.registerEntityRenderer(ModEntities.FOUR_LEGGED,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.FOUR_LEGGED, "four_legged_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.SERIES1998,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SERIES1998, "series1998_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.PENDRAGON,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.PENDRAGON, "pendragon_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.NEXTWAVE_CYBORG,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.NEXTWAVE_CYBORG, "nextwave_cyborg_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.TRUE2012,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.TRUE2012, "true2012_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.STEAM_TOWER,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.STEAM_TOWER, "steam_tower_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.ALIEN_DAWN,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.ALIEN_DAWN, "alien_dawn_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.ALIEN_DAWN_MK2,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.ALIEN_DAWN_MK2, "alien_dawn_mk2_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.SCARY_MOVIE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SCARY_MOVIE, "scary_movie_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.USSR_BOOK,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.USSR_BOOK, "ussr_book_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.ANNIHILATION,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.ANNIHILATION, "annihilation_tripod", 1.0F, 1.2F));
         event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
                         1.8F));

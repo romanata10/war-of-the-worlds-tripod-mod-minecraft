@@ -80,7 +80,17 @@ public final class ModSpawns {
             new Entry(ModEntities.ATTACK, true, 5, 1, 1, 1),
             new Entry(ModEntities.VEGETABLE, true, 4, 2, 1, 1),
             new Entry(ModEntities.MEXICAN, true, 4, 1, 1, 1),
-            new Entry(ModEntities.FOUR_LEGGED, true, 6, 1, 1, 1));
+            new Entry(ModEntities.FOUR_LEGGED, true, 6, 1, 1, 1),
+            new Entry(ModEntities.SERIES1998, true, 2, 1, 1, 1),
+            new Entry(ModEntities.PENDRAGON, true, 2, 1, 1, 1),
+            new Entry(ModEntities.NEXTWAVE_CYBORG, true, 1, 1, 1, 1),
+            new Entry(ModEntities.TRUE2012, true, 2, 1, 1, 1),
+            new Entry(ModEntities.STEAM_TOWER, true, 2, 1, 1, 1),
+            new Entry(ModEntities.ALIEN_DAWN, true, 1, 1, 1, 1),
+            new Entry(ModEntities.ALIEN_DAWN_MK2, true, 1, 1, 1, 1),
+            new Entry(ModEntities.SCARY_MOVIE, true, 2, 1, 1, 1),
+            new Entry(ModEntities.USSR_BOOK, true, 1, 1, 1, 1),
+            new Entry(ModEntities.ANNIHILATION, true, 1, 1, 1, 1));
     }
 
     private ModSpawns() {

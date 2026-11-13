@@ -221,6 +221,17 @@ public final class ModEntities {
 
     public static EntityType<FourLeggedTripodEntity> FOUR_LEGGED;
 
+    public static EntityType<Series1998TripodEntity> SERIES1998;
+    public static EntityType<PendragonTripodEntity> PENDRAGON;
+    public static EntityType<NextwaveCyborgTripodEntity> NEXTWAVE_CYBORG;
+    public static EntityType<True2012TripodEntity> TRUE2012;
+    public static EntityType<SteamTowerTripodEntity> STEAM_TOWER;
+    public static EntityType<AlienDawnTripodEntity> ALIEN_DAWN;
+    public static EntityType<AlienDawnMk2TripodEntity> ALIEN_DAWN_MK2;
+    public static EntityType<ScaryMovieTripodEntity> SCARY_MOVIE;
+    public static EntityType<UssrBookTripodEntity> USSR_BOOK;
+    public static EntityType<AnnihilationTripodEntity> ANNIHILATION;
+
 
     /** True for every Martian war machine, including the creatures. Used by the human army AI. */
     public static boolean isMartianInvader(net.minecraft.world.entity.Entity entity) {
@@ -483,64 +494,125 @@ public final class ModEntities {
                         .build("xeno_telepath")));
         ENTITY_TYPES.register("cameron_tripod",
                 () -> CAMERON = track(EntityType.Builder.of(CameronTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.4F, 17.2F)
+                        .sized(6.1F, 15.8F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("cameron_tripod")));
         ENTITY_TYPES.register("gorey_tripod",
                 () -> GOREY = track(EntityType.Builder.of(GoreyTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.1F, 11.3F)
+                        .sized(7.5F, 15.1F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("gorey_tripod")));
         ENTITY_TYPES.register("wayne_tripod",
                 () -> WAYNE = track(EntityType.Builder.of(WayneTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.4F, 15.9F)
+                        .sized(8.0F, 16.6F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("wayne_tripod")));
         ENTITY_TYPES.register("goble_tripod",
                 () -> GOBLE = track(EntityType.Builder.of(GobleTripodEntity::new, MobCategory.MONSTER)
-                        .sized(5.4F, 12.6F)
+                        .sized(7.3F, 13.4F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("goble_tripod")));
         ENTITY_TYPES.register("bbc2019_tripod",
                 () -> BBC2019 = track(EntityType.Builder.of(Bbc2019TripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.0F, 15.7F)
+                        .sized(8.8F, 16.5F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("bbc2019_tripod")));
         ENTITY_TYPES.register("attack2021_tripod",
                 () -> ATTACK2021 = track(EntityType.Builder.of(Attack2021TripodEntity::new, MobCategory.MONSTER)
-                        .sized(7.2F, 16.5F)
+                        .sized(7.1F, 17.2F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("attack2021_tripod")));
         ENTITY_TYPES.register("attack_tripod",
                 () -> ATTACK = track(EntityType.Builder.of(AttackTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.7F, 16.5F)
+                        .sized(6.5F, 17.7F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("attack_tripod")));
         ENTITY_TYPES.register("vegetable_tripod",
                 () -> VEGETABLE = track(EntityType.Builder.of(VegetableTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.8F, 18.4F)
+                        .sized(6.7F, 18.5F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("vegetable_tripod")));
         ENTITY_TYPES.register("mexican_tripod",
                 () -> MEXICAN = track(EntityType.Builder.of(MexicanTripodEntity::new, MobCategory.MONSTER)
-                        .sized(7.3F, 16.0F)
+                        .sized(6.8F, 18.4F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("mexican_tripod")));
         ENTITY_TYPES.register("four_legged_tripod",
                 () -> FOUR_LEGGED = track(EntityType.Builder.of(FourLeggedTripodEntity::new, MobCategory.MONSTER)
-                        .sized(6.8F, 14.4F)
+                        .sized(7.8F, 16.9F)
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("four_legged_tripod")));
+
+        ENTITY_TYPES.register("series1998_tripod",
+                () -> SERIES1998 = track(EntityType.Builder.of(Series1998TripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.6F, 16.8F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("series1998_tripod")));
+        ENTITY_TYPES.register("pendragon_tripod",
+                () -> PENDRAGON = track(EntityType.Builder.of(PendragonTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.2F, 15.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("pendragon_tripod")));
+        ENTITY_TYPES.register("nextwave_cyborg_tripod",
+                () -> NEXTWAVE_CYBORG = track(EntityType.Builder.of(NextwaveCyborgTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.2F, 17.8F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("nextwave_cyborg_tripod")));
+        ENTITY_TYPES.register("true2012_tripod",
+                () -> TRUE2012 = track(EntityType.Builder.of(True2012TripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.2F, 17.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("true2012_tripod")));
+        ENTITY_TYPES.register("steam_tower_tripod",
+                () -> STEAM_TOWER = track(EntityType.Builder.of(SteamTowerTripodEntity::new, MobCategory.MONSTER)
+                        .sized(10.4F, 16.1F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("steam_tower_tripod")));
+        ENTITY_TYPES.register("alien_dawn_tripod",
+                () -> ALIEN_DAWN = track(EntityType.Builder.of(AlienDawnTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.7F, 19.9F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("alien_dawn_tripod")));
+        ENTITY_TYPES.register("alien_dawn_mk2_tripod",
+                () -> ALIEN_DAWN_MK2 = track(EntityType.Builder.of(AlienDawnMk2TripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.8F, 19.5F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("alien_dawn_mk2_tripod")));
+        ENTITY_TYPES.register("scary_movie_tripod",
+                () -> SCARY_MOVIE = track(EntityType.Builder.of(ScaryMovieTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.2F, 17.1F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("scary_movie_tripod")));
+        ENTITY_TYPES.register("ussr_book_tripod",
+                () -> USSR_BOOK = track(EntityType.Builder.of(UssrBookTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.2F, 20.4F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("ussr_book_tripod")));
+        ENTITY_TYPES.register("annihilation_tripod",
+                () -> ANNIHILATION = track(EntityType.Builder.of(AnnihilationTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.5F, 19.1F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("annihilation_tripod")));
     }
 
     private ModEntities() {
@@ -629,6 +701,16 @@ public final class ModEntities {
         event.put(VEGETABLE, VegetableTripodEntity.createAttributes().build());
         event.put(MEXICAN, MexicanTripodEntity.createAttributes().build());
         event.put(FOUR_LEGGED, FourLeggedTripodEntity.createAttributes().build());
+        event.put(SERIES1998, Series1998TripodEntity.createAttributes().build());
+        event.put(PENDRAGON, PendragonTripodEntity.createAttributes().build());
+        event.put(NEXTWAVE_CYBORG, NextwaveCyborgTripodEntity.createAttributes().build());
+        event.put(TRUE2012, True2012TripodEntity.createAttributes().build());
+        event.put(STEAM_TOWER, SteamTowerTripodEntity.createAttributes().build());
+        event.put(ALIEN_DAWN, AlienDawnTripodEntity.createAttributes().build());
+        event.put(ALIEN_DAWN_MK2, AlienDawnMk2TripodEntity.createAttributes().build());
+        event.put(SCARY_MOVIE, ScaryMovieTripodEntity.createAttributes().build());
+        event.put(USSR_BOOK, UssrBookTripodEntity.createAttributes().build());
+        event.put(ANNIHILATION, AnnihilationTripodEntity.createAttributes().build());
 
     }
 }

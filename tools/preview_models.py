@@ -83,6 +83,17 @@ TRIPODS = [
     ("vegetable_tripod", "vegetable", "Овощная тринога", "арт", "Кормится корнями · лечится"),
     ("mexican_tripod", "mexican", "Мексиканская тринога", "постер", "Ядовитые клешни"),
     ("four_legged_tripod", "fourLegged", "Четырёхногая тринога", "арт", "Упор · сдвоенный топот"),
+    # seventh wave: rebuilt artwork machines and brand new walkers
+    ("series1998_tripod", "series1998", "Тринога сериала 1998", "сериал, 1998", "Пробивающий луч ядра"),
+    ("pendragon_tripod", "pendragon", "Жук Пендрагона", "Pendragon, 2005", "Хлысты щупалец · подтягивание"),
+    ("nextwave_cyborg_tripod", "nextwaveCyborg", "Киборг-тринога", "Asylum, 2008", "Перегрев · залп по всем"),
+    ("true2012_tripod", "true2012", "Медный двигатель", "True WOTW, 2012", "Кислотные лужи"),
+    ("steam_tower_tripod", "steamTower", "Паровой котёл", "Steam Towers", "Паровое облако · слепота"),
+    ("alien_dawn_tripod", "alienDawn", "Каракатица Alien Dawn", "Alien Dawn, 2012", "Прожектор · метка и резка брони"),
+    ("alien_dawn_mk2_tripod", "alienDawnMk2", "Тринога Alien Dawn II", "Alien Dawn II", "Звуковое эхо · оглушение"),
+    ("scary_movie_tripod", "scaryMovie", "Тринога Scary Movie 4", "Scary Movie 4", "Слепящая вспышка"),
+    ("ussr_book_tripod", "ussrBook", "Советская тринога", "книга, СССР", "Глушилка · радиопомехи"),
+    ("annihilation_tripod", "annihilation", "Двуногая машина", "Annihilation, 2023", "Прыжок-серп"),
     # the human army
     ("human_soldier", "soldier", "Солдат", "люди", "Винтовка · воюет с марсианами"),
     ("human_tank", "tank", "Танк", "люди", "Снаряды по марсианам"),
