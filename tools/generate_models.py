@@ -1752,11 +1752,11 @@ def annihilation_tripod():
     for side, name in ((-1, "arm_l"), (1, "arm_r")):
         shoulder = m.part(name, parent="body", pivot=(side * 17, -266, 0), rot=(6.0, 0.0, -side * 16.0))
         shoulder.box(-3, 0, -3, 6, 44, 6)
-        blade = m.part(name + "_blade", parent=name, pivot=(0, 42, 0), rot=(46.0, 0.0, -side * 16.0))
-        blade.box(-3, 0, -3, 6, 40, 6)
-        blade.box(-3, 34, -26, 6, 7, 28)
-        blade.box(-2, 36, -30, 4, 4, 8)
-        blade.glow_box(-2, 36, -27, 4, 3, 4)
+        blade = m.part(name + "_blade", parent=name, pivot=(0, 40, 0), rot=(-58.0, 0.0, -side * 8.0))
+        blade.box(-3, 0, -3, 6, 34, 6)
+        blade.box(-3, 30, -22, 6, 7, 24)
+        blade.box(-2, 32, -28, 4, 4, 8)
+        blade.glow_box(-2, 32, -25, 4, 3, 4)
 
     for index, z in enumerate((-8, 6)):
         vent = m.part(f"vent{index}", parent="body", pivot=(0, -250, z))

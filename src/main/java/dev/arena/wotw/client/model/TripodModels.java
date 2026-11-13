@@ -8384,11 +8384,11 @@ public final class TripodModels {
 
         PartDefinition arm_l_blade = arm_l.addOrReplaceChild("arm_l_blade",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 40, 6)
-                        .addBox(-3, 34, -26, 6, 7, 28)
-                        .addBox(-2, 36, -30, 4, 4, 8)
-                        .addBox(-2, 36, -27, 4, 3, 4),
-                PartPose.offsetAndRotation(0, 42, 0, 0.8029F, 0.0F, 0.2793F));
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 34, 6)
+                        .addBox(-3, 30, -22, 6, 7, 24)
+                        .addBox(-2, 32, -28, 4, 4, 8)
+                        .addBox(-2, 32, -25, 4, 3, 4),
+                PartPose.offsetAndRotation(0, 40, 0, -1.0123F, 0.0F, 0.1396F));
 
         PartDefinition arm_r = body.addOrReplaceChild("arm_r",
                 CubeListBuilder.create()
@@ -8397,11 +8397,11 @@ public final class TripodModels {
 
         PartDefinition arm_r_blade = arm_r.addOrReplaceChild("arm_r_blade",
                 CubeListBuilder.create()
-                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 40, 6)
-                        .addBox(-3, 34, -26, 6, 7, 28)
-                        .addBox(-2, 36, -30, 4, 4, 8)
-                        .addBox(-2, 36, -27, 4, 3, 4),
-                PartPose.offsetAndRotation(0, 42, 0, 0.8029F, 0.0F, -0.2793F));
+                        .texOffs(0, 0).addBox(-3, 0, -3, 6, 34, 6)
+                        .addBox(-3, 30, -22, 6, 7, 24)
+                        .addBox(-2, 32, -28, 4, 4, 8)
+                        .addBox(-2, 32, -25, 4, 3, 4),
+                PartPose.offsetAndRotation(0, 40, 0, -1.0123F, 0.0F, -0.1396F));
 
         PartDefinition vent0 = body.addOrReplaceChild("vent0",
                 CubeListBuilder.create()
