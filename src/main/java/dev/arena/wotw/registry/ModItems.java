@@ -106,6 +106,22 @@ public final class ModItems {
 
     public static Item ANNIHILATION_SPAWN_EGG;
 
+    public static Item MOTHERSHIP_SPAWN_EGG;
+
+    public static Item MINING_SPAWN_EGG;
+
+    public static Item ROGER_DEAN_SPAWN_EGG;
+
+    public static Item CITY_SPAWN_EGG;
+
+    public static Item FACTORY_SPAWN_EGG;
+
+    public static Item CAGE_SPAWN_EGG;
+
+    public static Item HUMANOID_SPAWN_EGG;
+
+    public static Item SIGNAL_SCOUT_SPAWN_EGG;
+
     public static Item HUMAN_HELICOPTER_SPAWN_EGG;
 
     public static Item HUMAN_SUBMARINE_SPAWN_EGG;
@@ -248,6 +264,14 @@ public final class ModItems {
                         entries.accept(SCARY_MOVIE_SPAWN_EGG);
                         entries.accept(USSR_BOOK_SPAWN_EGG);
                         entries.accept(ANNIHILATION_SPAWN_EGG);
+                        entries.accept(MOTHERSHIP_SPAWN_EGG);
+                        entries.accept(MINING_SPAWN_EGG);
+                        entries.accept(ROGER_DEAN_SPAWN_EGG);
+                        entries.accept(CITY_SPAWN_EGG);
+                        entries.accept(FACTORY_SPAWN_EGG);
+                        entries.accept(CAGE_SPAWN_EGG);
+                        entries.accept(HUMANOID_SPAWN_EGG);
+                        entries.accept(SIGNAL_SCOUT_SPAWN_EGG);
                         entries.accept(HUMAN_HELICOPTER_SPAWN_EGG);
                         entries.accept(HUMAN_SUBMARINE_SPAWN_EGG);
                         entries.accept(HUMAN_BOMBER_SPAWN_EGG);
@@ -436,6 +460,30 @@ public final class ModItems {
         ITEMS.register("annihilation_tripod_spawn_egg",
                 () -> ANNIHILATION_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ANNIHILATION,
                         0x484C52, 0x96FFE6, new Item.Properties()));
+        ITEMS.register("mothership_tripod_spawn_egg",
+                () -> MOTHERSHIP_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MOTHERSHIP,
+                        0x5C6076, 0x8CC8FF, new Item.Properties()));
+        ITEMS.register("mining_tripod_spawn_egg",
+                () -> MINING_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MINING,
+                        0xB03428, 0xFFD060, new Item.Properties()));
+        ITEMS.register("roger_dean_tripod_spawn_egg",
+                () -> ROGER_DEAN_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ROGER_DEAN,
+                        0xB6744E, 0xFFECB4, new Item.Properties()));
+        ITEMS.register("city_tripod_spawn_egg",
+                () -> CITY_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CITY,
+                        0x3A404E, 0xFFD682, new Item.Properties()));
+        ITEMS.register("factory_tripod_spawn_egg",
+                () -> FACTORY_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FACTORY,
+                        0x6C685C, 0xFF943C, new Item.Properties()));
+        ITEMS.register("cage_tripod_spawn_egg",
+                () -> CAGE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CAGE,
+                        0x3E4442, 0xFF4034, new Item.Properties()));
+        ITEMS.register("humanoid_tripod_spawn_egg",
+                () -> HUMANOID_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMANOID,
+                        0x76644E, 0x96FF96, new Item.Properties()));
+        ITEMS.register("signal_scout_tripod_spawn_egg",
+                () -> SIGNAL_SCOUT_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SIGNAL_SCOUT,
+                        0x565A60, 0xC478FF, new Item.Properties()));
         ITEMS.register("human_helicopter_spawn_egg",
                 () -> HUMAN_HELICOPTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_HELICOPTER, 0x55603F, 0xA9B27C,
                         new Item.Properties()));

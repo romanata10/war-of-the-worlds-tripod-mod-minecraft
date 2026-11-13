@@ -90,7 +90,15 @@ public final class ModSpawns {
             new Entry(ModEntities.ALIEN_DAWN_MK2, true, 1, 1, 1, 1),
             new Entry(ModEntities.SCARY_MOVIE, true, 2, 1, 1, 1),
             new Entry(ModEntities.USSR_BOOK, true, 1, 1, 1, 1),
-            new Entry(ModEntities.ANNIHILATION, true, 1, 1, 1, 1));
+            new Entry(ModEntities.ANNIHILATION, true, 1, 1, 1, 1),
+            new Entry(ModEntities.MOTHERSHIP, true, 1, 1, 1, 1),
+            new Entry(ModEntities.MINING, true, 2, 1, 1, 1),
+            new Entry(ModEntities.ROGER_DEAN, true, 3, 1, 1, 1),
+            new Entry(ModEntities.CITY, true, 1, 1, 1, 1),
+            new Entry(ModEntities.FACTORY, true, 2, 1, 1, 1),
+            new Entry(ModEntities.CAGE, true, 1, 1, 1, 1),
+            new Entry(ModEntities.HUMANOID, true, 3, 1, 1, 1),
+            new Entry(ModEntities.SIGNAL_SCOUT, true, 2, 1, 1, 1));
     }
 
     private ModSpawns() {

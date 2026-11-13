@@ -7,6 +7,7 @@ machines stays consistent and anybody can re-roll the art by editing the palette
 Usage:  python3 tools/generate_textures.py
 """
 
+import json
 import math
 import os
 import random
@@ -82,6 +83,15 @@ PALETTES = {
     "scary_movie_tripod": ((48, 46, 52), (14, 14, 18), (90, 88, 96), (255, 250, 220), (120, 110, 130)),
     "ussr_book_tripod": ((54, 52, 48), (18, 18, 16), (96, 94, 88), (255, 80, 60), (120, 90, 70)),
     "annihilation_tripod": ((72, 76, 82), (26, 28, 32), (124, 130, 138), (150, 255, 230), (90, 140, 160)),
+    # eighth wave: the cover-art machines
+    "mothership_tripod": ((92, 96, 118), (34, 36, 52), (146, 152, 180), (140, 200, 255), (78, 84, 110)),
+    "mining_tripod": ((176, 52, 40), (74, 18, 14), (222, 92, 64), (255, 208, 96), (132, 40, 30)),
+    "roger_dean_tripod": ((182, 116, 78), (74, 44, 28), (226, 168, 124), (255, 236, 180), (140, 88, 58)),
+    "city_tripod": ((58, 64, 78), (20, 22, 30), (100, 108, 126), (255, 214, 130), (74, 82, 100)),
+    "factory_tripod": ((108, 104, 92), (40, 38, 32), (158, 152, 136), (255, 148, 60), (132, 96, 62)),
+    "cage_tripod": ((62, 68, 66), (22, 26, 26), (108, 116, 112), (255, 64, 52), (80, 88, 84)),
+    "humanoid_tripod": ((118, 100, 78), (46, 38, 28), (168, 148, 118), (150, 255, 150), (96, 112, 82)),
+    "signal_scout_tripod": ((86, 90, 96), (30, 32, 36), (134, 140, 148), (196, 120, 255), (100, 104, 112)),
     # the creatures themselves: wet, leathery hide
     "martian": ((104, 96, 74), (43, 39, 30), (150, 140, 108), (255, 118, 74), (120, 96, 60)),
     "martian_master": ((74, 62, 62), (28, 22, 22), (118, 100, 96), (255, 64, 48), (96, 64, 56)),
@@ -726,6 +736,40 @@ def main():
     make_infested_cobblestone_texture().save(os.path.join(BLOCK, "infested_cobblestone.png"))
     make_infested_bricks_texture().save(os.path.join(BLOCK, "infested_bricks.png"))
     print("items + block done")
+    write_block_assets()
+
+
+def write_block_assets():
+    """Gives every block model a blockstate and an item model.
+
+    A block without a blockstate is not drawn at all: the game falls back to the missing model and
+    the player sees the black-and-magenta checker. That is exactly the bug the 1.6.0 ores shipped
+    with, so the JSON scaffolding is generated here instead of being written by hand.
+    """
+    assets = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src", "main", "resources",
+                          "assets", "wotw")
+    models = os.path.join(assets, "models", "block")
+    states = os.path.join(assets, "blockstates")
+    items = os.path.join(assets, "models", "item")
+    created = []
+    for file in sorted(os.listdir(models)):
+        if not file.endswith(".json"):
+            continue
+        name = file[:-5]
+        state = os.path.join(states, f"{name}.json")
+        if not os.path.exists(state):
+            with open(state, "w", encoding="utf-8") as handle:
+                json.dump({"variants": {"": {"model": f"wotw:block/{name}"}}}, handle, indent=2)
+                handle.write("\n")
+            created.append(name)
+        item = os.path.join(items, f"{name}.json")
+        if not os.path.exists(item):
+            with open(item, "w", encoding="utf-8") as handle:
+                json.dump({"parent": f"wotw:block/{name}"}, handle, indent=2)
+                handle.write("\n")
+            created.append(f"{name} (item)")
+    if created:
+        print("new block assets:", ", ".join(created))
 
 
 if __name__ == "__main__":
