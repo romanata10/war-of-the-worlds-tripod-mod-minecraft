@@ -151,6 +151,8 @@ public final class ModItems {
 
     public static Item BLOOD_ROOTS;
 
+    public static Item RED_ROOT;
+
     public static Item TRIPOD_BLUEPRINT;
 
     public static Item MARTIAN_HULL;
@@ -228,6 +230,7 @@ public final class ModItems {
                         entries.accept(WHITE_MARTIAN_ALLOY);
                         entries.accept(MARTIAN_GLASS);
                         entries.accept(BLOOD_ROOTS);
+                        entries.accept(RED_ROOT);
                         entries.accept(TRIPOD_BLUEPRINT);
                         entries.accept(ARC_RIFLE);
                         entries.accept(ALLOY_CANNON);
@@ -533,6 +536,10 @@ public final class ModItems {
         ITEMS.register("martian_glass",
                 () -> MARTIAN_GLASS = new BlockItem(ModBlocks.MARTIAN_GLASS, new Item.Properties()));
         ITEMS.register("blood_roots", () -> BLOOD_ROOTS = new BlockItem(ModBlocks.BLOOD_ROOTS, new Item.Properties()));
+        // the red root is a real item: two of them and a pinch of redstone make blood roots, and the
+        // Martian crates drop it. Without this BlockItem the recipes and the loot table pointed at
+        // an item id that did not exist, which the dedicated server reported as a broken recipe.
+        ITEMS.register("red_root", () -> RED_ROOT = new BlockItem(ModBlocks.RED_ROOT, new Item.Properties()));
         ITEMS.register("tripod_blueprint",
                 () -> TRIPOD_BLUEPRINT = new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Properties()));
         ITEMS.register("martian_hull",
