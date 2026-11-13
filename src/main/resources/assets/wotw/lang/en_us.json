@@ -180,5 +180,21 @@
   "entity.wotw.ussr_book_tripod": "Soviet Book Tripod",
   "item.wotw.ussr_book_tripod_spawn_egg": "Soviet Book Tripod Spawn Egg",
   "entity.wotw.annihilation_tripod": "Annihilation Tripod",
-  "item.wotw.annihilation_tripod_spawn_egg": "Annihilation Tripod Spawn Egg"
+  "item.wotw.annihilation_tripod_spawn_egg": "Annihilation Tripod Spawn Egg",
+  "entity.wotw.mothership_tripod": "Mother Ship Tripod",
+  "item.wotw.mothership_tripod_spawn_egg": "Mother Ship Tripod Spawn Egg",
+  "entity.wotw.mining_tripod": "Martian Mining Machine",
+  "item.wotw.mining_tripod_spawn_egg": "Martian Mining Machine Spawn Egg",
+  "entity.wotw.roger_dean_tripod": "Roger Dean Tripod",
+  "item.wotw.roger_dean_tripod_spawn_egg": "Roger Dean Tripod Spawn Egg",
+  "entity.wotw.city_tripod": "City Tripod",
+  "item.wotw.city_tripod_spawn_egg": "City Tripod Spawn Egg",
+  "entity.wotw.factory_tripod": "Martian Factory Tripod",
+  "item.wotw.factory_tripod_spawn_egg": "Martian Factory Tripod Spawn Egg",
+  "entity.wotw.cage_tripod": "Cage Tripod",
+  "item.wotw.cage_tripod_spawn_egg": "Cage Tripod Spawn Egg",
+  "entity.wotw.humanoid_tripod": "Humanoid Martian Tripod",
+  "item.wotw.humanoid_tripod_spawn_egg": "Humanoid Martian Tripod Spawn Egg",
+  "entity.wotw.signal_scout_tripod": "Martian Scout Machine",
+  "item.wotw.signal_scout_tripod_spawn_egg": "Martian Scout Machine Spawn Egg"
 }

@@ -180,5 +180,21 @@
   "entity.wotw.ussr_book_tripod": "Советская тринога",
   "item.wotw.ussr_book_tripod_spawn_egg": "Яйцо призыва: Советская тринога",
   "entity.wotw.annihilation_tripod": "Двуногая машина",
-  "item.wotw.annihilation_tripod_spawn_egg": "Яйцо призыва: Двуногая машина"
+  "item.wotw.annihilation_tripod_spawn_egg": "Яйцо призыва: Двуногая машина",
+  "entity.wotw.mothership_tripod": "Материнский корабль",
+  "item.wotw.mothership_tripod_spawn_egg": "Яйцо призыва: Материнский корабль",
+  "entity.wotw.mining_tripod": "Марсианская горнодобывающая машина",
+  "item.wotw.mining_tripod_spawn_egg": "Яйцо призыва: Марсианская горнодобывающая машина",
+  "entity.wotw.roger_dean_tripod": "Тринога Роджера Дина",
+  "item.wotw.roger_dean_tripod_spawn_egg": "Яйцо призыва: Тринога Роджера Дина",
+  "entity.wotw.city_tripod": "Тринога-город",
+  "item.wotw.city_tripod_spawn_egg": "Яйцо призыва: Тринога-город",
+  "entity.wotw.factory_tripod": "Марсианский тринога-завод",
+  "item.wotw.factory_tripod_spawn_egg": "Яйцо призыва: Марсианский тринога-завод",
+  "entity.wotw.cage_tripod": "Тринога-клетка",
+  "item.wotw.cage_tripod_spawn_egg": "Яйцо призыва: Тринога-клетка",
+  "entity.wotw.humanoid_tripod": "Человекоподобная марсианская тринога",
+  "item.wotw.humanoid_tripod_spawn_egg": "Яйцо призыва: Человекоподобная марсианская тринога",
+  "entity.wotw.signal_scout_tripod": "Марсианская разведывательная машина",
+  "item.wotw.signal_scout_tripod_spawn_egg": "Яйцо призыва: Марсианская разведывательная машина"
 }

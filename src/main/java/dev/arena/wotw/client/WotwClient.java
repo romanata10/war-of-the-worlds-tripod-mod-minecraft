@@ -93,6 +93,14 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.SCARY_MOVIE, TripodModels::scaryMovie);
         event.registerLayerDefinition(ModModelLayers.USSR_BOOK, TripodModels::ussrBook);
         event.registerLayerDefinition(ModModelLayers.ANNIHILATION, TripodModels::annihilation);
+        event.registerLayerDefinition(ModModelLayers.MOTHERSHIP, TripodModels::mothership);
+        event.registerLayerDefinition(ModModelLayers.MINING, TripodModels::mining);
+        event.registerLayerDefinition(ModModelLayers.ROGER_DEAN, TripodModels::rogerDean);
+        event.registerLayerDefinition(ModModelLayers.CITY, TripodModels::city);
+        event.registerLayerDefinition(ModModelLayers.FACTORY, TripodModels::factory);
+        event.registerLayerDefinition(ModModelLayers.CAGE, TripodModels::cage);
+        event.registerLayerDefinition(ModModelLayers.HUMANOID, TripodModels::humanoid);
+        event.registerLayerDefinition(ModModelLayers.SIGNAL_SCOUT, TripodModels::signalScout);
         event.registerLayerDefinition(ModModelLayers.HUMAN_HELICOPTER, HumanModels::helicopter);
         event.registerLayerDefinition(ModModelLayers.HUMAN_SUBMARINE, HumanModels::submarine);
         event.registerLayerDefinition(ModModelLayers.HUMAN_BOMBER, HumanModels::bomber);
@@ -218,6 +226,22 @@ public final class WotwClient {
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.USSR_BOOK, "ussr_book_tripod", 1.0F, 1.2F));
         event.registerEntityRenderer(ModEntities.ANNIHILATION,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.ANNIHILATION, "annihilation_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.MOTHERSHIP,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.MOTHERSHIP, "mothership_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.MINING,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.MINING, "mining_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.ROGER_DEAN,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.ROGER_DEAN, "roger_dean_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.CITY,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CITY, "city_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.FACTORY,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.FACTORY, "factory_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.CAGE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CAGE, "cage_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.HUMANOID,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.HUMANOID, "humanoid_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.SIGNAL_SCOUT,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SIGNAL_SCOUT, "signal_scout_tripod", 1.0F, 1.3F));
         event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
                         1.8F));

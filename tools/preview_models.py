@@ -94,6 +94,15 @@ TRIPODS = [
     ("scary_movie_tripod", "scaryMovie", "Тринога Scary Movie 4", "Scary Movie 4", "Слепящая вспышка"),
     ("ussr_book_tripod", "ussrBook", "Советская тринога", "книга, СССР", "Глушилка · радиопомехи"),
     ("annihilation_tripod", "annihilation", "Двуногая машина", "Annihilation, 2023", "Прыжок-серп"),
+    # eighth wave: machines taken from the next set of covers
+    ("mothership_tripod", "mothership", "Материнский корабль", "обложка Saddleback", "Десант вшей с борта"),
+    ("mining_tripod", "mining", "Горнодобывающая машина", "марсианский ковш", "Вскрытие грунта"),
+    ("roger_dean_tripod", "rogerDean", "Тринога Роджера Дина", "Roger Dean", "Клюв-мародёр"),
+    ("city_tripod", "city", "Тринога-город", "город под куполом", "Городской щит"),
+    ("factory_tripod", "factory", "Марсианский завод", "заводской арт", "Разлив расплава"),
+    ("cage_tripod", "cage", "Тринога-клетка", "решётчатый шар", "Пленение в клетке"),
+    ("humanoid_tripod", "humanoid", "Человекоподобная тринога", "арт в капюшоне", "Захват и бросок"),
+    ("signal_scout_tripod", "signalScout", "Разведывательная машина", "гравюра", "Сигнал · вызов подмоги"),
     # the human army
     ("human_soldier", "soldier", "Солдат", "люди", "Винтовка · воюет с марсианами"),
     ("human_tank", "tank", "Танк", "люди", "Снаряды по марсианам"),

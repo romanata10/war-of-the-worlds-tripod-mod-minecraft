@@ -3,8 +3,7 @@ package dev.arena.wotw.entity;
 import dev.arena.wotw.entity.ai.BeamAttackGoal;
 import dev.arena.wotw.entity.projectile.BeamKind;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -14,13 +13,17 @@ import net.minecraft.world.level.Level;
  * The 2021 machine: a narrow black torso under wide cape plates with a red core burning in its
  * chest, on two raptor legs and a lashing tail.
  *
- * <p><b>Signature ability</b>: the <b>cape</b>. Farther than eighteen blocks from its prey it fades
- * out of sight completely — no outline, no name, only the red core — and it drops the cloak only
- * when it is close enough to strike.</p>
+ * <p><b>Signature ability</b>: the <b>cape</b>. Farther than eighteen blocks from its prey it wraps
+ * itself in a drifting black smoke screen — the plates disappear behind the smoke while the red core
+ * keeps burning through it — and it drops the screen only when it is close enough to strike.</p>
+ *
+ * <p>The old build used the vanilla invisibility effect for the cloak. That switched on and off
+ * every time the distance crossed eighteen blocks, which the player saw as a model that flickers in
+ * and out of existence, so the cloak is now pure smoke and the machine itself is always drawn.</p>
  */
 public class Attack2021TripodEntity extends AbstractTripodEntity {
 
-    /** Distance at which the cloak falls away. */
+    /** Distance at which the smoke screen falls away. */
     private static final double CLOAK_RANGE = 18.0D;
 
     public Attack2021TripodEntity(EntityType<? extends Attack2021TripodEntity> type, Level world) {
@@ -40,12 +43,12 @@ public class Attack2021TripodEntity extends AbstractTripodEntity {
     protected void serverTick() {
         super.serverTick();
         LivingEntity target = this.getTarget();
-        boolean shouldHide = target == null || this.distanceToSqr(target) > CLOAK_RANGE * CLOAK_RANGE;
-        boolean hidden = this.hasEffect(MobEffects.INVISIBILITY);
-        if (shouldHide && !hidden) {
-            this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 120, 0, false, false, false));
-        } else if (!shouldHide && hidden) {
-            this.removeEffect(MobEffects.INVISIBILITY);
+        boolean cloaked = target == null || this.distanceToSqr(target) > CLOAK_RANGE * CLOAK_RANGE;
+        if (cloaked && this.onIntervalZero(6) && this.level() instanceof ServerLevel server) {
+            // the smoke screen: thick black coils around the plates, the core stays visible
+            server.sendParticles(ParticleTypes.SQUID_INK,
+                    this.getX(), this.getY() + this.getBbHeight() * 0.5D, this.getZ(),
+                    14, this.getBbWidth() * 0.4D, this.getBbHeight() * 0.35D, this.getBbWidth() * 0.4D, 0.01D);
         }
     }
 

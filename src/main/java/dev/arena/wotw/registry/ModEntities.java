@@ -36,6 +36,14 @@ import dev.arena.wotw.entity.FourLeggedTripodEntity;
 import dev.arena.wotw.entity.AlienDawnMk2TripodEntity;
 import dev.arena.wotw.entity.AlienDawnTripodEntity;
 import dev.arena.wotw.entity.AnnihilationTripodEntity;
+import dev.arena.wotw.entity.MotherShipTripodEntity;
+import dev.arena.wotw.entity.MiningTripodEntity;
+import dev.arena.wotw.entity.RogerDeanTripodEntity;
+import dev.arena.wotw.entity.CityTripodEntity;
+import dev.arena.wotw.entity.FactoryTripodEntity;
+import dev.arena.wotw.entity.CageTripodEntity;
+import dev.arena.wotw.entity.HumanoidTripodEntity;
+import dev.arena.wotw.entity.SignalScoutTripodEntity;
 import dev.arena.wotw.entity.NextwaveCyborgTripodEntity;
 import dev.arena.wotw.entity.PendragonTripodEntity;
 import dev.arena.wotw.entity.ScaryMovieTripodEntity;
@@ -241,6 +249,14 @@ public final class ModEntities {
     public static EntityType<ScaryMovieTripodEntity> SCARY_MOVIE;
     public static EntityType<UssrBookTripodEntity> USSR_BOOK;
     public static EntityType<AnnihilationTripodEntity> ANNIHILATION;
+    public static EntityType<MotherShipTripodEntity> MOTHERSHIP;
+    public static EntityType<MiningTripodEntity> MINING;
+    public static EntityType<RogerDeanTripodEntity> ROGER_DEAN;
+    public static EntityType<CityTripodEntity> CITY;
+    public static EntityType<FactoryTripodEntity> FACTORY;
+    public static EntityType<CageTripodEntity> CAGE;
+    public static EntityType<HumanoidTripodEntity> HUMANOID;
+    public static EntityType<SignalScoutTripodEntity> SIGNAL_SCOUT;
 
 
     /** True for every Martian war machine, including the creatures. Used by the human army AI. */
@@ -623,6 +639,54 @@ public final class ModEntities {
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("annihilation_tripod")));
+        ENTITY_TYPES.register("mothership_tripod",
+                () -> MOTHERSHIP = track(EntityType.Builder.of(MotherShipTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.5F, 18.0F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("mothership_tripod")));
+        ENTITY_TYPES.register("mining_tripod",
+                () -> MINING = track(EntityType.Builder.of(MiningTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.5F, 15.8F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("mining_tripod")));
+        ENTITY_TYPES.register("roger_dean_tripod",
+                () -> ROGER_DEAN = track(EntityType.Builder.of(RogerDeanTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.5F, 19.6F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("roger_dean_tripod")));
+        ENTITY_TYPES.register("city_tripod",
+                () -> CITY = track(EntityType.Builder.of(CityTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.0F, 19.5F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("city_tripod")));
+        ENTITY_TYPES.register("factory_tripod",
+                () -> FACTORY = track(EntityType.Builder.of(FactoryTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.4F, 19.0F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("factory_tripod")));
+        ENTITY_TYPES.register("cage_tripod",
+                () -> CAGE = track(EntityType.Builder.of(CageTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.4F, 16.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("cage_tripod")));
+        ENTITY_TYPES.register("humanoid_tripod",
+                () -> HUMANOID = track(EntityType.Builder.of(HumanoidTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.6F, 17.0F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("humanoid_tripod")));
+        ENTITY_TYPES.register("signal_scout_tripod",
+                () -> SIGNAL_SCOUT = track(EntityType.Builder.of(SignalScoutTripodEntity::new, MobCategory.MONSTER)
+                        .sized(5.6F, 19.4F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("signal_scout_tripod")));
     }
 
     private ModEntities() {
@@ -721,6 +785,14 @@ public final class ModEntities {
         event.put(SCARY_MOVIE, ScaryMovieTripodEntity.createAttributes().build());
         event.put(USSR_BOOK, UssrBookTripodEntity.createAttributes().build());
         event.put(ANNIHILATION, AnnihilationTripodEntity.createAttributes().build());
+        event.put(MOTHERSHIP, MotherShipTripodEntity.createAttributes().build());
+        event.put(MINING, MiningTripodEntity.createAttributes().build());
+        event.put(ROGER_DEAN, RogerDeanTripodEntity.createAttributes().build());
+        event.put(CITY, CityTripodEntity.createAttributes().build());
+        event.put(FACTORY, FactoryTripodEntity.createAttributes().build());
+        event.put(CAGE, CageTripodEntity.createAttributes().build());
+        event.put(HUMANOID, HumanoidTripodEntity.createAttributes().build());
+        event.put(SIGNAL_SCOUT, SignalScoutTripodEntity.createAttributes().build());
 
     }
 }

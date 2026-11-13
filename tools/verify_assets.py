@@ -42,6 +42,14 @@ for state_file in sorted((ASSETS / "blockstates").glob("*.json")):
             if not tex_path.exists():
                 errors.append(f"missing block texture {tex_path.relative_to(ROOT)}")
 
+# 3b. every registered block needs a blockstate: without one the placed block falls back to the
+# missing model and shows the black-and-magenta checker (the 1.6.0 ore bug).
+blocks = set(re.findall(r'BLOCKS\.register\("([a-z0-9_]+)"',
+                        (JAVA / "dev/arena/wotw/registry/ModBlocks.java").read_text()))
+for block in sorted(blocks):
+    if not (ASSETS / "blockstates" / f"{block}.json").exists():
+        errors.append(f"missing blockstate for block: {block}")
+
 # 4. entity textures referenced by the client
 client = (JAVA / "dev/arena/wotw/client/WotwClient.java").read_text()
 for tex in re.findall(r'"(tripod_2005|bbc_white_tripod|bbc_red_tripod|flying_manta|book_tripod|asylum_walker|goliath_tripod|martian_heron|martian_spider|martian_louse)"', client):
@@ -143,6 +151,16 @@ for name in structures:
         target = element["location"].split(":", 1)[1]
         if not (RES / "data/wotw/structures" / f"{target}.nbt").exists():
             errors.append(f"{name}: pool points at missing nbt {target}.nbt")
+
+# 8b. recipes and loot tables may only point at item ids that actually exist. A typo here does not
+# break the build, it just prints "Unknown item" in the server log and silently drops the recipe.
+known_items = set(items) | set(block_items)
+data_dirs = [RES / "data/wotw/recipes", RES / "data/wotw/loot_tables"]
+for data_dir in data_dirs:
+    for path in sorted(data_dir.rglob("*.json")):
+        for ref in re.findall(r'"wotw:([a-z0-9_]+)"', path.read_text()):
+            if ref not in known_items:
+                errors.append(f"{path.relative_to(ROOT)}: unknown item wotw:{ref}")
 
 # 9. icon
 if not (ASSETS / "icon.png").exists():

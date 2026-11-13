@@ -68,6 +68,14 @@ public final class ModModelLayers {
     public static final ModelLayerLocation SCARY_MOVIE = layer("scary_movie_tripod");
     public static final ModelLayerLocation USSR_BOOK = layer("ussr_book_tripod");
     public static final ModelLayerLocation ANNIHILATION = layer("annihilation_tripod");
+    public static final ModelLayerLocation MOTHERSHIP = layer("mothership_tripod");
+    public static final ModelLayerLocation MINING = layer("mining_tripod");
+    public static final ModelLayerLocation ROGER_DEAN = layer("roger_dean_tripod");
+    public static final ModelLayerLocation CITY = layer("city_tripod");
+    public static final ModelLayerLocation FACTORY = layer("factory_tripod");
+    public static final ModelLayerLocation CAGE = layer("cage_tripod");
+    public static final ModelLayerLocation HUMANOID = layer("humanoid_tripod");
+    public static final ModelLayerLocation SIGNAL_SCOUT = layer("signal_scout_tripod");
     public static final ModelLayerLocation HUMAN_HELICOPTER = layer("human_helicopter");
     public static final ModelLayerLocation HUMAN_SUBMARINE = layer("human_submarine");
     public static final ModelLayerLocation HUMAN_BOMBER = layer("human_bomber");

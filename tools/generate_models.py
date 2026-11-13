@@ -1956,6 +1956,445 @@ def annihilation_tripod():
         vent.box(-14, -2, -2, 28, 4, 4)
     return m
 
+def mothership_tripod():
+    """The Mother Ship: a wide saucer with a glazed cabin band, two long arms holding a ray emitter
+    in front of it and three landing struts. A small probe tripod hangs under the hull."""
+    m = Model("mothership_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-26, -12, -10, -7), (26, -12, 10, -7), (0, 28, 0, 9))):
+        tapered_leg(m, f"leg{index}", (x, -192, z), 92, 96, 9, 6, 3, splay_x=sx, splay_z=sz,
+                    knee=0.5, spike=4)
+        ball(m.by_name[f"leg{index}"], 0, 0, 0, 10)
+        ball(m.by_name[f"leg{index}_shin"], 0, 0, 0, 8)
+
+    body = m.part("body")
+    body.shell(0, -240, 0, 44, 8, 40, cell=15)
+    body.shell(0, -234, 0, 66, 8, 60, cell=18)
+    body.shell(0, -226, 0, 86, 8, 80, cell=22)
+    body.shell(0, -218, 0, 98, 8, 92, cell=26)
+    collar(body, 0, -214, 0, 100, 6, 94, 5)
+    body.shell(0, -208, 0, 92, 8, 86, cell=24)
+    body.shell(0, -200, 0, 72, 8, 68, cell=18)
+    body.shell(0, -192, 0, 46, 8, 44, cell=12)
+    collar(body, 0, -186, 0, 40, 6, 38, 4)
+
+    for index, x in enumerate((-32, -16, 0, 16, 32)):
+        body.glow_box(x - 6, -216, -48, 12, 8, 3)
+    body.glow_box(-44, -214, -20, 3, 8, 24)
+    body.glow_box(42, -214, -20, 3, 8, 24)
+
+    spike_ring(body, 0, -206, 0, 46, 12, size=5, height=6)
+    for index in range(8):
+        angle = 6.283185307179586 * index / 8.0
+        body.box(int(round(44 * math.cos(angle))) - 2, -204, int(round(42 * math.sin(angle))) - 2,
+                 4, 4, 4)
+
+    # one articulated arm reaches up off the crown and holds the ray emitter
+    pylon = m.part("pylon", parent="body", pivot=(0, -240, 8))
+    pylon.box(-8, -14, -8, 16, 14, 16)
+    collar(pylon, 0, -16, 0, 20, 4, 20, 2)
+    arm = m.part("arm", parent="pylon", pivot=(0, -10, 0), rot=(26.0, 0.0, 0.0))
+    arm.box(-5, -44, -5, 10, 46, 10)
+    ball(arm, 0, -42, 0, 8)
+    elbow = m.part("elbow", parent="arm", pivot=(0, -42, 0), rot=(-74.0, 0.0, 0.0))
+    elbow.box(-4, -48, -4, 9, 48, 9)
+    emitter = m.part("emitter", parent="elbow", pivot=(0, -46, 0), rot=(52.0, 0.0, 0.0))
+    emitter.box(-11, -18, -11, 22, 24, 22)
+    emitter.box(-13, -6, -22, 26, 12, 14)
+    emitter.glow_box(-7, -9, -24, 14, 14, 3)
+    emitter.box(-2, 18, -2, 5, 10, 5)
+
+    probe = m.part("probe", parent="body", pivot=(0, -186, 6))
+    probe.box(-1, 0, -1, 3, 30, 3)
+    cage = m.part("probe_cage", parent="probe", pivot=(0, 30, 0))
+    cage.shell(0, -8, 0, 18, 16, 18, cell=9)
+    cage.glow_box(-4, -4, -10, 8, 6, 2)
+    for index, (x, z) in enumerate(((-6, -6), (6, -6), (0, 8))):
+        cage.box(x - 1, 8, z - 1, 3, 14, 3)
+    return m
+
+def mining_tripod():
+    """The Martian mining machine: a squat red body bent forward over a bucket of iron teeth, with a
+    drill cone, exhaust stacks and three heavy legs."""
+    m = Model("mining_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-24, -10, -10, -6), (24, -10, 10, -6), (0, 28, 0, 8))):
+        barbed_leg(m, f"leg{index}", (x, -168, z), 86, 90, 10, splay_x=sx, splay_z=sz, foot=0,
+                   barbs=3, barb=5)
+        ball(m.by_name[f"leg{index}"], 0, 0, 0, 11)
+        ball(m.by_name[f"leg{index}_shin"], 0, 0, 0, 9)
+        foot = m.part(f"leg{index}_foot", parent=f"leg{index}_shin", pivot=(0, 88, 0))
+        foot.box(-9, 0, -12, 18, 5, 24)
+        foot.box(-7, 4, -14, 14, 4, 8)
+
+    body = m.part("body")
+    rounded_hull(body, 0, -206, 4, 76, 40, 62, layers=5, curve=0.55, cell=18)
+    collar(body, 0, -170, 0, 78, 6, 64, 4)
+    collar(body, 0, -214, 0, 60, 6, 50, 4)
+
+    # the great scoop of teeth sloping down at the front
+    scoop = m.part("scoop", parent="body", pivot=(0, -190, -26), rot=(22.0, 0.0, 0.0))
+    scoop.box(-30, -6, -34, 60, 8, 36)
+    scoop.box(-26, 2, -44, 52, 12, 12)
+    for index, x in enumerate((-22, -11, 0, 11, 22)):
+        scoop.box(x - 3, 10, -48, 6, 8, 10)
+        scoop.box(x - 2, 16, -52, 5, 6, 8)
+    scoop.glow_box(-18, 2, -30, 36, 4, 3)
+
+    # drill cone under the chin
+    drill = m.part("drill", parent="body", pivot=(0, -176, -40), rot=(38.0, 0.0, 0.0))
+    drill.box(-9, -9, 0, 18, 18, 16)
+    drill.box(-6, -6, 14, 12, 12, 14)
+    drill.box(-3, -3, 26, 7, 7, 12)
+    drill.glow_box(-2, -2, 36, 4, 4, 2)
+
+    # exhaust stacks and ore bins on the back
+    for index, x in enumerate((-20, 20)):
+        stack = m.part(f"stack{index}", parent="body", pivot=(x, -212, 18))
+        stack.box(-5, -22, -5, 10, 22, 10)
+        stack.box(-7, -26, -7, 14, 5, 14)
+        stack.glow_box(-3, -24, -3, 6, 3, 6)
+    bin_part = m.part("bin", parent="body", pivot=(0, -206, 28))
+    bin_part.box(-20, -10, 0, 40, 22, 16)
+    bin_part.glow_box(-14, -4, -2, 28, 6, 2)
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        arm = m.part(name, parent="body", pivot=(side * 36, -190, -8), rot=(18.0, 0.0, side * 16.0))
+        arm.box(-5, -4, -4, 10, 10, 34)
+        claw = m.part(name + "_claw", parent=name, pivot=(0, 4, 32), rot=(10.0, 0.0, 0.0))
+        claw.box(-7, -2, 0, 14, 8, 12)
+        claw.box(-8, 4, 8, 4, 4, 14)
+        claw.box(4, 4, 8, 4, 4, 14)
+
+    for index, z in enumerate((-8, 6)):
+        vent = m.part(f"vent{index}", parent="body", pivot=(0, -186, z))
+        vent.box(-30, -2, -2, 60, 4, 4)
+    return m
+
+
+def roger_dean_tripod():
+    """Roger Dean's machine: a copper bird of prey — a long crested skull with a hooked beak on an
+    S-shaped neck, a slim pelvis, folded blade arms and long thin legs on ball joints."""
+    m = Model("roger_dean_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-13, -8, -8, -6), (13, -8, 8, -6), (0, 22, 0, 9))):
+        tapered_leg(m, f"leg{index}", (x, -178, z), 96, 104, 8, 5, 2, splay_x=sx, splay_z=sz,
+                    knee=0.55, spike=3)
+        ball(m.by_name[f"leg{index}"], 0, 0, 0, 8)
+        ball(m.by_name[f"leg{index}_shin"], 0, 0, 0, 7)
+        claw_foot(m, f"leg{index}_claw", f"leg{index}_shin", (0, 102, 0), size=9, spread=5)
+
+    pelvis = m.part("pelvis")
+    rounded_hull(pelvis, 0, -210, 0, 34, 34, 30, layers=4, curve=0.5, cell=11)
+    collar(pelvis, 0, -184, 0, 36, 5, 32, 3)
+
+    neck1 = m.part("neck1", parent="pelvis", pivot=(0, -210, -6), rot=(-28.0, 0.0, 0.0))
+    neck1.box(-5, -30, -5, 10, 30, 10)
+    collar(neck1, 0, -8, 0, 14, 4, 14, 2)
+    neck2 = m.part("neck2", parent="neck1", pivot=(0, -28, 0), rot=(38.0, 0.0, 0.0))
+    neck2.box(-4, -26, -4, 9, 26, 9)
+    neck2.box(-6, -6, -6, 12, 5, 12)
+
+    head = m.part("head", parent="neck2", pivot=(0, -26, 0), rot=(18.0, 0.0, 0.0))
+    head.shell(0, -14, -2, 24, 14, 24, cell=9)
+    head.box(-11, -10, -26, 22, 9, 18)
+    head.box(-7, -6, -40, 14, 6, 16)
+    head.box(-4, -2, -52, 9, 4, 14)
+    head.box(-3, 2, -60, 7, 3, 9)
+    head.box(-9, 3, -34, 18, 4, 14)
+    head.glow_box(-8, -8, -14, 16, 6, 2)
+    # crest fin and the brow horns of the skull
+    head.box(-2, -24, -2, 5, 12, 18)
+    head.box(-11, -20, -18, 3, 9, 6)
+    head.box(8, -20, -18, 3, 9, 6)
+    for index, x in enumerate((-6, 0, 6)):
+        head.box(x - 1, -3, -36, 3, 3, 6)
+    for index, x in enumerate((-9, 9)):
+        head.box(x - 2, 8, 0, 5, 5, 10)
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        arm = m.part(name, parent="pelvis", pivot=(side * 22, -206, -2), rot=(-40.0, 0.0, -side * 24.0))
+        arm.box(-3, 0, -3, 6, 34, 6)
+        ball(arm, 0, 33, 0, 6)
+        fore = m.part(name + "_fore", parent=name, pivot=(0, 32, 0), rot=(66.0, 0.0, side * 12.0))
+        fore.box(-3, 0, -3, 6, 32, 6)
+        fore.box(-4, 28, -8, 8, 6, 12)
+        fore.box(-3, 32, -12, 2, 6, 6)
+        fore.box(1, 32, -12, 2, 6, 6)
+    tail = m.part("tail", parent="pelvis", pivot=(0, -192, 18), rot=(58.0, 0.0, 0.0))
+    tail.box(-2, 0, -2, 5, 40, 5)
+    tail.box(-1, 38, -1, 3, 26, 3)
+    tail.glow_box(-1, 62, -1, 3, 5, 3)
+
+    for index, y in enumerate((-204, -196, -188)):
+        coil = m.part(f"coil{index}", parent="pelvis", pivot=(0, y, 0))
+        collar(coil, 0, 0, 0, 38, 3, 34, 2)
+    return m
+
+def city_tripod():
+    """The city walker: a small dark carriage carrying a huge glass dome, every window of the city
+    inside burning behind the panes. Three thin legs, no weapons in sight."""
+    m = Model("city_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-16, -8, -9, -6), (16, -8, 9, -6), (0, 24, 0, 9))):
+        tapered_leg(m, f"leg{index}", (x, -168, z), 88, 92, 7, 5, 2, splay_x=sx, splay_z=sz,
+                    knee=0.5, spike=3)
+        ball(m.by_name[f"leg{index}"], 0, 0, 0, 8)
+        leg_bands(m, f"leg{index}", 88, 92, 5, thigh_bands=(24, 56), shin_bands=(28, 62))
+
+    carriage = m.part("carriage")
+    rounded_hull(carriage, 0, -186, 0, 44, 20, 40, layers=4, curve=0.5, cell=13)
+    collar(carriage, 0, -170, 0, 46, 5, 42, 3)
+    collar(carriage, 0, -192, 0, 42, 5, 38, 3)
+    for index, x in enumerate((-12, 0, 12)):
+        carriage.glow_box(x - 4, -180, -21, 8, 10, 2)
+
+    # the dome: sphere of panes with lit windows inside
+    dome = m.part("dome", parent="carriage", pivot=(0, -192, 0))
+    radius = 34
+    levels = 9
+    for level in range(levels):
+        t = (level + 0.5) / levels
+        shrink = math.sqrt(max(0.06, 1.0 - (2.0 * t - 1.0) ** 2))
+        width = max(4, int(round(2 * radius * shrink)))
+        y = int(round(-2 * radius * t))
+        ring = max(6, int(round(width / 7.0)))
+        for index in range(ring):
+            angle = 6.283185307179586 * index / ring
+            x = int(round(width * 0.5 * math.cos(angle)))
+            z = int(round(width * 0.5 * math.sin(angle)))
+            dome.box(x - 3, y, z - 3, 6, 7, 6)
+    # the windows of the city
+    for index in range(18):
+        angle = 6.283185307179586 * index / 18.0
+        level = 2 + index % 5
+        t = (level + 0.5) / levels
+        shrink = math.sqrt(max(0.06, 1.0 - (2.0 * t - 1.0) ** 2))
+        ring_radius = radius * shrink * 0.62
+        dome.glow_box(int(round(ring_radius * math.cos(angle))) - 2, int(round(-2 * radius * t)),
+                      int(round(ring_radius * math.sin(angle))) - 2, 4, 4, 4)
+    dome.box(-6, -2 * radius - 6, -6, 12, 8, 12)
+    dome.glow_box(-4, -2 * radius - 10, -4, 8, 4, 8)
+
+    spire = m.part("spire", parent="dome", pivot=(0, -2 * radius - 6, 0))
+    spire.box(-2, -26, -2, 4, 26, 4)
+    eye(m, "spire_light", "spire", (0, -28, 0), (5, 5))
+    return m
+
+
+def factory_tripod():
+    """The Martian factory: a riveted barrel of vertical slats with two furnace mouths, a chimney
+    spitting flame, pincer cranes and four thin legs."""
+    m = Model("factory_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-20, -14, -10, -6), (20, -14, 10, -6),
+                                            (-14, 20, -6, 8), (14, 20, 6, 8))):
+        tapered_leg(m, f"leg{index}", (x, -168, z), 86, 90, 7, 5, 2, splay_x=sx, splay_z=sz,
+                    knee=0.5, spike=3)
+        ball(m.by_name[f"leg{index}"], 0, 0, 0, 8)
+        leg_bands(m, f"leg{index}", 86, 90, 5, thigh_bands=(22, 54), shin_bands=(26, 60))
+
+    body = m.part("body")
+    body.shell(0, -186, 0, 58, 12, 54, cell=14)
+    for level in range(5):
+        collar(body, 0, -216 + level * 14, 0, 60 - level, 4, 56 - level, 3)
+    body.shell(0, -216, 0, 52, 10, 48, cell=13)
+    # vertical slats around the barrel
+    for index in range(10):
+        angle = 6.283185307179586 * index / 10.0
+        x = int(round(29 * math.cos(angle)))
+        z = int(round(27 * math.sin(angle)))
+        body.box(x - 2, -214, z - 2, 5, 58, 5)
+    # furnace mouths
+    for index, x in enumerate((-20, 20)):
+        body.box(x - 9, -196, -28, 18, 16, 4)
+        body.glow_box(x - 6, -192, -30, 12, 9, 2)
+
+    chimney = m.part("chimney", parent="body", pivot=(0, -216, 6))
+    chimney.box(-9, -32, -9, 18, 32, 18)
+    chimney.box(-11, -36, -11, 22, 6, 22)
+    flame = m.part("flame", parent="chimney", pivot=(0, -38, 0))
+    flame.glow_box(-7, -18, -7, 14, 18, 14)
+    flame.glow_box(-4, -30, -4, 8, 14, 8)
+    flame.glow_box(-2, -40, -2, 4, 12, 4)
+
+    # pincer cranes on the shoulders
+    for side, name in ((-1, "crane_l"), (1, "crane_r")):
+        boom = m.part(name, parent="body", pivot=(side * 28, -206, -6), rot=(0.0, 0.0, -side * 34.0))
+        boom.box(-4, 0, -4, 8, 44, 8)
+        boom.box(-3, 0, -10, 6, 6, 20)
+        elb = m.part(name + "_fore", parent=name, pivot=(0, 42, 0), rot=(0.0, 0.0, side * 54.0))
+        elb.box(-3, 0, -3, 7, 40, 7)
+        jaw = m.part(name + "_jaw", parent=name + "_fore", pivot=(0, 38, 0))
+        jaw.box(-8, 0, -5, 16, 6, 10)
+        jaw.box(-8, 6, -5, 4, 10, 5)
+        jaw.box(4, 6, -5, 4, 10, 5)
+
+    for index, x in enumerate((-14, 14)):
+        pipe = m.part(f"pipe{index}", parent="body", pivot=(x, -212, -22))
+        pipe.box(-3, -6, -3, 7, 26, 7)
+        pipe.box(-4, 18, -8, 9, 5, 12)
+    return m
+
+
+def cage_tripod():
+    """The cage walker: a wireframe sphere of Martian ribs with a single red eye burning inside,
+    carried on four long angular legs that stride far out from the hull."""
+    m = Model("cage_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-30, -20, 12, 8), (30, -20, -12, 8),
+                                            (-24, 26, 10, -8), (24, 26, -10, -8))):
+        hip = m.part(f"leg{index}", pivot=(x, -196, z), rot=(0.0, 0.0, sx))
+        hip.box(-4, 0, -4, 9, 58, 9)
+        ball(hip, 0, 0, 0, 9)
+        knee = m.part(f"leg{index}_mid", parent=f"leg{index}", pivot=(0, 56, 0),
+                      rot=(sz * 0.4, 0.0, -sx * 0.5))
+        knee.box(-4, 0, -4, 8, 52, 8)
+        ball(knee, 0, 0, 0, 8)
+        shin = m.part(f"leg{index}_shin", parent=f"leg{index}_mid", pivot=(0, 50, 0),
+                      rot=(-sz * 0.3, 0.0, sx * 0.18))
+        shin.box(-3, 0, -3, 7, 70, 7)
+        shin.box(-6, 68, -8, 12, 5, 18)
+        shin.box(-5, 73, -14, 10, 4, 8)
+
+    hub = m.part("hub")
+    rounded_hull(hub, 0, -206, 0, 36, 16, 34, layers=3, curve=0.45, cell=11)
+    collar(hub, 0, -194, 0, 38, 5, 36, 3)
+
+    cage_part = m.part("cage", parent="hub", pivot=(0, -214, 0))
+    radius = 32
+    levels = 7
+    for level in range(levels):
+        t = (level + 0.5) / levels
+        shrink = math.sqrt(max(0.08, 1.0 - (2.0 * t - 1.0) ** 2))
+        ring_radius = radius * shrink
+        y = int(round(-2 * radius * t))
+        count = max(8, int(round(ring_radius / 4.0)))
+        for index in range(count):
+            angle = 6.283185307179586 * index / count
+            x = int(round(ring_radius * math.cos(angle)))
+            z = int(round(ring_radius * math.sin(angle)))
+            cage_part.box(x - 2, y, z - 2, 4, 4, 4)
+    for index in range(8):
+        angle = 6.283185307179586 * index / 8.0
+        steps = 9
+        for step in range(steps):
+            t = (step + 0.5) / steps
+            shrink = math.sqrt(max(0.08, 1.0 - (2.0 * t - 1.0) ** 2))
+            ring_radius = radius * shrink
+            y = int(round(-2 * radius * t))
+            x = int(round(ring_radius * math.cos(angle)))
+            z = int(round(ring_radius * math.sin(angle)))
+            cage_part.box(x - 2, y, z - 2, 4, 4, 4)
+    cage_part.box(-4, -2 * radius - 4, -4, 8, 8, 8)
+    cage_part.box(-4, 2 * radius - 4, -4, 8, 8, 8)
+
+    core = m.part("core", parent="cage", pivot=(0, -radius, 0))
+    ball(core, 0, 0, 0, 14)
+    eye(m, "eye", "core", (0, -2, -13), (12, 12), depth=3)
+    for index, x in enumerate((-18, 18)):
+        core.glow_box(x - 3, -3, -10, 6, 6, 3)
+
+    for side, name in ((-1, "claw_l"), (1, "claw_r")):
+        arm = m.part(name, parent="hub", pivot=(side * 16, -200, -12), rot=(24.0, 0.0, -side * 18.0))
+        arm.box(-2, 0, -2, 5, 26, 5)
+        arm.box(-4, 24, -6, 9, 5, 12)
+        arm.box(-5, 28, -10, 3, 8, 3)
+        arm.box(2, 28, -10, 3, 8, 3)
+    return m
+
+def humanoid_tripod():
+    """The humanoid Martian: a hooded skull with a lit visor, a chest full of instruments, two
+    jointed arms with grippers hanging free of the hull, on three legs."""
+    m = Model("humanoid_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-20, -12, -9, -6), (20, -12, 9, -6), (0, 24, 0, 9))):
+        tapered_leg(m, f"leg{index}", (x, -182, z), 90, 94, 9, 6, 3, splay_x=sx, splay_z=sz,
+                    knee=0.5, spike=3)
+        ball(m.by_name[f"leg{index}"], 0, 0, 0, 10)
+        ball(m.by_name[f"leg{index}_shin"], 0, 0, 0, 8)
+
+    torso = m.part("torso")
+    rounded_hull(torso, 0, -230, 0, 46, 46, 36, layers=5, curve=0.42, cell=14)
+    collar(torso, 0, -188, 0, 44, 6, 34, 3)
+    collar(torso, 0, -226, 0, 40, 5, 32, 3)
+    torso.glow_box(-13, -222, -19, 26, 6, 3)
+    for index, x in enumerate((-12, 0, 12)):
+        torso.box(x - 5, -212, -19, 10, 18, 3)
+        torso.glow_box(x - 2, -208, -20, 4, 10, 2)
+
+    # the cowl: side plates and a back plate, open at the front
+    hood = m.part("hood", parent="torso", pivot=(0, -234, -2))
+    hood.box(-26, -22, -18, 5, 24, 40)
+    hood.box(21, -22, -18, 5, 24, 40)
+    hood.box(-26, -22, 16, 52, 24, 6)
+    hood.box(-22, -26, -14, 44, 6, 32)
+    hood.box(-20, -18, -20, 40, 4, 5)
+    collar(hood, 0, -26, 2, 50, 4, 40, 3)
+
+    head = m.part("head", parent="hood", pivot=(0, -10, -6))
+    head.box(-12, -16, -14, 24, 16, 22)
+    head.box(-8, -12, -20, 16, 8, 8)
+    head.glow_box(-9, -10, -22, 18, 5, 2)
+    head.box(-5, -2, -18, 10, 5, 8)
+    head.box(-2, -22, -6, 4, 7, 12)
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        shoulder = m.part(name, parent="torso", pivot=(side * 25, -222, -4),
+                          rot=(-14.0, 0.0, -side * 14.0))
+        ball(shoulder, 0, 0, 0, 9)
+        shoulder.box(-5, 0, -5, 10, 36, 10)
+        fore = m.part(name + "_fore", parent=name, pivot=(0, 34, 0), rot=(26.0, 0.0, 0.0))
+        fore.box(-4, 0, -4, 9, 32, 9)
+        fore.box(-6, 28, -6, 12, 8, 12)
+        for index, x in enumerate((-5, 0, 5)):
+            fore.box(x - 1, 34, -8, 3, 10, 4)
+            fore.box(x - 1, 40, -12, 3, 4, 6)
+
+    for index, z in enumerate((-10, 8)):
+        belt = m.part(f"belt{index}", parent="torso", pivot=(0, -196, z))
+        belt.box(-22, -2, -2, 44, 4, 4)
+    return m
+
+def signal_scout_tripod():
+    """The scout: a bare sphere of lenses on a stem, a radar dish above it and three very thin legs.
+    It carries no weapon — only the whip antenna that calls the fleet."""
+    m = Model("signal_scout_tripod")
+
+    for index, (x, z, sx, sz) in enumerate(((-15, -8, -8, -6), (15, -8, 8, -6), (0, 22, 0, 8))):
+        tapered_leg(m, f"leg{index}", (x, -206, z), 96, 100, 6, 4, 2, splay_x=sx, splay_z=sz,
+                    knee=0.5, spike=2)
+        leg_bands(m, f"leg{index}", 96, 100, 4, thigh_bands=(26, 62), shin_bands=(30, 68))
+
+    body = m.part("body")
+    rounded_hull(body, 0, -224, 0, 30, 18, 28, layers=3, curve=0.4, cell=10)
+    collar(body, 0, -208, 0, 32, 5, 30, 3)
+
+    head = m.part("head", parent="body", pivot=(0, -228, 0))
+    ball(head, 0, -14, 0, 20)
+    collar(head, 0, -6, 0, 34, 4, 32, 2)
+    eye(m, "eye_main", "head", (0, -12, -18), (14, 14), depth=3)
+    eye(m, "eye_side_l", "head", (-12, -20, -12), (6, 6), depth=2)
+    eye(m, "eye_side_r", "head", (12, -20, -12), (6, 6), depth=2)
+    head.box(-18, -16, -4, 4, 8, 10)
+    head.box(14, -16, -4, 4, 8, 10)
+
+    dish = m.part("dish", parent="head", pivot=(0, -34, 0), rot=(-24.0, 0.0, 0.0))
+    dish.box(-2, -16, -2, 4, 16, 4)
+    dish.box(-16, -20, -4, 32, 4, 10)
+    dish.box(-12, -24, -3, 24, 4, 8)
+    dish.glow_box(-6, -22, -4, 12, 3, 2)
+    mast = m.part("mast", parent="dish", pivot=(0, -20, 0))
+    mast.box(-1, -34, -1, 3, 34, 3)
+    mast.box(-5, -30, -1, 3, 2, 3)
+    mast.box(3, -24, -1, 3, 2, 3)
+    mast.glow_box(-2, -38, -2, 5, 5, 5)
+
+    for index, x in enumerate((-9, 9)):
+        fin = m.part(f"fin{index}", parent="body", pivot=(x, -214, 6))
+        fin.box(-2, -10, -1, 4, 12, 10)
+    return m
+
 TRIPODS = [
     ("tripod2005", finalise(tripod_2005(), "tripod2005")),
     ("bbcWhite", finalise(bbc_white(), "bbcWhite")),
@@ -2013,6 +2452,16 @@ TRIPODS = [
     ("scaryMovie", finalise(scary_movie_tripod(), "scaryMovie")),
     ("ussrBook", finalise(ussr_book_tripod(), "ussrBook")),
     ("annihilation", finalise(annihilation_tripod(), "annihilation")),
+
+    # eighth wave: eight machines drawn from the next set of cover art
+    ("mothership", finalise(mothership_tripod(), "mothership")),
+    ("mining", finalise(mining_tripod(), "mining")),
+    ("rogerDean", finalise(roger_dean_tripod(), "rogerDean")),
+    ("city", finalise(city_tripod(), "city")),
+    ("factory", finalise(factory_tripod(), "factory")),
+    ("cage", finalise(cage_tripod(), "cage")),
+    ("humanoid", finalise(humanoid_tripod(), "humanoid")),
+    ("signalScout", finalise(signal_scout_tripod(), "signalScout")),
 ]
 
 
