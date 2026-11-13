@@ -59,7 +59,7 @@ public class WayneTripodEntity extends AbstractTripodEntity {
             drummed = true;
         }
         if (drummed) {
-            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.RAID_HORN,
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.RAID_HORN.value(),
                     SoundSource.HOSTILE, 3.0F, 0.6F);
             if (this.level() instanceof ServerLevel server) {
                 server.sendParticles(ParticleTypes.NOTE, this.getX(), this.getY() + this.getBbHeight() * 0.8D,
