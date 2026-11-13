@@ -76,9 +76,19 @@ public final class ModModelLayers {
     public static final ModelLayerLocation CAGE = layer("cage_tripod");
     public static final ModelLayerLocation HUMANOID = layer("humanoid_tripod");
     public static final ModelLayerLocation SIGNAL_SCOUT = layer("signal_scout_tripod");
+    public static final ModelLayerLocation FROST = layer("frost_tripod");
+    public static final ModelLayerLocation STORM = layer("storm_tripod");
+    public static final ModelLayerLocation WEAVER = layer("weaver_tripod");
+    public static final ModelLayerLocation BLINK = layer("blink_tripod");
+    public static final ModelLayerLocation HARVESTER = layer("harvester_tripod");
     public static final ModelLayerLocation HUMAN_HELICOPTER = layer("human_helicopter");
     public static final ModelLayerLocation HUMAN_SUBMARINE = layer("human_submarine");
     public static final ModelLayerLocation HUMAN_BOMBER = layer("human_bomber");
+    public static final ModelLayerLocation HUMAN_APC = layer("human_apc");
+    public static final ModelLayerLocation HUMAN_ARTILLERY = layer("human_artillery");
+    public static final ModelLayerLocation HUMAN_JET = layer("human_jet");
+    public static final ModelLayerLocation HUMAN_SNIPER = layer("human_sniper");
+    public static final ModelLayerLocation HUMAN_MEDIC = layer("human_medic");
 
     public static final ModelLayerLocation MARTIAN = layer("martian");
     public static final ModelLayerLocation MARTIAN_MASTER = layer("martian_master");

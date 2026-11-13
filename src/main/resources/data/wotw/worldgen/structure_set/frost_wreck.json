@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:frost_wreck",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 74,
+    "separation": 24,
+    "salt": 3417027,
+    "spread_type": "linear"
+  }
+}

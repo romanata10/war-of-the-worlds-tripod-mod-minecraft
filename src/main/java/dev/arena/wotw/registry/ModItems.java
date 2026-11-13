@@ -122,6 +122,26 @@ public final class ModItems {
 
     public static Item SIGNAL_SCOUT_SPAWN_EGG;
 
+    public static Item FROST_SPAWN_EGG;
+
+    public static Item STORM_SPAWN_EGG;
+
+    public static Item WEAVER_SPAWN_EGG;
+
+    public static Item BLINK_SPAWN_EGG;
+
+    public static Item HARVESTER_SPAWN_EGG;
+
+    public static Item HUMAN_APC_SPAWN_EGG;
+
+    public static Item HUMAN_ARTILLERY_SPAWN_EGG;
+
+    public static Item HUMAN_JET_SPAWN_EGG;
+
+    public static Item HUMAN_SNIPER_SPAWN_EGG;
+
+    public static Item HUMAN_MEDIC_SPAWN_EGG;
+
     public static Item HUMAN_HELICOPTER_SPAWN_EGG;
 
     public static Item HUMAN_SUBMARINE_SPAWN_EGG;
@@ -152,6 +172,26 @@ public final class ModItems {
     public static Item BLOOD_ROOTS;
 
     public static Item RED_ROOT;
+
+    public static Item MARTIAN_MORTAR;
+
+    public static Item ROOT_SPREADER;
+
+    public static Item GRAVITY_WELL;
+
+    public static Item REPAIR_POD;
+
+    public static Item SHIELD_PYLON;
+
+    public static Item MARTIAN_PIPE;
+
+    public static Item HULL_GRATING;
+
+    public static Item CHITIN_BLOCK;
+
+    public static Item ASHEN_SOIL;
+
+    public static Item FROZEN_HULL;
 
     public static Item TRIPOD_BLUEPRINT;
 
@@ -231,6 +271,16 @@ public final class ModItems {
                         entries.accept(MARTIAN_GLASS);
                         entries.accept(BLOOD_ROOTS);
                         entries.accept(RED_ROOT);
+                        entries.accept(MARTIAN_MORTAR);
+                        entries.accept(ROOT_SPREADER);
+                        entries.accept(GRAVITY_WELL);
+                        entries.accept(REPAIR_POD);
+                        entries.accept(SHIELD_PYLON);
+                        entries.accept(MARTIAN_PIPE);
+                        entries.accept(HULL_GRATING);
+                        entries.accept(CHITIN_BLOCK);
+                        entries.accept(ASHEN_SOIL);
+                        entries.accept(FROZEN_HULL);
                         entries.accept(TRIPOD_BLUEPRINT);
                         entries.accept(ARC_RIFLE);
                         entries.accept(ALLOY_CANNON);
@@ -275,6 +325,16 @@ public final class ModItems {
                         entries.accept(CAGE_SPAWN_EGG);
                         entries.accept(HUMANOID_SPAWN_EGG);
                         entries.accept(SIGNAL_SCOUT_SPAWN_EGG);
+                        entries.accept(FROST_SPAWN_EGG);
+                        entries.accept(STORM_SPAWN_EGG);
+                        entries.accept(WEAVER_SPAWN_EGG);
+                        entries.accept(BLINK_SPAWN_EGG);
+                        entries.accept(HARVESTER_SPAWN_EGG);
+                        entries.accept(HUMAN_APC_SPAWN_EGG);
+                        entries.accept(HUMAN_ARTILLERY_SPAWN_EGG);
+                        entries.accept(HUMAN_JET_SPAWN_EGG);
+                        entries.accept(HUMAN_SNIPER_SPAWN_EGG);
+                        entries.accept(HUMAN_MEDIC_SPAWN_EGG);
                         entries.accept(HUMAN_HELICOPTER_SPAWN_EGG);
                         entries.accept(HUMAN_SUBMARINE_SPAWN_EGG);
                         entries.accept(HUMAN_BOMBER_SPAWN_EGG);
@@ -487,6 +547,36 @@ public final class ModItems {
         ITEMS.register("signal_scout_tripod_spawn_egg",
                 () -> SIGNAL_SCOUT_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SIGNAL_SCOUT,
                         0x565A60, 0xC478FF, new Item.Properties()));
+        ITEMS.register("frost_tripod_spawn_egg",
+                () -> FROST_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FROST,
+                        0xB0CAD6, 0xAAEFFF, new Item.Properties()));
+        ITEMS.register("storm_tripod_spawn_egg",
+                () -> STORM_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.STORM,
+                        0x56524E, 0x8CECFF, new Item.Properties()));
+        ITEMS.register("weaver_tripod_spawn_egg",
+                () -> WEAVER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.WEAVER,
+                        0x604A30, 0xC6FF82, new Item.Properties()));
+        ITEMS.register("blink_tripod_spawn_egg",
+                () -> BLINK_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BLINK,
+                        0x3E3852, 0xC478FF, new Item.Properties()));
+        ITEMS.register("harvester_tripod_spawn_egg",
+                () -> HARVESTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HARVESTER,
+                        0x84603E, 0xFFA846, new Item.Properties()));
+        ITEMS.register("human_apc_spawn_egg",
+                () -> HUMAN_APC_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_APC,
+                        0x5C6446, 0xFFE282, new Item.Properties()));
+        ITEMS.register("human_artillery_spawn_egg",
+                () -> HUMAN_ARTILLERY_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_ARTILLERY,
+                        0x545852, 0xFFC46E, new Item.Properties()));
+        ITEMS.register("human_jet_spawn_egg",
+                () -> HUMAN_JET_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_JET,
+                        0x9CA6B0, 0xFFAA5A, new Item.Properties()));
+        ITEMS.register("human_sniper_spawn_egg",
+                () -> HUMAN_SNIPER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_SNIPER,
+                        0x484E3A, 0xD2F0A0, new Item.Properties()));
+        ITEMS.register("human_medic_spawn_egg",
+                () -> HUMAN_MEDIC_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_MEDIC,
+                        0xC4C4BE, 0xFF7878, new Item.Properties()));
         ITEMS.register("human_helicopter_spawn_egg",
                 () -> HUMAN_HELICOPTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_HELICOPTER, 0x55603F, 0xA9B27C,
                         new Item.Properties()));
@@ -540,6 +630,16 @@ public final class ModItems {
         // Martian crates drop it. Without this BlockItem the recipes and the loot table pointed at
         // an item id that did not exist, which the dedicated server reported as a broken recipe.
         ITEMS.register("red_root", () -> RED_ROOT = new BlockItem(ModBlocks.RED_ROOT, new Item.Properties()));
+        ITEMS.register("martian_mortar", () -> MARTIAN_MORTAR = new BlockItem(ModBlocks.MARTIAN_MORTAR, new Item.Properties()));
+        ITEMS.register("root_spreader", () -> ROOT_SPREADER = new BlockItem(ModBlocks.ROOT_SPREADER, new Item.Properties()));
+        ITEMS.register("gravity_well", () -> GRAVITY_WELL = new BlockItem(ModBlocks.GRAVITY_WELL, new Item.Properties()));
+        ITEMS.register("repair_pod", () -> REPAIR_POD = new BlockItem(ModBlocks.REPAIR_POD, new Item.Properties()));
+        ITEMS.register("shield_pylon", () -> SHIELD_PYLON = new BlockItem(ModBlocks.SHIELD_PYLON, new Item.Properties()));
+        ITEMS.register("martian_pipe", () -> MARTIAN_PIPE = new BlockItem(ModBlocks.MARTIAN_PIPE, new Item.Properties()));
+        ITEMS.register("hull_grating", () -> HULL_GRATING = new BlockItem(ModBlocks.HULL_GRATING, new Item.Properties()));
+        ITEMS.register("chitin_block", () -> CHITIN_BLOCK = new BlockItem(ModBlocks.CHITIN_BLOCK, new Item.Properties()));
+        ITEMS.register("ashen_soil", () -> ASHEN_SOIL = new BlockItem(ModBlocks.ASHEN_SOIL, new Item.Properties()));
+        ITEMS.register("frozen_hull", () -> FROZEN_HULL = new BlockItem(ModBlocks.FROZEN_HULL, new Item.Properties()));
         ITEMS.register("tripod_blueprint",
                 () -> TRIPOD_BLUEPRINT = new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Properties()));
         ITEMS.register("martian_hull",

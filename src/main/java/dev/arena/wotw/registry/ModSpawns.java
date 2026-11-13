@@ -98,7 +98,12 @@ public final class ModSpawns {
             new Entry(ModEntities.FACTORY, true, 2, 1, 1, 1),
             new Entry(ModEntities.CAGE, true, 1, 1, 1, 1),
             new Entry(ModEntities.HUMANOID, true, 3, 1, 1, 1),
-            new Entry(ModEntities.SIGNAL_SCOUT, true, 2, 1, 1, 1));
+            new Entry(ModEntities.SIGNAL_SCOUT, true, 2, 1, 1, 1),
+            new Entry(ModEntities.FROST, true, 2, 1, 1, 1),
+            new Entry(ModEntities.STORM, true, 1, 1, 1, 1),
+            new Entry(ModEntities.WEAVER, true, 2, 1, 1, 1),
+            new Entry(ModEntities.BLINK, true, 2, 1, 1, 1),
+            new Entry(ModEntities.HARVESTER, true, 1, 1, 1, 1));
     }
 
     private ModSpawns() {

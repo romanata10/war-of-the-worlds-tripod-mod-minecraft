@@ -101,9 +101,19 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.CAGE, TripodModels::cage);
         event.registerLayerDefinition(ModModelLayers.HUMANOID, TripodModels::humanoid);
         event.registerLayerDefinition(ModModelLayers.SIGNAL_SCOUT, TripodModels::signalScout);
+        event.registerLayerDefinition(ModModelLayers.FROST, TripodModels::frost);
+        event.registerLayerDefinition(ModModelLayers.STORM, TripodModels::storm);
+        event.registerLayerDefinition(ModModelLayers.WEAVER, TripodModels::weaver);
+        event.registerLayerDefinition(ModModelLayers.BLINK, TripodModels::blink);
+        event.registerLayerDefinition(ModModelLayers.HARVESTER, TripodModels::harvester);
         event.registerLayerDefinition(ModModelLayers.HUMAN_HELICOPTER, HumanModels::helicopter);
         event.registerLayerDefinition(ModModelLayers.HUMAN_SUBMARINE, HumanModels::submarine);
         event.registerLayerDefinition(ModModelLayers.HUMAN_BOMBER, HumanModels::bomber);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_APC, HumanModels::apc);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_ARTILLERY, HumanModels::artillery);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_JET, HumanModels::jet);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_SNIPER, HumanModels::sniper);
+        event.registerLayerDefinition(ModModelLayers.HUMAN_MEDIC, HumanModels::medic);
     }
 
     @SubscribeEvent
@@ -242,6 +252,16 @@ public final class WotwClient {
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.HUMANOID, "humanoid_tripod", 1.0F, 1.3F));
         event.registerEntityRenderer(ModEntities.SIGNAL_SCOUT,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.SIGNAL_SCOUT, "signal_scout_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.FROST,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.FROST, "frost_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.STORM,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.STORM, "storm_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.WEAVER,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.WEAVER, "weaver_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.BLINK,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.BLINK, "blink_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.HARVESTER,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.HARVESTER, "harvester_tripod", 1.0F, 1.3F));
         event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
                         1.8F));
@@ -250,6 +270,16 @@ public final class WotwClient {
                         1.6F));
         event.registerEntityRenderer(ModEntities.HUMAN_BOMBER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_BOMBER, "human_bomber", 1.0F, 2.6F));
+        event.registerEntityRenderer(ModEntities.HUMAN_APC,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_APC, "human_apc", 1.0F, 1.4F));
+        event.registerEntityRenderer(ModEntities.HUMAN_ARTILLERY,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_ARTILLERY, "human_artillery", 1.0F, 1.4F));
+        event.registerEntityRenderer(ModEntities.HUMAN_JET,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_JET, "human_jet", 1.0F, 1.4F));
+        event.registerEntityRenderer(ModEntities.HUMAN_SNIPER,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_SNIPER, "human_sniper", 1.0F, 1.4F));
+        event.registerEntityRenderer(ModEntities.HUMAN_MEDIC,
+                context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_MEDIC, "human_medic", 1.0F, 1.4F));
     }
 
     @SubscribeEvent
