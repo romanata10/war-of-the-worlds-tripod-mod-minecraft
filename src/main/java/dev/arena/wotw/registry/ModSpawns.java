@@ -80,7 +80,7 @@ public final class ModSpawns {
             new Entry(ModEntities.ATTACK, true, 5, 1, 1, 1),
             new Entry(ModEntities.VEGETABLE, true, 4, 2, 1, 1),
             new Entry(ModEntities.MEXICAN, true, 4, 1, 1, 1),
-            new Entry(ModEntities.FOUR_LEGGED, true, 6, 1, 1, 1),);
+            new Entry(ModEntities.FOUR_LEGGED, true, 6, 1, 1, 1));
     }
 
     private ModSpawns() {
