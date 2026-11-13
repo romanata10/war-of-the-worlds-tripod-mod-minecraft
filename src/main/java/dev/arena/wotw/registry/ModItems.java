@@ -66,6 +66,26 @@ public final class ModItems {
 
     public static Item XENO_TELEPATH_SPAWN_EGG;
 
+    public static Item CAMERON_SPAWN_EGG;
+
+    public static Item GOREY_SPAWN_EGG;
+
+    public static Item WAYNE_SPAWN_EGG;
+
+    public static Item GOBLE_SPAWN_EGG;
+
+    public static Item BBC2019_SPAWN_EGG;
+
+    public static Item ATTACK2021_SPAWN_EGG;
+
+    public static Item ATTACK_SPAWN_EGG;
+
+    public static Item VEGETABLE_SPAWN_EGG;
+
+    public static Item MEXICAN_SPAWN_EGG;
+
+    public static Item FOUR_LEGGED_SPAWN_EGG;
+
     public static Item HUMAN_HELICOPTER_SPAWN_EGG;
 
     public static Item HUMAN_SUBMARINE_SPAWN_EGG;
@@ -108,6 +128,18 @@ public final class ModItems {
     public static Item HUMAN_CRATE;
 
     public static Item MILITARY_CRATE;
+
+    public static Item CAMERON_STEEL_BLOCK;
+
+    public static Item GOBLE_BRASS_BLOCK;
+
+    public static Item GOREY_BONE_BLOCK;
+
+    public static Item VEGETABLE_HUSK_BLOCK;
+
+    public static Item MARTIAN_SIGNAL_BEACON;
+
+    public static Item SPORE_SACK;
 
     public static Item MARTIAN_TURRET;
 
@@ -176,6 +208,16 @@ public final class ModItems {
                         entries.accept(BOMB_TRIPOD_SPAWN_EGG);
                         entries.accept(CONSTRICTOR_SPAWN_EGG);
                         entries.accept(XENO_TELEPATH_SPAWN_EGG);
+                        entries.accept(CAMERON_SPAWN_EGG);
+                        entries.accept(GOREY_SPAWN_EGG);
+                        entries.accept(WAYNE_SPAWN_EGG);
+                        entries.accept(GOBLE_SPAWN_EGG);
+                        entries.accept(BBC2019_SPAWN_EGG);
+                        entries.accept(ATTACK2021_SPAWN_EGG);
+                        entries.accept(ATTACK_SPAWN_EGG);
+                        entries.accept(VEGETABLE_SPAWN_EGG);
+                        entries.accept(MEXICAN_SPAWN_EGG);
+                        entries.accept(FOUR_LEGGED_SPAWN_EGG);
                         entries.accept(HUMAN_HELICOPTER_SPAWN_EGG);
                         entries.accept(HUMAN_SUBMARINE_SPAWN_EGG);
                         entries.accept(HUMAN_BOMBER_SPAWN_EGG);
@@ -190,6 +232,12 @@ public final class ModItems {
                         entries.accept(MARTIAN_HULL);
                         entries.accept(MARTIAN_CONSOLE);
                         entries.accept(MARTIAN_LAMP);
+                        entries.accept(CAMERON_STEEL_BLOCK);
+                        entries.accept(GOBLE_BRASS_BLOCK);
+                        entries.accept(GOREY_BONE_BLOCK);
+                        entries.accept(VEGETABLE_HUSK_BLOCK);
+                        entries.accept(MARTIAN_SIGNAL_BEACON);
+                        entries.accept(SPORE_SACK);
                         entries.accept(MARTIAN_TURRET);
                         entries.accept(MARTIAN_CRATE);
                         entries.accept(HUMAN_CRATE);
@@ -298,6 +346,36 @@ public final class ModItems {
         ITEMS.register("xeno_telepath_spawn_egg",
                 () -> XENO_TELEPATH_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.XENO_TELEPATH,
                         0x464A68, 0xD09CFF, new Item.Properties()));
+        ITEMS.register("cameron_tripod_spawn_egg",
+                () -> CAMERON_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CAMERON,
+                        0x6E6250, 0xFFBC5C, new Item.Properties()));
+        ITEMS.register("gorey_tripod_spawn_egg",
+                () -> GOREY_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.GOREY,
+                        0x2A2A2E, 0xFFF4C4, new Item.Properties()));
+        ITEMS.register("wayne_tripod_spawn_egg",
+                () -> WAYNE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.WAYNE,
+                        0x7A7E88, 0x6CFF8E, new Item.Properties()));
+        ITEMS.register("goble_tripod_spawn_egg",
+                () -> GOBLE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.GOBLE,
+                        0xAA8E56, 0xFFD682, new Item.Properties()));
+        ITEMS.register("bbc2019_tripod_spawn_egg",
+                () -> BBC2019_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.BBC2019,
+                        0x36383C, 0x96D2FF, new Item.Properties()));
+        ITEMS.register("attack2021_tripod_spawn_egg",
+                () -> ATTACK2021_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ATTACK2021,
+                        0x262428, 0xFF3A3A, new Item.Properties()));
+        ITEMS.register("attack_tripod_spawn_egg",
+                () -> ATTACK_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ATTACK,
+                        0x2E302A, 0xFF483A, new Item.Properties()));
+        ITEMS.register("vegetable_tripod_spawn_egg",
+                () -> VEGETABLE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.VEGETABLE,
+                        0x98B67A, 0xCCFF98, new Item.Properties()));
+        ITEMS.register("mexican_tripod_spawn_egg",
+                () -> MEXICAN_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MEXICAN,
+                        0x2A302A, 0xFFF252, new Item.Properties()));
+        ITEMS.register("four_legged_tripod_spawn_egg",
+                () -> FOUR_LEGGED_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FOUR_LEGGED,
+                        0xB26242, 0xFFF07A, new Item.Properties()));
         ITEMS.register("human_helicopter_spawn_egg",
                 () -> HUMAN_HELICOPTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_HELICOPTER, 0x55603F, 0xA9B27C,
                         new Item.Properties()));
@@ -360,6 +438,19 @@ public final class ModItems {
         ITEMS.register("human_crate", () -> HUMAN_CRATE = new BlockItem(ModBlocks.HUMAN_CRATE, new Item.Properties()));
         ITEMS.register("military_crate",
                 () -> MILITARY_CRATE = new BlockItem(ModBlocks.MILITARY_CRATE, new Item.Properties()));
+        ITEMS.register("cameron_steel_block",
+                () -> CAMERON_STEEL_BLOCK = new BlockItem(ModBlocks.CAMERON_STEEL_BLOCK, new Item.Properties()));
+        ITEMS.register("goble_brass_block",
+                () -> GOBLE_BRASS_BLOCK = new BlockItem(ModBlocks.GOBLE_BRASS_BLOCK, new Item.Properties()));
+        ITEMS.register("gorey_bone_block",
+                () -> GOREY_BONE_BLOCK = new BlockItem(ModBlocks.GOREY_BONE_BLOCK, new Item.Properties()));
+        ITEMS.register("vegetable_husk_block",
+                () -> VEGETABLE_HUSK_BLOCK = new BlockItem(ModBlocks.VEGETABLE_HUSK_BLOCK, new Item.Properties()));
+        ITEMS.register("martian_signal_beacon",
+                () -> MARTIAN_SIGNAL_BEACON = new BlockItem(ModBlocks.MARTIAN_SIGNAL_BEACON,
+                        new Item.Properties()));
+        ITEMS.register("spore_sack",
+                () -> SPORE_SACK = new BlockItem(ModBlocks.SPORE_SACK, new Item.Properties()));
         ITEMS.register("martian_turret",
                 () -> MARTIAN_TURRET = new BlockItem(ModBlocks.MARTIAN_TURRET, new Item.Properties()));
         ITEMS.register("blood_vines", () -> BLOOD_VINES = new BlockItem(ModBlocks.BLOOD_VINES, new Item.Properties()));

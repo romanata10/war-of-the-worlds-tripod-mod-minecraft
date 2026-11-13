@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "wotw:martian_alloy"
+    },
+    "B": {
+      "item": "wotw:goble_brass_block"
+    },
+    "C": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "result": {
+    "item": "wotw:martian_signal_beacon",
+    "count": 1
+  }
+}

@@ -37,6 +37,16 @@ PALETTES = {
     "digging_machine": ((124, 96, 62), (46, 34, 22), (176, 146, 102), (255, 170, 80), (150, 90, 50)),
     "tempest": ((112, 106, 96), (42, 38, 34), (168, 162, 148), (255, 120, 60), (150, 118, 80)),
     "bombarding_machine": ((88, 92, 64), (32, 34, 22), (132, 138, 100), (255, 190, 70), (120, 110, 70)),
+    "cameron_tripod": ((198, 192, 172), (72, 66, 56), (238, 232, 214), (255, 188, 92), (126, 116, 98)),
+    "gorey_tripod": ((42, 42, 46), (14, 14, 16), (82, 82, 88), (255, 244, 196), (62, 62, 68)),
+    "wayne_tripod": ((188, 192, 198), (58, 62, 70), (234, 238, 244), (108, 255, 142), (152, 158, 168)),
+    "goble_tripod": ((170, 142, 86), (60, 48, 28), (216, 190, 126), (255, 214, 130), (122, 98, 52)),
+    "bbc2019_tripod": ((54, 56, 60), (18, 18, 20), (98, 102, 108), (150, 210, 255), (72, 74, 80)),
+    "attack2021_tripod": ((38, 36, 40), (12, 12, 14), (80, 76, 84), (255, 58, 58), (62, 52, 58)),
+    "attack_tripod": ((46, 48, 42), (14, 16, 12), (88, 92, 80), (255, 72, 58), (62, 66, 54)),
+    "vegetable_tripod": ((152, 182, 122), (60, 80, 44), (198, 222, 162), (204, 255, 152), (112, 152, 82)),
+    "mexican_tripod": ((42, 48, 42), (12, 16, 12), (80, 92, 78), (255, 242, 82), (58, 70, 56)),
+    "four_legged_tripod": ((178, 98, 66), (70, 32, 20), (224, 148, 106), (255, 240, 122), (142, 74, 48)),
     "construction_tripod": ((104, 96, 70), (44, 40, 28), (158, 148, 112), (255, 196, 90), (196, 176, 96)),
     "smoke_tripod": ((58, 58, 62), (22, 22, 24), (104, 106, 112), (255, 132, 60), (96, 88, 84)),
     "bomb_tripod": ((84, 82, 70), (32, 30, 26), (132, 128, 110), (255, 120, 70), (150, 120, 80)),
@@ -254,6 +264,57 @@ def make_alloy_block_texture():
         draw.point((x + 1, y), fill=(66, 70, 60, 255))
     # a vein of glowing Martian green runs through the plate
     draw.line([(3, 6), (6, 7), (9, 6), (12, 8)], fill=(120, 226, 132, 255))
+    return img
+
+
+def make_plate_block_texture(base, dark, light, accent, emblem=None, glow=None):
+    """A generic riveted plate: horizontal graining, a seam, bolts and an optional glowing mark."""
+    img = Image.new("RGBA", (16, 16), base + (255,))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        factor = 1.12 - 0.28 * (y / 15.0)
+        draw.line([(0, y), (15, y)], fill=shade(base, factor) + (255,))
+    draw.line([(0, 5), (15, 5)], fill=dark + (255,))
+    draw.line([(0, 10), (15, 10)], fill=dark + (255,))
+    for x, y in ((2, 2), (13, 2), (2, 8), (13, 8), (2, 13), (13, 13)):
+        draw.point((x, y), fill=light + (255,))
+        draw.point((x + 1, y), fill=dark + (255,))
+    if emblem == "diagonal":
+        draw.line([(3, 13), (7, 7), (12, 3)], fill=accent + (255,))
+        draw.line([(4, 14), (8, 8), (13, 4)], fill=shade(accent, 0.7) + (255,))
+    elif emblem == "cross":
+        draw.line([(8, 2), (8, 13)], fill=accent + (255,))
+        draw.line([(3, 7), (12, 7)], fill=accent + (255,))
+    elif emblem == "cone":
+        draw.polygon([(8, 2), (12, 12), (4, 12)], fill=accent + (255,))
+        draw.line([(8, 4), (8, 11)], fill=shade(accent, 0.75) + (255,))
+    if glow is not None:
+        draw.line([(2, 15), (6, 14), (10, 15), (13, 14)], fill=glow + (255,))
+    return img
+
+
+def make_signal_beacon_texture():
+    """The beacon plating: dark alloy with a hot core burning through the middle."""
+    img = make_plate_block_texture((62, 64, 70), (24, 24, 28), (104, 108, 116), (140, 220, 255),
+                                  emblem="cross", glow=(150, 230, 255))
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([6, 6, 9, 9], fill=(190, 240, 255, 255))
+    draw.point((7, 7), fill=(255, 255, 255, 255))
+    return img
+
+
+def make_spore_sack_texture():
+    """A leathery pod: olive hide, seams and pustules of spore."""
+    img = Image.new("RGBA", (16, 16), (86, 92, 54, 255))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        factor = 1.1 - 0.3 * (y / 15.0)
+        draw.line([(0, y), (15, y)], fill=shade((86, 92, 54), factor) + (255,))
+    draw.ellipse([3, 3, 12, 13], fill=(104, 110, 62, 255))
+    draw.ellipse([5, 5, 10, 11], fill=(120, 128, 72, 255))
+    for x, y in ((5, 6), (9, 7), (7, 9), (10, 10), (4, 10), (7, 4)):
+        draw.point((x, y), fill=(176, 208, 96, 255))
+    draw.line([(3, 3), (7, 1), (12, 3)], fill=(60, 66, 38, 255))
     return img
 
 
@@ -620,6 +681,16 @@ def main():
     make_ray_emitter_texture().save(os.path.join(ITEM, "heat_ray_emitter.png"))
     make_cylinder_texture().save(os.path.join(BLOCK, "martian_cylinder.png"))
     make_alloy_block_texture().save(os.path.join(BLOCK, "martian_alloy_block.png"))
+    for bid, args in (
+        ("cameron_steel_block", ((196, 198, 200), (74, 78, 82), (238, 240, 242), (128, 136, 144), "diagonal", None)),
+        ("goble_brass_block", ((168, 138, 84), (62, 48, 26), (214, 188, 124), (110, 84, 40), "cross", (255, 214, 130))),
+        ("gorey_bone_block", ((46, 46, 50), (16, 16, 18), (92, 92, 98), (198, 200, 206), "diagonal", None)),
+        ("vegetable_husk_block", ((150, 180, 118), (62, 82, 44), (198, 222, 160), (104, 144, 74), "cone", (206, 255, 150))),
+    ):
+        make_plate_block_texture(*args).save(os.path.join(BLOCK, bid + ".png"))
+    make_signal_beacon_texture().save(os.path.join(BLOCK, "martian_signal_beacon.png"))
+    make_spore_sack_texture().save(os.path.join(BLOCK, "spore_sack.png"))
+
     make_red_root_texture().save(os.path.join(BLOCK, "red_root.png"))
     make_capsule_item_texture().save(os.path.join(ITEM, "martian_capsule.png"))
     make_white_alloy_texture().save(os.path.join(BLOCK, "white_martian_alloy.png"))

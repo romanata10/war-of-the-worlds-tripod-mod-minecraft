@@ -48,6 +48,16 @@ public final class ModModelLayers {
     public static final ModelLayerLocation BOMB_TRIPOD = layer("bomb_tripod");
     public static final ModelLayerLocation CONSTRICTOR = layer("constrictor");
     public static final ModelLayerLocation XENO_TELEPATH = layer("xeno_telepath");
+    public static final ModelLayerLocation CAMERON = layer("cameron_tripod");
+    public static final ModelLayerLocation GOREY = layer("gorey_tripod");
+    public static final ModelLayerLocation WAYNE = layer("wayne_tripod");
+    public static final ModelLayerLocation GOBLE = layer("goble_tripod");
+    public static final ModelLayerLocation BBC2019 = layer("bbc2019_tripod");
+    public static final ModelLayerLocation ATTACK2021 = layer("attack2021_tripod");
+    public static final ModelLayerLocation ATTACK = layer("attack_tripod");
+    public static final ModelLayerLocation VEGETABLE = layer("vegetable_tripod");
+    public static final ModelLayerLocation MEXICAN = layer("mexican_tripod");
+    public static final ModelLayerLocation FOUR_LEGGED = layer("four_legged_tripod");
     public static final ModelLayerLocation HUMAN_HELICOPTER = layer("human_helicopter");
     public static final ModelLayerLocation HUMAN_SUBMARINE = layer("human_submarine");
     public static final ModelLayerLocation HUMAN_BOMBER = layer("human_bomber");

@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:goble_yard",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 88,
+    "separation": 28,
+    "salt": 3417022,
+    "spread_type": "linear"
+  }
+}

@@ -69,7 +69,18 @@ public final class ModSpawns {
             new Entry(ModEntities.SMOKE_TRIPOD, true, 4, 2, 1, 1),
             new Entry(ModEntities.BOMB_TRIPOD, true, 4, 2, 1, 1),
             new Entry(ModEntities.CONSTRICTOR, true, 4, 2, 1, 1),
-            new Entry(ModEntities.XENO_TELEPATH, true, 4, 1, 1, 1));
+            new Entry(ModEntities.XENO_TELEPATH, true, 4, 1, 1, 1),
+            // sixth wave: the machines from the artwork
+            new Entry(ModEntities.CAMERON, true, 4, 2, 1, 1),
+            new Entry(ModEntities.GOREY, true, 3, 2, 1, 1),
+            new Entry(ModEntities.WAYNE, true, 4, 1, 1, 1),
+            new Entry(ModEntities.GOBLE, true, 4, 2, 1, 1),
+            new Entry(ModEntities.BBC2019, true, 5, 1, 1, 1),
+            new Entry(ModEntities.ATTACK2021, true, 5, 1, 1, 1),
+            new Entry(ModEntities.ATTACK, true, 5, 1, 1, 1),
+            new Entry(ModEntities.VEGETABLE, true, 4, 2, 1, 1),
+            new Entry(ModEntities.MEXICAN, true, 4, 1, 1, 1),
+            new Entry(ModEntities.FOUR_LEGGED, true, 6, 1, 1, 1));
     }
 
     private ModSpawns() {
