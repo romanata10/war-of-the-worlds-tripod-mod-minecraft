@@ -41,7 +41,7 @@ public class AlienDawnMk2TripodEntity extends AbstractTripodEntity {
             return;
         }
         this.setAbilityCooldown(150);
-        this.level().playSound(null, this.blockPosition(), SoundEvents.WARDEN_SONIC_BOOM.value(),
+        this.level().playSound(null, this.blockPosition(), SoundEvents.WARDEN_SONIC_BOOM,
                 SoundSource.HOSTILE, 2.4F, 1.1F);
         for (LivingEntity victim : this.level().getEntitiesOfClass(LivingEntity.class,
                 this.getBoundingBox().inflate(13.0D),
