@@ -23,6 +23,16 @@ import dev.arena.wotw.entity.WaterTripodEntity;
 import dev.arena.wotw.entity.XenoTelepathEntity;
 import dev.arena.wotw.entity.CapsuleEntity;
 import dev.arena.wotw.entity.BombardingMachineEntity;
+import dev.arena.wotw.entity.CameronTripodEntity;
+import dev.arena.wotw.entity.GoreyTripodEntity;
+import dev.arena.wotw.entity.WayneTripodEntity;
+import dev.arena.wotw.entity.GobleTripodEntity;
+import dev.arena.wotw.entity.Bbc2019TripodEntity;
+import dev.arena.wotw.entity.Attack2021TripodEntity;
+import dev.arena.wotw.entity.AttackTripodEntity;
+import dev.arena.wotw.entity.VegetableTripodEntity;
+import dev.arena.wotw.entity.MexicanTripodEntity;
+import dev.arena.wotw.entity.FourLeggedTripodEntity;
 import dev.arena.wotw.entity.BombTripodEntity;
 import dev.arena.wotw.entity.ConstrictorEntity;
 import dev.arena.wotw.entity.ConstructionTripodEntity;
@@ -188,6 +198,29 @@ public final class ModEntities {
 
     /** Xeno-Telepath: a Martian in a glass dome that turns human crews on each other. */
     public static EntityType<XenoTelepathEntity> XENO_TELEPATH;
+
+    /* Sixth wave: ten machines straight from the artwork. */
+
+    public static EntityType<CameronTripodEntity> CAMERON;
+
+    public static EntityType<GoreyTripodEntity> GOREY;
+
+    public static EntityType<WayneTripodEntity> WAYNE;
+
+    public static EntityType<GobleTripodEntity> GOBLE;
+
+    public static EntityType<Bbc2019TripodEntity> BBC2019;
+
+    public static EntityType<Attack2021TripodEntity> ATTACK2021;
+
+    public static EntityType<AttackTripodEntity> ATTACK;
+
+    public static EntityType<VegetableTripodEntity> VEGETABLE;
+
+    public static EntityType<MexicanTripodEntity> MEXICAN;
+
+    public static EntityType<FourLeggedTripodEntity> FOUR_LEGGED;
+
 
     /** True for every Martian war machine, including the creatures. Used by the human army AI. */
     public static boolean isMartianInvader(net.minecraft.world.entity.Entity entity) {
@@ -448,6 +481,66 @@ public final class ModEntities {
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("xeno_telepath")));
+        ENTITY_TYPES.register("cameron_tripod",
+                () -> CAMERON = track(EntityType.Builder.of(CameronTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.4F, 17.2F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("cameron_tripod")));
+        ENTITY_TYPES.register("gorey_tripod",
+                () -> GOREY = track(EntityType.Builder.of(GoreyTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.1F, 11.3F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("gorey_tripod")));
+        ENTITY_TYPES.register("wayne_tripod",
+                () -> WAYNE = track(EntityType.Builder.of(WayneTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.4F, 15.9F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("wayne_tripod")));
+        ENTITY_TYPES.register("goble_tripod",
+                () -> GOBLE = track(EntityType.Builder.of(GobleTripodEntity::new, MobCategory.MONSTER)
+                        .sized(5.4F, 12.6F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("goble_tripod")));
+        ENTITY_TYPES.register("bbc2019_tripod",
+                () -> BBC2019 = track(EntityType.Builder.of(Bbc2019TripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.0F, 15.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("bbc2019_tripod")));
+        ENTITY_TYPES.register("attack2021_tripod",
+                () -> ATTACK2021 = track(EntityType.Builder.of(Attack2021TripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.2F, 16.5F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("attack2021_tripod")));
+        ENTITY_TYPES.register("attack_tripod",
+                () -> ATTACK = track(EntityType.Builder.of(AttackTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.7F, 16.5F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("attack_tripod")));
+        ENTITY_TYPES.register("vegetable_tripod",
+                () -> VEGETABLE = track(EntityType.Builder.of(VegetableTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.8F, 18.4F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("vegetable_tripod")));
+        ENTITY_TYPES.register("mexican_tripod",
+                () -> MEXICAN = track(EntityType.Builder.of(MexicanTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.3F, 16.0F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("mexican_tripod")));
+        ENTITY_TYPES.register("four_legged_tripod",
+                () -> FOUR_LEGGED = track(EntityType.Builder.of(FourLeggedTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.8F, 14.4F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("four_legged_tripod")));
     }
 
     private ModEntities() {
@@ -526,5 +619,16 @@ public final class ModEntities {
         event.put(BOMB_TRIPOD, BombTripodEntity.createAttributes().build());
         event.put(CONSTRICTOR, ConstrictorEntity.createAttributes().build());
         event.put(XENO_TELEPATH, XenoTelepathEntity.createAttributes().build());
+        event.put(CAMERON, CameronTripodEntity.createAttributes().build());
+        event.put(GOREY, GoreyTripodEntity.createAttributes().build());
+        event.put(WAYNE, WayneTripodEntity.createAttributes().build());
+        event.put(GOBLE, GobleTripodEntity.createAttributes().build());
+        event.put(BBC2019, Bbc2019TripodEntity.createAttributes().build());
+        event.put(ATTACK2021, Attack2021TripodEntity.createAttributes().build());
+        event.put(ATTACK, AttackTripodEntity.createAttributes().build());
+        event.put(VEGETABLE, VegetableTripodEntity.createAttributes().build());
+        event.put(MEXICAN, MexicanTripodEntity.createAttributes().build());
+        event.put(FOUR_LEGGED, FourLeggedTripodEntity.createAttributes().build());
+
     }
 }

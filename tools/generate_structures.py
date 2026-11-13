@@ -859,6 +859,85 @@ def tripod_workshop():
     return s
 
 
+def signal_hill():
+    """A Martian relay hill: a mound of dead shell and brass, a signal beacon on the crown, pylons,
+    spore sacks, supply crates and the machines that answer the call."""
+    s = Structure()
+    # the mound: three stepped terraces of bone and alloy
+    s.fill(-12, 0, -12, 12, 0, 12, "wotw:gorey_bone_block")
+    s.fill(-10, 1, -10, 10, 1, 10, "wotw:gorey_bone_block")
+    s.fill(-8, 2, -8, 8, 2, 8, ALLOY)
+    s.fill(-6, 3, -6, 6, 3, 6, ALLOY)
+    s.fill(-4, 4, -4, 4, 4, 4, "wotw:goble_brass_block")
+    # a stair up the near side so the hill can be climbed
+    for i in range(4):
+        s.fill(-1, i + 1, 9 - i, 1, i + 1, 9 - i, "wotw:goble_brass_block")
+    # the beacon itself
+    s.set(0, 5, 0, "wotw:martian_signal_beacon")
+    s.set(-1, 5, 0, HULL)
+    s.set(1, 5, 0, HULL)
+    s.set(0, 5, -1, HULL)
+    s.set(0, 5, 1, HULL)
+    for dx, dz in ((-2, -2), (2, -2), (-2, 2), (2, 2)):
+        s.fill(dx, 5, dz, dx, 7, dz, "wotw:goble_brass_block")
+        s.set(dx, 8, dz, LAMP)
+    # pylons and a turret on the rim
+    s.set(-5, 4, -5, TURRET)
+    s.set(5, 4, 5, TURRET)
+    for x, z in ((-8, 0), (8, 0), (0, -8), (0, 8)):
+        s.fill(x, 3, z, x, 5, z, "wotw:goble_brass_block")
+        s.set(x, 6, z, LAMP)
+    # supplies and spore sacks
+    s.crate(-4, 4, 3, CRATE_M, "wotw:crates/martian")
+    s.crate(4, 4, 3, CRATE_M, "wotw:crates/martian")
+    s.set(3, 4, -3, "wotw:spore_sack")
+    s.set(-3, 4, -3, "wotw:spore_sack")
+    s.set(-2, 1, 6, "wotw:spore_sack")
+    s.set(2, 1, 6, "wotw:spore_sack")
+    # the garrison
+    s.spawn(0, 5, 3, "wotw:goble_tripod")
+    s.spawn(-6, 2, -6, "wotw:cameron_tripod")
+    s.spawn(6, 1, 6, "wotw:gorey_tripod")
+    s.spawn(0, 1, 0, "wotw:martian")
+    return s
+
+
+def goble_yard():
+    """The brass yard: a human workshop the Martians have taken over. Brass plates, a lattice crane,
+    crates, ruined walls and the machines standing in the middle of it."""
+    s = Structure()
+    s.fill(-14, 0, -12, 14, 0, 12, GRAVEL)
+    s.fill(-12, 1, -10, 12, 1, 10, "wotw:goble_brass_block")
+    # ruined yard walls, one with a gate
+    s.walls(-12, 1, -10, 12, 3, 10, STONE_BRICK)
+    s.fill(-2, 1, 10, 2, 3, 10, AIR)                  # the gate
+    for x in range(-12, 13, 4):
+        s.set(x, 4, -10, COBBLE)
+    # the workshop shed
+    house(s, -6, -8, 10, 8, 5, STONE_BRICK, SMOOTH, SPRUCE)
+    s.crate(-4, 1, -2, CRATE_MIL, "wotw:crates/military")
+    s.crate(-1, 1, -2, CRATE_H, "wotw:crates/human")
+    # lattice crane in the middle of the yard
+    for dx, dz in ((-3, -3), (3, -3), (-3, 3), (3, 3)):
+        s.fill(dx, 1, dz, dx, 7, dz, LOG)
+    s.fill(-3, 8, -3, 3, 8, 3, "wotw:goble_brass_block")
+    s.fill(-3, 9, -3, 3, 9, 3, LOG)
+    s.fill(0, 8, 0, 0, 10, 0, IRON)
+    s.set(0, 11, 0, LANTERN)
+    s.crate(0, 1, 0, CRATE_MIL, "wotw:crates/military")
+    # brass stock and spore sacks left by the occupiers
+    s.fill(8, 1, -6, 10, 2, -4, "wotw:goble_brass_block")
+    s.set(9, 3, -5, "wotw:spore_sack")
+    s.set(-9, 1, 6, "wotw:spore_sack")
+    # the occupiers and the crew that came to take it back
+    s.spawn(0, 1, -6, "wotw:goble_tripod")
+    s.spawn(6, 1, 4, "wotw:cameron_tripod")
+    s.spawn(-8, 1, -4, "wotw:human_soldier")
+    s.spawn(-6, 1, 4, "wotw:human_tank")
+    s.spawn(9, 1, 8, "wotw:wayne_tripod")
+    return s
+
+
 STRUCTURES_SPEC = {
     "landing_site": (landing_site(), 40, 14, 3417001, 2),
     "hatchery": (hatchery(), 52, 18, 3417002, 2),
@@ -878,6 +957,9 @@ STRUCTURES_SPEC = {
     "root_garden": (root_garden(), 78, 24, 3417018, 1),
     "tripod_garage": (tripod_garage(), 104, 36, 3417019, 2),
     "tripod_workshop": (tripod_workshop(), 96, 30, 3417020, 1),
+    # the sixth wave installations
+    "signal_hill": (signal_hill(), 96, 30, 3417021, 1),
+    "goble_yard": (goble_yard(), 88, 28, 3417022, 2),
 }
 
 

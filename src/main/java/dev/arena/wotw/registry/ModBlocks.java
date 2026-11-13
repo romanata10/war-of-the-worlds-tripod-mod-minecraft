@@ -6,7 +6,9 @@ import dev.arena.wotw.block.BloodRootsBlock;
 import dev.arena.wotw.block.CrateBlock;
 import dev.arena.wotw.block.BloodVinesBlock;
 import dev.arena.wotw.block.InfestedBlock;
+import dev.arena.wotw.block.MartianSignalBeaconBlock;
 import dev.arena.wotw.block.MartianTurretBlock;
+import dev.arena.wotw.block.SporeSackBlock;
 import dev.arena.wotw.block.RedRootBlock;
 import dev.arena.wotw.block.TripodBlueprintBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -21,6 +23,27 @@ public final class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, WotwMod.MOD_ID);
+
+
+    /* Sixth wave: the metals of the new machines and two working blocks. */
+
+    /** Polished plate of the 1950s machine. */
+    public static Block CAMERON_STEEL_BLOCK;
+
+    /** Riveted brass of the 1906 lattice walker. */
+    public static Block GOBLE_BRASS_BLOCK;
+
+    /** The black, bone-dry shell of the flat saucer. */
+    public static Block GOREY_BONE_BLOCK;
+
+    /** Pale vegetable husk from the conical machine. */
+    public static Block VEGETABLE_HUSK_BLOCK;
+
+    /** Signal beacon: pulses regeneration, and summons machines when a player is near. */
+    public static Block MARTIAN_SIGNAL_BEACON;
+
+    /** Spore sack: cracks open into three lice. */
+    public static Block SPORE_SACK;
 
     public static Block MARTIAN_CYLINDER;
 
@@ -83,6 +106,37 @@ public final class ModBlocks {
      * field above is ready by the time the game asks for it.
      */
     static {
+        BLOCKS.register("cameron_steel_block",
+                () -> CAMERON_STEEL_BLOCK = new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 12.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("goble_brass_block",
+                () -> GOBLE_BRASS_BLOCK = new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 12.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("gorey_bone_block",
+                () -> GOREY_BONE_BLOCK = new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 12.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("vegetable_husk_block",
+                () -> VEGETABLE_HUSK_BLOCK = new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 12.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("martian_signal_beacon",
+                () -> MARTIAN_SIGNAL_BEACON = new MartianSignalBeaconBlock(BlockBehaviour.Properties.of()
+                    .strength(4.0F, 10.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> 12)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("spore_sack",
+                () -> SPORE_SACK = new SporeSackBlock(BlockBehaviour.Properties.of()
+                    .strength(1.0F, 2.0F)
+                    .sound(SoundType.SLIME_BLOCK)
+                    .lightLevel(state -> 4)));
         BLOCKS.register("martian_cylinder",
                 () -> MARTIAN_CYLINDER = new MartianCylinderBlock(BlockBehaviour.Properties.of()
                     .strength(6.0F, 12.0F)

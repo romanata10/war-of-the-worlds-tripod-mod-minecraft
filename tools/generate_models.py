@@ -1061,6 +1061,284 @@ def xeno_telepath():
     return m
 
 
+def cameron_tripod():
+    """Lou Cameron's 1950s painting: a smooth hull under a huge dark glass dome, a whip antenna, two
+    shoulder pods and three thick tubular legs with rounded joints."""
+    m = Model("cameron_tripod")
+    leg(m, "leg_l", (-20, -150, -14), 76, 78, 7, splay_x=-8, splay_z=-6, foot=11)
+    leg(m, "leg_r", (20, -150, -14), 76, 78, 7, splay_x=8, splay_z=-6, foot=11)
+    leg(m, "leg_b", (0, -150, 26), 76, 78, 7, splay_x=0, splay_z=9, foot=11)
+
+    body = m.part("body")
+    body.shell(0, -206, 0, 34, 26, 34, cell=10)                  # hull
+    body.shell(0, -186, 0, 26, 18, 26, cell=10)                  # neck
+    body.shell(0, -212, 0, 40, 6, 40, cell=10)                   # rim
+
+    dome = m.part("head", parent="body", pivot=(0, -206, 0))
+    dome.shell(0, -36, 0, 32, 10, 30, cell=10)                   # dome base
+    dome.shell(0, -50, 0, 26, 14, 24, cell=10)                   # dome body
+    dome.shell(0, -60, 0, 16, 10, 16, cell=8)                    # dome cap
+    dome.glow_box(-10, -52, -13, 20, 12, 1)                      # the dark glass front
+
+    antenna = m.part("antenna", parent="body", pivot=(0, -242, 0))
+    antenna.box(-1, -26, -1, 2, 26, 2)
+    eye(m, "antenna_tip", "antenna", (0, -26, 0), (4, 4))
+
+    for side, name in ((-1, "pod_l"), (1, "pod_r")):
+        pod = m.part(name, parent="body", pivot=(side * 19, -200, 0))
+        pod.box(-4, -4, -4, 8, 8, 8)
+
+    for index, x in enumerate((-8, 0, 8)):
+        tentacle(m, f"whip{index}_", "body", (x, -188, -6), 22, segments=3, droop=0.22,
+                 spread=index - 1, thick=3)
+    return m
+
+
+def gorey_tripod():
+    """Edward Gorey's flat saucer: a thin blackdisc on eight spindly legs, two round eyes on the
+    rim and a fringe of drooping feelers."""
+    m = Model("gorey_tripod")
+    spots = ((-24, -18, -6, -6), (24, -18, 6, -6), (-26, 6, -6, 4), (26, 6, 6, 4),
+             (-12, 26, -3, 7), (12, 26, 3, 7))
+    for index, (x, z, sx, sz) in enumerate(spots):
+        leg(m, f"leg{index}", (x, -186, z), 78, 82, 4, splay_x=sx, splay_z=sz, foot=6)
+
+    body = m.part("body")
+    body.shell(0, -196, 0, 62, 10, 62, cell=12)                  # the disc
+    body.shell(0, -206, 0, 38, 10, 38, cell=10)                  # hub
+    body.shell(0, -186, 0, 30, 8, 30, cell=8)                    # underside
+    eye(m, "eye_l", "body", (-6, -200, -19), (7, 7))
+    eye(m, "eye_r", "body", (6, -200, -19), (7, 7))
+
+    for index in range(4):
+        tentacle(m, f"feeler{index}_", "body", (-18 + index * 12, -190, -8), 28, segments=4,
+                 droop=0.10, spread=index - 1, thick=2)
+    return m
+
+
+def wayne_tripod():
+    """Jeff Wayne's war machine: a polished teardrop body with two big green eyes, three legs with
+    round knee joints and a trumpet shaped ray projector on each flank."""
+    m = Model("wayne_tripod")
+    leg(m, "leg_l", (-22, -168, -8), 84, 86, 6, splay_x=-7, splay_z=-4, foot=9)
+    leg(m, "leg_r", (22, -168, -8), 84, 86, 6, splay_x=7, splay_z=-4, foot=9)
+    leg(m, "leg_b", (0, -168, 24), 84, 86, 6, splay_x=0, splay_z=8, foot=9)
+
+    body = m.part("body")
+    body.shell(0, -230, 0, 36, 42, 36, cell=12)                  # teardrop body
+    body.shell(0, -190, 0, 28, 22, 28, cell=10)                  # underbelly
+    body.shell(0, -236, 0, 40, 8, 40, cell=10)                   # shoulder ring
+
+    head = m.part("head", parent="body", pivot=(0, -230, -10))
+    head.box(-14, -16, -12, 28, 18, 24)
+    head.box(-10, -22, -8, 20, 6, 18)                            # brow
+    eye(m, "eye_l", "head", (-7, -8, -13), (9, 7))
+    eye(m, "eye_r", "head", (7, -8, -13), (9, 7))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        arm = m.part(name, parent="body", pivot=(side * 19, -220, -4))
+        arm.box(-4, -4, -6, 8, 8, 12)                            # shoulder
+        arm.box(-5, -5, -24, 10, 10, 18)                         # trumpet housing
+        arm.box(-7, -7, -28, 14, 14, 6)                          # bell
+        arm.glow_box(-5, -5, -29, 10, 10, 2)                     # the lens in the bell
+    return m
+
+
+def goble_tripod():
+    """Warwick Goble, 1906: a wide disc on three lattice girder legs, with a crane arm, a hook and a
+    glowing basket slung from it."""
+    m = Model("goble_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-26, -18, -6, -5), (26, -18, 6, -5), (0, 28, 0, 6))):
+        name = f"leg{index}"
+        upper = m.part(name, pivot=(x, -196, z), rot=(sz * 0.04, 0.0, -sx * 0.04))
+        upper.box(-2, 0, -2, 4, 72, 4)                           # rail
+        upper.box(-8, 0, -2, 6, 3, 4)                            # rungs
+        upper.box(2, 18, -2, 6, 3, 4)
+        upper.box(-8, 38, -2, 6, 3, 4)
+        upper.box(2, 58, -2, 6, 3, 4)
+        shin = m.part(name + "_shin", parent=name, pivot=(0, 72, 0), rot=(0.0, 0.0, -sx * 0.02))
+        shin.box(-2, 0, -2, 4, 72, 4)
+        shin.box(-7, 8, -2, 5, 3, 4)
+        shin.box(2, 28, -2, 5, 3, 4)
+        shin.box(-7, 48, -2, 5, 3, 4)
+        shin.box(-5, 70, -5, 10, 4, 10)                          # foot
+
+    body = m.part("body")
+    body.shell(0, -216, 0, 54, 18, 54, cell=12)                  # the disc
+    body.shell(0, -232, 0, 30, 16, 30, cell=10)                  # hub
+    body.shell(0, -198, 0, 26, 8, 26, cell=8)                    # underside
+    eye(m, "eye", "body", (0, -226, -28), (14, 8))
+
+    fin = m.part("fin", parent="body", pivot=(0, -232, 12))
+    fin.box(-1, -20, -6, 2, 20, 16)                              # dorsal fin
+
+    crane = m.part("crane", parent="body", pivot=(0, -234, -6))
+    crane.box(-2, -2, -42, 4, 4, 48)                             # jib
+    crane.box(-2, 0, -44, 4, 26, 4)                              # hanging rod
+    hook = m.part("claw", parent="crane", pivot=(0, 24, -44))
+    hook.box(-3, 0, -3, 6, 6, 6)                                 # hook block
+    hook.box(-3, 6, -3, 2, 9, 2)                                 # the hook itself
+    hook.box(1, 12, -3, 2, 3, 2)
+
+    basket = m.part("basket", parent="crane", pivot=(12, 24, -32))
+    basket.box(-6, 0, -6, 12, 12, 12)                            # slung lamp
+    basket.glow_box(-5, 2, -7, 10, 6, 1)
+    basket.box(-2, 12, -2, 4, 14, 4)                             # its rope
+    return m
+
+
+def bbc2019_tripod():
+    """The 2019 BBC machine: hunched forward, a dark carapace clustered with cold blue lights, two
+    long arms and three stilt legs."""
+    m = Model("bbc2019_tripod")
+    leg(m, "leg_l", (-16, -212, 8), 100, 108, 5, splay_x=-6, splay_z=4, foot=8)
+    leg(m, "leg_r", (16, -212, 8), 100, 108, 5, splay_x=6, splay_z=4, foot=8)
+    leg(m, "leg_b", (0, -212, 28), 100, 108, 5, splay_x=0, splay_z=6, foot=8)
+
+    body = m.part("body")
+    body.shell(0, -254, -6, 40, 44, 34, cell=12)                 # hunched carapace
+    body.shell(0, -228, -14, 28, 24, 22, cell=10)                # keel
+    body.shell(0, -204, 4, 22, 14, 22, cell=8)                   # tail housing
+
+    lamps = ((-10, -248, -24), (0, -242, -26), (10, -246, -24), (-6, -234, -25), (6, -236, -25))
+    for index, (x, y, z) in enumerate(lamps):
+        eye(m, f"lamp{index}", "body", (x, y, z), (5, 4))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        arm = m.part(name, parent="body", pivot=(side * 18, -242, -12))
+        arm.box(-3, 0, -3, 6, 36, 6)                             # upper arm
+        arm.box(-2, 32, -14, 4, 4, 16)                           # forearm, reaching forward
+        arm.glow_box(-1, 34, -26, 2, 2, 4)                       # claw light
+    return m
+
+
+def attack2021_tripod():
+    """The 2021 machine: a narrow black torso hung with wide cape plates, a red core burning in its
+    chest, two raptor legs and a lashing tail."""
+    m = Model("attack2021_tripod")
+    leg(m, "leg_l", (-16, -198, -2), 96, 104, 6, splay_x=-9, splay_z=-2, foot=9)
+    leg(m, "leg_r", (16, -198, -2), 96, 104, 6, splay_x=9, splay_z=-2, foot=9)
+
+    body = m.part("body")
+    body.shell(0, -240, 0, 26, 44, 30, cell=10)                  # torso
+    body.glow_box(-6, -222, -14, 12, 12, 2)                      # the red core
+
+    for side, name in ((-1, "wing_l"), (1, "wing_r")):
+        wing = m.part(name, parent="body", pivot=(side * 10, -246, 0), rot=(0.0, 0.0, -side * 0.10))
+        wing.box(0, -6, -22, side * 42, 10, 48)                  # cape plate
+        wing.box(side * 38, -4, -14, side * 8, 6, 28)            # wingtip
+        wing.box(0, 4, -10, side * 26, 4, 24)                    # underplate
+
+    head = m.part("head", parent="body", pivot=(0, -252, -10))
+    head.box(-8, -10, -12, 16, 14, 18)
+    eye(m, "eye", "head", (0, -4, -13), (10, 5))
+
+    tail = m.part("tail", parent="body", pivot=(0, -216, 14))
+    tail.box(-2, 0, 0, 4, 4, 42)
+    tail.box(-1, 2, 40, 2, 2, 22)
+    return m
+
+
+def attack_tripod():
+    """War of the Worlds: The Attack — a bulbous head studded with red eyes and hung with a curtain
+    of tentacles, carried on three very tall legs."""
+    m = Model("attack_tripod")
+    leg(m, "leg_l", (-18, -222, -4), 104, 112, 5, splay_x=-7, splay_z=-3, foot=8)
+    leg(m, "leg_r", (18, -222, -4), 104, 112, 5, splay_x=7, splay_z=-3, foot=8)
+    leg(m, "leg_b", (0, -222, 22), 104, 112, 5, splay_x=0, splay_z=7, foot=8)
+
+    body = m.part("body")
+    body.shell(0, -270, 0, 34, 42, 34, cell=12)                  # the head
+    body.shell(0, -238, 0, 26, 18, 26, cell=10)                  # throat
+    for index, x in enumerate((-9, -3, 3, 9)):
+        eye(m, f"eye{index}", "body", (x, -258, -18), (5, 5))
+
+    for index, x in enumerate((-14, -8, -2, 4, 10, 15)):
+        tentacle(m, f"arm{index}_", "body", (x, -238, -8), 46, segments=4, droop=0.06,
+                 spread=index - 2, thick=2)
+    return m
+
+
+def vegetable_tripod():
+    """The 'vegetable' machine: a pale, segmented cone with a pointed cap and buds, on three thin
+    legs that end in splayed claws."""
+    m = Model("vegetable_tripod")
+    leg(m, "leg_l", (-16, -176, -8), 86, 90, 5, splay_x=-9, splay_z=-4, foot=7)
+    leg(m, "leg_r", (16, -176, -8), 86, 90, 5, splay_x=9, splay_z=-4, foot=7)
+    leg(m, "leg_b", (0, -176, 20), 86, 90, 5, splay_x=0, splay_z=8, foot=7)
+
+    body = m.part("body")
+    body.shell(0, -192, 0, 34, 20, 34, cell=10)                  # lower ring
+    body.shell(0, -214, 0, 44, 24, 44, cell=10)                  # widest ring
+    body.shell(0, -232, 0, 36, 26, 36, cell=8)                   # upper ring
+    body.shell(0, -246, 0, 28, 26, 28, cell=8)                   # crown
+
+    cap = m.part("head", parent="body", pivot=(0, -272, 0))
+    cap.box(-8, -12, -8, 16, 12, 16)
+    cap.box(-5, -22, -5, 10, 10, 10)                             # the pointed cap
+    eye(m, "eye", "body", (0, -206, -23), (14, 9))               # its single lens
+
+    for index, (x, z) in enumerate(((-17, -14), (17, -14), (0, 15))):
+        bud = m.part(f"bud{index}", parent="body", pivot=(x, -206, z))
+        bud.box(-3, -3, -3, 6, 6, 6)                             # seed bud
+
+    for index, side in enumerate((-1, 1)):
+        toes = m.part(f"toe{index}", parent=f"leg_{'l' if side < 0 else 'r'}_shin",
+                      pivot=(0, 88, 0))
+        toes.box(-6, 0, -5, 3, 3, 10)                            # splayed claw
+        toes.box(3, 0, -5, 3, 3, 10)
+        toes.box(-2, 0, -8, 4, 3, 4)
+    return m
+
+
+def mexican_tripod():
+    """The Mexican poster machine: a dark hull with two huge yellow eyes and two long black tentacle
+    arms that end in claws, on three slender tubular legs."""
+    m = Model("mexican_tripod")
+    leg(m, "leg_l", (-22, -190, -6), 94, 100, 5, splay_x=-8, splay_z=-3, foot=8)
+    leg(m, "leg_r", (22, -190, -6), 94, 100, 5, splay_x=8, splay_z=-3, foot=8)
+    leg(m, "leg_b", (0, -190, 24), 94, 100, 5, splay_x=0, splay_z=8, foot=8)
+
+    body = m.part("body")
+    body.shell(0, -232, 0, 38, 36, 36, cell=12)                  # hull
+    body.shell(0, -202, 0, 30, 14, 30, cell=10)                  # underside
+    body.shell(0, -252, 0, 24, 12, 22, cell=8)                   # crown
+    eye(m, "eye_l", "body", (-8, -220, -19), (9, 7))
+    eye(m, "eye_r", "body", (8, -220, -19), (9, 7))
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        tentacle(m, f"{name}_", "body", (side * 18, -216, -8), 42, segments=4, droop=0.14,
+                 spread=side * 2, thick=3)
+        claw = m.part(name, parent=f"{name}_4_body", pivot=(0, 10, 0))
+        claw.box(-4, 0, -2, 8, 4, 4)                             # wrist
+        claw.box(-5, 2, -7, 3, 7, 3)                             # claw fingers
+        claw.box(2, 2, -7, 3, 7, 3)
+    return m
+
+
+def four_legged_tripod():
+    """The four legged machine: a copper saucer with two yellow eyes and a horn, standing on four
+    long legs — the only Martian walker that does not have three."""
+    m = Model("four_legged_tripod")
+    spots = ((-22, -20, -7, -6), (22, -20, 7, -6), (-22, 20, -7, 6), (22, 20, 7, 6))
+    for index, (x, z, sx, sz) in enumerate(spots):
+        leg(m, f"leg{index}", (x, -188, z), 92, 98, 6, splay_x=sx, splay_z=sz, foot=9)
+
+    body = m.part("body")
+    body.shell(0, -214, 0, 56, 14, 56, cell=12)                  # saucer
+    body.shell(0, -228, 0, 34, 16, 34, cell=10)                  # hub
+    body.shell(0, -196, 0, 26, 8, 26, cell=8)                    # underside
+    eye(m, "eye_l", "body", (-9, -222, -18), (10, 8))
+    eye(m, "eye_r", "body", (9, -222, -18), (10, 8))
+
+    horn = m.part("horn", parent="body", pivot=(0, -214, -26))
+    horn.box(-5, -5, -20, 10, 10, 22)
+    horn.glow_box(-3, -3, -21, 6, 6, 2)
+
+    tentacle(m, "arm_", "body", (0, -208, 12), 32, segments=3, droop=0.18, thick=4)
+    return m
+
+
 TRIPODS = [
     ("tripod2005", finalise(tripod_2005(), "tripod2005")),
     ("bbcWhite", finalise(bbc_white(), "bbcWhite")),
@@ -1095,6 +1373,17 @@ TRIPODS = [
     ("bombTripod", finalise(bomb_tripod(), "bombTripod")),
     ("constrictor", finalise(constrictor(), "constrictor")),
     ("xenoTelepath", finalise(xeno_telepath(), "xenoTelepath")),
+    # sixth wave: ten machines straight from the artwork
+    ("cameron", finalise(cameron_tripod(), "cameron")),
+    ("gorey", finalise(gorey_tripod(), "gorey")),
+    ("wayne", finalise(wayne_tripod(), "wayne")),
+    ("goble", finalise(goble_tripod(), "goble")),
+    ("bbc2019", finalise(bbc2019_tripod(), "bbc2019")),
+    ("attack2021", finalise(attack2021_tripod(), "attack2021")),
+    ("attack", finalise(attack_tripod(), "attack")),
+    ("vegetable", finalise(vegetable_tripod(), "vegetable")),
+    ("mexican", finalise(mexican_tripod(), "mexican")),
+    ("fourLegged", finalise(four_legged_tripod(), "fourLegged")),
 ]
 
 

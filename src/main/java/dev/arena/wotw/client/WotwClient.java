@@ -73,6 +73,16 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.BOMB_TRIPOD, TripodModels::bombTripod);
         event.registerLayerDefinition(ModModelLayers.CONSTRICTOR, TripodModels::constrictor);
         event.registerLayerDefinition(ModModelLayers.XENO_TELEPATH, TripodModels::xenoTelepath);
+        event.registerLayerDefinition(ModModelLayers.CAMERON, TripodModels::cameron);
+        event.registerLayerDefinition(ModModelLayers.GOREY, TripodModels::gorey);
+        event.registerLayerDefinition(ModModelLayers.WAYNE, TripodModels::wayne);
+        event.registerLayerDefinition(ModModelLayers.GOBLE, TripodModels::goble);
+        event.registerLayerDefinition(ModModelLayers.BBC2019, TripodModels::bbc2019);
+        event.registerLayerDefinition(ModModelLayers.ATTACK2021, TripodModels::attack2021);
+        event.registerLayerDefinition(ModModelLayers.ATTACK, TripodModels::attack);
+        event.registerLayerDefinition(ModModelLayers.VEGETABLE, TripodModels::vegetable);
+        event.registerLayerDefinition(ModModelLayers.MEXICAN, TripodModels::mexican);
+        event.registerLayerDefinition(ModModelLayers.FOUR_LEGGED, TripodModels::fourLegged);
         event.registerLayerDefinition(ModModelLayers.HUMAN_HELICOPTER, HumanModels::helicopter);
         event.registerLayerDefinition(ModModelLayers.HUMAN_SUBMARINE, HumanModels::submarine);
         event.registerLayerDefinition(ModModelLayers.HUMAN_BOMBER, HumanModels::bomber);
@@ -158,6 +168,26 @@ public final class WotwClient {
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.CONSTRICTOR, "constrictor", 1.0F, 1.1F));
         event.registerEntityRenderer(ModEntities.XENO_TELEPATH,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.XENO_TELEPATH, "xeno_telepath", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.CAMERON,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CAMERON, "cameron_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.GOREY,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.GOREY, "gorey_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.WAYNE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.WAYNE, "wayne_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.GOBLE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.GOBLE, "goble_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.BBC2019,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.BBC2019, "bbc2019_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.ATTACK2021,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.ATTACK2021, "attack2021_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.ATTACK,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.ATTACK, "attack_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.VEGETABLE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.VEGETABLE, "vegetable_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.MEXICAN,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.MEXICAN, "mexican_tripod", 1.0F, 1.2F));
+        event.registerEntityRenderer(ModEntities.FOUR_LEGGED,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.FOUR_LEGGED, "four_legged_tripod", 1.0F, 1.2F));
         event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
                         1.8F));

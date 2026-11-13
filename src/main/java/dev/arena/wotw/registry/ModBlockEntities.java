@@ -2,6 +2,7 @@ package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.block.CrateBlockEntity;
+import dev.arena.wotw.block.MartianSignalBeaconBlockEntity;
 import dev.arena.wotw.block.MartianTurretBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,10 +18,17 @@ public final class ModBlockEntities {
     /** Set by the register event; the turret block is registered before this, so it is already there. */
     public static BlockEntityType<MartianTurretBlockEntity> MARTIAN_TURRET;
 
+    /** The signal beacon that calls new machines in. */
+    public static BlockEntityType<MartianSignalBeaconBlockEntity> SIGNAL_BEACON;
+
     /** One type for all three crates: same inventory, different loot table. */
     public static BlockEntityType<CrateBlockEntity> CRATE;
 
     static {
+        BLOCK_ENTITIES.register("martian_signal_beacon",
+                () -> SIGNAL_BEACON = BlockEntityType.Builder.of(MartianSignalBeaconBlockEntity::new,
+                                ModBlocks.MARTIAN_SIGNAL_BEACON)
+                        .build(null));
         BLOCK_ENTITIES.register("crate",
                 () -> CRATE = BlockEntityType.Builder.of(CrateBlockEntity::new,
                                 ModBlocks.MARTIAN_CRATE, ModBlocks.HUMAN_CRATE, ModBlocks.MILITARY_CRATE)
