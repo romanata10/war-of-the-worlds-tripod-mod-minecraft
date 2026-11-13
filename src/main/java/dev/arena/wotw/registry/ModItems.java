@@ -86,6 +86,26 @@ public final class ModItems {
 
     public static Item FOUR_LEGGED_SPAWN_EGG;
 
+    public static Item SERIES1998_SPAWN_EGG;
+
+    public static Item PENDRAGON_SPAWN_EGG;
+
+    public static Item NEXTWAVE_CYBORG_SPAWN_EGG;
+
+    public static Item TRUE2012_SPAWN_EGG;
+
+    public static Item STEAM_TOWER_SPAWN_EGG;
+
+    public static Item ALIEN_DAWN_SPAWN_EGG;
+
+    public static Item ALIEN_DAWN_MK2_SPAWN_EGG;
+
+    public static Item SCARY_MOVIE_SPAWN_EGG;
+
+    public static Item USSR_BOOK_SPAWN_EGG;
+
+    public static Item ANNIHILATION_SPAWN_EGG;
+
     public static Item HUMAN_HELICOPTER_SPAWN_EGG;
 
     public static Item HUMAN_SUBMARINE_SPAWN_EGG;
@@ -218,6 +238,16 @@ public final class ModItems {
                         entries.accept(VEGETABLE_SPAWN_EGG);
                         entries.accept(MEXICAN_SPAWN_EGG);
                         entries.accept(FOUR_LEGGED_SPAWN_EGG);
+                        entries.accept(SERIES1998_SPAWN_EGG);
+                        entries.accept(PENDRAGON_SPAWN_EGG);
+                        entries.accept(NEXTWAVE_CYBORG_SPAWN_EGG);
+                        entries.accept(TRUE2012_SPAWN_EGG);
+                        entries.accept(STEAM_TOWER_SPAWN_EGG);
+                        entries.accept(ALIEN_DAWN_SPAWN_EGG);
+                        entries.accept(ALIEN_DAWN_MK2_SPAWN_EGG);
+                        entries.accept(SCARY_MOVIE_SPAWN_EGG);
+                        entries.accept(USSR_BOOK_SPAWN_EGG);
+                        entries.accept(ANNIHILATION_SPAWN_EGG);
                         entries.accept(HUMAN_HELICOPTER_SPAWN_EGG);
                         entries.accept(HUMAN_SUBMARINE_SPAWN_EGG);
                         entries.accept(HUMAN_BOMBER_SPAWN_EGG);
@@ -376,6 +406,36 @@ public final class ModItems {
         ITEMS.register("four_legged_tripod_spawn_egg",
                 () -> FOUR_LEGGED_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FOUR_LEGGED,
                         0xB26242, 0xFFF07A, new Item.Properties()));
+        ITEMS.register("series1998_tripod_spawn_egg",
+                () -> SERIES1998_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SERIES1998,
+                        0x38547C, 0xFF963C, new Item.Properties()));
+        ITEMS.register("pendragon_tripod_spawn_egg",
+                () -> PENDRAGON_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.PENDRAGON,
+                        0xAC8E3A, 0xFFDC78, new Item.Properties()));
+        ITEMS.register("nextwave_cyborg_tripod_spawn_egg",
+                () -> NEXTWAVE_CYBORG_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.NEXTWAVE_CYBORG,
+                        0x2C2826, 0xFF781E, new Item.Properties()));
+        ITEMS.register("true2012_tripod_spawn_egg",
+                () -> TRUE2012_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TRUE2012,
+                        0xAA603A, 0xBEFF5A, new Item.Properties()));
+        ITEMS.register("steam_tower_tripod_spawn_egg",
+                () -> STEAM_TOWER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.STEAM_TOWER,
+                        0xBA9A54, 0xFFF0C8, new Item.Properties()));
+        ITEMS.register("alien_dawn_tripod_spawn_egg",
+                () -> ALIEN_DAWN_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ALIEN_DAWN,
+                        0x24262A, 0x6EBEFF, new Item.Properties()));
+        ITEMS.register("alien_dawn_mk2_tripod_spawn_egg",
+                () -> ALIEN_DAWN_MK2_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ALIEN_DAWN_MK2,
+                        0x9EA6B0, 0x78DCFF, new Item.Properties()));
+        ITEMS.register("scary_movie_tripod_spawn_egg",
+                () -> SCARY_MOVIE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SCARY_MOVIE,
+                        0x302E34, 0xFFFADC, new Item.Properties()));
+        ITEMS.register("ussr_book_tripod_spawn_egg",
+                () -> USSR_BOOK_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.USSR_BOOK,
+                        0x363430, 0xFF503C, new Item.Properties()));
+        ITEMS.register("annihilation_tripod_spawn_egg",
+                () -> ANNIHILATION_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.ANNIHILATION,
+                        0x484C52, 0x96FFE6, new Item.Properties()));
         ITEMS.register("human_helicopter_spawn_egg",
                 () -> HUMAN_HELICOPTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_HELICOPTER, 0x55603F, 0xA9B27C,
                         new Item.Properties()));

@@ -58,6 +58,16 @@ public final class ModModelLayers {
     public static final ModelLayerLocation VEGETABLE = layer("vegetable_tripod");
     public static final ModelLayerLocation MEXICAN = layer("mexican_tripod");
     public static final ModelLayerLocation FOUR_LEGGED = layer("four_legged_tripod");
+    public static final ModelLayerLocation SERIES1998 = layer("series1998_tripod");
+    public static final ModelLayerLocation PENDRAGON = layer("pendragon_tripod");
+    public static final ModelLayerLocation NEXTWAVE_CYBORG = layer("nextwave_cyborg_tripod");
+    public static final ModelLayerLocation TRUE2012 = layer("true2012_tripod");
+    public static final ModelLayerLocation STEAM_TOWER = layer("steam_tower_tripod");
+    public static final ModelLayerLocation ALIEN_DAWN = layer("alien_dawn_tripod");
+    public static final ModelLayerLocation ALIEN_DAWN_MK2 = layer("alien_dawn_mk2_tripod");
+    public static final ModelLayerLocation SCARY_MOVIE = layer("scary_movie_tripod");
+    public static final ModelLayerLocation USSR_BOOK = layer("ussr_book_tripod");
+    public static final ModelLayerLocation ANNIHILATION = layer("annihilation_tripod");
     public static final ModelLayerLocation HUMAN_HELICOPTER = layer("human_helicopter");
     public static final ModelLayerLocation HUMAN_SUBMARINE = layer("human_submarine");
     public static final ModelLayerLocation HUMAN_BOMBER = layer("human_bomber");
