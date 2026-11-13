@@ -87,7 +87,7 @@ public class FrostTripodEntity extends AbstractTripodEntity {
     }
 
     @Override
-    protected boolean isSensitiveToWater() {
+    public boolean isSensitiveToWater() {
         return false;
     }
 
