@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:crash_site",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 62,
+    "separation": 20,
+    "salt": 3417023,
+    "spread_type": "linear"
+  }
+}

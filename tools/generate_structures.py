@@ -12,6 +12,7 @@ Usage: python3 tools/generate_structures.py
 import gzip
 import json
 import os
+import re
 import struct
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -938,6 +939,205 @@ def goble_yard():
     return s
 
 
+def crash_site():
+    """A capsule that came down badly: a crater of ash, the hull split open on its side, one engine
+    torn out and the weed already coming up through the wreck."""
+    s = Structure()
+    ASH = "wotw:ashen_soil"
+    # crater bowl of ash, deeper than the landing site
+    s.fill(-9, 0, -9, 9, 0, 9, ASH)
+    for x in range(-9, 10):
+        for z in range(-9, 10):
+            distance = max(abs(x), abs(z))
+            if distance in (8, 9):
+                s.set(x, 1, z, ASH if (x + z) % 2 else ALLOY)
+    s.fill(-4, 0, -7, 4, 0, 7, AIR)
+    s.fill(-3, 0, -6, 3, 0, 6, ASH)
+    # the hull, lying on its side: a broken tube pointing east
+    s.shell(-6, 1, -2, 2, 5, 2, HULL)
+    s.fill(-5, 1, -1, 1, 4, 1, AIR)
+    s.fill(0, 1, -1, 2, 4, 1, AIR)
+    s.set(-6, 3, 0, AIR)                       # the rip the cargo came out of
+    s.set(-6, 2, -1, AIR)
+    s.set(2, 4, 0, GLASS)                      # one porthole still whole
+    # the torn-off engine and a scatter of plates
+    s.set(-8, 1, -3, CYLINDER)
+    s.set(-8, 2, -3, CYLINDER)
+    s.set(-9, 1, -2, ALLOY)
+    for x, z in ((-3, 5), (4, -5), (6, 3), (-7, 4), (5, 6), (-2, -6)):
+        s.set(x, 1, z, ALLOY if (x + z) % 2 else HULL)
+    # the weed and the survivors
+    for x, z in ((0, -4), (2, -5), (-4, 4), (-5, 5), (6, -2), (-6, -5), (3, 5)):
+        s.set(x, 1, z, ROOT_BLOCK)
+    s.set(4, 1, -3, "wotw:spore_sack")
+    s.set(-5, 1, 3, "wotw:spore_sack")
+    s.crate(-1, 1, -4, CRATE_M, "wotw:crates/martian")
+    s.spawn(-2, 1, 0, "wotw:martian")
+    s.spawn(0, 1, 3, "wotw:martian_louse")
+    s.spawn(-4, 1, -3, "wotw:martian_louse")
+    s.spawn(5, 1, -5, "wotw:mining_tripod")
+    return s
+
+
+def relay_tower():
+    """A Martian relay mast: a pipe column braced with grating platforms, a gravity well humming on
+    the crown and a shield pylon at the foot keeping the garrison alive."""
+    s = Structure()
+    s.fill(-7, 0, -7, 7, 0, 7, "wotw:hull_grating")
+    s.fill(-6, 0, -6, 6, 0, 6, ALLOY)
+    # the mast itself
+    s.fill(-1, 1, -1, 1, 18, 1, "wotw:martian_pipe")
+    for level in range(1, 19):
+        if level % 4 == 0:
+            s.fill(-3, level, -3, 3, level, 3, "wotw:hull_grating")
+            for dx, dz in ((-3, -3), (3, -3), (-3, 3), (3, 3)):
+                s.set(dx, level + 1, dz, LAMP)
+    # the crown: gravity well and its caps
+    s.fill(-2, 19, -2, 2, 19, 2, ALLOY)
+    s.set(0, 20, 0, "wotw:gravity_well")
+    for dx, dz in ((-2, -2), (2, -2), (-2, 2), (2, 2)):
+        s.fill(dx, 20, dz, dx, 21, dz, "wotw:goble_brass_block")
+    s.set(0, 22, 0, LAMP)
+    # the base: a shield pylon, a console and stores
+    s.set(-4, 1, 4, "wotw:shield_pylon")
+    s.set(4, 1, 4, CONSOLE)
+    s.set(4, 1, -4, "wotw:repair_pod")
+    s.crate(-5, 1, -5, CRATE_M, "wotw:crates/martian")
+    s.crate(5, 1, 5, CRATE_M, "wotw:crates/martian")
+    s.set(-6, 1, 0, ROOT_BLOCK)
+    s.set(6, 1, 0, ROOT_BLOCK)
+    s.set(0, 1, 6, ROOT_BLOCK)
+    # the garrison
+    s.spawn(0, 1, 4, "wotw:storm_tripod")
+    s.spawn(-4, 1, -2, "wotw:signal_scout_tripod")
+    s.spawn(3, 1, -3, "wotw:blink_tripod")
+    s.spawn(-2, 1, 2, "wotw:martian")
+    return s
+
+
+def refinery():
+    """The Martian refinery: three squat tanks of pipe and alloy, a chimney, an ore heap of chitin and
+    a repair pod working flat out on the machines that guard it."""
+    s = Structure()
+    CHITIN = "wotw:chitin_block"
+    PIPE = "wotw:martian_pipe"
+    GRATE = "wotw:hull_grating"
+    s.fill(-10, 0, -9, 10, 0, 9, ALLOY)
+    s.fill(-9, 0, -8, 9, 0, 8, GRATE)
+    # three tanks
+    for index, (cx, cz) in enumerate(((-6, -4), (0, 3), (6, -4))):
+        s.fill(cx - 2, 1, cz - 2, cx + 2, 6, cz + 2, HULL)
+        s.fill(cx - 1, 1, cz - 1, cx + 1, 6, cz + 1, AIR)
+        s.fill(cx - 2, 7, cz - 2, cx + 2, 7, cz + 2, "wotw:goble_brass_block")
+        s.set(cx, 8, cz, CYLINDER)
+        s.set(cx, 1, cz - 3, PIPE)
+        s.set(cx, 2, cz - 3, PIPE)
+    # pipe runs between the tanks
+    for x in range(-6, 7):
+        s.set(x, 5, 0, PIPE)
+    s.set(0, 6, 0, PIPE)
+    # the chimney and its furnace mouth
+    s.fill(-1, 1, -8, 1, 9, -8, HULL)
+    s.set(0, 1, -8, "wotw:martian_lamp")
+    s.set(0, 10, -8, LAMP)
+    # ore heap of chitin and stores
+    s.fill(3, 1, 4, 7, 1, 7, CHITIN)
+    s.fill(4, 2, 5, 6, 2, 6, CHITIN)
+    s.set(5, 3, 5, CHITIN)
+    s.set(-6, 1, 6, "wotw:repair_pod")
+    s.set(6, 1, 6, "wotw:martian_mortar")
+    s.crate(-8, 1, -6, CRATE_M, "wotw:crates/martian")
+    s.crate(8, 1, -6, CRATE_M, "wotw:crates/martian")
+    for x, z in ((-9, 3), (9, 3), (-9, -3), (9, -3)):
+        s.set(x, 1, z, ROOT_BLOCK)
+    # the crew
+    s.spawn(0, 2, 0, "wotw:factory_tripod")
+    s.spawn(-6, 2, 2, "wotw:mining_tripod")
+    s.spawn(6, 1, 0, "wotw:harvester_tripod")
+    s.spawn(0, 1, 6, "wotw:martian")
+    return s
+
+
+def watch_post():
+    """A human observation post: a concrete platform ringed with a railing, a dug-in command car, a
+    field gun under a camouflage net and the crew that watches the Martian lines."""
+    s = Structure()
+    s.fill(-7, 0, -7, 7, 0, 7, CONCRETE)
+    s.fill(-6, 0, -6, 6, 0, 6, SMOOTH)
+    # the sandbag ring, one gap to walk through
+    for x in range(-6, 7):
+        for z in range(-6, 7):
+            if max(abs(x), abs(z)) == 6 and not (z == 6 and abs(x) <= 1):
+                s.set(x, 1, z, COBBLE)
+    # the mast with a lantern and a radio
+    s.fill(4, 1, -4, 4, 6, -4, IRON)
+    s.set(4, 7, -4, LANTERN)
+    s.set(3, 1, -4, CONSOLE)
+    # the bunker: three walls and a roof
+    s.walls(-4, 1, -4, 2, 3, 1, STONE_BRICK)
+    s.fill(-4, 4, -4, 2, 4, 1, STONE_BRICK)
+    s.fill(-1, 1, 1, 0, 2, 1, AIR)               # doorway
+    s.set(-3, 1, -3, LANTERN)
+    s.set(1, 1, -3, CRATE_H)
+    # the field gun and its ammunition under a net
+    s.set(4, 1, 3, CONCRETE)
+    s.set(5, 1, 4, CRATE_MIL)
+    s.set(3, 1, 5, CRATE_MIL)
+    # a grating walkway to the road
+    for z in range(7, 12):
+        s.fill(-1, 0, z, 1, 0, z, "wotw:hull_grating")
+    # the crew
+    s.spawn(0, 1, -2, "wotw:human_soldier")
+    s.spawn(-2, 1, -1, "wotw:human_soldier")
+    s.spawn(-3, 1, 4, "wotw:human_sniper")
+    s.spawn(4, 1, 5, "wotw:human_medic")
+    s.spawn(5, 1, 3, "wotw:human_apc")
+    s.spawn(-5, 1, 4, "wotw:human_artillery")
+    return s
+
+
+def frost_wreck():
+    """A wreck of a frost machine frozen into the ground: the spine of a tripod under a sheet of ice,
+    frozen hull plates, snow and a repair pod that never finished its work."""
+    s = Structure()
+    FROZEN = "wotw:frozen_hull"
+    ICE = "minecraft:ice"
+    SNOW = "minecraft:snow_block"
+    PACKED = "minecraft:packed_ice"
+    s.fill(-8, 0, -8, 8, 0, 8, PACKED)
+    for x in range(-8, 9):
+        for z in range(-8, 9):
+            distance = max(abs(x), abs(z))
+            if distance >= 7:
+                s.set(x, 1, z, SNOW if (x + z) % 3 else ICE)
+            elif distance >= 5 and (x * z) % 5 == 0:
+                s.set(x, 1, z, ICE)
+    # the fallen spine: a long frozen hull beam with ribs
+    s.fill(-5, 1, -1, 4, 2, 1, FROZEN)
+    for x in range(-5, 5, 2):
+        s.fill(x, 1, -2, x, 3, 2, FROZEN)
+        s.set(x, 4, 0, HULL)
+    # the head, half buried
+    s.fill(5, 1, -2, 7, 3, 2, FROZEN)
+    s.set(7, 2, 0, GLASS)
+    # a leg snapped off and sticking out of the ice
+    s.fill(-6, 1, 3, -3, 1, 4, FROZEN)
+    s.set(-6, 2, 4, HULL)
+    s.set(-6, 3, 4, HULL)
+    # what is left of the repair pod and the crates
+    s.set(-7, 1, -5, "wotw:repair_pod")
+    s.crate(3, 1, -5, CRATE_M, "wotw:crates/martian")
+    s.set(4, 1, 5, "wotw:spore_sack")
+    s.set(-2, 1, 5, "wotw:spore_sack")
+    s.set(0, 1, 6, ROOT_BLOCK)
+    s.set(-4, 1, -6, ROOT_BLOCK)
+    # the machines that never left
+    s.spawn(0, 2, 0, "wotw:frost_tripod")
+    s.spawn(-4, 1, -3, "wotw:frost_tripod")
+    s.spawn(5, 1, 4, "wotw:cage_tripod")
+    s.spawn(-6, 1, 6, "wotw:martian")
+    return s
+
 STRUCTURES_SPEC = {
     "landing_site": (landing_site(), 40, 14, 3417001, 2),
     "hatchery": (hatchery(), 52, 18, 3417002, 2),
@@ -960,6 +1160,12 @@ STRUCTURES_SPEC = {
     # the sixth wave installations
     "signal_hill": (signal_hill(), 96, 30, 3417021, 1),
     "goble_yard": (goble_yard(), 88, 28, 3417022, 2),
+    # the ninth wave installations
+    "crash_site": (crash_site(), 62, 20, 3417023, 2),
+    "relay_tower": (relay_tower(), 94, 30, 3417024, 1),
+    "refinery": (refinery(), 100, 32, 3417025, 2),
+    "watch_post": (watch_post(), 56, 18, 3417026, 1),
+    "frost_wreck": (frost_wreck(), 74, 24, 3417027, 1),
 }
 
 
@@ -1019,11 +1225,34 @@ def build_worldgen(name, spacing, separation, salt, size, biomes=None):
     return structure, pool, structure_set, biome_tag
 
 
+def known_blocks():
+    """Every block id the mod registers, read straight from ModBlocks.java."""
+    source = os.path.join(ROOT, "src/main/java/dev/arena/wotw/registry/ModBlocks.java")
+    with open(source, encoding="utf-8") as handle:
+        return {"wotw:" + name for name in re.findall(r'BLOCKS\.register\("([a-z0-9_]+)"', handle.read())}
+
+
+def known_entities():
+    """Every entity id the mod registers, read straight from ModEntities.java."""
+    source = os.path.join(ROOT, "src/main/java/dev/arena/wotw/registry/ModEntities.java")
+    with open(source, encoding="utf-8") as handle:
+        return {"wotw:" + name for name in re.findall(r'ENTITY_TYPES\.register\("([a-z0-9_]+)"', handle.read())}
+
+
 def main():
     os.makedirs(STRUCTURES, exist_ok=True)
+    registered = known_blocks()
+    entities = known_entities()
+    problems = []
     for name, spec in STRUCTURES_SPEC.items():
         structure, spacing, separation, salt, size = spec[:5]
         biomes = spec[5] if len(spec) > 5 else None
+        for block, _ in structure.blocks.values():
+            if block.startswith("wotw:") and block not in registered:
+                problems.append(f"{name}: unknown block {block}")
+        for entity in structure.entities:
+            if entity["id"].startswith("wotw:") and entity["id"] not in entities:
+                problems.append(f"{name}: unknown entity {entity['id']}")
         write_nbt(os.path.join(STRUCTURES, f"{name}.nbt"), structure.to_nbt())
         print("structure", name, len(structure.blocks), "blocks,", len(structure.entities), "entities")
 
@@ -1040,6 +1269,11 @@ def main():
                 json.dump(payload, handle, indent=2)
                 handle.write("\n")
     print("worldgen json done")
+    if problems:
+        print(f"{len(problems)} problem(s):")
+        for problem in problems:
+            print(" -", problem)
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

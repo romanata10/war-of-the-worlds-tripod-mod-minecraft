@@ -36,6 +36,16 @@ import dev.arena.wotw.entity.FourLeggedTripodEntity;
 import dev.arena.wotw.entity.AlienDawnMk2TripodEntity;
 import dev.arena.wotw.entity.AlienDawnTripodEntity;
 import dev.arena.wotw.entity.AnnihilationTripodEntity;
+import dev.arena.wotw.entity.FrostTripodEntity;
+import dev.arena.wotw.entity.StormTripodEntity;
+import dev.arena.wotw.entity.WeaverTripodEntity;
+import dev.arena.wotw.entity.BlinkTripodEntity;
+import dev.arena.wotw.entity.HarvesterTripodEntity;
+import dev.arena.wotw.entity.HumanApcEntity;
+import dev.arena.wotw.entity.HumanArtilleryEntity;
+import dev.arena.wotw.entity.HumanJetEntity;
+import dev.arena.wotw.entity.HumanSniperEntity;
+import dev.arena.wotw.entity.HumanMedicEntity;
 import dev.arena.wotw.entity.MotherShipTripodEntity;
 import dev.arena.wotw.entity.MiningTripodEntity;
 import dev.arena.wotw.entity.RogerDeanTripodEntity;
@@ -182,6 +192,11 @@ public final class ModEntities {
 
     /** Heavy bomber: flies a high orbit and drops a stick of bombs on whatever walks below. */
     public static EntityType<HumanBomberEntity> HUMAN_BOMBER;
+    public static EntityType<HumanApcEntity> HUMAN_APC;
+    public static EntityType<HumanArtilleryEntity> HUMAN_ARTILLERY;
+    public static EntityType<HumanJetEntity> HUMAN_JET;
+    public static EntityType<HumanSniperEntity> HUMAN_SNIPER;
+    public static EntityType<HumanMedicEntity> HUMAN_MEDIC;
 
     /** Not part of the random waves: it only climbs out of a capsule that fell into the sea. */
     public static EntityType<WaterTripodEntity> WATER_TRIPOD;
@@ -257,6 +272,11 @@ public final class ModEntities {
     public static EntityType<CageTripodEntity> CAGE;
     public static EntityType<HumanoidTripodEntity> HUMANOID;
     public static EntityType<SignalScoutTripodEntity> SIGNAL_SCOUT;
+    public static EntityType<FrostTripodEntity> FROST;
+    public static EntityType<StormTripodEntity> STORM;
+    public static EntityType<WeaverTripodEntity> WEAVER;
+    public static EntityType<BlinkTripodEntity> BLINK;
+    public static EntityType<HarvesterTripodEntity> HARVESTER;
 
 
     /** True for every Martian war machine, including the creatures. Used by the human army AI. */
@@ -440,6 +460,31 @@ public final class ModEntities {
                         .sized(7.1F, 2.1F)
                         .clientTrackingRange(12)
                         .build("human_bomber"));
+        ENTITY_TYPES.register("human_apc",
+                () -> HUMAN_APC = EntityType.Builder.of(HumanApcEntity::new, MobCategory.CREATURE)
+                        .sized(3.2F, 2.4F)
+                        .clientTrackingRange(12)
+                        .build("human_apc"));
+        ENTITY_TYPES.register("human_artillery",
+                () -> HUMAN_ARTILLERY = EntityType.Builder.of(HumanArtilleryEntity::new, MobCategory.CREATURE)
+                        .sized(2.8F, 2.4F)
+                        .clientTrackingRange(12)
+                        .build("human_artillery"));
+        ENTITY_TYPES.register("human_jet",
+                () -> HUMAN_JET = EntityType.Builder.of(HumanJetEntity::new, MobCategory.CREATURE)
+                        .sized(4.4F, 2.2F)
+                        .clientTrackingRange(12)
+                        .build("human_jet"));
+        ENTITY_TYPES.register("human_sniper",
+                () -> HUMAN_SNIPER = EntityType.Builder.of(HumanSniperEntity::new, MobCategory.CREATURE)
+                        .sized(1.2F, 2.5F)
+                        .clientTrackingRange(12)
+                        .build("human_sniper"));
+        ENTITY_TYPES.register("human_medic",
+                () -> HUMAN_MEDIC = EntityType.Builder.of(HumanMedicEntity::new, MobCategory.CREATURE)
+                        .sized(1.2F, 2.6F)
+                        .clientTrackingRange(12)
+                        .build("human_medic"));
         ENTITY_TYPES.register("water_tripod",
                 () -> WATER_TRIPOD = EntityType.Builder.of(WaterTripodEntity::new, MobCategory.MONSTER)
                         .sized(8.8F, 16.6F)
@@ -687,6 +732,36 @@ public final class ModEntities {
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("signal_scout_tripod")));
+        ENTITY_TYPES.register("frost_tripod",
+                () -> FROST = track(EntityType.Builder.of(FrostTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.6F, 17.0F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("frost_tripod")));
+        ENTITY_TYPES.register("storm_tripod",
+                () -> STORM = track(EntityType.Builder.of(StormTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.2F, 19.4F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("storm_tripod")));
+        ENTITY_TYPES.register("weaver_tripod",
+                () -> WEAVER = track(EntityType.Builder.of(WeaverTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.6F, 13.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("weaver_tripod")));
+        ENTITY_TYPES.register("blink_tripod",
+                () -> BLINK = track(EntityType.Builder.of(BlinkTripodEntity::new, MobCategory.MONSTER)
+                        .sized(6.2F, 15.5F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("blink_tripod")));
+        ENTITY_TYPES.register("harvester_tripod",
+                () -> HARVESTER = track(EntityType.Builder.of(HarvesterTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.2F, 15.2F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("harvester_tripod")));
     }
 
     private ModEntities() {
@@ -752,6 +827,11 @@ public final class ModEntities {
         event.put(HUMAN_HELICOPTER, HumanHelicopterEntity.createAttributes().build());
         event.put(HUMAN_SUBMARINE, HumanSubmarineEntity.createAttributes().build());
         event.put(HUMAN_BOMBER, HumanBomberEntity.createAttributes().build());
+        event.put(HUMAN_APC, HumanApcEntity.createAttributes().build());
+        event.put(HUMAN_ARTILLERY, HumanArtilleryEntity.createAttributes().build());
+        event.put(HUMAN_JET, HumanJetEntity.createAttributes().build());
+        event.put(HUMAN_SNIPER, HumanSniperEntity.createAttributes().build());
+        event.put(HUMAN_MEDIC, HumanMedicEntity.createAttributes().build());
         event.put(WATER_TRIPOD, WaterTripodEntity.createAttributes().build());
         event.put(SCOUT_TRIPOD, ScoutTripodEntity.createAttributes().build());
         event.put(RAM_TRIPOD, RamTripodEntity.createAttributes().build());
@@ -793,6 +873,11 @@ public final class ModEntities {
         event.put(CAGE, CageTripodEntity.createAttributes().build());
         event.put(HUMANOID, HumanoidTripodEntity.createAttributes().build());
         event.put(SIGNAL_SCOUT, SignalScoutTripodEntity.createAttributes().build());
+        event.put(FROST, FrostTripodEntity.createAttributes().build());
+        event.put(STORM, StormTripodEntity.createAttributes().build());
+        event.put(WEAVER, WeaverTripodEntity.createAttributes().build());
+        event.put(BLINK, BlinkTripodEntity.createAttributes().build());
+        event.put(HARVESTER, HarvesterTripodEntity.createAttributes().build());
 
     }
 }

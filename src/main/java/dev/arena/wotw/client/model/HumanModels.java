@@ -458,4 +458,292 @@ public final class HumanModels {
         return LayerDefinition.create(data, 128, 128);
     }
 
+    public static LayerDefinition apc() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-14, -26, -24, 28, 12, 48)
+                        .addBox(-12, -32, -18, 24, 6, 30)
+                        .addBox(-13, -20, -26, 26, 4, 4)
+                        .addBox(-14, -14, -22, 28, 4, 44),
+                PartPose.offsetAndRotation(0, 27, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition wheels_l = body.addOrReplaceChild("wheels_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, -5, -23, 4, 10, 10)
+                        .addBox(-2, -2, -20, 4, 4, 4)
+                        .addBox(-2, -5, -12, 4, 10, 10)
+                        .addBox(-2, -2, -9, 4, 4, 4)
+                        .addBox(-2, -5, 3, 4, 10, 10)
+                        .addBox(-2, -2, 6, 4, 4, 4)
+                        .addBox(-2, -5, 14, 4, 10, 10)
+                        .addBox(-2, -2, 17, 4, 4, 4),
+                PartPose.offsetAndRotation(-15, -8, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition wheels_r = body.addOrReplaceChild("wheels_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, -5, -23, 4, 10, 10)
+                        .addBox(-2, -2, -20, 4, 4, 4)
+                        .addBox(-2, -5, -12, 4, 10, 10)
+                        .addBox(-2, -2, -9, 4, 4, 4)
+                        .addBox(-2, -5, 3, 4, 10, 10)
+                        .addBox(-2, -2, 6, 4, 4, 4)
+                        .addBox(-2, -5, 14, 4, 10, 10)
+                        .addBox(-2, -2, 17, 4, 4, 4),
+                PartPose.offsetAndRotation(15, -8, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition turret = body.addOrReplaceChild("turret",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-8, -8, -9, 16, 8, 18)
+                        .addBox(-2, -5, -26, 4, 4, 18)
+                        .addBox(-3, -6, -28, 6, 6, 3)
+                        .addBox(-5, -6, 6, 10, 3, 2),
+                PartPose.offsetAndRotation(0, -32, -4, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition lamp_l = body.addOrReplaceChild("lamp_l",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-2, -2, -1, 4, 3, 2),
+                PartPose.offsetAndRotation(-12, -22, -24, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition lamp_r = body.addOrReplaceChild("lamp_r",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-2, -2, -1, 4, 3, 2),
+                PartPose.offsetAndRotation(8, -22, -24, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition artillery() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-7, -12, -10, 14, 6, 22)
+                        .addBox(-9, -20, 2, 4, 10, 18)
+                        .addBox(5, -20, 2, 4, 10, 18)
+                        .addBox(-1, -18, 18, 2, 8, 6),
+                PartPose.offsetAndRotation(0, 24, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition wheel_l = body.addOrReplaceChild("wheel_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, -8, -8, 4, 16, 16)
+                        .addBox(-2, -4, -4, 4, 8, 8)
+                        .addBox(-2, -7, -8, 4, 1, 16)
+                        .addBox(-2, -3, -8, 4, 1, 16)
+                        .addBox(-2, 1, -8, 4, 1, 16)
+                        .addBox(-2, 5, -8, 4, 1, 16),
+                PartPose.offsetAndRotation(-10, -8, -2, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition wheel_r = body.addOrReplaceChild("wheel_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, -8, -8, 4, 16, 16)
+                        .addBox(-2, -4, -4, 4, 8, 8)
+                        .addBox(-2, -7, -8, 4, 1, 16)
+                        .addBox(-2, -3, -8, 4, 1, 16)
+                        .addBox(-2, 1, -8, 4, 1, 16)
+                        .addBox(-2, 5, -8, 4, 1, 16),
+                PartPose.offsetAndRotation(10, -8, -2, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition shield = body.addOrReplaceChild("shield",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-11, -8, 0, 22, 16, 3)
+                        .addBox(-6, -4, -1, 12, 3, 2),
+                PartPose.offsetAndRotation(0, -18, -8, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition barrel = body.addOrReplaceChild("barrel",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-3, -3, -34, 6, 6, 34)
+                        .addBox(-4, -4, -38, 8, 8, 6)
+                        .addBox(-5, -5, -40, 10, 10, 3)
+                        .addBox(-2, -2, -41, 4, 4, 2),
+                PartPose.offsetAndRotation(0, -16, -6, -0.4189F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition jet() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, -18, -29, 5, 5, 8)
+                        .addBox(-5, -18, -21, 5, 5, 8)
+                        .addBox(-5, -18, -12, 5, 5, 8)
+                        .addBox(-5, -18, -4, 5, 5, 8)
+                        .addBox(-5, -18, 4, 5, 5, 8)
+                        .addBox(-5, -18, 12, 5, 5, 8)
+                        .addBox(-5, -18, 21, 5, 5, 8)
+                        .addBox(-5, -13, -29, 5, 5, 8)
+                        .addBox(-5, -13, -21, 5, 5, 8)
+                        .addBox(-5, -13, -12, 5, 5, 8)
+                        .addBox(-5, -13, -4, 5, 5, 8)
+                        .addBox(-5, -13, 4, 5, 5, 8)
+                        .addBox(-5, -13, 12, 5, 5, 8)
+                        .addBox(-5, -13, 21, 5, 5, 8)
+                        .addBox(0, -18, -29, 5, 5, 8)
+                        .addBox(0, -18, -21, 5, 5, 8)
+                        .addBox(0, -18, -12, 5, 5, 8)
+                        .addBox(0, -18, -4, 5, 5, 8)
+                        .addBox(0, -18, 4, 5, 5, 8)
+                        .addBox(0, -18, 12, 5, 5, 8)
+                        .addBox(0, -18, 21, 5, 5, 8)
+                        .addBox(0, -13, -29, 5, 5, 8)
+                        .addBox(0, -13, -21, 5, 5, 8)
+                        .addBox(0, -13, -12, 5, 5, 8)
+                        .addBox(0, -13, -4, 5, 5, 8)
+                        .addBox(0, -13, 4, 5, 5, 8)
+                        .addBox(0, -13, 12, 5, 5, 8)
+                        .addBox(0, -13, 21, 5, 5, 8)
+                        .addBox(-3, -22, -28, 6, 6, 14)
+                        .addBox(-1, -21, -32, 2, 3, 6)
+                        .addBox(-6, -14, 22, 12, 8, 6),
+                PartPose.offsetAndRotation(0, 30, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition wing_l = body.addOrReplaceChild("wing_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(0, -2, -14, -30, 3, 26)
+                        .addBox(-12, -2, 10, -14, 3, 10)
+                        .addBox(-22, -3, -6, 5, 5, 5)
+                        .addBox(-16, -4, -2, 3, 3, 14),
+                PartPose.offsetAndRotation(-4, -14, 2, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition wing_r = body.addOrReplaceChild("wing_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(0, -2, -14, 30, 3, 26)
+                        .addBox(12, -2, 10, 14, 3, 10)
+                        .addBox(22, -3, -6, 5, 5, 5)
+                        .addBox(16, -4, -2, 3, 3, 14),
+                PartPose.offsetAndRotation(4, -14, 2, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition tail = body.addOrReplaceChild("tail",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-1, -20, -2, 2, 20, 8)
+                        .addBox(-10, -6, 0, 20, 3, 6),
+                PartPose.offsetAndRotation(0, -18, 22, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition canopy = body.addOrReplaceChild("canopy",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-3, -2, -1, 6, 4, 2),
+                PartPose.offsetAndRotation(0, -20, -18, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition exhaust = body.addOrReplaceChild("exhaust",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-4, -3, 0, 8, 6, 4),
+                PartPose.offsetAndRotation(0, -10, 26, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition sniper() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition leg_l = root.addOrReplaceChild("leg_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 12, 4)
+                        .addBox(-2, 11, -3, 4, 4, 6),
+                PartPose.offsetAndRotation(-3, 9, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition leg_r = root.addOrReplaceChild("leg_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 12, 4)
+                        .addBox(-2, 11, -3, 4, 4, 6)
+                        .addBox(-3, 6, -5, 6, 5, 10),
+                PartPose.offsetAndRotation(3, 9, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, -14, -3, 10, 14, 6)
+                        .addBox(-6, -13, 3, 12, 11, 4)
+                        .addBox(-7, -4, -4, 14, 4, 8),
+                PartPose.offsetAndRotation(0, 9, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition head = body.addOrReplaceChild("head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, -8, -4, 8, 8, 8)
+                        .addBox(-5, -11, -5, 10, 4, 10)
+                        .addBox(-6, -8, -6, 12, 3, 2),
+                PartPose.offsetAndRotation(0, -14, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition scope = head.addOrReplaceChild("scope",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-2, -1, -1, 4, 2, 2),
+                PartPose.offsetAndRotation(0, -5, -6, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition arm_r = body.addOrReplaceChild("arm_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 9, 4)
+                        .addBox(-1, 7, -12, 3, 3, 26)
+                        .addBox(-1, 6, -4, 3, 5, 6)
+                        .addBox(-1, 9, -14, 3, 3, 6)
+                        .addBox(-1, 8, -20, 2, 2, 6),
+                PartPose.offsetAndRotation(6, -12, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition arm_l = body.addOrReplaceChild("arm_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 9, 4)
+                        .addBox(-2, 7, -8, 4, 3, 8),
+                PartPose.offsetAndRotation(-6, -12, 0, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
+    public static LayerDefinition medic() {
+        MeshDefinition data = new MeshDefinition();
+        PartDefinition root = data.getRoot();
+
+        PartDefinition leg_l = root.addOrReplaceChild("leg_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 13, 4)
+                        .addBox(-2, 12, -3, 4, 4, 6),
+                PartPose.offsetAndRotation(-3, 8, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition leg_r = root.addOrReplaceChild("leg_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 13, 4)
+                        .addBox(-2, 12, -3, 4, 4, 6),
+                PartPose.offsetAndRotation(3, 8, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition body = root.addOrReplaceChild("body",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-5, -14, -3, 10, 14, 6)
+                        .addBox(-6, -12, -3, 12, 8, 7)
+                        .addBox(-5, -13, 3, 10, 10, 5)
+                        .addBox(-4, -9, 3, 8, 3, 2)
+                        .addBox(-2, -11, 3, 4, 7, 2),
+                PartPose.offsetAndRotation(0, 8, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition head = body.addOrReplaceChild("head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-4, -9, -4, 8, 9, 8)
+                        .addBox(-5, -11, -5, 10, 3, 10)
+                        .addBox(-1, -12, -6, 2, 4, 2)
+                        .addBox(-3, -11, -6, 6, 2, 2),
+                PartPose.offsetAndRotation(0, -14, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition eye = head.addOrReplaceChild("eye",
+                CubeListBuilder.create()
+                        .texOffs(96, 96).addBox(-3, -1, -1, 5, 2, 2),
+                PartPose.offsetAndRotation(0, -5, -5, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition arm_r = body.addOrReplaceChild("arm_r",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 10, 4)
+                        .addBox(-1, 8, -6, 3, 3, 8),
+                PartPose.offsetAndRotation(6, -12, 0, 0.0F, 0.0F, 0.0F));
+
+        PartDefinition arm_l = body.addOrReplaceChild("arm_l",
+                CubeListBuilder.create()
+                        .texOffs(0, 0).addBox(-2, 0, -2, 4, 10, 4)
+                        .addBox(-3, 8, -4, 5, 6, 5)
+                        .addBox(-2, 9, -3, 3, 4, 3),
+                PartPose.offsetAndRotation(-6, -12, 0, 0.0F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(data, 128, 128);
+    }
+
 }

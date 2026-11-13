@@ -2,6 +2,7 @@ package dev.arena.wotw.registry;
 
 import dev.arena.wotw.WotwMod;
 import dev.arena.wotw.block.MartianCylinderBlock;
+import dev.arena.wotw.block.MartianDeviceBlock;
 import dev.arena.wotw.block.BloodRootsBlock;
 import dev.arena.wotw.block.CrateBlock;
 import dev.arena.wotw.block.BloodVinesBlock;
@@ -44,6 +45,38 @@ public final class ModBlocks {
 
     /** Spore sack: cracks open into three lice. */
     public static Block SPORE_SACK;
+
+    /* Ninth wave: the machines of the new bases and the ten new building materials. */
+
+    /** Mortar emplacement: lobs shells in an arc at anything that comes close. */
+    public static Block MARTIAN_MORTAR;
+
+    /** Root spreader: sows the red weed over the soil around it. */
+    public static Block ROOT_SPREADER;
+
+    /** Gravity well: drags everything loose towards the pillar. */
+    public static Block GRAVITY_WELL;
+
+    /** Repair pod: welds damaged Martian machines back together. */
+    public static Block REPAIR_POD;
+
+    /** Shield pylon: wraps nearby machines in a shimmering field. */
+    public static Block SHIELD_PYLON;
+
+    /** Pressed Martian pipework, for the refineries. */
+    public static Block MARTIAN_PIPE;
+
+    /** Walkable grating cut from hull plate. */
+    public static Block HULL_GRATING;
+
+    /** Martian chitin, the shell the walkers grow instead of plating. */
+    public static Block CHITIN_BLOCK;
+
+    /** Ash and cinder left where a heat ray burned the ground. */
+    public static Block ASHEN_SOIL;
+
+    /** A hull plate that has been frozen solid by the frost machine. */
+    public static Block FROZEN_HULL;
 
     public static Block MARTIAN_CYLINDER;
 
@@ -226,6 +259,62 @@ public final class ModBlocks {
                     .randomTicks()));
         BLOCKS.register("infested_cobblestone", () -> INFESTED_COBBLESTONE = new InfestedBlock(BlockBehaviour.Properties.of().strength(2.4F, 8.0F).requiresCorrectToolForDrops().randomTicks()));
         BLOCKS.register("infested_bricks", () -> INFESTED_BRICKS = new InfestedBlock(BlockBehaviour.Properties.of().strength(2.6F, 8.0F).requiresCorrectToolForDrops().randomTicks()));
+
+        BLOCKS.register("martian_mortar",
+                () -> MARTIAN_MORTAR = new MartianDeviceBlock(BlockBehaviour.Properties.of()
+                    .strength(7.0F, 16.0F)
+                    .sound(SoundType.METAL)
+                    .noOcclusion()
+                    .lightLevel(state -> 6)
+                    .requiresCorrectToolForDrops(), MartianDeviceBlock.Device.MORTAR));
+        BLOCKS.register("root_spreader",
+                () -> ROOT_SPREADER = new MartianDeviceBlock(BlockBehaviour.Properties.of()
+                    .strength(3.0F, 8.0F)
+                    .sound(SoundType.GRASS)
+                    .lightLevel(state -> 8), MartianDeviceBlock.Device.ROOT_SPREADER));
+        BLOCKS.register("gravity_well",
+                () -> GRAVITY_WELL = new MartianDeviceBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 14.0F)
+                    .sound(SoundType.METAL)
+                    .noOcclusion()
+                    .lightLevel(state -> 12)
+                    .requiresCorrectToolForDrops(), MartianDeviceBlock.Device.GRAVITY_WELL));
+        BLOCKS.register("repair_pod",
+                () -> REPAIR_POD = new MartianDeviceBlock(BlockBehaviour.Properties.of()
+                    .strength(5.5F, 14.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> 7)
+                    .requiresCorrectToolForDrops(), MartianDeviceBlock.Device.REPAIR_POD));
+        BLOCKS.register("shield_pylon",
+                () -> SHIELD_PYLON = new MartianDeviceBlock(BlockBehaviour.Properties.of()
+                    .strength(6.5F, 15.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> 10)
+                    .requiresCorrectToolForDrops(), MartianDeviceBlock.Device.SHIELD_PYLON));
+        BLOCKS.register("martian_pipe",
+                () -> MARTIAN_PIPE = new Block(BlockBehaviour.Properties.of()
+                    .strength(4.5F, 11.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("hull_grating",
+                () -> HULL_GRATING = new Block(BlockBehaviour.Properties.of()
+                    .strength(4.0F, 10.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("chitin_block",
+                () -> CHITIN_BLOCK = new Block(BlockBehaviour.Properties.of()
+                    .strength(3.2F, 9.0F)
+                    .sound(SoundType.NETHERITE_BLOCK)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("ashen_soil",
+                () -> ASHEN_SOIL = new Block(BlockBehaviour.Properties.of()
+                    .strength(1.2F, 3.0F)
+                    .sound(SoundType.GRAVEL)));
+        BLOCKS.register("frozen_hull",
+                () -> FROZEN_HULL = new Block(BlockBehaviour.Properties.of()
+                    .strength(5.2F, 13.0F)
+                    .sound(SoundType.GLASS)
+                    .requiresCorrectToolForDrops()));
     }
 
     private ModBlocks() {

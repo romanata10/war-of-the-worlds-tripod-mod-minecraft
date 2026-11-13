@@ -10,6 +10,7 @@ Usage:  python3 tools/generate_textures.py
 import json
 import math
 import os
+import re
 import random
 
 from PIL import Image, ImageDraw
@@ -92,6 +93,18 @@ PALETTES = {
     "cage_tripod": ((62, 68, 66), (22, 26, 26), (108, 116, 112), (255, 64, 52), (80, 88, 84)),
     "humanoid_tripod": ((118, 100, 78), (46, 38, 28), (168, 148, 118), (150, 255, 150), (96, 112, 82)),
     "signal_scout_tripod": ((86, 90, 96), (30, 32, 36), (134, 140, 148), (196, 120, 255), (100, 104, 112)),
+    # ninth wave: five invented machines
+    "frost_tripod": ((176, 202, 214), (86, 110, 126), (228, 244, 250), (170, 240, 255), (120, 156, 176)),
+    "storm_tripod": ((86, 82, 78), (32, 30, 28), (132, 126, 118), (140, 236, 255), (168, 120, 66)),
+    "weaver_tripod": ((96, 74, 48), (40, 28, 16), (148, 118, 82), (198, 255, 130), (110, 92, 54)),
+    "blink_tripod": ((62, 56, 82), (22, 20, 32), (108, 98, 138), (196, 120, 255), (86, 74, 116)),
+    "harvester_tripod": ((132, 96, 62), (48, 32, 20), (184, 140, 96), (255, 168, 70), (96, 92, 82)),
+    # ninth wave: the new human vehicles and soldiers
+    "human_apc": ((92, 100, 70), (38, 42, 28), (134, 144, 102), (255, 226, 130), (110, 118, 84)),
+    "human_artillery": ((84, 88, 82), (32, 34, 30), (126, 132, 122), (255, 196, 110), (100, 104, 96)),
+    "human_jet": ((156, 166, 176), (66, 72, 80), (204, 214, 224), (255, 170, 90), (128, 140, 152)),
+    "human_sniper": ((72, 78, 58), (28, 32, 22), (112, 120, 90), (210, 240, 160), (94, 84, 60)),
+    "human_medic": ((196, 196, 190), (86, 88, 84), (234, 234, 228), (255, 120, 120), (168, 60, 60)),
     # the creatures themselves: wet, leathery hide
     "martian": ((104, 96, 74), (43, 39, 30), (150, 140, 108), (255, 118, 74), (120, 96, 60)),
     "martian_master": ((74, 62, 62), (28, 22, 22), (118, 100, 96), (255, 64, 48), (96, 64, 56)),
@@ -684,6 +697,136 @@ def make_infested_bricks_texture():
     return _infested(((150, 96, 82), (100, 60, 50), (176, 120, 104)), "infested-bricks", brick=True)
 
 
+# --------------------------------------------------------------------------- #
+#  Ninth wave: the devices of the new bases and the building materials
+# --------------------------------------------------------------------------- #
+
+def make_device_texture(seed, base, dark, light, glow, ring="circle"):
+    """The face of a working Martian device: plate, rivets and one bright core."""
+    rnd = random.Random(seed)
+    img = _panel(16, base, dark, light, rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=dark + (220,))
+    if ring == "circle":
+        draw.ellipse([3, 3, 12, 12], outline=dark + (230,))
+        draw.ellipse([5, 5, 10, 10], fill=glow + (255,))
+        draw.rectangle([7, 6, 8, 9], fill=(255, 255, 255, 255))
+    elif ring == "square":
+        draw.rectangle([3, 3, 12, 12], outline=dark + (230,))
+        draw.rectangle([5, 5, 10, 10], fill=glow + (255,))
+        draw.line([(5, 5), (10, 10)], fill=(255, 255, 255, 240))
+    elif ring == "cross":
+        draw.line([(2, 8), (13, 8)], fill=dark + (230,))
+        draw.line([(8, 2), (8, 13)], fill=dark + (230,))
+        draw.rectangle([5, 5, 10, 10], fill=glow + (255,))
+    else:  # field
+        for y in range(2, 15, 3):
+            draw.line([(2, y), (13, y)], fill=glow + (190,))
+        draw.rectangle([0, 0, 15, 15], outline=glow + (150,))
+    for x, y in ((1, 1), (14, 1), (1, 14), (14, 14)):
+        draw.point((x, y), fill=light + (255,))
+    return img
+
+
+def make_martian_mortar_texture():
+    return make_device_texture("mortar", (74, 78, 84), (30, 32, 36), (128, 134, 142), (255, 150, 60), "circle")
+
+
+def make_root_spreader_texture():
+    img = make_device_texture("root-spreader", (96, 66, 44), (40, 26, 16), (150, 108, 70), (255, 90, 70), "square")
+    draw = ImageDraw.Draw(img, "RGBA")
+    for start in ((2, 2), (13, 3), (3, 13), (12, 12)):
+        x, y = start
+        for _ in range(4):
+            draw.point((x, y), fill=(206, 48, 44, 255))
+            x += 1 if x < 8 else -1
+            y += 1
+    return img
+
+
+def make_gravity_well_texture():
+    return make_device_texture("gravity-well", (44, 42, 62), (16, 16, 26), (96, 90, 132), (176, 120, 255), "circle")
+
+
+def make_repair_pod_texture():
+    return make_device_texture("repair-pod", (84, 88, 76), (34, 36, 30), (140, 146, 128), (140, 255, 160), "cross")
+
+
+def make_shield_pylon_texture():
+    return make_device_texture("shield-pylon", (62, 82, 90), (22, 32, 38), (118, 150, 162), (130, 240, 255), "field")
+
+
+def make_martian_pipe_texture():
+    rnd = random.Random("martian-pipe")
+    img = _panel(16, (88, 92, 98), (34, 38, 44), (136, 142, 150), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for y in (2, 6, 10, 14):
+        draw.line([(0, y), (15, y)], fill=(40, 44, 50, 220))
+        draw.line([(0, y - 1), (15, y - 1)], fill=(150, 156, 164, 160))
+    for x in (3, 12):
+        draw.line([(x, 0), (x, 15)], fill=(52, 56, 62, 190))
+    return img
+
+
+def make_hull_grating_texture():
+    rnd = random.Random("hull-grating")
+    img = _panel(16, (70, 76, 82), (26, 30, 34), (124, 132, 140), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for i in range(0, 16, 4):
+        draw.line([(i, 0), (i, 15)], fill=(34, 38, 42, 235))
+        draw.line([(0, i), (15, i)], fill=(34, 38, 42, 235))
+    for x, y in ((2, 2), (10, 2), (2, 10), (10, 10)):
+        draw.rectangle([x, y, x + 2, y + 2], fill=(96, 104, 112, 255))
+    return img
+
+
+def make_chitin_block_texture():
+    rnd = random.Random("chitin")
+    img = Image.new("RGBA", (16, 16), (58, 40, 28, 255))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade((78, 52, 34), 1.0 + rnd.uniform(-0.16, 0.16), 4.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for row, y in enumerate(range(0, 16, 4)):
+        offset = 0 if row % 2 == 0 else 2
+        for x in range(-4 + offset, 16, 8):
+            draw.arc([x, y, x + 8, y + 6], 180, 360, fill=(38, 24, 16, 220))
+    for _ in range(8):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(196, 150, 96, 255))
+    return img
+
+
+def make_ashen_soil_texture():
+    rnd = random.Random("ashen-soil")
+    img = Image.new("RGBA", (16, 16), (66, 62, 60, 255))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade((74, 70, 68), 1.0 + rnd.uniform(-0.18, 0.18), 4.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for _ in range(14):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(40, 38, 36, 255))
+    for _ in range(4):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(214, 90, 40, 255))
+    draw.line([(2, 12), (6, 10), (11, 13)], fill=(96, 90, 86, 200))
+    return img
+
+
+def make_frozen_hull_texture():
+    rnd = random.Random("frozen-hull")
+    img = _panel(16, (118, 148, 160), (52, 74, 86), (176, 206, 216), rnd, seam=8)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for start in ((3, 1), (12, 4), (6, 13)):
+        x, y = start
+        for _ in range(5):
+            draw.point((max(0, min(15, x)), max(0, min(15, y))), fill=(232, 250, 255, 230))
+            x += 1
+            y += 1 if start[0] < 8 else -1
+    draw.rectangle([0, 0, 15, 15], outline=(70, 100, 112, 200))
+    return img
+
+
 def main():
     os.makedirs(ENTITY, exist_ok=True)
     os.makedirs(ITEM, exist_ok=True)
@@ -735,6 +878,16 @@ def main():
     make_blood_vines_texture().save(os.path.join(BLOCK, "blood_vines.png"))
     make_infested_cobblestone_texture().save(os.path.join(BLOCK, "infested_cobblestone.png"))
     make_infested_bricks_texture().save(os.path.join(BLOCK, "infested_bricks.png"))
+    make_martian_mortar_texture().save(os.path.join(BLOCK, "martian_mortar.png"))
+    make_root_spreader_texture().save(os.path.join(BLOCK, "root_spreader.png"))
+    make_gravity_well_texture().save(os.path.join(BLOCK, "gravity_well.png"))
+    make_repair_pod_texture().save(os.path.join(BLOCK, "repair_pod.png"))
+    make_shield_pylon_texture().save(os.path.join(BLOCK, "shield_pylon.png"))
+    make_martian_pipe_texture().save(os.path.join(BLOCK, "martian_pipe.png"))
+    make_hull_grating_texture().save(os.path.join(BLOCK, "hull_grating.png"))
+    make_chitin_block_texture().save(os.path.join(BLOCK, "chitin_block.png"))
+    make_ashen_soil_texture().save(os.path.join(BLOCK, "ashen_soil.png"))
+    make_frozen_hull_texture().save(os.path.join(BLOCK, "frozen_hull.png"))
     print("items + block done")
     write_block_assets()
 
@@ -752,6 +905,22 @@ def write_block_assets():
     states = os.path.join(assets, "blockstates")
     items = os.path.join(assets, "models", "item")
     created = []
+
+    # blocks registered in ModBlocks need a cube_all model and a texture with the same name
+    source = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src", "main", "java",
+                          "dev", "arena", "wotw", "registry", "ModBlocks.java")
+    with open(source, encoding="utf-8") as handle:
+        registered = re.findall(r'BLOCKS\.register\("([a-z0-9_]+)"', handle.read())
+    for name in registered:
+        model = os.path.join(models, f"{name}.json")
+        if os.path.exists(model):
+            continue
+        with open(model, "w", encoding="utf-8") as handle:
+            json.dump({"parent": "minecraft:block/cube_all",
+                       "textures": {"all": f"wotw:block/{name}"}}, handle, indent=2)
+            handle.write("\n")
+        created.append(f"{name} (model)")
+
     for file in sorted(os.listdir(models)):
         if not file.endswith(".json"):
             continue

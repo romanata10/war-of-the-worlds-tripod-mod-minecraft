@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:relay_tower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 94,
+    "separation": 30,
+    "salt": 3417024,
+    "spread_type": "linear"
+  }
+}
