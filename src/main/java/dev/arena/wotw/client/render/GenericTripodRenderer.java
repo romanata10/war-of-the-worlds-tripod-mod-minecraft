@@ -43,7 +43,7 @@ public class GenericTripodRenderer<T extends AbstractTripodEntity>
      * box inflated to the size of the drawn machine instead.
      */
     @Override
-    protected boolean shouldRender(T entity, Frustum frustum, double x, double y, double z) {
+    public boolean shouldRender(T entity, Frustum frustum, double x, double y, double z) {
         if (!entity.shouldRender(x, y, z)) {
             return false;
         }
