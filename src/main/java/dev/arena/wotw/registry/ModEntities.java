@@ -36,6 +36,16 @@ import dev.arena.wotw.entity.FourLeggedTripodEntity;
 import dev.arena.wotw.entity.AlienDawnMk2TripodEntity;
 import dev.arena.wotw.entity.AlienDawnTripodEntity;
 import dev.arena.wotw.entity.AnnihilationTripodEntity;
+import dev.arena.wotw.entity.DiscTripodEntity;
+import dev.arena.wotw.entity.CyclopsTripodEntity;
+import dev.arena.wotw.entity.SketchTripodEntity;
+import dev.arena.wotw.entity.JellyTripodEntity;
+import dev.arena.wotw.entity.SiegeTripodEntity;
+import dev.arena.wotw.entity.PrismTripodEntity;
+import dev.arena.wotw.entity.LavaTripodEntity;
+import dev.arena.wotw.entity.LivingTripodEntity;
+import dev.arena.wotw.entity.StriderTripodEntity;
+import dev.arena.wotw.entity.SaucerTripodEntity;
 import dev.arena.wotw.entity.FrostTripodEntity;
 import dev.arena.wotw.entity.StormTripodEntity;
 import dev.arena.wotw.entity.WeaverTripodEntity;
@@ -273,6 +283,16 @@ public final class ModEntities {
     public static EntityType<HumanoidTripodEntity> HUMANOID;
     public static EntityType<SignalScoutTripodEntity> SIGNAL_SCOUT;
     public static EntityType<FrostTripodEntity> FROST;
+    public static EntityType<DiscTripodEntity> DISC;
+    public static EntityType<CyclopsTripodEntity> CYCLOPS;
+    public static EntityType<SketchTripodEntity> SKETCH;
+    public static EntityType<JellyTripodEntity> JELLY;
+    public static EntityType<SiegeTripodEntity> SIEGE;
+    public static EntityType<PrismTripodEntity> PRISM;
+    public static EntityType<LavaTripodEntity> LAVA;
+    public static EntityType<LivingTripodEntity> LIVING;
+    public static EntityType<StriderTripodEntity> STRIDER;
+    public static EntityType<SaucerTripodEntity> SAUCER;
     public static EntityType<StormTripodEntity> STORM;
     public static EntityType<WeaverTripodEntity> WEAVER;
     public static EntityType<BlinkTripodEntity> BLINK;
@@ -762,6 +782,66 @@ public final class ModEntities {
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("harvester_tripod")));
+        ENTITY_TYPES.register("disc_tripod",
+                () -> DISC = track(EntityType.Builder.of(DiscTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.4F, 13.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("disc_tripod")));
+        ENTITY_TYPES.register("cyclops_tripod",
+                () -> CYCLOPS = track(EntityType.Builder.of(CyclopsTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.0F, 16.5F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("cyclops_tripod")));
+        ENTITY_TYPES.register("sketch_tripod",
+                () -> SKETCH = track(EntityType.Builder.of(SketchTripodEntity::new, MobCategory.MONSTER)
+                        .sized(5.6F, 16.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("sketch_tripod")));
+        ENTITY_TYPES.register("jelly_tripod",
+                () -> JELLY = track(EntityType.Builder.of(JellyTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.0F, 13.9F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("jelly_tripod")));
+        ENTITY_TYPES.register("siege_tripod",
+                () -> SIEGE = track(EntityType.Builder.of(SiegeTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.0F, 20.3F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("siege_tripod")));
+        ENTITY_TYPES.register("prism_tripod",
+                () -> PRISM = track(EntityType.Builder.of(PrismTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.0F, 16.8F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("prism_tripod")));
+        ENTITY_TYPES.register("lava_tripod",
+                () -> LAVA = track(EntityType.Builder.of(LavaTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.0F, 16.2F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("lava_tripod")));
+        ENTITY_TYPES.register("living_tripod",
+                () -> LIVING = track(EntityType.Builder.of(LivingTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.4F, 18.8F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("living_tripod")));
+        ENTITY_TYPES.register("strider_tripod",
+                () -> STRIDER = track(EntityType.Builder.of(StriderTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.0F, 20.6F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("strider_tripod")));
+        ENTITY_TYPES.register("saucer_tripod",
+                () -> SAUCER = track(EntityType.Builder.of(SaucerTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.0F, 17.7F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("saucer_tripod")));
     }
 
     private ModEntities() {
@@ -878,6 +958,16 @@ public final class ModEntities {
         event.put(WEAVER, WeaverTripodEntity.createAttributes().build());
         event.put(BLINK, BlinkTripodEntity.createAttributes().build());
         event.put(HARVESTER, HarvesterTripodEntity.createAttributes().build());
+        event.put(DISC, DiscTripodEntity.createAttributes().build());
+        event.put(CYCLOPS, CyclopsTripodEntity.createAttributes().build());
+        event.put(SKETCH, SketchTripodEntity.createAttributes().build());
+        event.put(JELLY, JellyTripodEntity.createAttributes().build());
+        event.put(SIEGE, SiegeTripodEntity.createAttributes().build());
+        event.put(PRISM, PrismTripodEntity.createAttributes().build());
+        event.put(LAVA, LavaTripodEntity.createAttributes().build());
+        event.put(LIVING, LivingTripodEntity.createAttributes().build());
+        event.put(STRIDER, StriderTripodEntity.createAttributes().build());
+        event.put(SAUCER, SaucerTripodEntity.createAttributes().build());
 
     }
 }

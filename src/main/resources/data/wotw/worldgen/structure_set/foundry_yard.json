@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:foundry_yard",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 86,
+    "separation": 26,
+    "salt": 3417029,
+    "spread_type": "linear"
+  }
+}

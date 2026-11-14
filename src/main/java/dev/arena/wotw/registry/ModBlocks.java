@@ -77,6 +77,14 @@ public final class ModBlocks {
 
     /** A hull plate that has been frozen solid by the frost machine. */
     public static Block FROZEN_HULL;
+    public static Block CITY_PLATE;
+    public static Block LENS_PILLAR;
+    public static Block LAVA_CHANNEL;
+    public static Block BONE_WALL;
+    public static Block CHAIN_GRATING;
+    public static Block CAPSULE_RACK;
+    public static Block SPORE_VENT;
+    public static Block MEMBRANE;
 
     public static Block MARTIAN_CYLINDER;
 
@@ -315,6 +323,43 @@ public final class ModBlocks {
                     .strength(5.2F, 13.0F)
                     .sound(SoundType.GLASS)
                     .requiresCorrectToolForDrops()));
+        BLOCKS.register("city_plate",
+                () -> CITY_PLATE = new Block(BlockBehaviour.Properties.of()
+                    .strength(8.0F, 20.0F)
+                    .sound(SoundType.METAL)));
+        BLOCKS.register("lens_pillar",
+                () -> LENS_PILLAR = new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 12.0F)
+                    .sound(SoundType.GLASS)
+                    .lightLevel(state -> 14)));
+        BLOCKS.register("lava_channel",
+                () -> LAVA_CHANNEL = new Block(BlockBehaviour.Properties.of()
+                    .strength(3.0F, 9.0F)
+                    .sound(SoundType.STONE)
+                    .lightLevel(state -> 12)));
+        BLOCKS.register("bone_wall",
+                () -> BONE_WALL = new Block(BlockBehaviour.Properties.of()
+                    .strength(4.0F, 10.0F)
+                    .sound(SoundType.BONE_BLOCK)));
+        BLOCKS.register("chain_grating",
+                () -> CHAIN_GRATING = new Block(BlockBehaviour.Properties.of()
+                    .strength(4.5F, 11.0F)
+                    .sound(SoundType.METAL)));
+        BLOCKS.register("capsule_rack",
+                () -> CAPSULE_RACK = new Block(BlockBehaviour.Properties.of()
+                    .strength(6.0F, 14.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> 6)));
+        BLOCKS.register("spore_vent",
+                () -> SPORE_VENT = new Block(BlockBehaviour.Properties.of()
+                    .strength(4.0F, 10.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> 4)));
+        BLOCKS.register("membrane",
+                () -> MEMBRANE = new Block(BlockBehaviour.Properties.of()
+                    .strength(1.6F, 4.0F)
+                    .sound(SoundType.HONEY_BLOCK)
+                    .lightLevel(state -> 2)));
     }
 
     private ModBlocks() {
