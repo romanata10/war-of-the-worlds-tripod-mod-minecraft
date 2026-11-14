@@ -1,6 +1,7 @@
 package dev.arena.wotw.entity;
 
 import dev.arena.wotw.entity.projectile.BeamKind;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -66,7 +67,7 @@ public class PrismTripodEntity extends AbstractTripodEntity {
         if (this.random.nextInt(3) != 0) {
             return;
         }
-        ParticleTypes[] panes = {ParticleTypes.FLAME, ParticleTypes.END_ROD, ParticleTypes.HAPPY_VILLAGER};
+        ParticleOptions[] panes = {ParticleTypes.FLAME, ParticleTypes.END_ROD, ParticleTypes.HAPPY_VILLAGER};
         this.level().addParticle(panes[this.mode % panes.length],
                 this.getX() + (this.random.nextDouble() - 0.5D) * 2.0D,
                 this.getY() + this.getBbHeight() * 0.62D,

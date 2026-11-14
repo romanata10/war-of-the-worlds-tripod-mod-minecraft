@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
@@ -49,8 +48,8 @@ public class StriderTripodEntity extends AbstractTripodEntity {
         for (Mob machine : line) {
             machine.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 120, 0, false, false, false));
             machine.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 120, 0, false, false, false));
-            if (machine instanceof LivingEntity living && living.getHealth() < living.getMaxHealth()) {
-                living.heal(4.0F);
+            if (machine.getHealth() < machine.getMaxHealth()) {
+                machine.heal(4.0F);
             }
         }
         server.sendParticles(ParticleTypes.END_ROD, this.getX(), this.getY() + this.getBbHeight() * 0.55D,
