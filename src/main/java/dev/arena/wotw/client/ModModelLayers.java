@@ -81,6 +81,16 @@ public final class ModModelLayers {
     public static final ModelLayerLocation WEAVER = layer("weaver_tripod");
     public static final ModelLayerLocation BLINK = layer("blink_tripod");
     public static final ModelLayerLocation HARVESTER = layer("harvester_tripod");
+    public static final ModelLayerLocation DISC = layer("disc_tripod");
+    public static final ModelLayerLocation CYCLOPS = layer("cyclops_tripod");
+    public static final ModelLayerLocation SKETCH = layer("sketch_tripod");
+    public static final ModelLayerLocation JELLY = layer("jelly_tripod");
+    public static final ModelLayerLocation SIEGE = layer("siege_tripod");
+    public static final ModelLayerLocation PRISM = layer("prism_tripod");
+    public static final ModelLayerLocation LAVA = layer("lava_tripod");
+    public static final ModelLayerLocation LIVING = layer("living_tripod");
+    public static final ModelLayerLocation STRIDER = layer("strider_tripod");
+    public static final ModelLayerLocation SAUCER = layer("saucer_tripod");
     public static final ModelLayerLocation HUMAN_HELICOPTER = layer("human_helicopter");
     public static final ModelLayerLocation HUMAN_SUBMARINE = layer("human_submarine");
     public static final ModelLayerLocation HUMAN_BOMBER = layer("human_bomber");

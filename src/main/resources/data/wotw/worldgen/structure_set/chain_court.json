@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:chain_court",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 76,
+    "separation": 24,
+    "salt": 3417031,
+    "spread_type": "linear"
+  }
+}

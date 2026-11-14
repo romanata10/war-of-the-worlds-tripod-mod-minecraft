@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "wotw:martian_city",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 260,
+    "separation": 70,
+    "salt": 3417028,
+    "spread_type": "linear"
+  }
+}

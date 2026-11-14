@@ -11,6 +11,7 @@ Usage: python3 tools/generate_structures.py
 
 import gzip
 import json
+import math
 import os
 import re
 import struct
@@ -1138,6 +1139,294 @@ def frost_wreck():
     s.spawn(-6, 1, 6, "wotw:martian")
     return s
 
+def martian_city():
+    """The city of the Martians: a walled district of dark plate, lens-lit streets and capsule racks
+    where the fleet is docked. The strider soldiers walk the walls."""
+    s = Structure()
+    PLATE = "wotw:city_plate"
+    LENS = "wotw:lens_pillar"
+    RACK = "wotw:capsule_rack"
+    VENT = "wotw:spore_vent"
+    GRATE = "wotw:hull_grating"
+    HULL = "wotw:martian_hull"
+    ALLOY = "wotw:martian_alloy_block"
+
+    # the district floor
+    s.fill(-54, 0, -54, 54, 0, 54, PLATE)
+    s.fill(-50, 0, -50, 50, 0, 50, GRATE)
+
+    # the curtain wall: four sides, three blocks thick, fourteen high, with a gate in the middle
+    for side in (-1, 1):
+        z = 52 * side
+        s.fill(-54, 1, z - 1, 54, 14, z + 1, PLATE)
+        s.fill(-6, 1, z - 1, 6, 10, z + 1, AIR)
+        s.fill(-6, 10, z - 1, 6, 10, z + 1, PLATE)
+        x = 52 * side
+        s.fill(x - 1, 1, -54, x + 1, 14, 54, PLATE)
+        s.fill(x - 1, 1, -6, x + 1, 10, 6, AIR)
+        s.fill(x - 1, 10, -6, x + 1, 10, 6, PLATE)
+    # crenellations and the four corner towers
+    for x in range(-54, 55, 6):
+        for z in (-53, 53):
+            s.set(x, 15, z, PLATE)
+        for z in range(-54, 55, 6):
+            s.set(-53, 15, z, PLATE)
+            s.set(53, 15, z, PLATE)
+    for cx in (-48, 48):
+        for cz in (-48, 48):
+            s.fill(cx - 5, 1, cz - 5, cx + 5, 20, cz + 5, PLATE)
+            s.fill(cx - 4, 1, cz - 4, cx + 4, 20, cz + 4, AIR)
+            s.fill(cx - 5, 21, cz - 5, cx + 5, 21, cz + 5, ALLOY)
+            s.set(cx, 22, cz, LENS)
+            s.set(cx - 3, 22, cz, LENS)
+            s.set(cx + 3, 22, cz, LENS)
+
+    # avenues from every gate to the plaza
+    s.fill(-3, 1, -52, 3, 1, 52, HULL)
+    s.fill(-52, 1, -3, 52, 1, 3, HULL)
+    for x in range(-50, 51, 10):
+        s.set(x, 2, 4, LENS)
+        s.set(x, 2, -4, LENS)
+    for z in range(-50, 51, 10):
+        s.set(4, 2, z, LENS)
+        s.set(-4, 2, z, LENS)
+
+    # the spire in the middle of the plaza
+    s.fill(-12, 1, -12, 12, 1, 12, ALLOY)
+    s.fill(-6, 2, -6, 6, 34, 6, PLATE)
+    for level in range(4, 34, 6):
+        s.fill(-8, level, -8, 8, level, 8, ALLOY)
+        for dx, dz in ((-8, -8), (8, -8), (-8, 8), (8, 8)):
+            s.set(dx, level + 1, dz, LENS)
+    s.fill(-9, 35, -9, 9, 35, 9, ALLOY)
+    s.set(0, 36, 0, LENS)
+    s.set(0, 37, 0, "wotw:gravity_well")
+    s.set(-20, 1, 0, "wotw:martian_mortar")
+    s.set(20, 1, 0, "wotw:shield_pylon")
+
+    # capsule racks along the plaza edge: the fleet is docked here
+    for x in (-30, 30):
+        for z in (-16, -8, 8, 16):
+            s.fill(x - 4, 1, z - 2, x + 4, 8, z + 2, RACK)
+            s.fill(x - 2, 1, z - 1, x + 2, 7, z + 1, AIR)
+            s.set(x, 2, z, VENT)
+    # districts: workshops of plate with grated doors
+    for cx, cz in ((-34, -34), (34, -34), (-34, 34), (34, 34)):
+        s.fill(cx - 9, 1, cz - 9, cx + 9, 9, cz + 9, PLATE)
+        s.fill(cx - 8, 1, cz - 8, cx + 8, 9, cz + 8, AIR)
+        s.fill(cx - 9, 10, cz - 9, cx + 9, 10, cz + 9, ALLOY)
+        s.fill(cx - 2, 1, cz + 9, cx + 2, 4, cz + 9, AIR)
+        s.set(cx, 5, cz, LENS)
+        s.set(cx - 6, 1, cz - 6, RACK)
+        s.set(cx + 6, 1, cz + 6, VENT)
+        s.crate(cx - 3, 1, cz + 3, CRATE_M, "wotw:crates/martian")
+        s.set(cx + 4, 1, cz - 4, ROOT_BLOCK)
+
+    # the weed in the gutters, the vents in the floor
+    for x in range(-48, 49, 12):
+        for z in range(-48, 49, 12):
+            if abs(x) < 8 or abs(z) < 8:
+                continue
+            s.set(x, 1, z, ROOT_BLOCK if (x + z) % 3 else VENT)
+    s.set(-16, 1, -16, "wotw:repair_pod")
+    s.set(16, 1, 16, "wotw:repair_pod")
+
+    # the garrison: striders on the walls, a cylops in the plaza
+    s.spawn(0, 2, 20, "wotw:strider_tripod")
+    s.spawn(0, 2, -20, "wotw:strider_tripod")
+    s.spawn(-20, 2, 0, "wotw:strider_tripod")
+    s.spawn(20, 2, 0, "wotw:strider_tripod")
+    s.spawn(0, 3, 0, "wotw:cyclops_tripod")
+    s.spawn(-48, 22, -48, "wotw:saucer_tripod")
+    s.spawn(48, 22, 48, "wotw:prism_tripod")
+    s.spawn(-30, 2, 10, "wotw:tripod_2005")
+    s.spawn(30, 2, -10, "wotw:saucer_tripod")
+    s.spawn(-10, 2, -30, "wotw:strider_tripod")
+    s.spawn(10, 2, 30, "wotw:martian")
+    s.spawn(0, 2, -30, "wotw:martian")
+    return s
+
+
+def foundry_yard():
+    """The foundry of the lava machine: open channels of molten rock, slag heaps of chitin and a
+    casting floor where the hull plates are poured."""
+    s = Structure()
+    LAVA = "wotw:lava_channel"
+    PLATE = "wotw:city_plate"
+    CHITIN = "wotw:chitin_block"
+    ASH = "wotw:ashen_soil"
+
+    s.fill(-18, 0, -16, 18, 0, 16, ASH)
+    s.fill(-16, 0, -14, 16, 0, 14, PLATE)
+    # the channels: two troughs of lava crossing the floor
+    s.fill(-16, 0, -2, 16, 0, 2, LAVA)
+    s.fill(-2, 0, -14, 2, 0, 14, LAVA)
+    for x in range(-16, 17, 4):
+        for z in (-2, 2):
+            s.set(x, 1, z, PLATE)
+    for z in range(-14, 15, 4):
+        for x in (-2, 2):
+            s.set(x, 1, z, PLATE)
+    # the casting floor and the ladles
+    for cx, cz in ((-11, -10), (11, -10), (-11, 10), (11, 10)):
+        s.fill(cx - 3, 1, cz - 3, cx + 3, 1, cz + 3, CHITIN)
+        s.fill(cx - 1, 2, cz - 1, cx + 1, 6, cz + 1, PLATE)
+        s.set(cx, 7, cz, "wotw:lens_pillar")
+        s.set(cx + 4, 1, cz, "wotw:martian_pipe")
+        s.set(cx + 4, 2, cz, "wotw:martian_pipe")
+    # the chimney stack
+    s.fill(-1, 1, -13, 1, 16, -13, PLATE)
+    s.fill(-2, 17, -14, 2, 18, -12, PLATE)
+    s.set(0, 1, -12, "wotw:martian_mortar")
+    # slag heaps and stores
+    s.fill(8, 1, -8, 14, 1, -4, CHITIN)
+    s.fill(9, 2, -7, 13, 2, -5, CHITIN)
+    s.fill(-14, 1, 6, -8, 1, 10, ASH)
+    s.set(-14, 2, 8, "wotw:repair_pod")
+    s.set(14, 1, 8, "wotw:shield_pylon")
+    s.crate(-12, 1, -12, CRATE_M, "wotw:crates/martian")
+    s.crate(12, 1, 12, CRATE_M, "wotw:crates/martian")
+    s.set(-16, 1, 0, ROOT_BLOCK)
+    s.set(16, 1, 0, ROOT_BLOCK)
+    # the crew
+    s.spawn(0, 2, 8, "wotw:lava_tripod")
+    s.spawn(-8, 2, -8, "wotw:lava_tripod")
+    s.spawn(10, 1, 10, "wotw:harvester_tripod")
+    s.spawn(-10, 1, -10, "wotw:martian")
+    return s
+
+
+def brood_nest():
+    """The nest of the living machine: walls of stacked rib, membranes stretched over the cells and
+    vents breathing spores into the dark."""
+    s = Structure()
+    BONE = "wotw:bone_wall"
+    MEMBRANE = "wotw:membrane"
+    VENT = "wotw:spore_vent"
+    ASH = "wotw:ashen_soil"
+
+    s.fill(-16, 0, -16, 16, 0, 16, ASH)
+    s.fill(-14, 0, -14, 14, 0, 14, "wotw:chitin_block")
+    # the rib walls: a ring, thick and low, with gaps
+    s.fill(-14, 1, -14, 14, 8, -12, BONE)
+    s.fill(-14, 1, 12, 14, 8, 14, BONE)
+    s.fill(-14, 1, -14, -12, 8, 14, BONE)
+    s.fill(12, 1, -14, 14, 8, 14, BONE)
+    s.fill(-2, 1, -14, 2, 5, -12, AIR)
+    s.fill(-2, 1, 12, 2, 5, 14, AIR)
+    for x in range(-14, 15, 4):
+        s.set(x, 9, -13, BONE)
+        s.set(x, 9, 13, BONE)
+    # the cells: membranes over hollows
+    for cx, cz in ((-8, -7), (8, -7), (-8, 7), (8, 7)):
+        s.fill(cx - 3, 1, cz - 3, cx + 3, 3, cz + 3, BONE)
+        s.fill(cx - 2, 1, cz - 2, cx + 2, 3, cz + 2, MEMBRANE)
+        s.set(cx, 4, cz, VENT)
+    # the brood mound in the middle
+    s.fill(-4, 1, -4, 4, 3, 4, "wotw:chitin_block")
+    s.fill(-3, 4, -3, 3, 5, 3, MEMBRANE)
+    s.set(0, 6, 0, VENT)
+    s.set(0, 7, 0, "wotw:spore_sack")
+    # the weed that feeds it
+    for x, z in ((-11, 0), (11, 0), (0, -10), (0, 10), (-11, -11), (11, 11), (-11, 11), (11, -11)):
+        s.set(x, 1, z, ROOT_BLOCK)
+    s.set(-13, 1, 0, "wotw:repair_pod")
+    s.crate(13, 1, 0, CRATE_M, "wotw:crates/martian")
+    # the machine and its brood
+    s.spawn(0, 4, 0, "wotw:living_tripod")
+    s.spawn(-9, 1, 0, "wotw:living_tripod")
+    s.spawn(4, 1, 8, "wotw:martian_louse")
+    s.spawn(-4, 1, 8, "wotw:martian_louse")
+    s.spawn(4, 1, -8, "wotw:martian_louse")
+    s.spawn(-4, 1, -8, "wotw:martian")
+    return s
+
+
+def chain_court():
+    """The court of the pincer machine: a grated floor with chains strung from post to post, cages of
+    prisoners nobody came back for, and the prism machines that stand guard over it."""
+    s = Structure()
+    GRATE = "wotw:chain_grating"
+    PLATE = "wotw:city_plate"
+    LENS = "wotw:lens_pillar"
+    RACK = "wotw:capsule_rack"
+
+    s.fill(-16, 0, -16, 16, 0, 16, GRATE)
+    s.fill(-14, 0, -14, 14, 0, 14, PLATE)
+    # posts with chains strung between them
+    for cx, cz in ((-12, -12), (12, -12), (-12, 12), (12, 12)):
+        s.fill(cx - 1, 1, cz - 1, cx + 1, 10, cz + 1, PLATE)
+        s.set(cx, 11, cz, LENS)
+    for x in range(-11, 12):
+        s.set(x, 9, -12, "wotw:martian_pipe")
+        s.set(x, 9, 12, "wotw:martian_pipe")
+    for z in range(-11, 12):
+        s.set(-12, 9, z, "wotw:martian_pipe")
+        s.set(12, 9, z, "wotw:martian_pipe")
+    # the cages: taken prisoners, kept for later
+    for cx, cz in ((-7, -3), (7, 3)):
+        s.fill(cx - 2, 1, cz - 2, cx + 2, 4, cz + 2, "minecraft:iron_bars")
+        s.fill(cx - 1, 1, cz - 1, cx + 1, 3, cz + 1, AIR)
+    # the dais of the prisms
+    s.fill(-4, 1, -4, 4, 1, 4, RACK)
+    s.fill(-3, 2, -3, 3, 2, 3, LENS)
+    for dx, dz in ((-3, -3), (3, -3), (-3, 3), (3, 3)):
+        s.set(dx, 3, dz, "wotw:spore_sack")
+    s.set(-13, 1, -13, "wotw:repair_pod")
+    s.set(13, 1, 13, "wotw:shield_pylon")
+    s.crate(-13, 1, 13, CRATE_M, "wotw:crates/martian")
+    s.crate(13, 1, -13, CRATE_M, "wotw:crates/martian")
+    s.set(-15, 1, 0, ROOT_BLOCK)
+    s.set(15, 1, 0, ROOT_BLOCK)
+    # the garrison
+    s.spawn(0, 3, 0, "wotw:prism_tripod")
+    s.spawn(-8, 1, 8, "wotw:prism_tripod")
+    s.spawn(8, 1, -8, "wotw:saucer_tripod")
+    s.spawn(0, 1, 12, "wotw:martian")
+    return s
+
+
+def lens_observatory():
+    """The observatory of the cyclops: a ring of lens pillars watching the sky, a stone table of
+    charts and the one-eyed machine that never stops staring."""
+    s = Structure()
+    LENS = "wotw:lens_pillar"
+    PLATE = "wotw:city_plate"
+    ALLOY = "wotw:martian_alloy_block"
+    OBSIDIAN = "minecraft:obsidian"
+
+    s.fill(-15, 0, -15, 15, 0, 15, OBSIDIAN)
+    s.fill(-13, 0, -13, 13, 0, 13, PLATE)
+    # the ring of lens pillars
+    for index in range(12):
+        angle = 6.283185307179586 * index / 12.0
+        x = int(round(11 * math.cos(angle)))
+        z = int(round(11 * math.sin(angle)))
+        s.fill(x, 1, z, x, 6, z, LENS)
+        s.set(x, 7, z, ALLOY)
+    # the chart table
+    s.fill(-4, 1, -4, 4, 1, 4, ALLOY)
+    s.fill(-3, 2, -3, 3, 2, 3, LENS)
+    s.set(0, 3, 0, "wotw:gravity_well")
+    s.set(-6, 1, 6, "wotw:martian_console")
+    s.set(6, 1, 6, "wotw:martian_console")
+    # observation platforms on the rim
+    for dx, dz in ((-13, 0), (13, 0), (0, -13), (0, 13)):
+        s.set(dx, 1, dz, "wotw:lens_pillar")
+        s.set(dx, 2, dz, "wotw:lens_pillar")
+    s.set(-14, 1, -14, "wotw:repair_pod")
+    s.set(14, 1, 14, "wotw:shield_pylon")
+    s.crate(-14, 1, 14, CRATE_M, "wotw:crates/martian")
+    s.crate(14, 1, -14, CRATE_M, "wotw:crates/martian")
+    for x, z in ((-8, -8), (8, -8), (-8, 8), (8, 8)):
+        s.set(x, 1, z, ROOT_BLOCK)
+    # the watchers
+    s.spawn(0, 2, 6, "wotw:cyclops_tripod")
+    s.spawn(0, 2, -6, "wotw:cyclops_tripod")
+    s.spawn(-9, 1, 0, "wotw:sketch_tripod")
+    s.spawn(9, 1, 0, "wotw:martian")
+    return s
+
 STRUCTURES_SPEC = {
     "landing_site": (landing_site(), 40, 14, 3417001, 2),
     "hatchery": (hatchery(), 52, 18, 3417002, 2),
@@ -1166,6 +1455,12 @@ STRUCTURES_SPEC = {
     "refinery": (refinery(), 100, 32, 3417025, 2),
     "watch_post": (watch_post(), 56, 18, 3417026, 1),
     "frost_wreck": (frost_wreck(), 74, 24, 3417027, 1),
+    # the tenth wave: the city and its outskirts
+    "martian_city": (martian_city(), 260, 70, 3417028, 1),
+    "foundry_yard": (foundry_yard(), 86, 26, 3417029, 2),
+    "brood_nest": (brood_nest(), 70, 22, 3417030, 2),
+    "chain_court": (chain_court(), 76, 24, 3417031, 2),
+    "lens_observatory": (lens_observatory(), 80, 24, 3417032, 1),
 }
 
 
@@ -1176,7 +1471,7 @@ WATER_BIOMES = [
 ]
 
 
-def build_worldgen(name, spacing, separation, salt, size, biomes=None):
+def build_worldgen(name, spacing, separation, salt, size, biomes=None, max_distance=24):
     structure = {
         "type": "minecraft:jigsaw",
         "biomes": f"#wotw:has_structure/{name}",
@@ -1187,7 +1482,7 @@ def build_worldgen(name, spacing, separation, salt, size, biomes=None):
         "size": size,
         "start_height": {"absolute": 0},
         "project_start_to_heightmap": "WORLD_SURFACE_WG",
-        "max_distance_from_center": 24,
+        "max_distance_from_center": max_distance,
         "use_expansion_hack": False,
     }
     pool = {
@@ -1256,7 +1551,11 @@ def main():
         write_nbt(os.path.join(STRUCTURES, f"{name}.nbt"), structure.to_nbt())
         print("structure", name, len(structure.blocks), "blocks,", len(structure.entities), "entities")
 
-        json_spec, pool, structure_set, biome_tag = build_worldgen(name, spacing, separation, salt, size, biomes)
+        xs = [position[0] for position in structure.blocks]
+        zs = [position[2] for position in structure.blocks]
+        span = max(max(xs) - min(xs), max(zs) - min(zs)) if xs else 0
+        json_spec, pool, structure_set, biome_tag = build_worldgen(
+            name, spacing, separation, salt, size, biomes, max_distance=max(24, span // 2 + 8))
         outputs = {
             os.path.join(WORLDGEN, "structure", f"{name}.json"): json_spec,
             os.path.join(WORLDGEN, "template_pool", name, "start_pool.json"): pool,

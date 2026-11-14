@@ -95,6 +95,16 @@ PALETTES = {
     "signal_scout_tripod": ((86, 90, 96), (30, 32, 36), (134, 140, 148), (196, 120, 255), (100, 104, 112)),
     # ninth wave: five invented machines
     "frost_tripod": ((176, 202, 214), (86, 110, 126), (228, 244, 250), (170, 240, 255), (120, 156, 176)),
+    "disc_tripod": ((214, 214, 206), (92, 92, 88), (246, 246, 240), (255, 64, 48), (124, 124, 120)),
+    "cyclops_tripod": ((150, 168, 148), (56, 66, 56), (192, 206, 188), (140, 255, 118), (98, 112, 96)),
+    "sketch_tripod": ((190, 188, 180), (86, 86, 82), (224, 224, 216), (255, 236, 150), (124, 122, 116)),
+    "jelly_tripod": ((198, 180, 152), (88, 76, 62), (230, 216, 190), (170, 255, 140), (144, 126, 104)),
+    "siege_tripod": ((140, 134, 120), (52, 48, 42), (178, 172, 154), (190, 230, 255), (94, 90, 78)),
+    "prism_tripod": ((104, 96, 120), (38, 34, 50), (152, 144, 172), (120, 200, 255), (142, 112, 162)),
+    "lava_tripod": ((92, 66, 52), (32, 20, 14), (142, 98, 70), (255, 128, 32), (192, 72, 30)),
+    "living_tripod": ((174, 152, 110), (68, 56, 38), (208, 188, 148), (190, 255, 120), (122, 98, 62)),
+    "strider_tripod": ((120, 126, 132), (42, 46, 52), (166, 172, 180), (255, 90, 70), (84, 88, 94)),
+    "saucer_tripod": ((176, 178, 182), (64, 66, 70), (214, 216, 222), (255, 64, 64), (112, 114, 120)),
     "storm_tripod": ((86, 82, 78), (32, 30, 28), (132, 126, 118), (140, 236, 255), (168, 120, 66)),
     "weaver_tripod": ((96, 74, 48), (40, 28, 16), (148, 118, 82), (198, 255, 130), (110, 92, 54)),
     "blink_tripod": ((62, 56, 82), (22, 20, 32), (108, 98, 138), (196, 120, 255), (86, 74, 116)),
@@ -827,6 +837,136 @@ def make_frozen_hull_texture():
     return img
 
 
+def make_city_plate_texture():
+    """The wall plate of the Martian city: a slab of dark alloy with green seams and heavy rivets."""
+    rnd = random.Random("city-plate")
+    img = _panel(16, (58, 62, 66), (22, 24, 28), (104, 110, 116), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=(28, 30, 34, 235))
+    draw.rectangle([2, 2, 13, 13], outline=(30, 32, 36, 200))
+    draw.line([(2, 8), (13, 8)], fill=(28, 30, 34, 220))
+    for x, y in ((3, 3), (12, 3), (3, 12), (12, 12), (8, 3), (8, 12)):
+        draw.point((x, y), fill=(150, 156, 162, 255))
+    draw.line([(2, 7), (13, 7)], fill=(120, 220, 140, 170))
+    return img
+
+
+def make_lens_pillar_texture():
+    """A pillar of pale stone with a lens set into each face; it lights the city streets."""
+    rnd = random.Random("lens-pillar")
+    img = _panel(16, (168, 172, 176), (66, 70, 76), (220, 224, 228), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=(78, 82, 88, 230))
+    draw.ellipse([3, 3, 12, 12], outline=(48, 52, 58, 240))
+    draw.ellipse([5, 5, 10, 10], fill=(150, 235, 255, 255))
+    draw.rectangle([7, 6, 8, 9], fill=(255, 255, 255, 255))
+    return img
+
+
+def make_lava_channel_texture():
+    """A channel cut for molten rock: black basalt with the glow running through the cracks."""
+    rnd = random.Random("lava-channel")
+    img = Image.new("RGBA", (16, 16), (36, 26, 24, 255))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade((46, 34, 30), 1.0 + rnd.uniform(-0.2, 0.2), 5.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for start in ((0, 4), (0, 11)):
+        y = start[1]
+        for x in range(16):
+            draw.point((x, y), fill=(255, 128, 32, 255))
+            draw.point((x, y + 1), fill=(196, 62, 20, 255))
+            if rnd.random() < 0.3:
+                y += rnd.choice((-1, 1))
+            y = max(1, min(14, y))
+    for _ in range(10):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(255, 214, 120, 255))
+    return img
+
+
+def make_bone_wall_texture():
+    """A wall of stacked ribs: the living machine builds with whatever it has eaten."""
+    rnd = random.Random("bone-wall")
+    img = Image.new("RGBA", (16, 16), (176, 158, 120, 255))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade((182, 164, 126), 1.0 + rnd.uniform(-0.12, 0.12), 4.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for row, y in enumerate(range(0, 16, 5)):
+        offset = 0 if row % 2 == 0 else 3
+        for x in range(-6 + offset, 16, 7):
+            draw.line([(x, y), (x + 5, y + 2)], fill=(120, 102, 72, 235))
+            draw.line([(x + 5, y + 2), (x + 5, y + 5)], fill=(96, 80, 56, 235))
+    for _ in range(6):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(214, 200, 164, 255))
+    return img
+
+
+def make_chain_grating_texture():
+    """The walkway of the pincer machine: a dark grate with chains woven through it."""
+    rnd = random.Random("chain-grating")
+    img = _panel(16, (60, 56, 70), (20, 18, 26), (110, 104, 128), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for i in range(0, 16, 4):
+        draw.line([(i, 0), (i, 15)], fill=(24, 22, 30, 240))
+        draw.line([(0, i), (15, i)], fill=(24, 22, 30, 240))
+    for index in range(4):
+        x = 2 + index * 4
+        draw.ellipse([x, 5, x + 2, 8], outline=(168, 170, 178, 255))
+        draw.ellipse([x + 1, 9, x + 3, 12], outline=(140, 142, 150, 255))
+    return img
+
+
+def make_capsule_rack_texture():
+    """A rack of empty sockets: the city buildings where the capsule fleet is docked."""
+    rnd = random.Random("capsule-rack")
+    img = _panel(16, (72, 78, 84), (26, 30, 34), (126, 134, 142), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=(28, 32, 36, 235))
+    for y in (3, 10):
+        for x in (3, 10):
+            draw.rectangle([x, y, x + 3, y + 3], outline=(30, 34, 38, 240))
+            draw.rectangle([x + 1, y + 1, x + 2, y + 2], fill=(96, 210, 150, 235))
+    draw.line([(0, 8), (15, 8)], fill=(34, 38, 42, 220))
+    return img
+
+
+def make_spore_vent_texture():
+    """A vent in the city floor that breathes out the red weed spores."""
+    rnd = random.Random("spore-vent")
+    img = _panel(16, (66, 70, 66), (24, 28, 24), (112, 118, 112), rnd, seam=16, rivet=False)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=(26, 30, 26, 235))
+    for y in (3, 6, 9, 12):
+        draw.line([(3, y), (12, y)], fill=(30, 34, 30, 240))
+    draw.ellipse([5, 5, 10, 10], fill=(88, 170, 90, 225))
+    draw.ellipse([6, 6, 9, 9], fill=(198, 255, 170, 255))
+    return img
+
+
+def make_membrane_texture():
+    """The slick membrane the living machine stretches over its nests."""
+    rnd = random.Random("membrane")
+    img = Image.new("RGBA", (16, 16), (150, 128, 96, 255))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade((158, 134, 100), 1.0 + rnd.uniform(-0.16, 0.16), 5.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for start in ((2, 1), (9, 2), (5, 9), (11, 10)):
+        x, y = start
+        for _ in range(6):
+            draw.point((x % 16, y % 16), fill=(96, 78, 56, 220))
+            x += 1
+            y += 1
+    for _ in range(5):
+        x0, y0 = rnd.randrange(10), rnd.randrange(10)
+        draw.ellipse([x0, y0, min(15, x0 + 3), min(15, y0 + 3)], outline=(110, 200, 120, 150))
+    return img
+
+
 def main():
     os.makedirs(ENTITY, exist_ok=True)
     os.makedirs(ITEM, exist_ok=True)
@@ -888,6 +1028,14 @@ def main():
     make_chitin_block_texture().save(os.path.join(BLOCK, "chitin_block.png"))
     make_ashen_soil_texture().save(os.path.join(BLOCK, "ashen_soil.png"))
     make_frozen_hull_texture().save(os.path.join(BLOCK, "frozen_hull.png"))
+    make_city_plate_texture().save(os.path.join(BLOCK, "city_plate.png"))
+    make_lens_pillar_texture().save(os.path.join(BLOCK, "lens_pillar.png"))
+    make_lava_channel_texture().save(os.path.join(BLOCK, "lava_channel.png"))
+    make_bone_wall_texture().save(os.path.join(BLOCK, "bone_wall.png"))
+    make_chain_grating_texture().save(os.path.join(BLOCK, "chain_grating.png"))
+    make_capsule_rack_texture().save(os.path.join(BLOCK, "capsule_rack.png"))
+    make_spore_vent_texture().save(os.path.join(BLOCK, "spore_vent.png"))
+    make_membrane_texture().save(os.path.join(BLOCK, "membrane.png"))
     print("items + block done")
     write_block_assets()
 

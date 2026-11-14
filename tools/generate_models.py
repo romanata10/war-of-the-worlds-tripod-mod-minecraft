@@ -1016,6 +1016,16 @@ def human_warship():
 # How much taller than the authored geometry each machine should be. Vertical stretch only:
 # the footprint and the leg thickness stay the same, so the machines read as tall walkers.
 TALL = {
+    "discTripod": 1.15,
+    "cyclops": 1.2,
+    "sketch": 1.35,
+    "jelly": 1.05,
+    "siege": 1.3,
+    "prism": 1.25,
+    "lava": 1.2,
+    "living": 1.15,
+    "strider": 1.45,
+    "saucer": 1.28,
     "tripod2005": 1.38,
     "bbcWhite": 1.34,
     "bbcRed": 1.34,
@@ -2601,7 +2611,307 @@ def harvester_tripod():
     mouth.glow_box(-16, -4, -8, 32, 5, 3)
     return m
 
+def disc_tripod():
+    """The white disc of the 1972 paperback: a wide saucer with a black band across the brow and a
+    red pupil in it, standing on four thin legs that end in ball joints."""
+    m = Model("disc_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-22, -12, -12, -7), (22, -12, 12, -7),
+                                            (-22, 12, -12, 7), (22, 12, 12, 7))):
+        tapered_leg(m, f"leg{index}", (x, -152, z), 76, 80, 8, 5, 2, splay_x=sx, splay_z=sz,
+                    knee=0.55, spike=2)
+        ball(m.by_name[f"leg{index}"], 0, 0, 0, 7)
+
+    body = m.part("body")
+    body.shell(0, -166, 0, 74, 14, 60, cell=14)
+    body.shell(0, -178, 0, 62, 10, 50, cell=13)
+    body.shell(0, -188, 0, 40, 8, 32, cell=11)
+    collar(body, 0, -166, 0, 76, 4, 62, 3)
+    spike_ring(body, 0, -166, 0, 34, 8, size=3, height=4)
+
+    band = m.part("band", parent="body", pivot=(0, -172, -28))
+    band.box(-27, -7, -8, 54, 14, 8)
+    eye(m, "pupil", "band", (0, 0, -9), (14, 7))
+
+    nozzle = m.part("nozzle", parent="body", pivot=(0, -156, 0))
+    nozzle.box(-9, -6, -9, 18, 6, 18)
+    nozzle.glow_box(-5, -9, -5, 10, 3, 10)
+    return m
+
+
+def cyclops_tripod():
+    """The cyclops of the second cover: an egg of olive plate with one enormous eye, a riveted ring
+    around it and two arms that end in claws."""
+    m = Model("cyclops_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-18, 0, -12, 0), (18, 0, 12, 0), (0, 20, 0, 12))):
+        leg(m, f"leg{index}", (x, -158, z), 78, 84, 9, splay_x=sx, splay_z=sz, foot=10)
+        leg_bands(m, f"leg{index}", 78, 84, 9, thigh_bands=(24, 54), shin_bands=(26, 58))
+
+    body = m.part("body")
+    rounded_hull(body, 0, -192, 0, 46, 64, 46, layers=6, curve=0.55)
+    collar(body, 0, -168, 0, 40, 4, 40, 3)
+
+    eye(m, "eye", "body", (0, -206, -23), (26, 16), depth=4)
+    ring = m.part("eye_ring", parent="body", pivot=(0, -206, -21))
+    ring.box(-17, -12, -2, 34, 3, 5)
+    ring.box(-17, 9, -2, 34, 3, 5)
+    ring.box(-17, -12, -2, 3, 24, 5)
+    ring.box(14, -12, -2, 3, 24, 5)
+
+    for side, name in ((-1, "arm_l"), (1, "arm_r")):
+        arm = m.part(name, parent="body", pivot=(side * 22, -204, -4))
+        arm.box(side * 10 if side < 0 else 2, 0, -4, 12, 42, 9)
+        arm.box(side * 10 if side < 0 else 2, 38, -6, 14, 6, 13)
+        claw_foot(m, name + "_claw", name, (side * 10 if side < 0 else 2, 44, 0), size=9, spread=6)
+    return m
+
+
+def sketch_tripod():
+    """The pencil sketch machine: a shallow saucer with two long antennae, standing on needle legs,
+    and a needle gun under the chin."""
+    m = Model("sketch_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-15, -6, -16, -7), (15, -6, 16, -7), (0, 17, 0, 16))):
+        tapered_leg(m, f"leg{index}", (x, -172, z), 86, 92, 6, 4, 2, splay_x=sx, splay_z=sz,
+                    knee=0.62, spike=2)
+
+    body = m.part("body")
+    body.shell(0, -184, 0, 54, 10, 44, cell=12)
+    body.shell(0, -194, 0, 38, 8, 30, cell=10)
+    collar(body, 0, -184, 0, 56, 3, 46, 2)
+    spike_ring(body, 0, -184, 0, 24, 6, size=2, height=3)
+
+    for side, name in ((-1, "antenna_l"), (1, "antenna_r")):
+        arc_arm(m, name, "body", (side * 20, -196, 8), yaw=0.0, length=34, segments=4,
+                lift=-84.0, curl=12.0, thick=2)
+
+    gun = m.part("gun", parent="body", pivot=(0, -190, -22))
+    gun.box(-7, -7, -6, 14, 14, 12)
+    gun.box(-2, -2, -28, 4, 4, 24)
+    eye(m, "gun_lamp", "gun", (0, 0, -27), (6, 6))
+    return m
+
+
+def jelly_tripod():
+    """The Chinese machine: a hanging bell of pale plate with one eye and six long tendrils that
+    trail almost to the ground."""
+    m = Model("jelly_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-16, 0, -10, 0), (16, 0, 10, 0), (0, 18, 0, 10))):
+        tapered_leg(m, f"leg{index}", (x, -150, z), 68, 76, 8, 5, 3, splay_x=sx, splay_z=sz,
+                    knee=0.5, spike=2)
+
+    body = m.part("body")
+    rounded_hull(body, 0, -182, 0, 50, 48, 50, layers=5, curve=0.7)
+    collar(body, 0, -160, 0, 52, 4, 52, 3)
+
+    bell = m.part("bell", parent="body", pivot=(0, -204, 0))
+    bell.shell(0, -10, 0, 36, 18, 36, cell=11)
+    bell.shell(0, 6, 0, 42, 8, 42, cell=12)
+    eye(m, "eye", "bell", (0, -8, -19), (16, 8))
+
+    for index in range(6):
+        angle = 6.283185307179586 * index / 6.0
+        x = int(round(20 * math.cos(angle)))
+        z = int(round(20 * math.sin(angle)))
+        tentacle(m, f"tendril{index}", "bell", (x, 12, z), 52, segments=5, droop=7.0,
+                 spread=0.0, thick=3)
+    return m
+
+
+def siege_tripod():
+    """The 1917 Calmann-Levy machine: a tall riveted hull, one long scythe arm swept back over the
+    shoulders and a lightning rifle held out in front."""
+    m = Model("siege_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-20, -6, -11, -6), (20, -6, 11, -6), (0, 22, 0, 12))):
+        leg(m, f"leg{index}", (x, -170, z), 84, 88, 10, splay_x=sx, splay_z=sz, foot=11)
+        leg_bands(m, f"leg{index}", 84, 88, 10, thigh_bands=(26, 60), shin_bands=(28, 62))
+
+    body = m.part("body")
+    rounded_hull(body, 0, -206, 0, 44, 72, 42, layers=6, curve=0.35)
+    body.shell(0, -170, 0, 34, 10, 32, cell=10)
+    collar(body, 0, -182, 0, 40, 4, 38, 3)
+    collar(body, 0, -226, 0, 38, 4, 36, 3)
+
+    head = m.part("head", parent="body", pivot=(0, -242, 0))
+    head.shell(0, -8, 0, 30, 18, 28, cell=10)
+    eye(m, "eye", "head", (0, -2, -15), (14, 6))
+
+    scythe = m.part("scythe", parent="body", pivot=(14, -232, 8))
+    scythe.box(-3, 0, -3, 6, 44, 6)
+    scythe.box(-2, 40, -26, 4, 5, 30)
+    scythe.glow_box(-1, 43, -24, 2, 2, 24)
+
+    gun = m.part("rifle", parent="body", pivot=(0, -212, -18))
+    gun.box(-8, -8, -8, 16, 16, 14)
+    gun.box(-3, -3, -34, 6, 6, 28)
+    gun.box(-6, -6, -30, 12, 3, 4)
+    gun.box(-6, 3, -30, 12, 3, 4)
+    eye(m, "rifle_lamp", "rifle", (0, 0, -33), (6, 6))
+    return m
+
+
+def prism_tripod():
+    """The XBLA machine: a faceted body of drawn plate, a lens of coloured panes, chains hanging from
+    the harness and a pair of pincers on the front."""
+    m = Model("prism_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-19, -4, -12, -5), (19, -4, 12, -5), (0, 21, 0, 13))):
+        leg(m, f"leg{index}", (x, -164, z), 80, 84, 9, splay_x=sx, splay_z=sz, foot=10)
+        leg_bands(m, f"leg{index}", 80, 84, 9, thigh_bands=(22, 52), shin_bands=(24, 56))
+
+    body = m.part("body")
+    body.shell(0, -184, 0, 38, 14, 34, cell=11)
+    body.shell(0, -198, 0, 46, 12, 40, cell=12)
+    body.shell(0, -210, 0, 36, 10, 32, cell=10)
+    collar(body, 0, -198, 0, 48, 3, 42, 3)
+
+    lens = m.part("lens", parent="body", pivot=(0, -204, -20))
+    lens.box(-13, -13, -4, 26, 26, 8)
+    eye(m, "lens_glass", "lens", (0, 0, -6), (20, 20), depth=3)
+    for offset, name in ((-11, "pane_l"), (11, "pane_r")):
+        pane = m.part(name, parent="lens", pivot=(offset, 0, -5))
+        pane.glow_box(-3, -3, -1, 6, 6, 2)
+
+    for index, x in enumerate((-20, 20)):
+        chain = m.part(f"chain{index}", parent="body", pivot=(x, -186, 0))
+        for link in range(5):
+            chain.box(-2, link * 7, -2, 4, 6, 4)
+
+    for side, name in ((-1, "pincer_l"), (1, "pincer_r")):
+        pincer = m.part(name, parent="body", pivot=(side * 16, -186, -16))
+        pincer.box(side * 6 if side < 0 else 1, 0, -12, 8, 8, 18)
+        pincer.box(side * 6 if side < 0 else 1, -4, -20, 4, 12, 6)
+        pincer.box(side * 6 if side < 0 else 1, 6, -20, 4, 8, 6)
+    return m
+
+
+def lava_tripod():
+    """The lava machine of the factory floor: a slatted dome over a molten core, with the heat
+    glowing out between the plates and dripping from the belly."""
+    m = Model("lava_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-22, -8, -13, -7), (22, -8, 13, -7), (0, 24, 0, 13))):
+        leg(m, f"leg{index}", (x, -160, z), 80, 82, 11, splay_x=sx, splay_z=sz, foot=12)
+        leg_bands(m, f"leg{index}", 80, 82, 11, thigh_bands=(20, 50), shin_bands=(22, 54))
+
+    body = m.part("body")
+    rounded_hull(body, 0, -176, 0, 56, 30, 50, layers=4, curve=0.4)
+    body.glow_box(-14, -8, -14, 28, 8, 28)
+    for index in range(5):
+        collar(body, 0, -196 + index * 9, 0, 48 - index * 6, 5, 44 - index * 6, 3)
+    dome = m.part("dome", parent="body", pivot=(0, -202, 0))
+    dome.shell(0, -10, 0, 28, 18, 26, cell=10)
+    dome.glow_box(-4, -14, -4, 8, 4, 8)
+
+    for index, x in enumerate((-24, 24)):
+        slat = m.part(f"slat{index}", parent="body", pivot=(x, -186, 0))
+        slat.box(0, -10, -18, 4, 24, 36)
+        slat.glow_box(0, -4, -10, 2, 8, 20)
+
+    mouth = m.part("mouth", parent="body", pivot=(0, -166, -22))
+    mouth.box(-12, -8, -6, 24, 16, 10)
+    mouth.glow_box(-8, -5, -8, 16, 10, 3)
+    return m
+
+
+def living_tripod():
+    """The living machine: a carapace of bone and bark with a spine of plates down the back, barbs on
+    the legs and a pair of mandibles. Nothing about it looks manufactured."""
+    m = Model("living_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-17, -4, -13, -6), (17, -4, 13, -6), (0, 20, 0, 12))):
+        barbed_leg(m, f"leg{index}", (x, -152, z), 74, 82, 7, splay_x=sx, splay_z=sz, foot=8,
+                   barbs=4, barb=4)
+
+    body = m.part("body")
+    rounded_hull(body, 0, -186, 0, 44, 56, 46, layers=6, curve=0.45)
+    for index in range(6):
+        body.box(-9, -232 + index * 9, -20 + index * 3, 18, 3, 8)
+    for side, name in ((-1, "plate_l"), (1, "plate_r")):
+        plate = m.part(name, parent="body", pivot=(side * 20, -206, 0))
+        plate.box(side * 3 if side > 0 else 0, -14, -18, 7, 30, 36)
+
+    head = m.part("head", parent="body", pivot=(0, -226, -18))
+    head.shell(0, -10, 0, 26, 18, 22, cell=9)
+    eye(m, "eye", "head", (0, -4, -12), (10, 6))
+    for side, name in ((-1, "jaw_l"), (1, "jaw_r")):
+        jaw = m.part(name, parent="head", pivot=(side * 8, 4, -10))
+        jaw.box(-2, 0, -14, 4, 4, 16)
+        jaw.box(-2, 2, -16, 4, 6, 4)
+
+    for index, x in enumerate((-12, 12)):
+        feeler = m.part(f"feeler{index}", parent="head", pivot=(x, -8, 0))
+        feeler.box(-1, -22, -1, 3, 22, 3)
+        feeler.box(-3, -26, -3, 7, 4, 7)
+    return m
+
+
+def strider_tripod():
+    """The soldier of the Martian city: broad armoured shoulders, a helmed head with two lenses and a
+    cannon on each arm. It is the machine that walks the walls of the city."""
+    m = Model("strider_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-24, -6, -11, -5), (24, -6, 11, -5), (0, 26, 0, 11))):
+        girder_leg(m, f"leg{index}", (x, -172, z), 82, 86, splay_x=sx, splay_z=sz, width=11,
+                   rungs=5, foot=12)
+
+    body = m.part("body")
+    body.shell(0, -190, 0, 46, 30, 38, cell=12)
+    body.shell(0, -214, 0, 38, 14, 32, cell=11)
+    collar(body, 0, -188, 0, 48, 4, 40, 3)
+
+    head = m.part("head", parent="body", pivot=(0, -220, 0))
+    head.shell(0, -12, 0, 26, 22, 26, cell=9)
+    head.box(-14, -6, -6, 28, 6, 14)
+    eye(m, "eye_l", "head", (-7, -6, -14), (8, 5))
+    eye(m, "eye_r", "head", (7, -6, -14), (8, 5))
+
+    for side, name in ((-1, "pauldron_l"), (1, "pauldron_r")):
+        pad = m.part(name, parent="body", pivot=(side * 24, -204, 0))
+        pad.shell(0, -6, 0, 20, 18, 30, cell=9)
+
+    for side, name in ((-1, "cannon_l"), (1, "cannon_r")):
+        cannon = m.part(name, parent="body", pivot=(side * 26, -196, -10))
+        cannon.box(-7, -7, -8, 14, 14, 16)
+        cannon.box(-3, -3, -32, 6, 6, 26)
+        cannon.box(-6, -6, -26, 12, 3, 4)
+        eye(m, name + "_lamp", name, (0, 0, -31), (5, 5))
+    return m
+
+
+def saucer_tripod():
+    """The Nichols machine: a heavy saucer with two red eyes under the brow and a stubby cannon on
+    each side, standing on three thick legs."""
+    m = Model("saucer_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-24, -6, -12, -6), (24, -6, 12, -6), (0, 26, 0, 12))):
+        leg(m, f"leg{index}", (x, -168, z), 84, 86, 11, splay_x=sx, splay_z=sz, foot=12)
+        leg_bands(m, f"leg{index}", 84, 86, 11, thigh_bands=(24, 56), shin_bands=(26, 60))
+
+    body = m.part("body")
+    rounded_hull(body, 0, -196, 0, 66, 40, 56, layers=5, curve=0.3)
+    body.shell(0, -176, 0, 58, 10, 48, cell=13)
+    collar(body, 0, -180, 0, 62, 4, 52, 3)
+
+    brow = m.part("brow", parent="body", pivot=(0, -212, -24))
+    brow.box(-24, -8, -8, 48, 16, 10)
+    eye(m, "eye_l", "brow", (-12, 0, -9), (10, 7))
+    eye(m, "eye_r", "brow", (12, 0, -9), (10, 7))
+    spike_ring(body, 0, -214, 0, 22, 6, size=3, height=6)
+
+    for side, name in ((-1, "cannon_l"), (1, "cannon_r")):
+        cannon = m.part(name, parent="body", pivot=(side * 26, -196, -12))
+        cannon.box(-8, -8, -10, 16, 16, 18)
+        cannon.box(-4, -4, -30, 8, 8, 22)
+        cannon.box(-7, -7, -26, 14, 3, 4)
+        eye(m, name + "_lamp", name, (0, 0, -29), (6, 6))
+    return m
+
+
 TRIPODS = [
+    ("discTripod", finalise(disc_tripod(), "discTripod")),
+    ("cyclops", finalise(cyclops_tripod(), "cyclops")),
+    ("sketch", finalise(sketch_tripod(), "sketch")),
+    ("jelly", finalise(jelly_tripod(), "jelly")),
+    ("siege", finalise(siege_tripod(), "siege")),
+    ("prism", finalise(prism_tripod(), "prism")),
+    ("lava", finalise(lava_tripod(), "lava")),
+    ("living", finalise(living_tripod(), "living")),
+    ("strider", finalise(strider_tripod(), "strider")),
+    ("saucer", finalise(saucer_tripod(), "saucer")),
     ("tripod2005", finalise(tripod_2005(), "tripod2005")),
     ("bbcWhite", finalise(bbc_white(), "bbcWhite")),
     ("bbcRed", finalise(bbc_red(), "bbcRed")),

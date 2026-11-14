@@ -106,6 +106,16 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.WEAVER, TripodModels::weaver);
         event.registerLayerDefinition(ModModelLayers.BLINK, TripodModels::blink);
         event.registerLayerDefinition(ModModelLayers.HARVESTER, TripodModels::harvester);
+        event.registerLayerDefinition(ModModelLayers.DISC, TripodModels::discTripod);
+        event.registerLayerDefinition(ModModelLayers.CYCLOPS, TripodModels::cyclops);
+        event.registerLayerDefinition(ModModelLayers.SKETCH, TripodModels::sketch);
+        event.registerLayerDefinition(ModModelLayers.JELLY, TripodModels::jelly);
+        event.registerLayerDefinition(ModModelLayers.SIEGE, TripodModels::siege);
+        event.registerLayerDefinition(ModModelLayers.PRISM, TripodModels::prism);
+        event.registerLayerDefinition(ModModelLayers.LAVA, TripodModels::lava);
+        event.registerLayerDefinition(ModModelLayers.LIVING, TripodModels::living);
+        event.registerLayerDefinition(ModModelLayers.STRIDER, TripodModels::strider);
+        event.registerLayerDefinition(ModModelLayers.SAUCER, TripodModels::saucer);
         event.registerLayerDefinition(ModModelLayers.HUMAN_HELICOPTER, HumanModels::helicopter);
         event.registerLayerDefinition(ModModelLayers.HUMAN_SUBMARINE, HumanModels::submarine);
         event.registerLayerDefinition(ModModelLayers.HUMAN_BOMBER, HumanModels::bomber);
@@ -262,6 +272,26 @@ public final class WotwClient {
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.BLINK, "blink_tripod", 1.0F, 1.3F));
         event.registerEntityRenderer(ModEntities.HARVESTER,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.HARVESTER, "harvester_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.DISC,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.DISC, "disc_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.CYCLOPS,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CYCLOPS, "cyclops_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.SKETCH,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SKETCH, "sketch_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.JELLY,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.JELLY, "jelly_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.SIEGE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SIEGE, "siege_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.PRISM,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.PRISM, "prism_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LAVA,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LAVA, "lava_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LIVING,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LIVING, "living_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.STRIDER,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.STRIDER, "strider_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.SAUCER,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SAUCER, "saucer_tripod", 1.0F, 1.3F));
         event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
                         1.8F));

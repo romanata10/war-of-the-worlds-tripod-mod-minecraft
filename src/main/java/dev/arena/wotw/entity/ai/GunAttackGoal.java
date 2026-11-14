@@ -36,7 +36,7 @@ public class GunAttackGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = this.shooter.getTarget();
-        if (target == null || !target.isAlive()) {
+        if (target == null || !target.isAlive() || !this.shooter.canAttack(target)) {
             return false;
         }
         if (this.shooter.tickCount - this.lastShot < this.cooldownTicks) {

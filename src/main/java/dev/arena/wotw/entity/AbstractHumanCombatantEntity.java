@@ -12,6 +12,9 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
@@ -51,10 +54,49 @@ public abstract class AbstractHumanCombatantEntity extends PathfinderMob {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.addCombatGoals();
 
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        // Only a Martian or the player who swung first may pull a human unit into a fight. Without
+        // this a stray shell that clipped a friendly crew would make the whole line turn on itself.
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this) {
+            @Override
+            public boolean canUse() {
+                LivingEntity attacker = AbstractHumanCombatantEntity.this.getLastHurtByMob();
+                if (attacker != null && !mayRetaliateAgainst(attacker)) {
+                    return false;
+                }
+                return super.canUse();
+            }
+        });
         // enemies of humanity: every Martian machine, but never the crewed tripod
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false,
                 ModEntities::isMartianInvader));
+    }
+
+    /** True for the only things a human unit is allowed to answer: Martians and the player. */
+    protected static boolean mayRetaliateAgainst(LivingEntity attacker) {
+        return ModEntities.isMartianInvader(attacker) || attacker instanceof Player;
+    }
+
+    /** Every human unit is on the same side: shells and bullets never hurt the crew next to it. */
+    public static boolean isHumanUnit(Entity entity) {
+        return entity instanceof AbstractHumanCombatantEntity;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (isHumanUnit(source.getEntity()) || isHumanUnit(source.getDirectEntity())) {
+            return false;
+        }
+        return super.hurt(source, amount);
+    }
+
+    @Override
+    public boolean canAttack(LivingEntity target) {
+        return !isHumanUnit(target) && super.canAttack(target);
+    }
+
+    @Override
+    public boolean isAlliedTo(Entity other) {
+        return isHumanUnit(other) || super.isAlliedTo(other);
     }
 
     /** Hook for the subclass: its weapon goal and how it walks around. */

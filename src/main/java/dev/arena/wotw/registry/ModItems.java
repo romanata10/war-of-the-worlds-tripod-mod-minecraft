@@ -132,6 +132,26 @@ public final class ModItems {
 
     public static Item HARVESTER_SPAWN_EGG;
 
+    public static Item DISC_SPAWN_EGG;
+
+    public static Item CYCLOPS_SPAWN_EGG;
+
+    public static Item SKETCH_SPAWN_EGG;
+
+    public static Item JELLY_SPAWN_EGG;
+
+    public static Item SIEGE_SPAWN_EGG;
+
+    public static Item PRISM_SPAWN_EGG;
+
+    public static Item LAVA_SPAWN_EGG;
+
+    public static Item LIVING_SPAWN_EGG;
+
+    public static Item STRIDER_SPAWN_EGG;
+
+    public static Item SAUCER_SPAWN_EGG;
+
     public static Item HUMAN_APC_SPAWN_EGG;
 
     public static Item HUMAN_ARTILLERY_SPAWN_EGG;
@@ -192,6 +212,22 @@ public final class ModItems {
     public static Item ASHEN_SOIL;
 
     public static Item FROZEN_HULL;
+
+    public static Item CITY_PLATE;
+
+    public static Item LENS_PILLAR;
+
+    public static Item LAVA_CHANNEL;
+
+    public static Item BONE_WALL;
+
+    public static Item CHAIN_GRATING;
+
+    public static Item CAPSULE_RACK;
+
+    public static Item SPORE_VENT;
+
+    public static Item MEMBRANE;
 
     public static Item TRIPOD_BLUEPRINT;
 
@@ -281,6 +317,14 @@ public final class ModItems {
                         entries.accept(CHITIN_BLOCK);
                         entries.accept(ASHEN_SOIL);
                         entries.accept(FROZEN_HULL);
+                        entries.accept(CITY_PLATE);
+                        entries.accept(LENS_PILLAR);
+                        entries.accept(LAVA_CHANNEL);
+                        entries.accept(BONE_WALL);
+                        entries.accept(CHAIN_GRATING);
+                        entries.accept(CAPSULE_RACK);
+                        entries.accept(SPORE_VENT);
+                        entries.accept(MEMBRANE);
                         entries.accept(TRIPOD_BLUEPRINT);
                         entries.accept(ARC_RIFLE);
                         entries.accept(ALLOY_CANNON);
@@ -330,6 +374,16 @@ public final class ModItems {
                         entries.accept(WEAVER_SPAWN_EGG);
                         entries.accept(BLINK_SPAWN_EGG);
                         entries.accept(HARVESTER_SPAWN_EGG);
+                        entries.accept(DISC_SPAWN_EGG);
+                        entries.accept(CYCLOPS_SPAWN_EGG);
+                        entries.accept(SKETCH_SPAWN_EGG);
+                        entries.accept(JELLY_SPAWN_EGG);
+                        entries.accept(SIEGE_SPAWN_EGG);
+                        entries.accept(PRISM_SPAWN_EGG);
+                        entries.accept(LAVA_SPAWN_EGG);
+                        entries.accept(LIVING_SPAWN_EGG);
+                        entries.accept(STRIDER_SPAWN_EGG);
+                        entries.accept(SAUCER_SPAWN_EGG);
                         entries.accept(HUMAN_APC_SPAWN_EGG);
                         entries.accept(HUMAN_ARTILLERY_SPAWN_EGG);
                         entries.accept(HUMAN_JET_SPAWN_EGG);
@@ -562,6 +616,36 @@ public final class ModItems {
         ITEMS.register("harvester_tripod_spawn_egg",
                 () -> HARVESTER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HARVESTER,
                         0x84603E, 0xFFA846, new Item.Properties()));
+        ITEMS.register("disc_tripod_spawn_egg",
+                () -> DISC_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.DISC,
+                        0xD6D6CE, 0xFF4030, new Item.Properties()));
+        ITEMS.register("cyclops_tripod_spawn_egg",
+                () -> CYCLOPS_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CYCLOPS,
+                        0x96A894, 0x8CFF76, new Item.Properties()));
+        ITEMS.register("sketch_tripod_spawn_egg",
+                () -> SKETCH_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SKETCH,
+                        0xBEBEB6, 0xFFEC96, new Item.Properties()));
+        ITEMS.register("jelly_tripod_spawn_egg",
+                () -> JELLY_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.JELLY,
+                        0xC6B498, 0xAAFF8C, new Item.Properties()));
+        ITEMS.register("siege_tripod_spawn_egg",
+                () -> SIEGE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SIEGE,
+                        0x8C8678, 0xBEE6FF, new Item.Properties()));
+        ITEMS.register("prism_tripod_spawn_egg",
+                () -> PRISM_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.PRISM,
+                        0x686078, 0x78C8FF, new Item.Properties()));
+        ITEMS.register("lava_tripod_spawn_egg",
+                () -> LAVA_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LAVA,
+                        0x5C4234, 0xFF8020, new Item.Properties()));
+        ITEMS.register("living_tripod_spawn_egg",
+                () -> LIVING_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LIVING,
+                        0xAE986E, 0xBEFF78, new Item.Properties()));
+        ITEMS.register("strider_tripod_spawn_egg",
+                () -> STRIDER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.STRIDER,
+                        0x787E84, 0xFF5A46, new Item.Properties()));
+        ITEMS.register("saucer_tripod_spawn_egg",
+                () -> SAUCER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SAUCER,
+                        0xB0B2B6, 0xFF4040, new Item.Properties()));
         ITEMS.register("human_apc_spawn_egg",
                 () -> HUMAN_APC_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_APC,
                         0x5C6446, 0xFFE282, new Item.Properties()));
@@ -640,6 +724,14 @@ public final class ModItems {
         ITEMS.register("chitin_block", () -> CHITIN_BLOCK = new BlockItem(ModBlocks.CHITIN_BLOCK, new Item.Properties()));
         ITEMS.register("ashen_soil", () -> ASHEN_SOIL = new BlockItem(ModBlocks.ASHEN_SOIL, new Item.Properties()));
         ITEMS.register("frozen_hull", () -> FROZEN_HULL = new BlockItem(ModBlocks.FROZEN_HULL, new Item.Properties()));
+        ITEMS.register("city_plate", () -> CITY_PLATE = new BlockItem(ModBlocks.CITY_PLATE, new Item.Properties()));
+        ITEMS.register("lens_pillar", () -> LENS_PILLAR = new BlockItem(ModBlocks.LENS_PILLAR, new Item.Properties()));
+        ITEMS.register("lava_channel", () -> LAVA_CHANNEL = new BlockItem(ModBlocks.LAVA_CHANNEL, new Item.Properties()));
+        ITEMS.register("bone_wall", () -> BONE_WALL = new BlockItem(ModBlocks.BONE_WALL, new Item.Properties()));
+        ITEMS.register("chain_grating", () -> CHAIN_GRATING = new BlockItem(ModBlocks.CHAIN_GRATING, new Item.Properties()));
+        ITEMS.register("capsule_rack", () -> CAPSULE_RACK = new BlockItem(ModBlocks.CAPSULE_RACK, new Item.Properties()));
+        ITEMS.register("spore_vent", () -> SPORE_VENT = new BlockItem(ModBlocks.SPORE_VENT, new Item.Properties()));
+        ITEMS.register("membrane", () -> MEMBRANE = new BlockItem(ModBlocks.MEMBRANE, new Item.Properties()));
         ITEMS.register("tripod_blueprint",
                 () -> TRIPOD_BLUEPRINT = new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Properties()));
         ITEMS.register("martian_hull",
