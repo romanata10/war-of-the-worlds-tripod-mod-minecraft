@@ -220,6 +220,20 @@ def make_hull_texture(name, palette, size=128, seed=0):
         h = rnd.randrange(1, 4)
         draw.rectangle([x, y, x + w, y + h], fill=dark + (rnd.randrange(20, 70),))
 
+    # material regions: a model can sample a different patch of this one texture per part, so a
+    # machine can carry a pale bone carapace and a dark visor without a second texture:
+    #   (64, 0)  pale plating / bone      (0, 96)  dark cavity / visor
+    for y in range(0, 64):
+        for x in range(64, size):
+            pixel = px[x, y]
+            luma = (pixel[0] + pixel[1] + pixel[2]) / (3.0 * 150.0)
+            tone = clamp(150 + 96 * luma)
+            px[x, y] = (clamp(tone * 1.03), clamp(tone * 0.99), clamp(tone * 0.90), 255)
+    for y in range(96, size):
+        for x in range(0, 64):
+            pixel = px[x, y]
+            px[x, y] = (clamp(pixel[0] * 0.34), clamp(pixel[1] * 0.34), clamp(pixel[2] * 0.34), 255)
+
     # glowing eye patch: the models sample this area for eyes and lenses
     glow_layer = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
     gp = glow_layer.load()
