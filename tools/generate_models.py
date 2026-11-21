@@ -3300,8 +3300,9 @@ def falcon_tripod():
     spine, a glowing prow and two fins at the tail."""
     m = Model("falcon_tripod")
     hull = m.part("hull")
-    lens_hull(hull, 0, -214, 0, 56, 98, 30, layers=6, cell=10)
-    lens_hull(hull, 0, -184, 0, 40, 70, 10, layers=2, cell=10, uv=DARK)
+    lens_hull(hull, 0, -216, 0, 56, 100, 34, layers=9, cell=10)
+    lens_hull(hull, 0, -182, 0, 42, 74, 12, layers=3, cell=10, uv=DARK)
+    lens_hull(hull, 0, -206, -54, 26, 22, 20, layers=4, cell=8)
 
     for index in range(9):
         angle = -44.0 + index * 11.0
@@ -3339,7 +3340,14 @@ def threedee_tripod():
         spider_leg(m, f"leg{index}", (x, -218, z), sx, sz, 168, 6, foot=10, knee_up=26, uv=DARK)
 
     dome = m.part("dome")
-    dome_hull(dome, 0, -248, 0, 88, 80, 62, layers=14, cell=14, uv=PALE, power=1.7, ribs=5)
+    dome_hull(dome, 0, -248, 0, 88, 80, 62, layers=16, cell=20, uv=PALE, power=1.7)
+    # a rim of plates round the crown, the shell's only ornament
+    crown_rim = m.part("crown_rim", parent="dome", pivot=(0, -248, 0))
+    for index in range(8):
+        angle = 6.283185307179586 * index / 8.0
+        x = int(round(26 * math.cos(angle)))
+        z = int(round(24 * math.sin(angle)))
+        crown_rim.box(x - 3, 12, z - 3, 7, 8, 7, uv=HULL)
     collar = m.part("collar", parent="dome", pivot=(0, -188, 0))
     collar.shell(0, 0, 0, 42, 16, 38, cell=10, uv=DARK)
     core = m.part("core", parent="dome", pivot=(0, -198, -22))
