@@ -116,9 +116,9 @@ public class LunarMothershipEntity extends AbstractTripodEntity {
             return false;
         }
         this.deckRow = -DECK_RADIUS;
-        for (int x = -10; x <= 10; x += 10) {
-            for (int z = -10; z <= 10; z += 10) {
-                server.setBlock(center.offset(x, 1, z), ModBlocks.LENS_PILLAR.defaultBlockState(),
+        for (int px = -10; px <= 10; px += 10) {
+            for (int pz = -10; pz <= 10; pz += 10) {
+                server.setBlock(center.offset(px, 1, pz), ModBlocks.LENS_PILLAR.defaultBlockState(),
                         Block.UPDATE_ALL);
             }
         }
