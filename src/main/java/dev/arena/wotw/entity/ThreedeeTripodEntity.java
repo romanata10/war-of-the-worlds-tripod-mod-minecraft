@@ -61,7 +61,12 @@ public class ThreedeeTripodEntity extends AbstractTripodEntity {
         server.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.BLAZE_SHOOT,
                 SoundSource.HOSTILE, 2.0F, 0.7F);
         if (caught == 0) {
-            this.fireBeamAt(this.getTarget() == null ? origin : this.getTarget(), BeamKind.LASER, 6.0F);
+            LivingEntity target = this.getTarget();
+            if (target == null) {
+                this.fireBeamAt(origin, BeamKind.LASER, 6.0F);
+            } else {
+                this.fireBeamAt(target, BeamKind.LASER, 6.0F);
+            }
         }
     }
 
