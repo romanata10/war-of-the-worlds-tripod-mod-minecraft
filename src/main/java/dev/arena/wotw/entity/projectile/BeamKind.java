@@ -18,7 +18,9 @@ public enum BeamKind {
     /** Asylum walker eye beam: green, heavy and dirty. */
     GREEN_BEAM("green_beam", 2.4D, 44.0D, 1.4D, 8, 1.15F, 0.7F, ParticleTypes.HAPPY_VILLAGER),
     /** Martian heron lance: extremely fast and long, but very narrow. */
-    LANCE("lance", 4.6D, 80.0D, 0.7D, 3, 0.55F, 1.9F, ParticleTypes.END_ROD);
+    LANCE("lance", 4.6D, 80.0D, 0.7D, 3, 0.55F, 1.9F, ParticleTypes.END_ROD),
+    /** Lunar laser: white-hot, fast and it sets everything it touches alight. */
+    LUNAR_LASER("lunar_laser", 5.4D, 72.0D, 0.65D, 9, 0.6F, 2.1F, ParticleTypes.END_ROD);
 
     private final String id;
     private final double speed;

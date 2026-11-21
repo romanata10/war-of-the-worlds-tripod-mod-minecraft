@@ -36,6 +36,18 @@ import dev.arena.wotw.entity.FourLeggedTripodEntity;
 import dev.arena.wotw.entity.AlienDawnMk2TripodEntity;
 import dev.arena.wotw.entity.AlienDawnTripodEntity;
 import dev.arena.wotw.entity.AnnihilationTripodEntity;
+import dev.arena.wotw.entity.RedEyeTripodEntity;
+import dev.arena.wotw.entity.ClawTripodEntity;
+import dev.arena.wotw.entity.RussianTripodEntity;
+import dev.arena.wotw.entity.FalconTripodEntity;
+import dev.arena.wotw.entity.ThreedeeTripodEntity;
+import dev.arena.wotw.entity.SurreyTripodEntity;
+import dev.arena.wotw.entity.LunarNomadEntity;
+import dev.arena.wotw.entity.LunarNomadRedEntity;
+import dev.arena.wotw.entity.LunarWatcherEntity;
+import dev.arena.wotw.entity.LunarFlyerEntity;
+import dev.arena.wotw.entity.LunarWarMachineEntity;
+import dev.arena.wotw.entity.LunarMothershipEntity;
 import dev.arena.wotw.entity.DiscTripodEntity;
 import dev.arena.wotw.entity.CyclopsTripodEntity;
 import dev.arena.wotw.entity.SketchTripodEntity;
@@ -293,6 +305,18 @@ public final class ModEntities {
     public static EntityType<LivingTripodEntity> LIVING;
     public static EntityType<StriderTripodEntity> STRIDER;
     public static EntityType<SaucerTripodEntity> SAUCER;
+    public static EntityType<RedEyeTripodEntity> RED_EYE;
+    public static EntityType<ClawTripodEntity> CLAW;
+    public static EntityType<RussianTripodEntity> RUSSIAN;
+    public static EntityType<FalconTripodEntity> FALCON;
+    public static EntityType<ThreedeeTripodEntity> THREEDEE;
+    public static EntityType<SurreyTripodEntity> SURREY;
+    public static EntityType<LunarNomadEntity> LUNAR_NOMAD;
+    public static EntityType<LunarNomadRedEntity> LUNAR_NOMAD_RED;
+    public static EntityType<LunarWatcherEntity> LUNAR_WATCHER;
+    public static EntityType<LunarFlyerEntity> LUNAR_FLYER;
+    public static EntityType<LunarWarMachineEntity> LUNAR_WAR_MACHINE;
+    public static EntityType<LunarMothershipEntity> LUNAR_MOTHERSHIP;
     public static EntityType<StormTripodEntity> STORM;
     public static EntityType<WeaverTripodEntity> WEAVER;
     public static EntityType<BlinkTripodEntity> BLINK;
@@ -842,6 +866,78 @@ public final class ModEntities {
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("saucer_tripod")));
+        ENTITY_TYPES.register("red_eye_tripod",
+                () -> RED_EYE = track(EntityType.Builder.of(RedEyeTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.6F, 16.9F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("red_eye_tripod")));
+        ENTITY_TYPES.register("claw_tripod",
+                () -> CLAW = track(EntityType.Builder.of(ClawTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.2F, 18.4F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("claw_tripod")));
+        ENTITY_TYPES.register("russian_tripod",
+                () -> RUSSIAN = track(EntityType.Builder.of(RussianTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.4F, 18.2F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("russian_tripod")));
+        ENTITY_TYPES.register("falcon_tripod",
+                () -> FALCON = track(EntityType.Builder.of(FalconTripodEntity::new, MobCategory.MONSTER)
+                        .sized(7.0F, 15.4F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("falcon_tripod")));
+        ENTITY_TYPES.register("threedee_tripod",
+                () -> THREEDEE = track(EntityType.Builder.of(ThreedeeTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.0F, 18.3F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("threedee_tripod")));
+        ENTITY_TYPES.register("surrey_tripod",
+                () -> SURREY = track(EntityType.Builder.of(SurreyTripodEntity::new, MobCategory.MONSTER)
+                        .sized(8.0F, 17.4F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("surrey_tripod")));
+        ENTITY_TYPES.register("lunar_nomad",
+                () -> LUNAR_NOMAD = track(EntityType.Builder.of(LunarNomadEntity::new, MobCategory.MONSTER)
+                        .sized(7.6F, 15.0F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("lunar_nomad")));
+        ENTITY_TYPES.register("lunar_nomad_red",
+                () -> LUNAR_NOMAD_RED = track(EntityType.Builder.of(LunarNomadRedEntity::new, MobCategory.MONSTER)
+                        .sized(7.6F, 15.0F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("lunar_nomad_red")));
+        ENTITY_TYPES.register("lunar_watcher",
+                () -> LUNAR_WATCHER = track(EntityType.Builder.of(LunarWatcherEntity::new, MobCategory.MONSTER)
+                        .sized(7.0F, 6.6F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("lunar_watcher")));
+        ENTITY_TYPES.register("lunar_flyer",
+                () -> LUNAR_FLYER = track(EntityType.Builder.of(LunarFlyerEntity::new, MobCategory.MONSTER)
+                        .sized(6.0F, 8.3F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("lunar_flyer")));
+        ENTITY_TYPES.register("lunar_war_machine",
+                () -> LUNAR_WAR_MACHINE = track(EntityType.Builder.of(LunarWarMachineEntity::new, MobCategory.MONSTER)
+                        .sized(9.5F, 20.6F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("lunar_war_machine")));
+        ENTITY_TYPES.register("lunar_mothership",
+                () -> LUNAR_MOTHERSHIP = track(EntityType.Builder.of(LunarMothershipEntity::new, MobCategory.MONSTER)
+                        .sized(200.0F, 60.0F)
+                        .clientTrackingRange(32)
+                        .updateInterval(2)
+                        .build("lunar_mothership")));
     }
 
     private ModEntities() {
@@ -968,6 +1064,18 @@ public final class ModEntities {
         event.put(LIVING, LivingTripodEntity.createAttributes().build());
         event.put(STRIDER, StriderTripodEntity.createAttributes().build());
         event.put(SAUCER, SaucerTripodEntity.createAttributes().build());
+        event.put(RED_EYE, RedEyeTripodEntity.createAttributes().build());
+        event.put(CLAW, ClawTripodEntity.createAttributes().build());
+        event.put(RUSSIAN, RussianTripodEntity.createAttributes().build());
+        event.put(FALCON, FalconTripodEntity.createAttributes().build());
+        event.put(THREEDEE, ThreedeeTripodEntity.createAttributes().build());
+        event.put(SURREY, SurreyTripodEntity.createAttributes().build());
+        event.put(LUNAR_NOMAD, LunarNomadEntity.createAttributes().build());
+        event.put(LUNAR_NOMAD_RED, LunarNomadRedEntity.createAttributes().build());
+        event.put(LUNAR_WATCHER, LunarWatcherEntity.createAttributes().build());
+        event.put(LUNAR_FLYER, LunarFlyerEntity.createAttributes().build());
+        event.put(LUNAR_WAR_MACHINE, LunarWarMachineEntity.createAttributes().build());
+        event.put(LUNAR_MOTHERSHIP, LunarMothershipEntity.createAttributes().build());
 
     }
 }

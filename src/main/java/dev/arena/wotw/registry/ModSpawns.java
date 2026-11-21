@@ -113,7 +113,13 @@ public final class ModSpawns {
             new Entry(ModEntities.LAVA, true, 1, 1, 1, 1),
             new Entry(ModEntities.LIVING, true, 1, 1, 1, 1),
             new Entry(ModEntities.STRIDER, true, 1, 1, 1, 1),
-            new Entry(ModEntities.SAUCER, true, 2, 1, 1, 1));
+            new Entry(ModEntities.SAUCER, true, 2, 1, 1, 1),
+            new Entry(ModEntities.RED_EYE, true, 4, 2, 1, 1),
+            new Entry(ModEntities.CLAW, true, 4, 1, 1, 1),
+            new Entry(ModEntities.RUSSIAN, true, 4, 1, 1, 1),
+            new Entry(ModEntities.FALCON, true, 4, 2, 1, 1),
+            new Entry(ModEntities.THREEDEE, true, 4, 2, 1, 1),
+            new Entry(ModEntities.SURREY, true, 4, 2, 1, 1));
     }
 
     private ModSpawns() {

@@ -112,6 +112,9 @@ public abstract class AbstractTripodEntity extends Monster {
         // the human army shoots at us, so we shoot back
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractHumanCombatantEntity.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+        // the Moon is at war with Mars too: every Martian answers a lunar machine that comes near
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractLunarMachineEntity.class, true,
+                entity -> !(this instanceof AbstractLunarMachineEntity)));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.addExtraGoals();
     }

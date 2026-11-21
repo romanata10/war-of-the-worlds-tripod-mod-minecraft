@@ -105,6 +105,18 @@ PALETTES = {
     "living_tripod": ((174, 152, 110), (68, 56, 38), (208, 188, 148), (190, 255, 120), (122, 98, 62)),
     "strider_tripod": ((120, 126, 132), (42, 46, 52), (166, 172, 180), (255, 90, 70), (84, 88, 94)),
     "saucer_tripod": ((176, 178, 182), (64, 66, 70), (214, 216, 222), (255, 64, 64), (112, 114, 120)),
+    "red_eye_tripod": ((52, 52, 58), (18, 18, 22), (92, 92, 100), (255, 40, 40), (74, 74, 82)),
+    "claw_tripod": ((196, 198, 196), (74, 76, 78), (236, 238, 236), (240, 250, 255), (128, 130, 132)),
+    "russian_tripod": ((88, 94, 90), (30, 34, 32), (134, 142, 136), (120, 255, 120), (58, 66, 62)),
+    "falcon_tripod": ((70, 74, 80), (24, 26, 30), (114, 120, 128), (255, 176, 64), (46, 50, 56)),
+    "threedee_tripod": ((226, 228, 226), (120, 122, 124), (250, 250, 250), (255, 150, 40), (168, 172, 176)),
+    "surrey_tripod": ((44, 46, 50), (14, 14, 18), (82, 84, 90), (120, 255, 120), (30, 32, 36)),
+    "lunar_nomad": ((88, 96, 118), (30, 34, 46), (140, 150, 176), (140, 255, 170), (56, 62, 80)),
+    "lunar_nomad_red": ((104, 74, 74), (38, 24, 24), (158, 116, 114), (255, 120, 110), (64, 44, 44)),
+    "lunar_watcher": ((70, 78, 96), (24, 28, 38), (118, 128, 152), (150, 255, 190), (46, 52, 66)),
+    "lunar_flyer": ((76, 84, 104), (26, 30, 40), (126, 136, 160), (160, 255, 200), (50, 56, 70)),
+    "lunar_war_machine": ((60, 62, 72), (20, 20, 26), (104, 108, 122), (255, 150, 60), (38, 40, 48)),
+    "lunar_mothership": ((54, 58, 72), (18, 20, 26), (96, 102, 120), (150, 255, 200), (34, 36, 44)),
     "storm_tripod": ((86, 82, 78), (32, 30, 28), (132, 126, 118), (140, 236, 255), (168, 120, 66)),
     "weaver_tripod": ((96, 74, 48), (40, 28, 16), (148, 118, 82), (198, 255, 130), (110, 92, 54)),
     "blink_tripod": ((62, 56, 82), (22, 20, 32), (108, 98, 138), (196, 120, 255), (86, 74, 116)),
@@ -125,6 +137,7 @@ BEAMS = {
     "laser": ((255, 186, 170), (255, 44, 32)),
     "green_beam": ((214, 255, 174), (96, 255, 64)),
     "lance": ((196, 240, 255), (140, 196, 255)),
+    "lunar_laser": ((236, 255, 244), (140, 255, 190)),
 }
 
 
@@ -967,6 +980,51 @@ def make_membrane_texture():
     return img
 
 
+def make_moon_stone_texture():
+    """Pale grey-violet stone of the lunar fleet: cold, dusty and flecked with ice."""
+    rnd = random.Random("moon-stone")
+    img = Image.new("RGBA", (16, 16), (108, 106, 126, 255))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade((112, 110, 132), 1.0 + rnd.uniform(-0.18, 0.18), 5.0, rnd) + (255,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for _ in range(10):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(66, 64, 82, 255))
+    for _ in range(5):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(190, 198, 214, 255))
+    draw.line([(2, 4), (7, 6), (13, 3)], fill=(78, 76, 96, 210))
+    return img
+
+
+def make_moon_glass_texture():
+    """The porthole glass of the lunar ships: dark blue-green with a bright lattice."""
+    rnd = random.Random("moon-glass")
+    img = Image.new("RGBA", (16, 16), (36, 58, 62, 235))
+    px = img.load()
+    for y in range(16):
+        for x in range(16):
+            px[x, y] = shade((40, 66, 70), 1.0 + rnd.uniform(-0.12, 0.12), 4.0, rnd) + (235,)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for i in range(0, 16, 5):
+        draw.line([(i, 0), (i, 15)], fill=(126, 226, 190, 220))
+        draw.line([(0, i), (15, i)], fill=(126, 226, 190, 220))
+    draw.rectangle([0, 0, 15, 15], outline=(160, 244, 210, 230))
+    return img
+
+
+def make_lunar_hull_texture():
+    """The hull plate of the Moon's ships: dark blue metal with green running lights."""
+    rnd = random.Random("lunar-hull")
+    img = _panel(16, (62, 66, 84), (22, 24, 32), (104, 110, 132), rnd, seam=8)
+    draw = ImageDraw.Draw(img, "RGBA")
+    draw.rectangle([0, 0, 15, 15], outline=(26, 28, 36, 235))
+    draw.line([(2, 12), (13, 12)], fill=(140, 255, 190, 220))
+    for x, y in ((3, 4), (8, 4), (13, 4)):
+        draw.point((x, y), fill=(150, 240, 255, 255))
+    return img
+
+
 def main():
     os.makedirs(ENTITY, exist_ok=True)
     os.makedirs(ITEM, exist_ok=True)
@@ -1036,6 +1094,9 @@ def main():
     make_capsule_rack_texture().save(os.path.join(BLOCK, "capsule_rack.png"))
     make_spore_vent_texture().save(os.path.join(BLOCK, "spore_vent.png"))
     make_membrane_texture().save(os.path.join(BLOCK, "membrane.png"))
+    make_moon_stone_texture().save(os.path.join(BLOCK, "moon_stone.png"))
+    make_moon_glass_texture().save(os.path.join(BLOCK, "moon_glass.png"))
+    make_lunar_hull_texture().save(os.path.join(BLOCK, "lunar_hull.png"))
     print("items + block done")
     write_block_assets()
 
