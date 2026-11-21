@@ -372,6 +372,9 @@ public final class ModItems {
         TABS.register("humans", () -> HUMANS);
         TABS.register("gear", () -> GEAR);
     }
+
+    /** Every item of the mod is created in one place so an id can never point at nothing. */
+    static {
         ITEMS.register("martian_alloy", () -> MARTIAN_ALLOY = new Item(new Item.Properties()));
         ITEMS.register("tripod_2005_spawn_egg",
                 () -> TRIPOD_2005_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TRIPOD_2005, 0x3D4038, 0xC9F5C0,
