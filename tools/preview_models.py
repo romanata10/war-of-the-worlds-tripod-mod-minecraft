@@ -304,8 +304,8 @@ def _raster(color, depth, tex, pts, zs, uvs, shade):
     u = a * uvs[0, 0] + b * uvs[1, 0] + c * uvs[2, 0]
     v = a * uvs[0, 1] + b * uvs[1, 1] + c * uvs[2, 1]
     tex_h, tex_w = tex.shape[:2]
-    uu = np.clip(np.floor(u).astype(np.int32), 0, tex_w - 1)
-    vv = np.clip(np.floor(v).astype(np.int32), 0, tex_h - 1)
+    uu = np.mod(np.floor(u).astype(np.int32), tex_w)
+    vv = np.mod(np.floor(v).astype(np.int32), tex_h)
     texels = tex[vv, uu] * shade
 
     target[mask] = z[mask]
