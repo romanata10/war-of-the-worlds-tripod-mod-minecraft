@@ -3391,28 +3391,38 @@ def lunar_war_machine():
 
 def lunar_mothership():
     """The mothership: a lens of a hull a thousand blocks across, a shallow dome on the crown, a keel
-    underneath and the lights burning round the rim."""
+    underneath and the lights burning round the rim. Built from a handful of octagonal slabs, so the
+    generated Java stays inside the bytecode limit of a single method."""
     m = Model("lunar_mothership")
     body = m.part("body")
-    steps = 9
+
+    def octagon_slab(part, cy, width, height, depth):
+        part.box(-width // 4, cy, -depth // 2, width // 2, height, depth)
+        part.box(-width // 2, cy, -depth // 4, width, height, depth // 2)
+
+    steps = 11
     for index in range(steps):
         profile = math.sin(3.141592653589793 * (index + 0.5) / steps)
-        width = max(70, int(1180 * profile))
-        body.shell(0, -152 + index * 8, 0, width, 8, width - 40, cell=40)
-    dome = m.part("dome", parent="body", pivot=(0, -152, 0))
-    for index, width in enumerate((520, 360, 210, 90)):
-        dome.shell(0, -index * 7, 0, width, 7, width - 30, cell=30)
-    dome.glow_box(-45, -32, -45, 90, 6, 90)
-    keel = m.part("keel", parent="body", pivot=(0, -80, 0))
-    for index, width in enumerate((380, 240, 120)):
-        keel.shell(0, index * 9, 0, width, 9, width - 30, cell=26)
-    keel.glow_box(-40, 28, -40, 80, 6, 80)
+        width = 260 + int(920 * profile)
+        octagon_slab(body, -118 + index * 6, width, 6, width - 60)
+    octagon_slab(body, -124, 1160, 6, 620)
+
+    dome = m.part("dome", parent="body", pivot=(0, -124, 0))
+    for index, width in enumerate((520, 400, 270, 140)):
+        octagon_slab(dome, -index * 8, width, 8, width - 70)
+    dome.glow_box(-70, -38, -70, 140, 6, 140)
+
+    keel = m.part("keel", parent="body", pivot=(0, -52, 0))
+    for index, width in enumerate((420, 280, 140)):
+        octagon_slab(keel, index * 10, width, 10, width - 90)
+    keel.glow_box(-50, 26, -50, 100, 6, 100)
+
+    rim = m.part("rim", parent="body", pivot=(0, -118, 0))
     for index in range(20):
         angle = 6.283185307179586 * index / 20.0
-        x = int(round(590 * math.cos(angle)))
-        z = int(round(590 * math.sin(angle)))
-        lamp = m.part(f"lamp{index}", parent="body", pivot=(x, -118, z))
-        lamp.glow_box(-4, -4, -4, 8, 8, 8)
+        x = int(round(592 * math.cos(angle)))
+        z = int(round(592 * math.sin(angle)))
+        rim.glow_box(x - 5, -3, z - 5, 10, 6, 10)
     return m
 
 
