@@ -3388,26 +3388,27 @@ def manta_cap(model, name, pivot_y, length, width, height=14, points=6, dome=1.0
         angle = 360.0 * index / points + 14.0
         wing = model.part(f"{name}_wing{index}", parent=name, pivot=(0, 0, 0),
                           rot=(0.0, angle, 0.0))
-        reach = int(round(length * 0.22))
-        for step in range(5):
-            t = step / 4.0
-            thick = max(3, int(round(13 - 8 * t)))
-            wing.box(int(round(-length * 0.38 - reach * t)), -4, -thick // 2,
-                     int(round(reach / 5.0)) + 2, 9, thick, uv=uv)
+        reach = int(round(length * 0.26))
+        for step in range(6):
+            t = step / 5.0
+            thick = max(2, int(round(14 - 12 * t)))
+            rise = int(round(5 * t))
+            wing.box(int(round(-length * 0.38 - reach * t)), -4 - rise, -thick // 2,
+                     int(round(reach / 6.0)) + 2, max(3, 10 - rise * 2), thick, uv=uv)
     if ridge:
-        for x in range(-width // 2 + 5, max(-width // 2 + 6, width // 2 - 3), 9):
+        for x in range(-width // 2 + 4, max(-width // 2 + 5, width // 2 - 2), 5):
             half = length * 0.5 * math.sqrt(max(0.08, 1.0 - (2.0 * x / width) ** 2))
-            cap.glow_box(x, 2, -int(round(half)) + 1, 5, 2, 3)
+            cap.glow_box(x, 2, -int(round(half)) + 1, 6, 2, 3)
     return cap
 
 
-def lunar_tentacle(model, name, parent, pivot, length, thick, segments=3, spread=0.0, curl=0.0,
+def lunar_tentacle(model, name, parent, pivot, length, thick, segments=4, spread=0.0, curl=0.0,
                    glow_tip=True, uv=HULL):
     """A thick tapering leg that hangs in a slight curve, the way the lunar machines stand."""
     previous = parent
     step = max(4, length // segments)
     for index in range(segments):
-        width = max(3, thick - index * max(2, thick // (segments + 1)))
+        width = max(2, int(round(thick * (1.0 - 0.55 * index / max(1.0, segments - 1.0)))))
         part = model.part(f"{name}{index}", parent=previous,
                           pivot=pivot if index == 0 else (0, step, 0),
                           rot=(curl * (index + 1), 0.0, spread * (index + 1)) if index
@@ -3477,7 +3478,7 @@ def lunar_flyer():
     reaching forward and two big fins at the tail. It never lands."""
     m = Model("lunar_flyer")
     hull = m.part("hull")
-    lens_hull(hull, 0, -198, 0, 58, 142, 30, layers=4, cell=10)
+    lens_hull(hull, 0, -200, 0, 58, 146, 34, layers=7, cell=10)
     lens_hull(hull, 0, -176, 0, 44, 98, 12, layers=2, cell=10, uv=DARK)
     lens_hull(hull, 0, -208, -38, 40, 34, 18, layers=3, cell=8)
 
@@ -3494,8 +3495,8 @@ def lunar_flyer():
         tip.box(-1, -2, -52, 3, 3, 54, uv=PALE)
 
     for side, name in ((-1, "fin_l"), (1, "fin_r")):
-        fin = m.part(name, parent="hull", pivot=(side * 22, -190, 44), rot=(0.0, side * 34.0, 0.0))
-        fan_blade(fin, 0, 2, 0, 54, 22, 5, sweep=0.55, uv=DARK, steps=6)
+        fin = m.part(name, parent="hull", pivot=(side * 12, -190, 52), rot=(0.0, side * 22.0, 0.0))
+        fan_blade(fin, 0, 0, 0, 54, 30, 3, sweep=0.5, rise=-16, uv=DARK, steps=6)
     return m
 
 
