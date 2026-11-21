@@ -327,7 +327,8 @@ public final class WotwClient {
         event.registerEntityRenderer(ModEntities.LUNAR_WAR_MACHINE,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_WAR_MACHINE, "lunar_war_machine", 1.0F, 1.3F));
         event.registerEntityRenderer(ModEntities.LUNAR_MOTHERSHIP,
-                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_MOTHERSHIP, "lunar_mothership", 13.3F, 26.0F));
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_MOTHERSHIP, "lunar_mothership", 13.3F,
+                        0.0F));
         event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
                         1.8F));

@@ -934,7 +934,10 @@ public final class ModEntities {
                         .build("lunar_war_machine")));
         ENTITY_TYPES.register("lunar_mothership",
                 () -> LUNAR_MOTHERSHIP = track(EntityType.Builder.of(LunarMothershipEntity::new, MobCategory.MONSTER)
-                        .sized(200.0F, 60.0F)
+                        // 200x60 was the size of the drawn hull, and the server paid for it on every
+                        // collision, raycast and entity lookup in the area. The hitbox is a sensible
+                        // box now; the hull is drawn at its own scale.
+                        .sized(40.0F, 14.0F)
                         .clientTrackingRange(32)
                         .updateInterval(2)
                         .build("lunar_mothership")));

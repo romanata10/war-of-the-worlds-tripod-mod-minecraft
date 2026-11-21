@@ -3375,17 +3375,72 @@ def surrey_tripod():
     return m
 
 
-def lunar_nomad():
-    """The lunar nomad: a flat manta cap with its rim picked out in green, four thin legs and two fins."""
-    m = Model("lunar_nomad")
-    for index, (x, z, sx, sz) in enumerate(((-18, -14, -14, -6), (18, -14, 14, -6),
-                                            (-18, 14, -14, 6), (18, 14, 14, 6))):
-        needle_leg(m, f"leg{index}", (x, -216, z), sx, sz, 84, 88, 10, foot=13, knee=0.45, uv=DARK)
+def manta_cap(model, name, pivot_y, length, width, height=14, points=6, dome=1.0, ridge=True,
+              uv=HULL):
+    """The lunar manta: an elongated cap with pointed wings round its rim and a glowing leading
+    edge, the shape the fleet has in the artwork."""
+    cap = model.part(name, pivot=(0, pivot_y, 0))
+    lens_hull(cap, 0, 0, 0, width, length, height, layers=3, cell=10, uv=uv)
+    if dome:
+        lens_hull(cap, 0, -int(round(height * 0.6)), 0, int(width * 0.54), int(length * 0.5),
+                  int(round(18 * dome)), layers=3, cell=10, uv=uv)
+    for index in range(points):
+        angle = 360.0 * index / points + 14.0
+        wing = model.part(f"{name}_wing{index}", parent=name, pivot=(0, 0, 0),
+                          rot=(0.0, angle, 0.0))
+        reach = int(round(length * 0.22))
+        for step in range(5):
+            t = step / 4.0
+            thick = max(3, int(round(13 - 8 * t)))
+            wing.box(int(round(-length * 0.38 - reach * t)), -4, -thick // 2,
+                     int(round(reach / 5.0)) + 2, 9, thick, uv=uv)
+    if ridge:
+        for x in range(-width // 2 + 5, max(-width // 2 + 6, width // 2 - 3), 9):
+            half = length * 0.5 * math.sqrt(max(0.08, 1.0 - (2.0 * x / width) ** 2))
+            cap.glow_box(x, 2, -int(round(half)) + 1, 5, 2, 3)
+    return cap
 
-    lunar_cap(m, "cap", -230, 90, 80, height=14, dome=1.2)
+
+def lunar_tentacle(model, name, parent, pivot, length, thick, segments=3, spread=0.0, curl=0.0,
+                   glow_tip=True, uv=HULL):
+    """A thick tapering leg that hangs in a slight curve, the way the lunar machines stand."""
+    previous = parent
+    step = max(4, length // segments)
+    for index in range(segments):
+        width = max(3, thick - index * max(2, thick // (segments + 1)))
+        part = model.part(f"{name}{index}", parent=previous,
+                          pivot=pivot if index == 0 else (0, step, 0),
+                          rot=(curl * (index + 1), 0.0, spread * (index + 1)) if index
+                          else (curl, 0.0, spread))
+        part.box(-width // 2, 0, -width // 2, width, step, width, uv=uv)
+        if glow_tip and index == segments - 1:
+            part.glow_box(-width // 2 - 1, step - 5, -width // 2 - 1, width + 2, 5, width + 2)
+        previous = part.name
+
+
+def lunar_legs(model, cap_name, height, radius, count, length, thick, spread=9.0, curl=6.0,
+               glow_tip=False, uv=HULL, phase=0.0):
+    """A ring of legs hanging under a cap."""
+    for index in range(count):
+        angle = 6.283185307179586 * index / count + phase
+        x = int(round(radius * math.cos(angle)))
+        z = int(round(radius * math.sin(angle)))
+        lunar_tentacle(model, f"leg{index}_", cap_name, (x, height, z), length, thick,
+                       spread=spread * (-1.0 if x > 0 else 1.0), curl=curl, glow_tip=glow_tip,
+                       uv=uv)
+
+
+# --------------------------------------------------------------------------- #
+
+def lunar_nomad():
+    """The lunar nomad: a flat manta cap with a green leading edge, six pointed wings and four
+    thick legs hanging under it."""
+    m = Model("lunar_nomad")
+    cap = manta_cap(m, "cap", -232, 132, 98, height=16, points=6, dome=1.1)
+    lunar_legs(m, "cap", 16, 30, 4, 168, 9, spread=7.0, curl=4.0, uv=DARK, phase=0.8)
     for side, name in ((-1, "fin_l"), (1, "fin_r")):
-        fin = m.part(name, parent="cap", pivot=(side * 26, 10, 12))
-        fan_blade(fin, 0, 0, 0, 34, 14, 4, sweep=0.4, uv=DARK, steps=5)
+        fin = m.part(name, parent="cap", pivot=(side * 26, 12, 16), rot=(0.0, side * 24.0, 0.0))
+        fan_blade(fin, 0, 0, 0, 38, 12, 5, sweep=0.4, uv=DARK, steps=5)
     return m
 
 
@@ -3400,115 +3455,101 @@ def lunar_nomad_red():
 
 
 def lunar_watcher():
-    """The watcher: the biggest cap of the fleet, five thick legs, a bundle of spurs reaching forward
-    and a lens set under the cap."""
+    """The watcher: the biggest cap of the fleet with a raft of fronds along its crown, five thick
+    legs and a lens set under the hull."""
     m = Model("lunar_watcher")
-    for index in range(5):
-        angle = 6.283185307179586 * index / 5.0
-        x = int(round(26 * math.cos(angle)))
-        z = int(round(26 * math.sin(angle)))
-        needle_leg(m, f"leg{index}", (x, -214, z), int(round(26 * math.cos(angle))),
-                   int(round(18 * math.sin(angle))), 98, 100, 15, foot=16, knee=0.35, uv=DARK)
-
-    lunar_cap(m, "cap", -238, 116, 104, height=16, dome=1.2)
-    spurs = m.part("spurs", parent="cap", pivot=(0, 8, -40))
-    spurs.box(-14, -4, -4, 28, 8, 8, uv=DARK)
-    for index in range(5):
-        spur = m.part(f"spur{index}", parent="spurs", pivot=(-12 + index * 6, 0, 0),
-                      rot=(18.0 - index * 9.0, 0.0, -10.0 + index * 5.0))
-        spur.box(-2, 0, -2, 4, 4, 34, uv=PALE)
-    lens = m.part("lens", parent="cap", pivot=(0, 16, 0))
-    lens.glow_box(-9, 0, -9, 18, 3, 18)
+    cap = manta_cap(m, "cap", -240, 164, 124, height=18, points=8, dome=1.2)
+    lunar_legs(m, "cap", 18, 38, 5, 182, 12, spread=6.0, curl=4.0, uv=DARK, phase=0.3)
+    fronds = m.part("fronds", parent="cap", pivot=(0, -14, -14))
+    fronds.box(-22, 0, -20, 44, 5, 40, uv=HULL)
+    for index in range(6):
+        angle = -50.0 + index * 20.0
+        frond = m.part(f"frond{index}", parent="fronds", pivot=(0, 0, 0),
+                       rot=(0.0, angle, 0.0))
+        fan_blade(frond, -2, 0, -30, 34, 20, 5, sweep=0.9, uv=PALE, steps=5)
+    lens = m.part("lens", parent="cap", pivot=(0, 26, 0))
+    glow_disc_upright(lens, 0, 0, 0, 12, cell=6, depth=3)
     return m
 
 
 def lunar_flyer():
-    """The lunar flyer: an elongated hull with a strip of lights, four antennae reaching forward and
-    two big fins at the tail. It never lands."""
+    """The lunar flyer: a long ray of a hull with a band of lights on its flank, four whiskers
+    reaching forward and two big fins at the tail. It never lands."""
     m = Model("lunar_flyer")
     hull = m.part("hull")
-    lens_hull(hull, 0, -212, 0, 62, 132, 30, layers=5, cell=10)
-    lens_hull(hull, 0, -184, 0, 46, 100, 12, layers=2, cell=10, uv=DARK)
+    lens_hull(hull, 0, -198, 0, 58, 142, 30, layers=4, cell=10)
+    lens_hull(hull, 0, -176, 0, 44, 98, 12, layers=2, cell=10, uv=DARK)
+    lens_hull(hull, 0, -208, -38, 40, 34, 18, layers=3, cell=8)
 
-    lights = m.part("lights", parent="hull", pivot=(0, -200, -52))
-    for index in range(9):
-        lights.glow_box(-3, 0, index * 12, 6, 5, 9)
+    band = m.part("band", parent="hull", pivot=(0, -192, -34))
+    for index in range(8):
+        band.glow_box(-30, 0, index * 13, 3, 6, 8)
 
     for index in range(4):
-        antenna = m.part(f"antenna{index}", parent="hull", pivot=(-15 + index * 10, -208, -58),
-                         rot=(-14.0 + index * 5.0, 0.0, -10.0 + index * 6.0))
-        antenna.box(-1, -4, -46, 3, 4, 50, uv=PALE)
-        tip = m.part(f"antenna{index}_tip", parent=f"antenna{index}", pivot=(0, 0, -46),
-                     rot=(26.0 - index * 4.0, 0.0, 0.0))
-        tip.box(-1, -3, -42, 3, 3, 44, uv=PALE)
+        whisker = m.part(f"whisker{index}", parent="hull", pivot=(-13 + index * 9, -206, -70),
+                         rot=(-26.0 + index * 7.0, 0.0, -12.0 + index * 8.0))
+        whisker.box(-1, -2, -62, 3, 4, 64, uv=PALE)
+        tip = m.part(f"whisker{index}_tip", parent=f"whisker{index}", pivot=(0, 0, -62),
+                     rot=(30.0 - index * 6.0, 0.0, 0.0))
+        tip.box(-1, -2, -52, 3, 3, 54, uv=PALE)
 
     for side, name in ((-1, "fin_l"), (1, "fin_r")):
-        fin = m.part(name, parent="hull", pivot=(side * 22, -204, 30))
-        fan_blade(fin, 0, 0, 0, 58, 34, 6, sweep=0.8, uv=DARK, steps=7)
+        fin = m.part(name, parent="hull", pivot=(side * 22, -190, 44), rot=(0.0, side * 34.0, 0.0))
+        fan_blade(fin, 0, 2, 0, 54, 22, 5, sweep=0.55, uv=DARK, steps=6)
     return m
 
 
 def lunar_war_machine():
-    """The war machine: a spiked cap with fronds along the spine, five thick tentacles and lights
-    burning at the feet."""
+    """The war machine: a manta cap bristling with fronds, five thick legs and lights burning at
+    their tips."""
     m = Model("lunar_war_machine")
-    for index in range(5):
-        angle = 6.283185307179586 * index / 5.0 + 0.6
-        x = int(round(24 * math.cos(angle)))
-        z = int(round(24 * math.sin(angle)))
-        needle_leg(m, f"leg{index}", (x, -220, z), int(round(24 * math.cos(angle))),
-                   int(round(16 * math.sin(angle))), 100, 100, 14, knee=0.3, uv=DARK)
-        shin = m.by_name[f"leg{index}_shin"]
-        shin.glow_box(-4, 96, -4, 9, 3, 9)
-
-    lunar_cap(m, "cap", -244, 108, 96, height=16, dome=1.0)
-    fronds = m.part("fronds", parent="cap", pivot=(0, -6, 0))
+    cap = manta_cap(m, "cap", -246, 144, 112, height=18, points=7, dome=1.0)
+    lunar_legs(m, "cap", 18, 36, 5, 190, 13, spread=6.0, curl=3.0, glow_tip=True, uv=DARK,
+               phase=0.6)
+    fronds = m.part("fronds", parent="cap", pivot=(0, -12, 0))
+    fronds.box(-26, 0, -24, 52, 5, 48, uv=HULL)
     for index in range(7):
-        x = -30 + index * 10
-        length = 20 + int(round(16 * math.sin(3.141592653589793 * (index + 0.5) / 7)))
-        fan_blade(fronds, x, 0, -length // 2, length, 28, 4, sweep=1.0, uv=PALE, steps=6)
-    head = m.part("head", parent="cap", pivot=(0, 12, -30))
-    head.box(-10, -8, -4, 20, 16, 12, uv=DARK)
-    head.glow_box(-7, -5, -6, 14, 10, 3)
+        angle = -60.0 + index * 20.0
+        frond = m.part(f"frond{index}", parent="fronds", pivot=(0, 0, 0),
+                       rot=(0.0, angle, 0.0))
+        fan_blade(frond, -2, 0, -26, 40, 26, 6, sweep=1.0, uv=PALE, steps=5)
+    head = m.part("head", parent="cap", pivot=(0, 14, -34))
+    head.box(-11, -9, -5, 22, 18, 12, uv=DARK)
+    glow_disc_upright(head, 0, 0, -6, 8, cell=5, depth=3)
     return m
 
 
 def lunar_mothership():
-    """The mothership: a lens of a hull a thousand blocks across, a shallow dome on the crown, a keel
-    underneath and the lights burning round the rim."""
+    """The mothership: a lens of a hull a thousand blocks across, kept deliberately cheap — five
+    octagonal slabs, a shallow dome, a keel and the lights round the rim — because it is drawn at
+    thirteen times the model scale and anything more would cost the frame rate."""
     m = Model("lunar_mothership")
     body = m.part("body")
 
-    def octagon(part, cy, width, height, depth):
-        part.box(-width // 4, cy, -depth // 2, width // 2, height, depth, uv=DARK)
-        part.box(-width // 2, cy, -depth // 4, width, height, depth // 2, uv=DARK)
+    def octagon(part, cy, width, height, depth, uv=DARK):
+        part.box(-width // 4, cy, -depth // 2, width // 2, height, depth, uv=uv)
+        part.box(-width // 2, cy, -depth // 4, width, height, depth // 2, uv=uv)
 
-    steps = 11
-    for index in range(steps):
-        profile = math.sin(3.141592653589793 * (index + 0.5) / steps)
-        width = 260 + int(920 * profile)
-        octagon(body, -118 + index * 6, width, 6, width - 60)
-    octagon(body, -124, 1160, 6, 620)
+    for width, cy in ((420, -136), (900, -128), (1180, -120), (900, -112), (420, -104)):
+        octagon(body, cy, width, 8, width - 60)
 
-    dome = m.part("dome", parent="body", pivot=(0, -124, 0))
-    for index, width in enumerate((520, 400, 270, 140)):
-        octagon(dome, -index * 8, width, 8, width - 70)
-    dome_lights = m.part("dome_lights", parent="body", pivot=(0, -124, 0))
+    dome = m.part("dome", parent="body", pivot=(0, -136, 0))
+    for index, width in enumerate((520, 330, 150)):
+        octagon(dome, -index * 9, width, 9, width - 80)
+    dome_lights = m.part("dome_lights", parent="body", pivot=(0, -136, 0))
     for x, z in ((-40, 0), (40, 0), (0, -40), (0, 40)):
-        dome_lights.glow_box(x - 8, -36, z - 8, 16, 5, 16)
+        dome_lights.glow_box(x - 8, -34, z - 8, 16, 5, 16)
 
-    keel = m.part("keel", parent="body", pivot=(0, -52, 0))
-    for index, width in enumerate((420, 280, 140)):
-        octagon(keel, index * 10, width, 10, width - 90)
-    keel_lights = m.part("keel_lights", parent="body", pivot=(0, -52, 0))
-    keel_lights.glow_box(-26, 26, -26, 52, 5, 52)
+    keel = m.part("keel", parent="body", pivot=(0, -56, 0))
+    for index, width in enumerate((380, 180)):
+        octagon(keel, index * 11, width, 11, width - 90)
 
-    rim = m.part("rim", parent="body", pivot=(0, -118, 0))
-    for index in range(20):
-        angle = 6.283185307179586 * index / 20.0
+    rim = m.part("rim", parent="body", pivot=(0, -120, 0))
+    for index in range(16):
+        angle = 6.283185307179586 * index / 16.0
         x = int(round(592 * math.cos(angle)))
         z = int(round(592 * math.sin(angle)))
-        rim.glow_box(x - 5, -3, z - 5, 10, 6, 10)
+        rim.glow_box(x - 5, 0, z - 5, 10, 4, 10)
     return m
 
 
