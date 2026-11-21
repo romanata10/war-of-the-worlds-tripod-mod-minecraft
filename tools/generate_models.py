@@ -182,6 +182,114 @@ def spike_ring(part, cx, cy, cz, radius, count, size=4, height=8):
         part.box(x - size // 2, cy - height, z - size // 2, size, height, size)
     return part
 
+
+def arch_leg(model, name, hip, splay_x, splay_z, length, thick=7, foot=9, knee_up=20):
+    """The stilt legs of the artwork machines: the knee rides *above* the hull and the shin comes
+    down outside it, so the machine reads as a spider on bent stilts instead of a table on posts."""
+    link = model.part(name + "_link", pivot=hip, rot=(splay_z, 0.0, -splay_x))
+    link.box(-max(2, thick // 3), -knee_up, -max(2, thick // 3),
+             max(2, thick // 2), knee_up + 6, max(2, thick // 2))
+    knee = model.part(name, parent=name + "_link", pivot=(0, -knee_up, 0),
+                      rot=(splay_z * 0.4, 0.0, -splay_x * 0.85))
+    knee.box(-thick // 2, 0, -thick // 2, thick, length // 2, thick)
+    shin = model.part(name + "_shin", parent=name, pivot=(0, length // 2, 0),
+                      rot=(0.0, 0.0, -splay_x * 0.3))
+    thin = max(2, thick // 2)
+    shin.box(-thin // 2, 0, -thin // 2, thin, length // 2, thin)
+    if foot:
+        shin.box(-foot // 2, length // 2 - 2, -foot // 2, foot, 3, foot)
+    return knee
+
+
+def ellipsoid(part, cx, cy, cz, w, h, d, layers=12, cell=8, curve=1.0):
+    """A truly rounded hull: many thin slabs whose cross-section follows an ellipse, so the profile
+    reads as an egg or a lens rather than as a stack of crates."""
+    step = max(2, int(round(h / float(layers))))
+    for index in range(layers):
+        t = (index + 0.5) / layers
+        factor = math.sqrt(max(0.06, 1.0 - curve * (2.0 * t - 1.0) ** 2))
+        width = max(6, int(round(w * factor)))
+        depth = max(6, int(round(d * factor)))
+        part.shell(cx, cy + index * step, cz, width, step, depth, cell=max(6, min(cell, width)))
+
+
+def swept_plate(part, x, y, z, length, height, thick, steps=6, rise=0.0, out=0.0, side=1, taper=0.5):
+    """A wing or crest: a plate that leaves the hull, sweeps back along +z and tapers to a point."""
+    for index in range(steps):
+        t = index / float(steps)
+        w = max(2, int(round(height * (1.0 - taper * t))))
+        part.box(int(x + side * out * t) - thick // 2, int(y - rise * t) - w // 2,
+                 int(z + length * t), thick, w, max(3, int(round(length / steps)) + 2))
+
+
+def disc_lens(part, cx, cy, cz, radius, thickness, cell=6):
+    """A round glowing lens lying flat, built from nested squares so its rim reads as a circle."""
+    steps = max(3, radius // 2)
+    for index in range(steps):
+        t = (index + 0.5) / steps
+        r = int(round(radius * math.sqrt(max(0.1, 1.0 - (2.0 * t - 1.0) ** 2))))
+        part.shell(cx, cy + int(thickness * t), cz, r * 2, max(1, thickness // steps + 1), r * 2,
+                   cell=max(4, cell))
+
+
+def blob(part, cx, cy, cz, rx, ry, rz, cell=8, cut_bottom=0.0, cut_top=0.0):
+    """A real ellipsoid of cuboids: every slice is split across z, so the silhouette stays round from
+    every angle instead of reading as a stack of terraces."""
+    step = max(3, int(cell))
+    y = -ry
+    while y < ry:
+        dy = (y + step / 2.0) / float(ry)
+        scale = math.sqrt(max(0.02, 1.0 - dy * dy))
+        half_x = rx * scale
+        half_z = rz * scale
+        z = -half_z
+        while z < half_z:
+            dz = (z + step / 2.0) / max(1.0, half_z)
+            width = half_x * math.sqrt(max(0.05, 1.0 - dz * dz))
+            part.box(int(round(cx - width)), int(round(cy + y)), int(round(cz + z)),
+                     max(2, int(round(2 * width))), step, step)
+            z += step
+        y += step
+
+
+def curved_fin(part, x, y, z, length, height, thick, side=1, out=0.0, steps=8, sweep=0.35):
+    """A wing, crest or horn: one smooth arc of slabs, tallest near its root and tapering to a tip."""
+    for index in range(steps):
+        t = (index + 0.5) / steps
+        profile = math.sin(3.141592653589793 * min(0.99, 0.12 + 0.86 * t))
+        h = max(2, int(round(height * profile)))
+        part.box(int(round(x + side * out * t)), int(round(y - h * sweep * t)) - h // 2,
+                 int(round(z + length * t)), thick, h,
+                 max(3, int(round(length / steps)) + 2))
+
+
+def umbrella_cap(part, cx, cy, cz, width, depth, glow=None):
+    """A flat lunar cap: a wide rim, a low smooth dome above it and a glowing line let into the edge."""
+    half_w, half_d = width // 2, depth // 2
+    part.shell(cx, cy, cz, width, 5, depth, cell=max(8, width // 6))
+    part.shell(cx, cy - 5, cz, width - 8, 5, depth - 8, cell=max(8, width // 7))
+    for index, factor in enumerate((0.62, 0.42, 0.22)):
+        part.shell(cx, cy - 10 - index * 5, cz, int(width * factor), 5, int(depth * factor),
+                   cell=max(6, width // 10))
+    if glow is not None:
+        part.glow_box(cx - half_w + 2, cy + 2, cz - half_d, width - 4, 2, 2)
+        part.glow_box(cx - half_w + 2, cy + 2, cz + half_d - 2, width - 4, 2, 2)
+        part.glow_box(cx - half_w, cy + 2, cz - half_d + 2, 2, 2, depth - 4)
+        part.glow_box(cx + half_w - 2, cy + 2, cz - half_d + 2, 2, 2, depth - 4)
+    return part
+
+def hanging_fingers(model, name, parent, pivot, count, length, thick=4, gap=5, spread=2.0):
+    """A row of long tapering fingers hanging under the pincer machine."""
+    root = model.part(name, parent=parent, pivot=pivot)
+    root.box(-count * gap // 2 - 2, 0, -4, count * gap + 4, 4, 8)
+    for index in range(count):
+        x = -count * gap // 2 + index * gap
+        finger = model.part(f"{name}{index}", parent=name, pivot=(x, 4, 0),
+                            rot=(6.0 - index * 0.6, 0.0, spread - index * 0.29))
+        finger.box(-thick // 2, 0, -thick // 2, thick, length // 2, thick)
+        finger.box(-thick // 3, length // 2, -thick // 3, max(2, thick // 2), length // 2, max(2, thick // 2))
+    return root
+
 # --------------------------------------------------------------------------- #
 
 def tripod_2005():
@@ -2914,179 +3022,257 @@ def saucer_tripod():
 
 
 def red_eye_tripod():
-    """The red-eyed machine of the old YouTube films: a glossy dark shell with one huge red lens set
-    into the top of the brow, small red lamps along the flanks and three needle legs."""
+    """The red-eyed machine of 2005: a flattened glossy shell with a shoulder ring, a great red lens
+    let into its sloping face, small red lamps under the rim and four needle legs on ball joints."""
     m = Model("red_eye_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-17, -4, -13, -6), (17, -4, 13, -6), (0, 20, 0, 13))):
-        tapered_leg(m, f"leg{index}", (x, -158, z), 78, 84, 8, 5, 2, splay_x=sx, splay_z=sz,
-                    knee=0.55, spike=2)
-        ball(m.by_name[f"leg{index}"], 0, 0, 0, 7)
+    for index, (x, z, sx, sz) in enumerate(((-46, -14, -20, -7), (46, -14, 20, -7),
+                                            (-46, 14, -20, 7), (46, 14, 20, 7))):
+        tapered_leg(m, f"leg{index}", (x, -186, z), 110, 110, 12, 6, 3, splay_x=sx, splay_z=sz,
+                    knee=0.75, spike=2)
+        ball(m.by_name[f"leg{index}"], 0, -4, 0, 11)
+        ball(m.by_name[f"leg{index}_shin"], 0, -4, 0, 7)
 
     body = m.part("body")
-    rounded_hull(body, 0, -186, 0, 50, 50, 46, layers=6, curve=0.5)
-    body.shell(0, -162, 0, 34, 8, 30, cell=10)
+    blob(body, 0, -206, 0, 52, 34, 44, cell=8)
+    body.shell(0, -186, 0, 96, 6, 78, cell=200)
 
-    brow = m.part("brow", parent="body", pivot=(0, -186, -10))
-    brow.box(-22, -6, -14, 44, 12, 30)
-    eye(m, "red_lens", "brow", (0, 0, -2), (30, 12), depth=3)
+    # the lens: a domed red disc set into the sloping crown, its face turned forward and up
+    hump = m.part("hump", parent="body", pivot=(0, -228, -6))
+    blob(hump, 0, -14, 0, 32, 16, 26, cell=8)
+    lens = m.part("lens", parent="body", pivot=(0, -254, -10))
+    for index in range(12):
+        t = (index + 0.5) / 12.0
+        width = int(round(62 * math.sqrt(max(0.06, 1.0 - (2.0 * t - 1.0) ** 2))))
+        lens.box(-width // 2, int(round(-9 + 18 * t)), int(round(-8 + 18 * t)) - 5,
+                 max(3, width), 3, 12)
+    lens.glow_box(-24, -7, 0, 48, 3, 10)
+    lens.shell(0, -14, -5, 30, 9, 20, cell=200)
+
     for side, name in ((-1, "lamp_l"), (1, "lamp_r")):
-        lamp = m.part(name, parent="body", pivot=(side * 22, -176, -14))
-        lamp.glow_box(-2, -2, -3, 4, 4, 4)
-        lamp.box(-3, 2, -4, 6, 4, 6)
+        lamp = m.part(name, parent="body", pivot=(side * 40, -198, -24))
+        lamp.glow_box(-4, -4, -4, 8, 8, 8)
+    rear = m.part("lamp_rear", parent="body", pivot=(0, -196, 32))
+    rear.glow_box(-3, -3, -2, 6, 6, 4)
 
-    nozzle = m.part("nozzle", parent="body", pivot=(0, -158, -16))
-    nozzle.box(-8, -6, -8, 16, 12, 12)
-    nozzle.glow_box(-5, -1, -10, 10, 6, 3)
+    antenna = m.part("antenna", parent="body", pivot=(6, -226, 24))
+    antenna.box(-1, -14, -1, 3, 16, 3)
+    antenna.box(-7, -16, -1, 15, 2, 3)
     return m
 
 
 def claw_tripod():
-    """The pincer machine: a pale cowl of plate with two round headlamps, a bundle of claw fingers
-    hanging under it and three thick legs on ball joints."""
+    """The pincer machine: a pale helmet with a bright horseshoe brow, two round lamps in the face, a
+    curtain of nine fingers beneath it and the great pale legs that give the artwork its sweep."""
     m = Model("claw_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-20, -6, -11, -6), (20, -6, 11, -6), (0, 22, 0, 11))):
-        leg(m, f"leg{index}", (x, -168, z), 82, 86, 12, splay_x=sx, splay_z=sz, foot=13)
-        leg_bands(m, f"leg{index}", 82, 86, 12, thigh_bands=(22, 56), shin_bands=(24, 60))
-        ball(m.by_name[f"leg{index}"], 0, 0, 0, 9)
+    for index, (x, z, out_deg, in_deg) in enumerate(((-30, -8, 16, 26), (30, -8, -16, -26),
+                                                     (0, 18, 8, -8))):
+        arched_limb(m, f"leg{index}", (x, -244, z), 62, 74, 96, 15, out_deg, in_deg, foot=18)
+        ball(m.by_name[f"leg{index}"], 0, -2, 0, 17)
 
     body = m.part("body")
-    rounded_hull(body, 0, -196, 0, 44, 34, 42, layers=4, curve=0.35)
-    body.shell(0, -172, 0, 30, 10, 28, cell=10)
+    blob(body, 0, -248, 0, 52, 32, 38, cell=8)
+    body.shell(0, -222, 0, 72, 7, 54, cell=200)
 
-    hood = m.part("hood", parent="body", pivot=(0, -196, 0))
-    hood.shell(0, -12, 0, 56, 14, 46, cell=13)
-    hood.shell(0, -20, 0, 40, 10, 34, cell=11)
+    # the horseshoe brow: one continuous bright band arching over the face
+    brow = m.part("brow", parent="body", pivot=(0, -252, -4))
+    for x in range(-46, 47, 4):
+        factor = math.sqrt(max(0.04, 1.0 - (x / 48.0) ** 2))
+        y = int(round(-20 * factor))
+        brow.box(x - 2, y - 5, -12, 4, 11, 30)
+    brow.glow_box(-42, -4, -15, 84, 3, 4)
+
+    face = m.part("face", parent="body", pivot=(0, -228, -32))
+    face.box(-25, -12, -2, 50, 24, 3)
     for side, name in ((-1, "lamp_l"), (1, "lamp_r")):
-        eye(m, name, "hood", (side * 16, 2, -20), (14, 10), depth=3)
-    hood.glow_box(-4, 6, -16, 8, 5, 3)
+        lamp = m.part(name, parent="face", pivot=(side * 12, 0, 0))
+        lamp.box(-10, -10, -3, 20, 20, 3)
+        lamp.glow_box(-7, -7, -5, 14, 14, 2)
+    eye(m, "glow", "face", (0, 13, -3), (16, 6), depth=2)
 
-    # the claw: five fingers hanging in a row under the cowl
-    claw = m.part("claw", parent="body", pivot=(0, -186, -12))
-    claw.box(-14, 0, -6, 28, 6, 14)
-    for index in range(5):
-        x = -11 + index * 5
-        finger = m.part(f"finger{index}", parent="claw", pivot=(x, 6, 0))
-        finger.box(-2, 0, -3, 4, 16, 6)
-        finger.box(-2, 14, -3, 4, 6, 4)
+    hanging_fingers(m, "finger", "body", (0, -216, -18), 9, 46, thick=5, gap=6, spread=2.5)
+
+    # pale plates over the shoulders, the swept wings of the artwork
+    for side, name in ((-1, "wing_l"), (1, "wing_r")):
+        wing = m.part(name, parent="body", pivot=(side * 34, -248, 2))
+        curved_fin(wing, 0, 0, 0, 48, 22, 7, side=side, out=10, steps=8, sweep=0.7)
     return m
 
 
 def russian_tripod():
-    """The Russian machine: a melon of gunmetal plate with a big green eye, a cross antenna on the
-    crown and a mesh radar dish on the shoulder."""
+    """The Russian machine: a wide bell hood with a brim and one round green eye, a ball body beneath
+    it, three thin jointed legs, a probe rod and a wire cage of a radar."""
     m = Model("russian_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-19, -2, -12, -4), (19, -2, 12, -4), (0, 20, 0, 12))):
-        leg(m, f"leg{index}", (x, -160, z), 80, 86, 10, splay_x=sx, splay_z=sz, foot=11)
-        leg_bands(m, f"leg{index}", 80, 86, 10, thigh_bands=(20, 52), shin_bands=(22, 56))
+    for index, (x, z, sx, sz) in enumerate(((-18, -10, -11, -6), (18, -10, 11, -6), (0, 18, 0, 12))):
+        leg(m, f"leg{index}", (x, -196, z), 100, 108, 8, splay_x=sx, splay_z=sz, foot=10)
+        ball(m.by_name[f"leg{index}"], 0, -3, 0, 8)
 
     body = m.part("body")
-    rounded_hull(body, 0, -188, 0, 48, 48, 46, layers=6, curve=0.55)
-    collar(body, 0, -168, 0, 38, 4, 36, 3)
+    ball(body, 0, -208, 0, 30)
+    body.shell(0, -186, 0, 34, 10, 32, cell=200)
 
-    eye(m, "eye", "body", (0, -196, -23), (22, 14), depth=4)
+    hood = m.part("hood", parent="body", pivot=(0, -238, 0))
+    hood.shell(0, 0, 0, 100, 6, 78, cell=200)
+    blob(hood, 0, -24, 0, 48, 26, 38, cell=8)
+    eye(m, "eye", "hood", (0, -8, -36), (32, 22), depth=5)
 
-    crown = m.part("crown", parent="body", pivot=(0, -188, 0))
-    crown.box(-2, -12, -2, 4, 14, 4)
-    crown.box(-8, -14, -1, 16, 3, 3)
+    probe = m.part("probe", parent="body", pivot=(-32, -214, -4))
+    probe.box(-24, -2, -2, 26, 4, 4)
+    probe.box(-33, -7, -7, 10, 14, 14)
+    probe.glow_box(-33, -5, -9, 8, 10, 2)
 
-    dish = m.part("dish", parent="body", pivot=(18, -186, -8))
-    dish.box(-1, -1, -1, 3, 6, 3)
-    dish.box(-6, -9, -1, 12, 10, 3)
-    dish.box(-4, -7, 2, 8, 6, 2)
+    radar = m.part("radar", parent="body", pivot=(28, -212, 8))
+    radar.box(0, -1, -1, 20, 3, 3)
+    cage = m.part("cage", parent="radar", pivot=(24, 0, 0))
+    for y in (-12, -4, 4, 12):
+        cage.box(-1, y, -12, 2, 2, 24)
+    for z in (-12, 0, 12):
+        cage.box(-1, -12, z - 1, 2, 24, 2)
+    cage.glow_box(-1, -7, -7, 2, 14, 14)
 
-    gun = m.part("gun", parent="body", pivot=(0, -178, -20))
-    gun.box(-7, -7, -6, 14, 14, 12)
-    gun.box(-2, -2, -24, 4, 4, 20)
+    loop = m.part("loop", parent="body", pivot=(0, -258, 8))
+    loop.box(-1, -10, -1, 2, 12, 2)
+    loop.box(-11, -12, -1, 22, 2, 2)
     return m
 
 
 def falcon_tripod():
-    """The machine that fought the F-15: a low dark hull under a swept crest, low slung and quick on
-    three thin legs."""
+    """The falcon: a long oval hull on thin legs, a broad crest sweeping back over its spine, a lattice
+    cabin in the prow and fins along the flanks."""
     m = Model("falcon_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-18, 4, -12, 5), (18, 4, 12, 5), (0, -14, 0, -11))):
-        tapered_leg(m, f"leg{index}", (x, -150, z), 72, 82, 7, 4, 2, splay_x=sx, splay_z=sz,
-                    knee=0.5, spike=2)
+    for index, (x, z, sx, sz) in enumerate(((-18, -20, -12, -7), (18, -20, 12, -7), (0, 22, 0, 11))):
+        arch_leg(m, f"leg{index}", (x, -210, z), sx, sz, 184, thick=8, foot=10, knee_up=22)
 
     body = m.part("body")
-    rounded_hull(body, 0, -180, 0, 44, 34, 52, layers=4, curve=0.3)
-    body.shell(0, -162, 0, 30, 8, 36, cell=10)
+    blob(body, 0, -232, 0, 24, 18, 50, cell=8)
+    body.shell(0, -238, 28, 32, 8, 30, cell=16)
 
-    crest = m.part("crest", parent="body", pivot=(0, -180, 6))
-    crest.box(-20, -10, -30, 40, 6, 34)
-    crest.box(-14, -16, -22, 28, 8, 22)
-    crest.box(-6, -22, -12, 12, 8, 14)
-
-    head = m.part("head", parent="body", pivot=(0, -186, -26))
-    head.shell(0, -8, 0, 22, 16, 20, cell=9)
-    eye(m, "eye", "head", (0, -2, -11), (10, 6))
+    # the crest: a broad wing over the spine, its root forward and its tip swept up behind
+    crest = m.part("crest", parent="body", pivot=(0, -244, -30), rot=(-22.0, 0.0, 0.0))
+    curved_fin(crest, -8, 0, 0, 86, 54, 16, side=1, out=8, steps=13, sweep=0.25)
+    crest.box(-10, -24, 0, 20, 34, 18)
+    crest.box(-7, -34, 10, 14, 16, 26)
 
     for side, name in ((-1, "fin_l"), (1, "fin_r")):
-        fin = m.part(name, parent="body", pivot=(side * 20, -178, 12))
-        fin.box(0, -4, -14, 4, 8, 30)
+        fin = m.part(name, parent="body", pivot=(side * 20, -226, 2))
+        curved_fin(fin, 0, 0, 0, 44, 16, 4, side=side, out=14, steps=6, sweep=0.5)
+
+    cabin = m.part("cabin", parent="body", pivot=(0, -214, -46))
+    for index in range(4):
+        cabin.box(-11, -10 + index * 7, 0, 23, 2, 4)
+    for x in (-12, -4, 4, 11):
+        cabin.box(x, -11, 0, 2, 26, 4)
+    cabin.box(-13, -12, -2, 27, 3, 5)
+    cabin.glow_box(-9, -15, 3, 19, 3, 10)
+    eye(m, "eye", "body", (0, -244, -48), (14, 7), depth=3)
     return m
 
 
 def threedee_tripod():
-    """The 3D-film machine: a ribbed white carapace over a dark hull, an orange core burning in the
-    middle of it and three legs under the ribs."""
+    """The 3D-film machine: a white carapace ribbed along its whole length over a dark body, an orange
+    core burning in the middle and six stilt legs bent above the hull."""
     m = Model("threedee_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-20, 0, -12, 2), (20, 0, 12, 2), (0, 22, 0, 12))):
-        tapered_leg(m, f"leg{index}", (x, -160, z), 80, 86, 9, 6, 3, splay_x=sx, splay_z=sz,
-                    knee=0.5, spike=3)
-        ball(m.by_name[f"leg{index}"], 0, 0, 0, 8)
+    for index, (x, z, sx, sz) in enumerate(((-20, -12, -16, -8), (20, -12, 16, -8),
+                                            (-22, 10, -16, 7), (22, 10, 16, 7),
+                                            (-4, 22, -3, 14), (4, -22, 3, -14))):
+        arch_leg(m, f"leg{index}", (x, -188, z), sx, sz, 176, thick=8, foot=10, knee_up=22)
 
     body = m.part("body")
-    rounded_hull(body, 0, -186, 0, 40, 36, 40, layers=5, curve=0.4)
+    rounded_hull(body, 0, -190, 0, 32, 24, 30, layers=4, curve=0.3)
+    body.glow_box(-9, -182, -15, 18, 9, 3)
 
     shell = m.part("shell", parent="body", pivot=(0, -186, 0))
-    for index in range(5):
-        shell.shell(0, -12 + index * 6, 0, 44 - index * 5, 7, 42 - index * 5, cell=11)
-    shell.glow_box(-9, -16, -9, 18, 4, 18)
-
-    core = m.part("core", parent="body", pivot=(0, -184, -20))
-    core.box(-8, -8, -6, 16, 16, 10)
-    core.glow_box(-5, -5, -9, 10, 10, 3)
+    for index, (width, height) in enumerate(((54, 8), (48, 8), (40, 8), (30, 8), (18, 7))):
+        shell.shell(0, -index * 8, 0, width, height, width + 4, cell=10)
+    # corrugation: ribs that follow the envelope of the dome and stand proud of it
+    for index in range(7):
+        x = -21 + index * 7
+        height = int(round(38 * math.sqrt(max(0.08, 1.0 - (x / 28.0) ** 2))))
+        depth = int(round(27 * math.sqrt(max(0.08, 1.0 - (x / 28.0) ** 2))))
+        shell.box(x - 1, -height, -depth, 3, height, depth * 2)
+    shell.glow_box(-5, -42, -24, 10, 4, 3)
     return m
 
 
 def surrey_tripod():
-    """The machine that came back to Surrey: a dark faceted head with two big green eyes, six legs and
-    a green glow that runs under the hull."""
+    """The machine that came back to Surrey: a compact dark head with two big green eyes split by a
+    seam, two small ports, horns on the crown and six very long stilt legs."""
     m = Model("surrey_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-18, -10, -11, -8), (18, -10, 11, -8),
-                                            (-20, 10, -11, 8), (20, 10, 11, 8),
-                                            (-6, 20, -4, 13), (6, -20, 4, -13))):
-        leg(m, f"leg{index}", (x, -150, z), 72, 80, 8, splay_x=sx, splay_z=sz, foot=9)
-        leg_bands(m, f"leg{index}", 72, 80, 8, thigh_bands=(18, 46), shin_bands=(20, 50))
+    for index, (x, z, sx, sz) in enumerate(((-22, -14, -15, -8), (22, -14, 15, -8),
+                                            (-24, 14, -15, 8), (24, 14, 15, 8),
+                                            (-4, 26, -3, 15), (4, -26, 3, -15))):
+        arch_leg(m, f"leg{index}", (x, -186, z), sx, sz, 172, thick=7, foot=9, knee_up=22)
 
     body = m.part("body")
-    rounded_hull(body, 0, -176, 0, 46, 30, 44, layers=4, curve=0.4)
-    body.glow_box(-20, -172, -6, 40, 4, 12)
+    rounded_hull(body, 0, -204, 0, 48, 34, 42, layers=5, curve=0.45)
+    body.box(-24, -196, -6, 48, 8, 14)
 
-    head = m.part("head", parent="body", pivot=(0, -176, 0))
-    head.shell(0, -10, 0, 40, 22, 34, cell=12)
-    head.box(-22, -2, -12, 44, 10, 20)
-    for side, name in ((-1, "eye_l"), (1, "eye_r")):
-        eye(m, name, "head", (side * 11, -2, -18), (16, 10), depth=3)
-    for x in (-16, 16):
-        eye(m, f"port{x}", "head", (x, 6, -16), (5, 5), depth=2)
+    eyes = m.part("eyes", parent="body", pivot=(0, -196, -19))
+    eyes.box(-19, -8, -1, 38, 17, 4)
+    eyes.glow_box(-17, -7, -3, 16, 13, 2)
+    eyes.glow_box(1, -7, -3, 16, 13, 2)
+    eye(m, "port_l", "body", (-14, -182, -16), (6, 6), depth=2)
+    eye(m, "port_r", "body", (14, -182, -16), (6, 6), depth=2)
+    eye(m, "mouth", "body", (0, -190, -21), (8, 3), depth=2)
 
-    antenna = m.part("antenna", parent="head", pivot=(0, -20, 6))
-    antenna.box(-1, -16, -1, 3, 18, 3)
-    antenna.box(-5, -20, -1, 10, 3, 3)
+    for index, x in enumerate((-9, 9)):
+        horn = m.part(f"horn{index}", parent="body", pivot=(x, -204, 4))
+        horn.box(-1, -16, -1, 3, 18, 3)
+
+    for side, name in ((-1, "vane_l"), (1, "vane_r")):
+        vane = m.part(name, parent="body", pivot=(side * 24, -192, 6))
+        vane.box(0, -2, -12, 3, 6, 28)
+        vane.box(0, 2, 12, 3, 6, 16)
     return m
 
 
+def _lunar_umbrella(name, width, depth, legs, leg_thick, leg_length, spurs, fins):
+    """The hull every lunar craft shares: a flat umbrella cap with a lit rim and a low dome, a stem of
+    a body hanging under it and a ring of thin legs reaching for the ground."""
+    m = Model(name)
+    body = m.part("body")
+    umbrella_cap(body, 0, -206, 0, width, depth, glow=True)
+    body.shell(0, -186, 0, max(14, width // 3), 10, max(12, depth // 3), cell=9)
+    body.shell(0, -176, 0, max(10, width // 4), 10, max(10, depth // 4), cell=8)
+    body.shell(0, -166, 0, max(8, width // 6), 8, max(8, depth // 6), cell=7)
+    for index in range(4):
+        z = -depth // 3 + index * (depth // 6)
+        for side in (-1, 1):
+            window = m.part(f"window{index}{side}", parent="body",
+                            pivot=(side * (width // 2 - 5), -198, z))
+            window.glow_box(-2, -2, -2, 3, 4, 4)
+    if fins:
+        for side, fin_name in ((-1, "fin_l"), (1, "fin_r")):
+            fin = m.part(fin_name, parent="body", pivot=(side * (width // 3), -200, 8))
+            fin.box(side * 4 if side > 0 else 0, -2, -6, 26, 5, 18)
+            fin.box(side * 22 if side > 0 else 0, -1, 6, 20, 4, 12)
+    if legs:
+        placement = ((-16, -12, -10, -6), (16, -12, 10, -6), (-18, 12, -10, 7),
+                     (18, 12, 10, 7), (-2, 22, -1, 12), (2, -22, 1, -12))[:legs]
+        for index, (x, z, sx, sz) in enumerate(placement):
+            arch_leg(m, f"leg{index}", (x, -170, z), sx, sz, leg_length, thick=leg_thick,
+                     foot=max(6, leg_thick), knee_up=14)
+    if spurs:
+        bundle = m.part("spurs", parent="body", pivot=(0, -196, -depth // 2 + 6))
+        bundle.box(-16, -2, -2, 32, 5, 5)
+        for index in range(spurs):
+            spur = m.part(f"spur{index}", parent="spurs", pivot=(-14 + index * 7, 0, 0),
+                          rot=(-14.0 + index * 5.0, 0.0, 0.0))
+            spur.box(-1, -2, -30, 3, 4, 32)
+            spur.box(-1, -1, -40, 3, 3, 12)
+    gun = m.part("gun", parent="body", pivot=(0, -176, -depth // 2 + 4))
+    gun.box(-6, -6, -6, 12, 12, 12)
+    gun.box(-2, -2, -22, 4, 4, 18)
+    return m
+
 def lunar_nomad():
-    """The nomad of the Moon: a saucer with a domed top, a ring of green portholes and six legs, sent
-    out to wander the world and study it."""
-    return _lunar_saucer("lunar_nomad", legs=6, tentacles=0, dome=True, rim_light=True)
+    """The nomad of the Moon: a flat umbrella of a saucer with a lit rim, four thin legs and two
+    swept fins, out to wander the world and study it."""
+    return _lunar_umbrella("lunar_nomad", 66, 60, legs=4, leg_thick=6, leg_length=82, spurs=0, fins=True)
 
 
 def lunar_nomad_red():
-    """The second paint scheme of the nomad: same hull, red lights, a little hungrier."""
-    return _lunar_saucer("lunar_nomad_red", legs=6, tentacles=0, dome=True, rim_light=True)
+    """The red nomad: the same hull, the other paint scheme."""
+    return _lunar_umbrella("lunar_nomad_red", 66, 60, legs=4, leg_thick=6, leg_length=82, spurs=0, fins=True)
 
 
 def _lunar_saucer(name, legs, tentacles, dome, rim_light):
@@ -3128,92 +3314,115 @@ def _lunar_saucer(name, legs, tentacles, dome, rim_light):
 
 
 def lunar_watcher():
-    """The watcher: a saucer with a green rim and a skirt of tentacles, hanging over the ground and
-    sweeping the country with its beam."""
-    m = _lunar_saucer("lunar_watcher", legs=0, tentacles=6, dome=True, rim_light=True)
-    lens = m.part("lens", parent="body", pivot=(0, -186, -20))
-    lens.glow_box(-10, -10, -4, 20, 20, 5)
-    lens.box(-13, -13, 0, 26, 3, 6)
-    lens.box(-13, 10, 0, 26, 3, 6)
+    """The watcher: the biggest of the umbrellas, hanging over the country on thick legs, with a
+    bundle of spurs reaching forward and a lens glaring down."""
+    m = _lunar_umbrella("lunar_watcher", 84, 76, legs=5, leg_thick=10, leg_length=90, spurs=5, fins=False)
+    lens = m.part("lens", parent="body", pivot=(0, -184, 0))
+    lens.box(-12, -2, -12, 24, 4, 24)
+    lens.glow_box(-9, 2, -9, 18, 3, 18)
     return m
 
 
 def lunar_flyer():
-    """The flying ship: a long hull with swept fins and a bundle of tentacle drives, the transport that
-    brings the nomads down."""
+    """The flying ship: a long tapered hull with a band of lit windows, whisker arms sweeping forward
+    and two great swept tail fins."""
     m = Model("lunar_flyer")
     body = m.part("body")
-    rounded_hull(body, 0, -196, 0, 44, 30, 96, layers=5, curve=0.25)
-    body.shell(0, -182, 0, 36, 10, 110, cell=12)
+    rounded_hull(body, 0, -206, 0, 46, 34, 128, layers=5, curve=0.3)
+    body.shell(0, -184, 0, 38, 12, 104, cell=12)
 
-    for index in range(9):
-        z = -48 + index * 12
-        light = m.part(f"port{index}", parent="body", pivot=(0, -178, z))
-        light.glow_box(-16, -2, -2, 32, 4, 4)
+    for index in range(8):
+        band = m.part(f"band{index}", parent="body", pivot=(-22 + index * 6, -196, -18))
+        band.glow_box(-2, -3, -3, 4, 6, 6)
+    for index in range(6):
+        band = m.part(f"bandb{index}", parent="body", pivot=(-18 + index * 7, -190, 30))
+        band.glow_box(-2, -2, -3, 4, 4, 6)
 
-    for side, name in ((-1, "fin_l"), (1, "fin_r")):
-        fin = m.part(name, parent="body", pivot=(side * 18, -196, 26))
-        fin.box(side * 6 if side < 0 else 0, -4, -22, 7, 8, 52)
-        fin.box(side * 16 if side < 0 else 3, -2, 18, 5, 5, 34)
+    # the whiskers: long thin arms sweeping forward and down off the bow
+    for index in range(4):
+        whisker = m.part(f"whisker{index}", parent="body", pivot=(-12 + index * 8, -200, -60),
+                         rot=(-18.0 - index * 6.0, 0.0, 0.0))
+        whisker.box(-1, -2, -46, 3, 4, 48)
+        whisker.box(-1, -1, -64, 2, 3, 20)
 
-    tail = m.part("tail", parent="body", pivot=(0, -190, 44))
-    tail.box(-20, -3, -2, 40, 6, 8)
-    for index in range(5):
-        x = -16 + index * 8
-        arm = m.part(f"drive{index}", parent="tail", pivot=(x, 0, 0))
-        arm.box(-2, -2, 0, 4, 4, 34)
-        arm.glow_box(-2, -2, 26, 4, 4, 4)
+    tail = m.part("tail", parent="body", pivot=(0, -198, 60))
+    tail.box(-18, -3, 0, 36, 6, 10)
+    for side, name in ((-1, "tail_l"), (1, "tail_r")):
+        fin = m.part(name, parent="tail", pivot=(side * 8, 0, 4))
+        fin.box(side * 3 if side > 0 else 0, -3, 0, 30, 5, 26)
+        fin.box(side * 26 if side > 0 else 0, -2, 12, 24, 4, 22)
+    spike = m.part("spike", parent="tail", pivot=(0, 0, 8))
+    spike.box(-1, -1, 0, 2, 3, 34)
     return m
 
 
 def lunar_war_machine():
-    """The battle machine of the Moon: a crab of dark plate on six legs with two great arms and a
-    furnace burning under the hull."""
+    """The battle machine of the Moon: a thorny dark mass of a hull with spurs all along its back and
+    five thick legs plunging to the ground, the heat of the drives glowing at their feet."""
     m = Model("lunar_war_machine")
-    for index, (x, z, sx, sz) in enumerate(((-26, -14, -14, -9), (26, -14, 14, -9),
-                                            (-30, 8, -15, 7), (30, 8, 15, 7),
-                                            (-10, 24, -6, 13), (10, -24, 6, -13))):
-        girder_leg(m, f"leg{index}", (x, -180, z), 88, 92, splay_x=sx, splay_z=sz, width=12,
-                   rungs=5, foot=14)
+    for index, (x, z, sx, sz) in enumerate(((-26, -16, -14, -9), (26, -16, 14, -9),
+                                            (-30, 10, -15, 8), (32, 8, 15, 7),
+                                            (0, 26, 0, 14))):
+        tapered_leg(m, f"leg{index}", (x, -196, z), 96, 104, 14, 10, 4, splay_x=sx, splay_z=sz,
+                    knee=0.45, spike=4)
+        leg_bands(m, f"leg{index}", 96, 104, 14, thigh_bands=(30, 66), shin_bands=(34, 72))
 
     body = m.part("body")
-    rounded_hull(body, 0, -212, 0, 60, 42, 54, layers=5, curve=0.35)
-    body.glow_box(-18, -178, -18, 36, 6, 36)
-    for side, name in ((-1, "arm_l"), (1, "arm_r")):
-        arm = m.part(name, parent="body", pivot=(side * 28, -216, -14))
-        arm.box(side * 8 if side < 0 else 2, 0, -8, 12, 34, 16)
-        arm.box(side * 8 if side < 0 else 2, 30, -12, 14, 10, 26)
-        arm.box(side * 8 if side < 0 else 2, 36, -14, 10, 12, 10)
+    rounded_hull(body, 0, -224, 0, 76, 40, 64, layers=5, curve=0.3)
+    body.glow_box(-20, -190, -20, 40, 5, 40)
 
-    head = m.part("head", parent="body", pivot=(0, -212, -14))
-    head.shell(0, -12, 0, 32, 22, 28, cell=10)
-    eye(m, "eye", "head", (0, -4, -15), (18, 8), depth=4)
-    for side, name in ((-1, "lamp_l"), (1, "lamp_r")):
-        eye(m, name, "head", (side * 12, 4, -14), (5, 5), depth=2)
+    # the thorns: a forest of short curved spurs over the whole back
+    for index in range(7):
+        x = -30 + index * 10
+        thorn = m.part(f"thorn{index}", parent="body", pivot=(x, -224, -10))
+        thorn.box(-2, -26, -2, 5, 28, 5)
+        thorn.box(-1, -34, -1, 3, 10, 3)
+    for side, name in ((-1, "spur_l"), (1, "spur_r")):
+        for index in range(3):
+            spur = m.part(f"{name}{index}", parent="body", pivot=(side * 34, -206 + index * 12, -14 + index * 12))
+            spur.box(side * 2 if side > 0 else 0, -2, -2, 22, 5, 5)
+            spur.box(side * 22 if side > 0 else 0, -10, -2, 4, 14, 5)
+
+    head = m.part("head", parent="body", pivot=(0, -214, -30))
+    head.shell(0, -10, 0, 34, 22, 24, cell=10)
+    eye(m, "eye", "head", (0, -2, -13), (16, 8), depth=3)
     return m
 
 
 def lunar_mothership():
-    """The mothership: a lens of a hull a thousand blocks across, a dome on the crown and a bulb of
-    engines underneath, with the lights burning all along the rim."""
+    """The mothership: a lens of a hull a thousand blocks across, a shallow dome on the crown, a keel
+    underneath and the lights burning round the rim. Built from a handful of octagonal slabs, so the
+    generated Java stays inside the bytecode limit of a single method."""
     m = Model("lunar_mothership")
     body = m.part("body")
-    for y, width in ((-186, 48), (-174, 92), (-162, 132), (-150, 164), (-138, 180),
-                     (-126, 180), (-114, 164), (-102, 132), (-90, 92), (-78, 48)):
-        body.shell(0, y, 0, width, 14, width - 10, cell=20)
-    dome = m.part("dome", parent="body", pivot=(0, -186, 0))
-    dome.shell(0, -22, 0, 68, 22, 62, cell=16)
-    dome.shell(0, -34, 0, 40, 14, 36, cell=12)
-    dome.glow_box(-14, -40, -14, 28, 6, 28)
-    bulb = m.part("bulb", parent="body", pivot=(0, -64, 0))
-    bulb.shell(0, 0, 0, 72, 20, 66, cell=16)
-    bulb.glow_box(-20, 16, -20, 40, 6, 40)
+
+    def octagon_slab(part, cy, width, height, depth):
+        part.box(-width // 4, cy, -depth // 2, width // 2, height, depth)
+        part.box(-width // 2, cy, -depth // 4, width, height, depth // 2)
+
+    steps = 11
+    for index in range(steps):
+        profile = math.sin(3.141592653589793 * (index + 0.5) / steps)
+        width = 260 + int(920 * profile)
+        octagon_slab(body, -118 + index * 6, width, 6, width - 60)
+    octagon_slab(body, -124, 1160, 6, 620)
+
+    dome = m.part("dome", parent="body", pivot=(0, -124, 0))
+    for index, width in enumerate((520, 400, 270, 140)):
+        octagon_slab(dome, -index * 8, width, 8, width - 70)
+    dome.glow_box(-70, -38, -70, 140, 6, 140)
+
+    keel = m.part("keel", parent="body", pivot=(0, -52, 0))
+    for index, width in enumerate((420, 280, 140)):
+        octagon_slab(keel, index * 10, width, 10, width - 90)
+    keel.glow_box(-50, 26, -50, 100, 6, 100)
+
+    rim = m.part("rim", parent="body", pivot=(0, -118, 0))
     for index in range(20):
         angle = 6.283185307179586 * index / 20.0
-        x = int(round(92 * math.cos(angle)))
-        z = int(round(92 * math.sin(angle)))
-        lamp = m.part(f"lamp{index}", parent="body", pivot=(x, -132, z))
-        lamp.glow_box(-3, -3, -3, 6, 6, 6)
+        x = int(round(592 * math.cos(angle)))
+        z = int(round(592 * math.sin(angle)))
+        rim.glow_box(x - 5, -3, z - 5, 10, 6, 10)
     return m
 
 
