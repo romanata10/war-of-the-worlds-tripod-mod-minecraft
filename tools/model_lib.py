@@ -37,6 +37,27 @@ class Part:
         self.boxes.append((GLOW_UV, (int(x), int(y), int(z), int(dx), int(dy), int(dz))))
         return self
 
+    def chunk(self, cell=16):
+        """Splits cuboids so that none is wider than `cell` pixels.
+
+        A very long box stretches its UVs across the whole texture, so the panels smear into
+        stripes; splitting it into slabs of a few pixels keeps the plate pattern readable.
+        """
+        out = []
+        for uv, (x, y, z, dx, dy, dz) in self.boxes:
+            nx = max(1, -(-dx // cell))
+            ny = max(1, -(-dy // cell))
+            nz = max(1, -(-dz // cell))
+            sx, sy, sz = dx / float(nx), dy / float(ny), dz / float(nz)
+            for i in range(nx):
+                for j in range(ny):
+                    for k in range(nz):
+                        out.append((uv, (
+                            int(round(x + i * sx)), int(round(y + j * sy)), int(round(z + k * sz)),
+                            max(1, int(round(sx))), max(1, int(round(sy))), max(1, int(round(sz))))))
+        self.boxes = out
+        return self
+
     def shell(self, cx, cy, cz, w, h, d, cell=24, uv=(0, 0)):
         """Fills a volume with cuboids of at most `cell` pixels, which gives riveted panels."""
         for x0, dx in _split(cx - w / 2.0, w, cell):
@@ -240,8 +261,10 @@ def emit_java(model, method_name, indent="    "):
         lines.append("")
         lines.append(f'{indent}    PartDefinition {variable} = {variables[part.parent]}.addOrReplaceChild("{part.name}",')
         lines.append(f"{indent}            CubeListBuilder.create()")
-        for index, (uv, (x, y, z, dx, dy, dz)) in enumerate(part.boxes):
-            prefix = f".texOffs({uv[0]}, {uv[1]})" if index == 0 else ""
+        current_uv = None
+        for uv, (x, y, z, dx, dy, dz) in part.boxes:
+            prefix = f".texOffs({uv[0]}, {uv[1]})" if uv != current_uv else ""
+            current_uv = uv
             lines.append(f"{indent}                    {prefix}.addBox({x}, {y}, {z}, {dx}, {dy}, {dz})")
         lines[-1] += ","
         px, py, pz = part.pivot

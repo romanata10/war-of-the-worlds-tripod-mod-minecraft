@@ -91,7 +91,7 @@ public final class HumanModels {
                         .texOffs(0, 0).addBox(-9, -11, -11, 18, 11, 22)
                         .addBox(-2, -8, -32, 4, 4, 22)
                         .addBox(-4, -9, -34, 8, 6, 4)
-                        .addBox(-1, -7, -35, 2, 2, 2),
+                        .texOffs(96, 96).addBox(-1, -7, -35, 2, 2, 2),
                 PartPose.offsetAndRotation(0, -30, -2, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
@@ -228,7 +228,7 @@ public final class HumanModels {
                 CubeListBuilder.create()
                         .texOffs(0, 0).addBox(-8, -14, -10, 16, 14, 20)
                         .addBox(-3, -24, -3, 6, 10, 6)
-                        .addBox(-8, -10, -11, 16, 4, 2),
+                        .texOffs(96, 96).addBox(-8, -10, -11, 16, 4, 2),
                 PartPose.offsetAndRotation(0, -28, -6, 0.0F, 0.0F, 0.0F));
 
         PartDefinition turret = body.addOrReplaceChild("turret",
@@ -241,13 +241,13 @@ public final class HumanModels {
         PartDefinition arm_l = body.addOrReplaceChild("arm_l",
                 CubeListBuilder.create()
                         .texOffs(0, 0).addBox(-1, -16, -1, 2, 16, 2)
-                        .addBox(-1, -18, -1, 2, 2, 2),
+                        .texOffs(96, 96).addBox(-1, -18, -1, 2, 2, 2),
                 PartPose.offsetAndRotation(-12, -28, 6, 0.0F, 0.0F, 0.0F));
 
         PartDefinition arm_r = body.addOrReplaceChild("arm_r",
                 CubeListBuilder.create()
                         .texOffs(0, 0).addBox(-1, -16, -1, 2, 16, 2)
-                        .addBox(-1, -18, -1, 2, 2, 2),
+                        .texOffs(96, 96).addBox(-1, -18, -1, 2, 2, 2),
                 PartPose.offsetAndRotation(12, -28, 6, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
@@ -353,7 +353,7 @@ public final class HumanModels {
                 CubeListBuilder.create()
                         .texOffs(0, 0).addBox(-5, -14, -9, 10, 14, 18)
                         .addBox(-1, -23, -1, 2, 9, 2)
-                        .addBox(-4, -10, -10, 8, 3, 1),
+                        .texOffs(96, 96).addBox(-4, -10, -10, 8, 3, 1),
                 PartPose.offsetAndRotation(0, -14, -4, 0.0F, 0.0F, 0.0F));
 
         PartDefinition arm_r = body.addOrReplaceChild("arm_r",
@@ -442,7 +442,7 @@ public final class HumanModels {
                 CubeListBuilder.create()
                         .texOffs(0, 0).addBox(-1, -16, -2, 2, 18, 7)
                         .addBox(-13, -3, -1, 26, 3, 9)
-                        .addBox(-1, -16, 5, 2, 2, 2),
+                        .texOffs(96, 96).addBox(-1, -16, 5, 2, 2, 2),
                 PartPose.offsetAndRotation(0, -20, 48, 0.0F, 0.0F, 0.0F));
 
         PartDefinition bay = body.addOrReplaceChild("bay",
@@ -499,7 +499,7 @@ public final class HumanModels {
                         .texOffs(0, 0).addBox(-8, -8, -9, 16, 8, 18)
                         .addBox(-2, -5, -26, 4, 4, 18)
                         .addBox(-3, -6, -28, 6, 6, 3)
-                        .addBox(-5, -6, 6, 10, 3, 2),
+                        .texOffs(96, 96).addBox(-5, -6, 6, 10, 3, 2),
                 PartPose.offsetAndRotation(0, -32, -4, 0.0F, 0.0F, 0.0F));
 
         PartDefinition lamp_l = body.addOrReplaceChild("lamp_l",
@@ -550,7 +550,7 @@ public final class HumanModels {
         PartDefinition shield = body.addOrReplaceChild("shield",
                 CubeListBuilder.create()
                         .texOffs(0, 0).addBox(-11, -8, 0, 22, 16, 3)
-                        .addBox(-6, -4, -1, 12, 3, 2),
+                        .texOffs(96, 96).addBox(-6, -4, -1, 12, 3, 2),
                 PartPose.offsetAndRotation(0, -18, -8, 0.0F, 0.0F, 0.0F));
 
         PartDefinition barrel = body.addOrReplaceChild("barrel",
@@ -558,7 +558,7 @@ public final class HumanModels {
                         .texOffs(0, 0).addBox(-3, -3, -34, 6, 6, 34)
                         .addBox(-4, -4, -38, 8, 8, 6)
                         .addBox(-5, -5, -40, 10, 10, 3)
-                        .addBox(-2, -2, -41, 4, 4, 2),
+                        .texOffs(96, 96).addBox(-2, -2, -41, 4, 4, 2),
                 PartPose.offsetAndRotation(0, -16, -6, -0.4189F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
@@ -713,7 +713,7 @@ public final class HumanModels {
                         .texOffs(0, 0).addBox(-5, -14, -3, 10, 14, 6)
                         .addBox(-6, -12, -3, 12, 8, 7)
                         .addBox(-5, -13, 3, 10, 10, 5)
-                        .addBox(-4, -9, 3, 8, 3, 2)
+                        .texOffs(96, 96).addBox(-4, -9, 3, 8, 3, 2)
                         .addBox(-2, -11, 3, 4, 7, 2),
                 PartPose.offsetAndRotation(0, 8, 0, 0.0F, 0.0F, 0.0F));
 
@@ -740,7 +740,7 @@ public final class HumanModels {
                 CubeListBuilder.create()
                         .texOffs(0, 0).addBox(-2, 0, -2, 4, 10, 4)
                         .addBox(-3, 8, -4, 5, 6, 5)
-                        .addBox(-2, 9, -3, 3, 4, 3),
+                        .texOffs(96, 96).addBox(-2, 9, -3, 3, 4, 3),
                 PartPose.offsetAndRotation(-6, -12, 0, 0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(data, 128, 128);
