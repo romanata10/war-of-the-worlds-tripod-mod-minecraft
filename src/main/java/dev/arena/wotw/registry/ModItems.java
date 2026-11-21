@@ -152,6 +152,30 @@ public final class ModItems {
 
     public static Item SAUCER_SPAWN_EGG;
 
+    public static Item RED_EYE_SPAWN_EGG;
+
+    public static Item CLAW_SPAWN_EGG;
+
+    public static Item RUSSIAN_SPAWN_EGG;
+
+    public static Item FALCON_SPAWN_EGG;
+
+    public static Item THREEDEE_SPAWN_EGG;
+
+    public static Item SURREY_SPAWN_EGG;
+
+    public static Item LUNAR_NOMAD_SPAWN_EGG;
+
+    public static Item LUNAR_NOMAD_RED_SPAWN_EGG;
+
+    public static Item LUNAR_WATCHER_SPAWN_EGG;
+
+    public static Item LUNAR_FLYER_SPAWN_EGG;
+
+    public static Item LUNAR_WAR_MACHINE_SPAWN_EGG;
+
+    public static Item LUNAR_MOTHERSHIP_SPAWN_EGG;
+
     public static Item HUMAN_APC_SPAWN_EGG;
 
     public static Item HUMAN_ARTILLERY_SPAWN_EGG;
@@ -229,6 +253,10 @@ public final class ModItems {
 
     public static Item MEMBRANE;
 
+    public static Item MOON_STONE;
+    public static Item MOON_GLASS;
+    public static Item LUNAR_HULL;
+
     public static Item TRIPOD_BLUEPRINT;
 
     public static Item MARTIAN_HULL;
@@ -277,161 +305,76 @@ public final class ModItems {
 
     public static Item NUCLEAR_BOMB;
 
-    public static final CreativeModeTab ITEM_GROUP = CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.wotw"))
-            .icon(() -> new ItemStack(TRIPOD_2005_SPAWN_EGG))
-            .displayItems((parameters, entries) -> {
-                        entries.accept(TRIPOD_2005_SPAWN_EGG);
-                        entries.accept(BBC_WHITE_TRIPOD_SPAWN_EGG);
-                        entries.accept(BBC_RED_TRIPOD_SPAWN_EGG);
-                        entries.accept(FLYING_MANTA_SPAWN_EGG);
-                        entries.accept(BOOK_TRIPOD_SPAWN_EGG);
-                        entries.accept(ASYLUM_WALKER_SPAWN_EGG);
-                        entries.accept(GOLIATH_TRIPOD_SPAWN_EGG);
-                        entries.accept(MARTIAN_HERON_SPAWN_EGG);
-                        entries.accept(MARTIAN_SPIDER_SPAWN_EGG);
-                        entries.accept(MARTIAN_LOUSE_SPAWN_EGG);
-                        entries.accept(MARTIAN_CYLINDER);
-                        entries.accept(MARTIAN_ALLOY_BLOCK);
-                        entries.accept(MARTIAN_CAPSULE);
+    /* Four creative tabs: the invasion, the Moon, humanity, and everything you build or shoot with. */
 
-                        entries.accept(FLYING_MACHINE_SPAWN_EGG);
-                        entries.accept(ELECTRIC_MACHINE_SPAWN_EGG);
-                        entries.accept(HANDLING_MACHINE_SPAWN_EGG);
-                        entries.accept(DIGGING_MACHINE_SPAWN_EGG);
-                        entries.accept(TEMPEST_SPAWN_EGG);
-                        entries.accept(BOMBARDING_MACHINE_SPAWN_EGG);
-                        entries.accept(DRONE_SPAWN_EGG);
-                        entries.accept(PILOT_TRIPOD_SPAWN_EGG);
-                        entries.accept(WHITE_MARTIAN_ALLOY);
-                        entries.accept(MARTIAN_GLASS);
-                        entries.accept(BLOOD_ROOTS);
-                        entries.accept(RED_ROOT);
-                        entries.accept(MARTIAN_MORTAR);
-                        entries.accept(ROOT_SPREADER);
-                        entries.accept(GRAVITY_WELL);
-                        entries.accept(REPAIR_POD);
-                        entries.accept(SHIELD_PYLON);
-                        entries.accept(MARTIAN_PIPE);
-                        entries.accept(HULL_GRATING);
-                        entries.accept(CHITIN_BLOCK);
-                        entries.accept(ASHEN_SOIL);
-                        entries.accept(FROZEN_HULL);
-                        entries.accept(CITY_PLATE);
-                        entries.accept(LENS_PILLAR);
-                        entries.accept(LAVA_CHANNEL);
-                        entries.accept(BONE_WALL);
-                        entries.accept(CHAIN_GRATING);
-                        entries.accept(CAPSULE_RACK);
-                        entries.accept(SPORE_VENT);
-                        entries.accept(MEMBRANE);
-                        entries.accept(TRIPOD_BLUEPRINT);
-                        entries.accept(ARC_RIFLE);
-                        entries.accept(ALLOY_CANNON);
-                        entries.accept(PISTOL);
-                        entries.accept(MACHINE_GUN);
-                        entries.accept(ROCKET_LAUNCHER);
-                        entries.accept(NUCLEAR_BOMB);
-                        entries.accept(HUMAN_SOLDIER_SPAWN_EGG);
-                        entries.accept(HUMAN_TANK_SPAWN_EGG);
-                        entries.accept(HUMAN_FIGHTER_SPAWN_EGG);
-                        entries.accept(HUMAN_WARSHIP_SPAWN_EGG);
-                        entries.accept(CONSTRUCTION_TRIPOD_SPAWN_EGG);
-                        entries.accept(SMOKE_TRIPOD_SPAWN_EGG);
-                        entries.accept(BOMB_TRIPOD_SPAWN_EGG);
-                        entries.accept(CONSTRICTOR_SPAWN_EGG);
-                        entries.accept(XENO_TELEPATH_SPAWN_EGG);
-                        entries.accept(CAMERON_SPAWN_EGG);
-                        entries.accept(GOREY_SPAWN_EGG);
-                        entries.accept(WAYNE_SPAWN_EGG);
-                        entries.accept(GOBLE_SPAWN_EGG);
-                        entries.accept(BBC2019_SPAWN_EGG);
-                        entries.accept(ATTACK2021_SPAWN_EGG);
-                        entries.accept(ATTACK_SPAWN_EGG);
-                        entries.accept(VEGETABLE_SPAWN_EGG);
-                        entries.accept(MEXICAN_SPAWN_EGG);
-                        entries.accept(FOUR_LEGGED_SPAWN_EGG);
-                        entries.accept(SERIES1998_SPAWN_EGG);
-                        entries.accept(PENDRAGON_SPAWN_EGG);
-                        entries.accept(NEXTWAVE_CYBORG_SPAWN_EGG);
-                        entries.accept(TRUE2012_SPAWN_EGG);
-                        entries.accept(STEAM_TOWER_SPAWN_EGG);
-                        entries.accept(ALIEN_DAWN_SPAWN_EGG);
-                        entries.accept(ALIEN_DAWN_MK2_SPAWN_EGG);
-                        entries.accept(SCARY_MOVIE_SPAWN_EGG);
-                        entries.accept(USSR_BOOK_SPAWN_EGG);
-                        entries.accept(ANNIHILATION_SPAWN_EGG);
-                        entries.accept(MOTHERSHIP_SPAWN_EGG);
-                        entries.accept(MINING_SPAWN_EGG);
-                        entries.accept(ROGER_DEAN_SPAWN_EGG);
-                        entries.accept(CITY_SPAWN_EGG);
-                        entries.accept(FACTORY_SPAWN_EGG);
-                        entries.accept(CAGE_SPAWN_EGG);
-                        entries.accept(HUMANOID_SPAWN_EGG);
-                        entries.accept(SIGNAL_SCOUT_SPAWN_EGG);
-                        entries.accept(FROST_SPAWN_EGG);
-                        entries.accept(STORM_SPAWN_EGG);
-                        entries.accept(WEAVER_SPAWN_EGG);
-                        entries.accept(BLINK_SPAWN_EGG);
-                        entries.accept(HARVESTER_SPAWN_EGG);
-                        entries.accept(DISC_SPAWN_EGG);
-                        entries.accept(CYCLOPS_SPAWN_EGG);
-                        entries.accept(SKETCH_SPAWN_EGG);
-                        entries.accept(JELLY_SPAWN_EGG);
-                        entries.accept(SIEGE_SPAWN_EGG);
-                        entries.accept(PRISM_SPAWN_EGG);
-                        entries.accept(LAVA_SPAWN_EGG);
-                        entries.accept(LIVING_SPAWN_EGG);
-                        entries.accept(STRIDER_SPAWN_EGG);
-                        entries.accept(SAUCER_SPAWN_EGG);
-                        entries.accept(HUMAN_APC_SPAWN_EGG);
-                        entries.accept(HUMAN_ARTILLERY_SPAWN_EGG);
-                        entries.accept(HUMAN_JET_SPAWN_EGG);
-                        entries.accept(HUMAN_SNIPER_SPAWN_EGG);
-                        entries.accept(HUMAN_MEDIC_SPAWN_EGG);
-                        entries.accept(HUMAN_HELICOPTER_SPAWN_EGG);
-                        entries.accept(HUMAN_SUBMARINE_SPAWN_EGG);
-                        entries.accept(HUMAN_BOMBER_SPAWN_EGG);
-                        entries.accept(WATER_TRIPOD_SPAWN_EGG);
-                        entries.accept(SCOUT_TRIPOD_SPAWN_EGG);
-                        entries.accept(RAM_TRIPOD_SPAWN_EGG);
-                        entries.accept(UBERPOD_SPAWN_EGG);
-                        entries.accept(BUNKER_TRIPOD_SPAWN_EGG);
-                        entries.accept(FLAMER_TRIPOD_SPAWN_EGG);
-                        entries.accept(TANK_TRIPOD_SPAWN_EGG);
-                        entries.accept(TAXI_TRIPOD_SPAWN_EGG);
-                        entries.accept(MARTIAN_HULL);
-                        entries.accept(MARTIAN_CONSOLE);
-                        entries.accept(MARTIAN_LAMP);
-                        entries.accept(CAMERON_STEEL_BLOCK);
-                        entries.accept(GOBLE_BRASS_BLOCK);
-                        entries.accept(GOREY_BONE_BLOCK);
-                        entries.accept(VEGETABLE_HUSK_BLOCK);
-                        entries.accept(MARTIAN_SIGNAL_BEACON);
-                        entries.accept(SPORE_SACK);
-                        entries.accept(MARTIAN_TURRET);
-                        entries.accept(MARTIAN_CRATE);
-                        entries.accept(HUMAN_CRATE);
-                        entries.accept(MILITARY_CRATE);
-                        entries.accept(BLOOD_VINES);
-                        entries.accept(INFESTED_COBBLESTONE);
-                        entries.accept(INFESTED_BRICKS);
-                        entries.accept(MARTIAN_ALLOY);
-                        entries.accept(HEAT_RAY_EMITTER);
-            })
+    public static final CreativeModeTab MARTIANS = CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.wotw.martians"))
+            .icon(() -> new ItemStack(TRIPOD_2005_SPAWN_EGG))
+            .displayItems((parameters, entries) -> fill(entries, Group.MARTIANS))
             .build();
 
-    /*
-     * The items are built here, not next to the fields: Forge freezes the vanilla item registry before
-     * a mod is constructed and {@code Item} registers a holder for itself in its own constructor. Doing
-     * the work inside the supplier keeps it in the register event, where Forge expects it, and every
-     * field above is ready by the time the game asks for it.
-     *
-     * <p>The spawn eggs are Forge's own {@code ForgeSpawnEggItem}: it wants a supplier of the entity
-     * type because items are registered before entity types, so the type is not known yet.</p>
+    public static final CreativeModeTab LUNAR = CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.wotw.lunar"))
+            .icon(() -> new ItemStack(LUNAR_WATCHER_SPAWN_EGG))
+            .displayItems((parameters, entries) -> fill(entries, Group.LUNAR))
+            .build();
+
+    public static final CreativeModeTab HUMANS = CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.wotw.humans"))
+            .icon(() -> new ItemStack(HUMAN_SOLDIER_SPAWN_EGG))
+            .displayItems((parameters, entries) -> fill(entries, Group.HUMANS))
+            .build();
+
+    public static final CreativeModeTab GEAR = CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.wotw.gear"))
+            .icon(() -> new ItemStack(MARTIAN_ALLOY_BLOCK))
+            .displayItems((parameters, entries) -> fill(entries, Group.GEAR))
+            .build();
+
+    /** Which of the four tabs an item belongs to. */
+    private enum Group {
+        MARTIANS, LUNAR, HUMANS, GEAR
+    }
+
+    /**
+     * Fills a tab from the item registry instead of a hand written list: every spawn egg, every block
+     * and every weapon of the mod lands in its tab by name, so a new machine cannot be forgotten.
      */
+    private static void fill(CreativeModeTab.Output entries, Group group) {
+        java.util.List<Item> items = new java.util.ArrayList<>(ForgeRegistries.ITEMS.getValues());
+        items.sort(java.util.Comparator.comparing(item -> String.valueOf(ForgeRegistries.ITEMS.getKey(item))));
+        for (Item item : items) {
+            net.minecraft.resources.ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+            if (id == null || !WotwMod.MOD_ID.equals(id.getNamespace())) {
+                continue;
+            }
+            if (belongsTo(id.getPath(), group)) {
+                entries.accept(item);
+            }
+        }
+    }
+
+    private static boolean belongsTo(String path, Group group) {
+        boolean egg = path.endsWith("_spawn_egg");
+        boolean lunar = path.startsWith("lunar_") || path.startsWith("nomad_") || path.startsWith("moon_");
+        boolean human = path.startsWith("human_");
+        return switch (group) {
+            case LUNAR -> lunar && egg;
+            case HUMANS -> human && egg;
+            case MARTIANS -> egg && !human && !lunar;
+            case GEAR -> !egg;
+        };
+    }
+
     static {
-        TABS.register("main", () -> ITEM_GROUP);
+        TABS.register("martians", () -> MARTIANS);
+        TABS.register("lunar", () -> LUNAR);
+        TABS.register("humans", () -> HUMANS);
+        TABS.register("gear", () -> GEAR);
+    }
+
+    /** Every item of the mod is created in one place so an id can never point at nothing. */
+    static {
         ITEMS.register("martian_alloy", () -> MARTIAN_ALLOY = new Item(new Item.Properties()));
         ITEMS.register("tripod_2005_spawn_egg",
                 () -> TRIPOD_2005_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TRIPOD_2005, 0x3D4038, 0xC9F5C0,
@@ -646,6 +589,42 @@ public final class ModItems {
         ITEMS.register("saucer_tripod_spawn_egg",
                 () -> SAUCER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SAUCER,
                         0xB0B2B6, 0xFF4040, new Item.Properties()));
+        ITEMS.register("red_eye_tripod_spawn_egg",
+                () -> RED_EYE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.RED_EYE,
+                        0x34343A, 0xFF2828, new Item.Properties()));
+        ITEMS.register("claw_tripod_spawn_egg",
+                () -> CLAW_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CLAW,
+                        0xC4C6C4, 0xF0FAFF, new Item.Properties()));
+        ITEMS.register("russian_tripod_spawn_egg",
+                () -> RUSSIAN_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.RUSSIAN,
+                        0x585E5A, 0x78FF78, new Item.Properties()));
+        ITEMS.register("falcon_tripod_spawn_egg",
+                () -> FALCON_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.FALCON,
+                        0x464A50, 0xFFB040, new Item.Properties()));
+        ITEMS.register("threedee_tripod_spawn_egg",
+                () -> THREEDEE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.THREEDEE,
+                        0xE2E4E2, 0xFF9628, new Item.Properties()));
+        ITEMS.register("surrey_tripod_spawn_egg",
+                () -> SURREY_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SURREY,
+                        0x2C2E32, 0x78FF78, new Item.Properties()));
+        ITEMS.register("lunar_nomad_spawn_egg",
+                () -> LUNAR_NOMAD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LUNAR_NOMAD,
+                        0x5C6476, 0x8CFFAA, new Item.Properties()));
+        ITEMS.register("lunar_nomad_red_spawn_egg",
+                () -> LUNAR_NOMAD_RED_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LUNAR_NOMAD_RED,
+                        0x684A4A, 0xFF786E, new Item.Properties()));
+        ITEMS.register("lunar_watcher_spawn_egg",
+                () -> LUNAR_WATCHER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LUNAR_WATCHER,
+                        0x464E60, 0x96FFBE, new Item.Properties()));
+        ITEMS.register("lunar_flyer_spawn_egg",
+                () -> LUNAR_FLYER_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LUNAR_FLYER,
+                        0x4C5468, 0xA0FFC8, new Item.Properties()));
+        ITEMS.register("lunar_war_machine_spawn_egg",
+                () -> LUNAR_WAR_MACHINE_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LUNAR_WAR_MACHINE,
+                        0x3C3E48, 0xFF963C, new Item.Properties()));
+        ITEMS.register("lunar_mothership_spawn_egg",
+                () -> LUNAR_MOTHERSHIP_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.LUNAR_MOTHERSHIP,
+                        0x363A48, 0x96FFC8, new Item.Properties()));
         ITEMS.register("human_apc_spawn_egg",
                 () -> HUMAN_APC_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.HUMAN_APC,
                         0x5C6446, 0xFFE282, new Item.Properties()));
@@ -732,6 +711,9 @@ public final class ModItems {
         ITEMS.register("capsule_rack", () -> CAPSULE_RACK = new BlockItem(ModBlocks.CAPSULE_RACK, new Item.Properties()));
         ITEMS.register("spore_vent", () -> SPORE_VENT = new BlockItem(ModBlocks.SPORE_VENT, new Item.Properties()));
         ITEMS.register("membrane", () -> MEMBRANE = new BlockItem(ModBlocks.MEMBRANE, new Item.Properties()));
+        ITEMS.register("moon_stone", () -> MOON_STONE = new BlockItem(ModBlocks.MOON_STONE, new Item.Properties()));
+        ITEMS.register("moon_glass", () -> MOON_GLASS = new BlockItem(ModBlocks.MOON_GLASS, new Item.Properties()));
+        ITEMS.register("lunar_hull", () -> LUNAR_HULL = new BlockItem(ModBlocks.LUNAR_HULL, new Item.Properties()));
         ITEMS.register("tripod_blueprint",
                 () -> TRIPOD_BLUEPRINT = new BlockItem(ModBlocks.TRIPOD_BLUEPRINT, new Item.Properties()));
         ITEMS.register("martian_hull",

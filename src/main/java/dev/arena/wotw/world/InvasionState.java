@@ -14,11 +14,13 @@ public class InvasionState extends SavedData {
 
     int ticks;
     boolean firstWaveDone;
+    boolean lunarWaveDone;
 
     public static InvasionState fromNbt(CompoundTag nbt) {
         InvasionState state = new InvasionState();
         state.ticks = nbt.getInt("Ticks");
         state.firstWaveDone = nbt.getBoolean("FirstWave");
+        state.lunarWaveDone = nbt.getBoolean("LunarWave");
         return state;
     }
 
@@ -26,6 +28,7 @@ public class InvasionState extends SavedData {
     public CompoundTag save(CompoundTag nbt) {
         nbt.putInt("Ticks", this.ticks);
         nbt.putBoolean("FirstWave", this.firstWaveDone);
+        nbt.putBoolean("LunarWave", this.lunarWaveDone);
         return nbt;
     }
 

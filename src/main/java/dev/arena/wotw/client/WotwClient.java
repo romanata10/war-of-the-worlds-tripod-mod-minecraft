@@ -116,6 +116,18 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.LIVING, TripodModels::living);
         event.registerLayerDefinition(ModModelLayers.STRIDER, TripodModels::strider);
         event.registerLayerDefinition(ModModelLayers.SAUCER, TripodModels::saucer);
+        event.registerLayerDefinition(ModModelLayers.RED_EYE, TripodModels::redEye);
+        event.registerLayerDefinition(ModModelLayers.CLAW, TripodModels::claw);
+        event.registerLayerDefinition(ModModelLayers.RUSSIAN, TripodModels::russian);
+        event.registerLayerDefinition(ModModelLayers.FALCON, TripodModels::falcon);
+        event.registerLayerDefinition(ModModelLayers.THREEDEE, TripodModels::threedee);
+        event.registerLayerDefinition(ModModelLayers.SURREY, TripodModels::surrey);
+        event.registerLayerDefinition(ModModelLayers.LUNAR_NOMAD, TripodModels::lunarNomad);
+        event.registerLayerDefinition(ModModelLayers.LUNAR_NOMAD_RED, TripodModels::lunarNomadRed);
+        event.registerLayerDefinition(ModModelLayers.LUNAR_WATCHER, TripodModels::lunarWatcher);
+        event.registerLayerDefinition(ModModelLayers.LUNAR_FLYER, TripodModels::lunarFlyer);
+        event.registerLayerDefinition(ModModelLayers.LUNAR_WAR_MACHINE, TripodModels::lunarWarMachine);
+        event.registerLayerDefinition(ModModelLayers.LUNAR_MOTHERSHIP, TripodModels::lunarMothership);
         event.registerLayerDefinition(ModModelLayers.HUMAN_HELICOPTER, HumanModels::helicopter);
         event.registerLayerDefinition(ModModelLayers.HUMAN_SUBMARINE, HumanModels::submarine);
         event.registerLayerDefinition(ModModelLayers.HUMAN_BOMBER, HumanModels::bomber);
@@ -292,6 +304,30 @@ public final class WotwClient {
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.STRIDER, "strider_tripod", 1.0F, 1.3F));
         event.registerEntityRenderer(ModEntities.SAUCER,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.SAUCER, "saucer_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.RED_EYE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.RED_EYE, "red_eye_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.CLAW,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CLAW, "claw_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.RUSSIAN,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.RUSSIAN, "russian_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.FALCON,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.FALCON, "falcon_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.THREEDEE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.THREEDEE, "threedee_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.SURREY,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SURREY, "surrey_tripod", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LUNAR_NOMAD,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_NOMAD, "lunar_nomad", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LUNAR_NOMAD_RED,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_NOMAD_RED, "lunar_nomad_red", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LUNAR_WATCHER,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_WATCHER, "lunar_watcher", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LUNAR_FLYER,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_FLYER, "lunar_flyer", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LUNAR_WAR_MACHINE,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_WAR_MACHINE, "lunar_war_machine", 1.0F, 1.3F));
+        event.registerEntityRenderer(ModEntities.LUNAR_MOTHERSHIP,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.LUNAR_MOTHERSHIP, "lunar_mothership", 13.3F, 26.0F));
         event.registerEntityRenderer(ModEntities.HUMAN_HELICOPTER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_HELICOPTER, "human_helicopter", 1.0F,
                         1.8F));

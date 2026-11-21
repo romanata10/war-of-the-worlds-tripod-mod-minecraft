@@ -85,6 +85,9 @@ public final class ModBlocks {
     public static Block CAPSULE_RACK;
     public static Block SPORE_VENT;
     public static Block MEMBRANE;
+    public static Block MOON_STONE;
+    public static Block MOON_GLASS;
+    public static Block LUNAR_HULL;
 
     public static Block MARTIAN_CYLINDER;
 
@@ -360,6 +363,20 @@ public final class ModBlocks {
                     .strength(1.6F, 4.0F)
                     .sound(SoundType.HONEY_BLOCK)
                     .lightLevel(state -> 2)));
+        BLOCKS.register("moon_stone",
+                () -> MOON_STONE = new Block(BlockBehaviour.Properties.of()
+                    .strength(6.0F, 16.0F)
+                    .sound(SoundType.DEEPSLATE)));
+        BLOCKS.register("moon_glass",
+                () -> MOON_GLASS = new Block(BlockBehaviour.Properties.of()
+                    .strength(1.2F, 3.0F)
+                    .sound(SoundType.GLASS)
+                    .lightLevel(state -> 10)));
+        BLOCKS.register("lunar_hull",
+                () -> LUNAR_HULL = new Block(BlockBehaviour.Properties.of()
+                    .strength(7.5F, 18.0F)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()));
     }
 
     private ModBlocks() {
