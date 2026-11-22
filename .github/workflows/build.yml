@@ -44,7 +44,12 @@ jobs:
           {
             echo 'Compiler errors:'
             echo '```'
-            grep -A3 -E 'error:' build.log | head -600
+            grep -A3 -E 'error:|code too large|OutOfMemory|Java heap space' build.log | head -600
+            echo '```'
+            echo
+            echo 'What went wrong:'
+            echo '```'
+            grep -B2 -A12 -E 'What went wrong|Execution failed for task|FAILED' build.log | head -120
             echo '```'
             echo
             echo 'Build output (tail):'
