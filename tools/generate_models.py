@@ -23,6 +23,7 @@ Usage:  python3 tools/generate_models.py
 
 import math
 import os
+import random
 
 from model_lib import Model, drop_to_ground, emit_java, eye, leg, stretch_vertical, tentacle
 
@@ -3575,82 +3576,197 @@ def lunar_mothership():
 #  The new Martian machines
 # --------------------------------------------------------------------------- #
 
+PLANT, MATTE, STONE, GLOSS = (0, 64), (16, 64), (32, 64), (48, 64)
+
+
+def _jitter(rnd, uv, span=3):
+    """A UV origin a little way from the part's own, so neighbouring cuboids do not all show the
+    same seam: that is what used to turn a big round hull into a striped one."""
+    return (uv[0] + rnd.randrange(0, span), uv[1] + rnd.randrange(0, span))
+
+
+def smooth_ball(part, cx, cy, cz, rx, ry=None, rz=None, cell=6, uv=HULL, seed=0):
+    """A ball out of small cuboids, each sampling its own patch of the hull."""
+    ry = rx if ry is None else ry
+    rz = rx if rz is None else rz
+    rnd = random.Random(seed * 7919 + int(cx) * 31 + int(cy))
+    nx = max(2, int(round(2 * rx / float(cell))))
+    ny = max(2, int(round(2 * ry / float(cell))))
+    nz = max(2, int(round(2 * rz / float(cell))))
+    sx, sy, sz = 2.0 * rx / nx, 2.0 * ry / ny, 2.0 * rz / nz
+    for i in range(nx):
+        for j in range(ny):
+            for k in range(nz):
+                x = cx - rx + (i + 0.5) * sx
+                y = cy - ry + (j + 0.5) * sy
+                z = cz - rz + (k + 0.5) * sz
+                dx, dy, dz = (x - cx) / float(rx), (y - cy) / float(ry), (z - cz) / float(rz)
+                if dx * dx + dy * dy + dz * dz > 1.0:
+                    continue
+                part.box(int(round(x - sx / 2)), int(round(y - sy / 2)), int(round(z - sz / 2)),
+                         max(1, int(round(sx))), max(1, int(round(sy))), max(1, int(round(sz))),
+                         uv=_jitter(rnd, uv))
+    return part
+
+
+def ellipse_plate(part, cx, cy, cz, rx, ry, depth=4, uv=HULL, rows=8, seed=3):
+    """A flat oval facing forward: an eye socket, a window, a hatch."""
+    rnd = random.Random(seed)
+    step = 2.0 * ry / rows
+    for index in range(rows):
+        t = (index + 0.5) / rows
+        half = rx * math.sqrt(max(0.05, 1.0 - (2.0 * t - 1.0) ** 2))
+        part.box(cx - int(round(half)), cy - int(round(ry) - int(round(index * step)),
+                                                ) if False else cy - int(round(ry)) + int(round(index * step)),
+                 cz, max(2, int(round(2 * half))), max(2, int(round(step)) + 1), depth,
+                 uv=_jitter(rnd, uv, 14))
+    return part
+
+
+def clawed_foot(model, name, parent, at, reach=16, spread=9, thick=3, uv=DARK):
+    """Three splayed fingers instead of a flat foot."""
+    for index, angle in enumerate((-1, 0, 1)):
+        toe = model.part(f"{name}_toe{index}", parent=parent,
+                         pivot=(at[0], at[1], at[2]), rot=(0.0, 0.0, angle * spread))
+        toe.box(-thick // 2, 0, -thick // 2, thick, reach, thick, uv=uv)
+        toe.box(-thick // 2 + 1, reach, -thick // 2 + 1, max(1, thick - 2), 6, max(1, thick - 2), uv=uv)
+
+
 def spore_tripod():
-    """Spore: the cartoon cyclops. One huge eye in a round body, a sprout of leaves on the crown and
-    three thin legs with ball joints."""
+    """image-60: the Spore cyclops. A glossy black ball of a body, a big pale eye with a black
+    pupil, a green sprout on the crown, a camera on a thin arm, a ribbed crate on the other flank
+    and three stilt legs that end in claws."""
     m = Model("spore_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-13, -7, -14, -5), (13, -7, 14, -5), (0, 17, 0, 12))):
-        needle_leg(m, f"leg{index}", (x, -152, z), sx, sz, 78, 88, 7, foot=10, knee=0.5)
-        ball(m.by_name[f"leg{index}"], 0, -3, 0, 8)
-    body = m.part("body")
-    lens_hull(body, 0, -238, 0, 88, 80, 84, layers=13, cell=8)
-    eye = m.part("eye", parent="body", pivot=(0, -196, -42))
-    glow_disc_upright(eye, 0, 0, 0, 24, cell=7, depth=5)
-    pupil = m.part("pupil", parent="body", pivot=(0, -196, -48))
-    pupil.box(-7, -7, 0, 14, 14, 3, uv=DARK)
-    # the sprout grows out of the crown, well above the shell
-    sprout = m.part("sprout", parent="body", pivot=(0, -242, 0))
-    sprout.box(-4, -6, -4, 8, 8, 8, uv=DARK)
+
+    for index, (x, z, sx, sz) in enumerate(((-16, -9, -15, -6), (16, -9, 15, -6), (0, 15, 0, 13))):
+        needle_leg(m, f"leg{index}", (x, -98, z), sx, sz, 52, 50, 8, knee=0.55, uv=MATTE)
+        clawed_foot(m, f"foot{index}", f"leg{index}_shin", (0, 50, 0), reach=15, spread=12, thick=3)
+
+    body = m.part("body", pivot=(0, -150, 0))
+    smooth_ball(body, 0, 0, 0, 47, 45, 45, cell=5, uv=GLOSS, seed=1)
+
+    # the eye: a pale socket, a black pupil and a white catch light, all proud of the shell
+    eye = m.part("eye", parent="body", pivot=(0, 0, -41))
+    ellipse_plate(eye, 0, 0, 0, 29, 24, depth=7, uv=PALE, rows=12)
+    pupil = m.part("pupil", parent="body", pivot=(0, 0, -47))
+    ellipse_plate(pupil, 0, 0, 0, 11, 10, depth=4, uv=MATTE, rows=7, seed=11)
+    catch = m.part("catch", parent="body", pivot=(-6, -6, -51))
+    catch.glow_box(-4, -4, 0, 8, 8, 2)
+
+    # the sprout: a stalk and five leaves, as tall as a third of the body
+    sprout = m.part("sprout", parent="body", pivot=(0, -52, 0))
+    sprout.box(-3, -26, -3, 6, 30, 6, uv=PLANT)
     for index in range(5):
-        leaf = m.part(f"leaf{index}", parent="sprout", pivot=(0, -6, 0),
-                      rot=(0.0, -54.0 + index * 27.0, 8.0 + index * 4.0))
-        leaf.box(-2, -34, -2, 4, 34, 4, uv=PALE)
-        tip = m.part(f"leaf{index}_tip", parent=f"leaf{index}", pivot=(0, -34, 0),
-                     rot=(18.0, 0.0, 12.0))
-        tip.box(-2, -12, -2, 4, 12, 4, uv=PALE)
+        leaf = m.part(f"leaf{index}", parent="sprout", pivot=(0, -20 + index * 5, 0),
+                      rot=(0.0, index * 72.0, 44.0 - index * 7.0))
+        leaf.box(-3, -22, -3, 6, 22, 6, uv=PLANT)
+        tip = m.part(f"leaf{index}_tip", parent=f"leaf{index}", pivot=(0, -22, 0), rot=(0.0, 0.0, -66.0))
+        tip.box(-2, -16, -2, 4, 16, 4, uv=PLANT)
+
+    # the camera arm
+    arm = m.part("arm", parent="body", pivot=(-32, -20, 0), rot=(0.0, 0.0, 46.0))
+    arm.box(-2, -40, -2, 4, 40, 4, uv=MATTE)
+    camera = m.part("camera", parent="arm", pivot=(0, -40, 0), rot=(0.0, 0.0, -46.0))
+    camera.box(-7, -14, -7, 14, 14, 14, uv=PLANT)
+    camera.box(-4, -11, -9, 8, 8, 3, uv=MATTE)
+    camera.glow_box(-2, -9, -10, 4, 4, 2)
+    hand = m.part("hand", parent="arm", pivot=(0, -40, 0))
+    hand.box(-5, -4, -5, 10, 8, 10, uv=MATTE)
+    for index, angle in enumerate((-30.0, 0.0, 30.0)):
+        finger = m.part(f"finger{index}", parent="hand", pivot=(0, 0, 0), rot=(0.0, 0.0, angle))
+        finger.box(-1, 0, -1, 2, 12, 2, uv=MATTE)
+
+    # the ribbed crate that hangs on the other flank
+    crate = m.part("crate", parent="body", pivot=(36, -2, -6), rot=(0.0, 0.0, -12.0))
+    crate.box(-13, -13, -9, 26, 26, 18, uv=STONE)
+    for index in range(4):
+        crate.box(-12 + index * 7, -13, -10, 4, 26, 2, uv=MATTE)
+    crate.box(-13, 13, -9, 26, 3, 18, uv=MATTE)
+
+    # the spiky growth at the right ankle
+    tuft = m.part("tuft", parent="leg1_shin", pivot=(0, 44, 8))
+    tuft.box(-4, -2, -4, 8, 4, 8, uv=PLANT)
+    for index, angle in enumerate((-26.0, 0.0, 26.0)):
+        spike = m.part(f"tuft{index}", parent="tuft", pivot=(0, 0, 0), rot=(12.0, 0.0, angle))
+        spike.box(-1, -14, -1, 2, 14, 2, uv=PLANT)
     return m
 
 
 def cgi_tripod():
-    """The CGI machine: a dark wedge of a head under a wide brim, three white eyes and thin legs."""
+    """image-61: the CGI machine. A glossy black bell of a head with a flat face, three round
+    lights, a short collar under it and three very thin jointed legs."""
     m = Model("cgi_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-15, -9, -15, -5), (15, -9, 15, -5), (0, 19, 0, 13))):
-        needle_leg(m, f"leg{index}", (x, -170, z), sx, sz, 94, 100, 8, foot=11, knee=0.45)
-    head = m.part("head")
-    lens_hull(head, 0, -244, 0, 74, 66, 70, layers=11, cell=9, uv=DARK)
-    brim = m.part("brim", parent="head", pivot=(0, -244, 0))
-    round_slab(brim, 0, 0, 0, 96, 86, 6, cell=9, uv=DARK)
-    for index, x in enumerate((-18, 0, 18)):
-        lamp = m.part(f"eye{index}", parent="head", pivot=(x, -208, -32))
-        glow_disc_upright(lamp, 0, 0, 0, 7, cell=5, depth=4)
-    cowl = m.part("cowl", parent="head", pivot=(0, -196, 0))
-    round_slab(cowl, 0, 0, 0, 60, 54, 5, cell=9, uv=DARK)
+
+    for index, (x, z, sx, sz) in enumerate(((-18, -10, -16, -6), (18, -10, 16, -6), (0, 16, 0, 14))):
+        needle_leg(m, f"leg{index}", (x, -126, z), sx, sz, 62, 64, 5, foot=6, knee=0.55)
+
+    head = m.part("head", pivot=(0, -178, 0))
+    smooth_ball(head, 0, 0, 0, 30, 33, 27, cell=5, uv=GLOSS, seed=2)
+    face = m.part("face", parent="head", pivot=(0, -2, -21))
+    ellipse_plate(face, 0, 0, 0, 24, 21, depth=7, uv=MATTE, rows=9, seed=5)
+    brim = m.part("brim", parent="head", pivot=(0, 26, 0))
+    round_slab(brim, 0, 0, 0, 64, 52, 5, cell=7, uv=MATTE)
+    collar = m.part("collar", parent="head", pivot=(0, 27, 0))
+    round_slab(collar, 0, 0, 0, 30, 26, 10, cell=7, uv=MATTE)
+
+    for index, (x, y, size) in enumerate(((-17, -8, 6), (17, -8, 6), (0, 9, 8))):
+        lamp = m.part(f"eye{index}", parent="head", pivot=(x, y, -28))
+        glow_disc_upright(lamp, 0, 0, 0, size, cell=3, depth=6)
     return m
 
 
 def novosibirsk_tripod():
-    """The Novosibirsk machine: a pale umbrella of a cap on five long tentacles, the way it looks in
-    the fog over the city."""
+    """image-62: the Novosibirsk machine. A pale hood with a peak over the face, one lamp in the
+    brow and five long bent legs, the way it stands in the white fog."""
     m = Model("novosibirsk_tripod")
-    cap = m.part("cap")
-    umbrella_cap(cap, 0, -236, 0, 122, 110)
-    dome = m.part("dome", parent="cap", pivot=(0, -236, 0))
-    dome_hull(dome, 0, 0, 0, 76, 68, 34, layers=7, cell=10, uv=DARK)
-    lunar_legs(m, "cap", 22, 26, 5, 156, 8, spread=8.0, curl=5.0, uv=DARK, phase=0.6)
+
+    crown = m.part("crown", pivot=(0, -238, 0))
+    dome_hull(crown, 0, 0, 0, 100, 68, 34, layers=12, cell=5, uv=PALE, power=1.4)
+    brim = m.part("brim", parent="crown", pivot=(0, 26, 0), rot=(-6.0, 0.0, 0.0))
+    ellipse_plate(brim, 0, 0, 0, 64, 46, depth=5, uv=PALE, rows=13, seed=7)
+    peak = m.part("peak", parent="brim", pivot=(0, 4, -40), rot=(-16.0, 0.0, 0.0))
+    peak.box(-18, -4, -18, 36, 8, 18, uv=PALE)
+    peak.box(-11, -3, -30, 22, 6, 12, uv=PALE)
+    lamp = m.part("lamp", parent="brim", pivot=(0, 10, -32))
+    glow_disc_upright(lamp, 0, 0, 0, 5, cell=3, depth=4)
+
+    for index in range(5):
+        angle = 6.283185307179586 * index / 5.0 + 0.4
+        x = int(round(19 * math.cos(angle)))
+        z = int(round(19 * math.sin(angle)))
+        needle_leg(m, f"leg{index}", (x, -210, z), int(round(x * 0.45)), int(round(z * 0.45)),
+                   88, 96, 6, knee=0.55, uv=MATTE)
     return m
 
 
 def martian_factory():
-    """The factory of the Martian materials: a core sphere between two pods on steel rods, four legs
-    and a stack that pours out alloy."""
+    """image-69: the factory of Martian materials. A great grey tank of a sphere with a dark band
+    at its equator, two smaller pods carried on struts, a hub underneath and four legs."""
     m = Model("martian_factory")
-    for index, (x, z, sx, sz) in enumerate(((-24, -12, -14, -4), (24, -12, 14, -4),
-                                            (-26, 14, -14, 5), (26, 14, 14, 5))):
-        needle_leg(m, f"leg{index}", (x, -178, z), sx, sz, 100, 92, 9, foot=12, knee=0.35, uv=PALE)
-    core = m.part("core")
-    ball(core, 0, -232, 0, 34, depth=64, cell=9)
-    band = m.part("band", parent="core", pivot=(0, -232, 0))
-    round_slab(band, 0, 0, 0, 82, 82, 6, cell=10, uv=DARK)
+
+    for index, (x, z, sx, sz) in enumerate(((-26, -12, -13, -4), (26, -12, 13, -4),
+                                            (-28, 14, -13, 5), (28, 14, 13, 5))):
+        needle_leg(m, f"leg{index}", (x, -136, z), sx, sz, 70, 62, 10, foot=12, knee=0.3, uv=MATTE)
+
+    core = m.part("core", pivot=(0, -172, 0))
+    smooth_ball(core, 0, 0, 0, 35, 34, 34, cell=4, uv=STONE, seed=11)
+    band = m.part("band", parent="core", pivot=(0, 0, 0))
+    round_slab(band, 0, 0, 0, 72, 72, 5, cell=6, uv=MATTE)
+
     for side, name in ((-1, "pod_l"), (1, "pod_r")):
-        rod = m.part(f"{name}_rod", parent="core", pivot=(side * 26, -232, 0))
-        rod.box(min(0, side * 34), -3, -3, 34, 6, 6, uv=DARK)
-        pod = m.part(name, parent="core", pivot=(side * 60, -232, 0))
-        ball(pod, 0, 0, 0, 26, depth=50, cell=7)
-    stack = m.part("stack", parent="core", pivot=(0, -262, -6))
-    stack.box(-6, -30, -6, 12, 30, 12, uv=DARK)
-    stack.glow_box(-4, -33, -4, 8, 4, 8)
-    eye = m.part("eye", parent="core", pivot=(0, -216, -32))
-    glow_disc_upright(eye, 0, 0, 0, 9, cell=6, depth=4)
+        strut = m.part(f"{name}_strut", parent="core", pivot=(side * 24, -12, 0), rot=(0.0, 0.0, side * 26.0))
+        strut.box(-3, -26, -3, 6, 26, 6, uv=MATTE)
+        pod = m.part(name, parent="core", pivot=(side * 52, -46, 0))
+        smooth_ball(pod, 0, 0, 0, 20, 19, 19, cell=4, uv=STONE, seed=side + 21)
+
+    hub = m.part("hub", parent="core", pivot=(0, 30, 0))
+    hub.box(-14, 0, -14, 28, 16, 28, uv=MATTE)
+    vent = m.part("vent", parent="hub", pivot=(0, 16, 0))
+    vent.glow_box(-9, 0, -9, 18, 3, 18)
+    stack = m.part("stack", parent="core", pivot=(0, -34, 0))
+    stack.box(-7, -12, -7, 14, 14, 14, uv=STONE)
+    stack.box(-2, -26, -2, 4, 16, 4, uv=MATTE)
+    stack.glow_box(-3, -29, -3, 6, 4, 6)
     return m
 
 

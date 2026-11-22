@@ -118,10 +118,12 @@ PALETTES = {
     "lunar_war_machine": ((60, 62, 72), (20, 20, 26), (104, 108, 122), (255, 150, 60), (38, 40, 48)),
     "lunar_mothership": ((54, 58, 72), (18, 20, 26), (96, 102, 120), (150, 255, 200), (34, 36, 44)),
     # Mars and the machines it brings with it
-    "spore_tripod": ((58, 46, 62), (20, 16, 24), (104, 88, 110), (255, 255, 255), (92, 156, 82)),
-    "cgi_tripod": ((48, 48, 54), (14, 14, 18), (92, 92, 100), (246, 250, 255), (64, 64, 72)),
-    "novosibirsk_tripod": ((170, 176, 170), (82, 88, 84), (222, 226, 220), (198, 255, 214), (118, 126, 120)),
-    "martian_factory": ((132, 106, 84), (56, 42, 32), (180, 152, 124), (255, 176, 84), (96, 78, 62)),
+    "spore_tripod": ((26, 24, 30), (10, 9, 12), (66, 62, 74), (255, 252, 250), (96, 178, 88)),
+    "cgi_tripod": ((28, 28, 32), (8, 8, 10), (70, 70, 78), (250, 252, 255), (44, 44, 50)),
+    "novosibirsk_tripod": ((186, 188, 182), (92, 94, 90), (230, 232, 226), (212, 255, 226),
+                           (150, 154, 148)),
+    "martian_factory": ((168, 166, 160), (72, 70, 66), (216, 214, 206), (255, 178, 86),
+                        (138, 136, 130)),
     "storm_tripod": ((86, 82, 78), (32, 30, 28), (132, 126, 118), (140, 236, 255), (168, 120, 66)),
     "weaver_tripod": ((96, 74, 48), (40, 28, 16), (148, 118, 82), (198, 255, 130), (110, 92, 54)),
     "blink_tripod": ((62, 56, 82), (22, 20, 32), (108, 98, 138), (196, 120, 255), (86, 74, 116)),
@@ -238,6 +240,35 @@ def make_hull_texture(name, palette, size=128, seed=0):
         for x in range(0, 64):
             pixel = px[x, y]
             px[x, y] = (clamp(pixel[0] * 0.34), clamp(pixel[1] * 0.34), clamp(pixel[2] * 0.34), 255)
+
+    # a strip of plain materials at y=64..80 that the machines of Mars sample instead of the
+    # panelled hull: a big smooth ball looks wrong when every cuboid shows a welded seam.
+    #   (0, 64) plant   (16, 64) matte   (32, 64) stone   (48, 64) gloss
+    for y in range(64, 80):
+        for x in range(0, 16):                                    # the green growth
+            leaf = math.hypot(x - 7.5, y - 71.5) / 8.0
+            tone = 0.72 + 0.42 * (1.0 - min(1.0, leaf)) + rnd.uniform(-0.08, 0.08)
+            px[x, y] = (clamp(72 * tone + 26), clamp(150 * tone + 18), clamp(58 * tone + 16), 255)
+        for x in range(16, 32):                                   # matte black
+            tone = 22 + rnd.uniform(-3, 3)
+            px[x, y] = (clamp(tone * 0.96), clamp(tone * 0.94), clamp(tone), 255)
+        for x in range(32, 48):                                   # grey stone
+            tone = base[0] * 0.92 + 18 + rnd.uniform(-5, 5)
+            px[x, y] = (clamp(tone * 1.02), clamp(tone), clamp(tone * 0.95), 255)
+        for x in range(48, 64):                                   # glossy shell
+            band = abs((y - 71.5) / 8.0)
+            tone = 12 + 26 * (1.0 - band) * (1.0 - band) + rnd.uniform(-2, 2)
+            px[x, y] = (clamp(tone * 0.98), clamp(tone * 0.98), clamp(tone * 1.04), 255)
+    draw = ImageDraw.Draw(img, "RGBA")
+    for index in range(3):
+        y = 66 + index * 5
+        draw.line([(1, y), (14, y + 2)], fill=(38, 82, 34, 200), width=1)
+    for _ in range(40):                                           # stone speckle
+        sx, sy = rnd.randrange(32, 48), rnd.randrange(64, 80)
+        px[sx, sy] = (clamp(px[sx, sy][0] - 12), clamp(px[sx, sy][1] - 12), clamp(px[sx, sy][2] - 12), 255)
+    for _ in range(3):                                            # gloss highlight
+        y = rnd.randrange(66, 76)
+        draw.line([(49, y), (62, y)], fill=light + (90,), width=1)
 
     # glowing eye patch: the models sample this area for eyes and lenses
     glow_layer = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
