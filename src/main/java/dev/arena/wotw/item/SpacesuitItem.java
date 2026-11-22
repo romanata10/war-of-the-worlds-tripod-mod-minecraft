@@ -17,18 +17,18 @@ import net.minecraft.world.item.crafting.Ingredient;
 public class SpacesuitItem extends ArmorItem {
 
     public SpacesuitItem(Properties properties) {
-        super(SUIT, EquipmentSlot.CHEST, properties);
+        super(SUIT, ArmorItem.Type.CHESTPLATE, properties);
     }
 
     /** Glass, iron and a pinch of redstone: nothing Martian, so it can be built before the first trip. */
     public static final ArmorMaterial SUIT = new ArmorMaterial() {
         @Override
-        public int getDurabilityForSlot(EquipmentSlot slot) {
+        public int getDurabilityForType(ArmorItem.Type type) {
             return 320;
         }
 
         @Override
-        public int getDefenseForSlot(EquipmentSlot slot) {
+        public int getDefenseForType(ArmorItem.Type type) {
             return 5;
         }
 
