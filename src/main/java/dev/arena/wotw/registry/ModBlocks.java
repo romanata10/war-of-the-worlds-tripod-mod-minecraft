@@ -11,6 +11,7 @@ import dev.arena.wotw.block.MartianSignalBeaconBlock;
 import dev.arena.wotw.block.MartianTurretBlock;
 import dev.arena.wotw.block.SporeSackBlock;
 import dev.arena.wotw.block.RedRootBlock;
+import dev.arena.wotw.block.RocketBlock;
 import dev.arena.wotw.block.TripodBlueprintBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
@@ -93,6 +94,20 @@ public final class ModBlocks {
 
     /** Worked Martian alloy: the material every capsule and structure is built from. */
     public static Block MARTIAN_ALLOY_BLOCK;
+
+    /* The red planet: its ground, its dust and the rocket that goes there. */
+
+    /** The bedrock of Mars: dense, dark red stone under everything. */
+    public static Block MARS_ROCK;
+
+    /** The rusty crust the Martian plains are made of. */
+    public static Block MARS_REGOLITH;
+
+    /** Fine ochre dust that blows about in the thin air. */
+    public static Block MARS_DUST;
+
+    /** The rocket: a two block launcher that carries a player to Mars and back. */
+    public static Block MARS_ROCKET;
 
     /** The red root weed the machines sow behind themselves. */
     public static Block RED_ROOT;
@@ -377,6 +392,25 @@ public final class ModBlocks {
                     .strength(7.5F, 18.0F)
                     .sound(SoundType.METAL)
                     .requiresCorrectToolForDrops()));
+        BLOCKS.register("mars_rock",
+                () -> MARS_ROCK = new Block(BlockBehaviour.Properties.of()
+                    .strength(4.5F, 12.0F)
+                    .sound(SoundType.DEEPSLATE)
+                    .requiresCorrectToolForDrops()));
+        BLOCKS.register("mars_regolith",
+                () -> MARS_REGOLITH = new Block(BlockBehaviour.Properties.of()
+                    .strength(2.2F, 6.0F)
+                    .sound(SoundType.GRAVEL)));
+        BLOCKS.register("mars_dust",
+                () -> MARS_DUST = new Block(BlockBehaviour.Properties.of()
+                    .strength(1.8F, 5.0F)
+                    .sound(SoundType.SAND)));
+        BLOCKS.register("mars_rocket",
+                () -> MARS_ROCKET = new RocketBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F, 30.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> 6)
+                    .noOcclusion()));
     }
 
     private ModBlocks() {
