@@ -51,6 +51,30 @@
         "weight": 8,
         "minCount": 1,
         "maxCount": 3
+      },
+      {
+        "type": "wotw:spore_tripod",
+        "weight": 8,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "wotw:cgi_tripod",
+        "weight": 8,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "wotw:novosibirsk_tripod",
+        "weight": 6,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "wotw:martian_factory",
+        "weight": 4,
+        "minCount": 1,
+        "maxCount": 1
       }
     ],
     "creature": [],

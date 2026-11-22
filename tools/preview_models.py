@@ -128,6 +128,11 @@ TRIPODS = [
     ("lunar_flyer", "lunarFlyer", "Летающий корабль", "лунные пришельцы", "Десант с орбиты"),
     ("lunar_war_machine", "lunarWarMachine", "Боевая машина", "лунные пришельцы", "Залп лазеров · шесть ног"),
     ("lunar_mothership", "lunarMothership", "Материнский корабль", "лунные пришельцы", "1000×1000 · палуба внутри"),
+    # the twelfth wave: Mars and its machines
+    ("spore_tripod", "sporeTripod", "Спора", "Spore", "Споровое облако · яд"),
+    ("cgi_tripod", "cgiTripod", "CGI-тринога", "CGI-ролик про Марс", "Три глаза · двойной луч"),
+    ("novosibirsk_tripod", "novosibirskTripod", "Новосибирская", "Новосибирск, туман", "Туман · слепота"),
+    ("martian_factory", "martianFactory", "Завод", "марсианский завод", "Варит сплав · чинит машины"),
     ("storm_tripod", "storm", "Гроза", "новый арт", "Удар молнии с неба"),
     ("weaver_tripod", "weaver", "Ткач", "новый арт", "Паутина вокруг жертвы"),
     ("blink_tripod", "blink", "Мерцание", "новый арт", "Телепорт-рывок к цели"),

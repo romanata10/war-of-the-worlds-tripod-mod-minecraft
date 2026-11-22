@@ -64,6 +64,10 @@ public final class WotwClient {
         event.registerLayerDefinition(ModModelLayers.FLAMER_TRIPOD, TripodModels::flamerTripod);
         event.registerLayerDefinition(ModModelLayers.TANK_TRIPOD, TripodModels::tankTripod);
         event.registerLayerDefinition(ModModelLayers.TAXI_TRIPOD, TripodModels::taxiTripod);
+        event.registerLayerDefinition(ModModelLayers.SPORE_TRIPOD, TripodModels::sporeTripod);
+        event.registerLayerDefinition(ModModelLayers.CGI_TRIPOD, TripodModels::cgiTripod);
+        event.registerLayerDefinition(ModModelLayers.NOVOSIBIRSK_TRIPOD, TripodModels::novosibirskTripod);
+        event.registerLayerDefinition(ModModelLayers.MARTIAN_FACTORY, TripodModels::martianFactory);
         event.registerLayerDefinition(ModModelLayers.HUMAN_SOLDIER, HumanModels::soldier);
         event.registerLayerDefinition(ModModelLayers.HUMAN_TANK, HumanModels::tank);
         event.registerLayerDefinition(ModModelLayers.HUMAN_FIGHTER, HumanModels::fighter);
@@ -199,6 +203,16 @@ public final class WotwClient {
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.TANK_TRIPOD, "tank_tripod", 1.0F, 2.6F));
         event.registerEntityRenderer(ModEntities.TAXI_TRIPOD,
                 context -> new GenericTripodRenderer<>(context, ModModelLayers.TAXI_TRIPOD, "taxi_tripod", 1.0F, 1.4F));
+        event.registerEntityRenderer(ModEntities.SPORE_TRIPOD,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.SPORE_TRIPOD, "spore_tripod", 1.0F, 1.6F));
+        event.registerEntityRenderer(ModEntities.CGI_TRIPOD,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.CGI_TRIPOD, "cgi_tripod", 1.0F, 1.6F));
+        event.registerEntityRenderer(ModEntities.NOVOSIBIRSK_TRIPOD,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.NOVOSIBIRSK_TRIPOD, "novosibirsk_tripod",
+                        1.0F, 1.8F));
+        event.registerEntityRenderer(ModEntities.MARTIAN_FACTORY,
+                context -> new GenericTripodRenderer<>(context, ModModelLayers.MARTIAN_FACTORY, "martian_factory",
+                        1.0F, 1.8F));
         event.registerEntityRenderer(ModEntities.HUMAN_SOLDIER,
                 context -> new GenericHumanRenderer<>(context, ModModelLayers.HUMAN_SOLDIER, "human_soldier", 1.0F, 0.5F));
         event.registerEntityRenderer(ModEntities.HUMAN_TANK,

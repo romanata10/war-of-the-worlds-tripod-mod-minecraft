@@ -200,6 +200,10 @@ public final class ModItems {
     public static Item FLAMER_TRIPOD_SPAWN_EGG;
     public static Item TANK_TRIPOD_SPAWN_EGG;
     public static Item TAXI_TRIPOD_SPAWN_EGG;
+    public static Item SPORE_TRIPOD_SPAWN_EGG;
+    public static Item CGI_TRIPOD_SPAWN_EGG;
+    public static Item NOVOSIBIRSK_TRIPOD_SPAWN_EGG;
+    public static Item MARTIAN_FACTORY_SPAWN_EGG;
 
     public static Item HEAT_RAY_EMITTER;
 
@@ -685,6 +689,18 @@ public final class ModItems {
         ITEMS.register("taxi_tripod_spawn_egg",
                 () -> TAXI_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.TAXI_TRIPOD, 0x6A6250, 0xC8B88C,
                         new Item.Properties()));
+        ITEMS.register("spore_tripod_spawn_egg",
+                () -> SPORE_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.SPORE_TRIPOD, 0x3A2E3E, 0x5C9C52,
+                        new Item.Properties()));
+        ITEMS.register("cgi_tripod_spawn_egg",
+                () -> CGI_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.CGI_TRIPOD, 0x30303A, 0xF6FAFF,
+                        new Item.Properties()));
+        ITEMS.register("novosibirsk_tripod_spawn_egg",
+                () -> NOVOSIBIRSK_TRIPOD_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.NOVOSIBIRSK_TRIPOD, 0xAAB2AA,
+                        0xC6FFD6, new Item.Properties()));
+        ITEMS.register("martian_factory_spawn_egg",
+                () -> MARTIAN_FACTORY_SPAWN_EGG = new ForgeSpawnEggItem(() -> ModEntities.MARTIAN_FACTORY, 0x846A54,
+                        0xFFB054, new Item.Properties()));
         ITEMS.register("heat_ray_emitter",
                 () -> HEAT_RAY_EMITTER = new HeatRayEmitterItem(new Item.Properties().stacksTo(1).durability(384)));
         ITEMS.register("martian_cylinder",
