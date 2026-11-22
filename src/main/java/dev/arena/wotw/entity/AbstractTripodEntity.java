@@ -112,9 +112,6 @@ public abstract class AbstractTripodEntity extends Monster {
         // the human army shoots at us, so we shoot back
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractHumanCombatantEntity.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        // the Moon is at war with Mars too: every Martian answers a lunar machine that comes near
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractLunarMachineEntity.class, true,
-                entity -> !(this instanceof AbstractLunarMachineEntity)));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.addExtraGoals();
     }
@@ -271,6 +268,11 @@ public abstract class AbstractTripodEntity extends Monster {
         }
     }
 
+    /** Drops allies out of a blast radius, so area abilities can never start a friendly brawl. */
+    protected final <T extends LivingEntity> java.util.List<T> enemiesIn(java.util.List<T> candidates) {
+        return candidates.stream().filter(entity -> !this.isAlly(entity)).toList();
+    }
+
     /** Charge up sound, played when a beam attack starts. */
     public void playChargeSound() {
         // The siren rising before the shot is half of the scare factor.
@@ -282,8 +284,43 @@ public abstract class AbstractTripodEntity extends Monster {
     /*  Damage / physics quirks                                            */
     /* ------------------------------------------------------------------ */
 
+    /** True for the Moon's fleet. Kept for the models and the sounds that differ per fleet. */
+    public final boolean isLunarMachine() {
+        return this instanceof AbstractLunarMachineEntity;
+    }
+
+    /**
+     * Every machine in the mod is on the same side. The Martian fleet and the Moon's fleet are one
+     * invasion, and the machines are not meant to fight each other at all: the player and the human
+     * army are the enemy.
+     */
+    public boolean isAlly(Entity entity) {
+        return entity == this || entity instanceof AbstractTripodEntity;
+    }
+
+    /*
+     * Friendly fire used to cascade: an area ability clipped a neighbouring machine, that machine
+     * remembered the hit through HurtByTargetGoal and hit back, its own blast clipped a third one and
+     * the whole army tore itself apart. Three guards, so no path can start that fight again:
+     * damage from an ally does nothing, an ally is never picked as a target, and an ally is never
+     * accepted even if some goal offers one.
+     */
+
+    @Override
+    public boolean canAttack(LivingEntity target) {
+        return !this.isAlly(target) && super.canAttack(target);
+    }
+
+    @Override
+    public void setTarget(LivingEntity target) {
+        super.setTarget(target != null && this.isAlly(target) ? null : target);
+    }
+
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (this.isAlly(source.getEntity()) && source.getEntity() != this) {
+            return false;
+        }
         if (this.isShielded() && source.is(DamageTypeTags.IS_PROJECTILE)) {
             if (!this.level().isClientSide) {
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(),

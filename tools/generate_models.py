@@ -3203,175 +3203,192 @@ def lunar_cap(model, name, pivot_y, width, depth, height=12, dome=1.0, lights=Tr
 # --------------------------------------------------------------------------- #
 
 def red_eye_tripod():
-    """The red-eyed machine of 2005: one wide glossy shell, a red lens let into its crown, two small
-    red lamps on the front rim and four needle legs on their ball joints."""
+    """The 2005 machine from the reference: a very wide, low, glossy saucer whose whole crown is one
+    red glowing dome, two small lamps on the front rim, three needle legs on their ball joints."""
     m = Model("red_eye_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-40, -18, -15, -5), (40, -18, 15, -5),
-                                            (-40, 18, -15, 5), (40, 18, 15, 5))):
-        needle_leg(m, f"leg{index}", (x, -196, z), sx, sz, 104, 106, 8, foot=11, knee=0.5)
-        ball(m.by_name[f"leg{index}"], 0, -3, 0, 9)
+    for index, (x, z, sx, sz) in enumerate(((-44, -10, -18, -4), (44, -10, 18, -4), (0, 34, 0, 16))):
+        needle_leg(m, f"leg{index}", (x, -200, z), sx, sz, 100, 118, 8, foot=12, knee=0.55)
+        ball(m.by_name[f"leg{index}"], 0, -4, 0, 11)
 
     body = m.part("body")
-    lens_hull(body, 0, -244, 0, 108, 94, 60, layers=11, cell=10)
+    lens_hull(body, 0, -256, 0, 124, 100, 62, layers=11, cell=10)
+    # the lip of the saucer: a narrow ring under the hull, not a second hat
+    brim = m.part("brim", parent="body", pivot=(0, -232, 0))
+    round_slab(brim, 0, 0, 0, 118, 96, 4, cell=10, uv=DARK)
 
-    lens = m.part("lens", parent="body", pivot=(0, -238, -30), rot=(30.0, 0.0, 0.0))
-    lens_hull(lens, 0, 0, 0, 66, 60, 12, layers=3, cell=10, uv=DARK)
-    glow_disc(lens, 0, -2, 0, 18, cell=6, height=2)
-    glow_disc(lens, 0, -4, 0, 11, cell=5, height=1)
+    # the red eye is the whole crown: a glowing dome stepping up out of the shell
+    crown = m.part("crown", parent="body", pivot=(0, -256, 0))
+    dome_hull(crown, 0, 0, 0, 96, 84, 16, layers=4, cell=9, power=2.6, uv=DARK)
+    # the lens climbs out of the dark crown: biggest disc at the bottom, smallest on top
+    eye = m.part("eye", parent="body", pivot=(0, -254, 0))
+    for level, radius in enumerate((40, 34, 27, 19, 10)):
+        glow_disc(eye, 0, -5 * level, 0, radius, cell=8, height=5)
 
     for side, name in ((-1, "lamp_l"), (1, "lamp_r")):
-        lamp = m.part(name, parent="body", pivot=(side * 40, -200, -38))
-        lamp.glow_box(-4, -4, -3, 8, 8, 6)
+        lamp = m.part(name, parent="body", pivot=(side * 44, -222, -40))
+        lamp.glow_box(-5, -3, -2, 10, 6, 4)
 
-    antenna = m.part("antenna", parent="body", pivot=(6, -228, 26))
-    antenna.box(-1, -16, -1, 3, 18, 3)
-    antenna.box(-8, -18, -1, 17, 2, 3)
+    antenna = m.part("antenna", parent="body", pivot=(10, -244, 30), rot=(-14.0, 0.0, 6.0))
+    antenna.box(-1, -22, -1, 3, 24, 3, uv=DARK)
+    antenna.box(-9, -24, -1, 19, 2, 3, uv=DARK)
     return m
 
 
 def claw_tripod():
-    """The pincer machine: a pale horseshoe of a helmet with its brow picked out, two round lamps in
-    a dark face, a beard of hanging blades and three pale blade legs."""
+    """The pale machine of the reference: a shell that flares out into a skirt like a cape, a dark
+    face with two big round lamps, a fringe of blades hanging under it and three tall blade legs."""
     m = Model("claw_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-30, -6, -16, -4), (30, -6, 16, -4), (0, 20, 0, 10))):
-        needle_leg(m, f"leg{index}", (x, -232, z), sx, sz, 118, 112, 17, foot=19, uv=PALE, knee=0.3)
-        ball(m.by_name[f"leg{index}"], 0, -4, 0, 18)
+    for index, (x, z, sx, sz) in enumerate(((-32, -8, -15, -4), (32, -8, 15, -4), (0, 22, 0, 11))):
+        needle_leg(m, f"leg{index}", (x, -238, z), sx, sz, 122, 116, 15, foot=18, uv=PALE, knee=0.3)
+        ball(m.by_name[f"leg{index}"], 0, -4, 0, 16)
 
-    helmet = m.part("helmet")
-    lens_hull(helmet, 0, -246, 0, 92, 64, 26, layers=3, cell=10, uv=PALE)
-    brow = m.part("brow", parent="helmet", pivot=(0, -240, 0))
-    for x in range(-46, 47, 3):
-        factor = math.sqrt(max(0.04, 1.0 - (x / 48.0) ** 2))
-        y = int(round(-22 * factor))
-        brow.box(x - 2, y - 9, -24, 4, 20, 48, uv=PALE)
-    face = m.part("face", parent="helmet", pivot=(0, -226, -24))
-    face.box(-22, -14, 0, 44, 28, 6, uv=DARK)
+    shell = m.part("shell")
+    dome_hull(shell, 0, -252, 0, 96, 90, 56, layers=11, cell=10, uv=PALE, power=1.5)
+
+    # the cape: one smooth flare from the crown to a hem wider than the shell, no stacked rings
+    skirt = m.part("skirt", parent="shell", pivot=(0, -250, 0))
+    for level in range(7):
+        t = level / 6.0
+        round_slab(skirt, 0, level * 7, 0, 100 + 34 * t, 94 + 32 * t, 7, cell=11, uv=PALE)
+
+    # the face is let into the front of the cape, so the two lamps look out from under the hem
+    face = m.part("face", parent="shell", pivot=(0, -204, -44))
+    face.box(-32, 0, 0, 64, 30, 8, uv=DARK)
     for side, name in ((-1, "lamp_l"), (1, "lamp_r")):
-        lamp = m.part(name, parent="helmet", pivot=(side * 26, -246, -18))
-        lamp.box(-8, -8, 0, 16, 16, 4, uv=DARK)
-        lamp.glow_box(-6, -6, -2, 12, 12, 2)
+        lamp = m.part(name, parent="shell", pivot=(side * 17, -196, -48))
+        glow_disc_upright(lamp, 0, 0, 0, 12, cell=6, depth=4)
 
-    beard = m.part("beard", parent="helmet", pivot=(0, -222, -18))
-    beard.box(-28, -3, -10, 56, 5, 20, uv=PALE)
+    fringe = m.part("fringe", parent="shell", pivot=(0, -196, -26))
+    fringe.box(-30, 0, -6, 60, 5, 16, uv=DARK)
     for index in range(9):
-        hanging_blade(m, "finger", "beard", (0, 2, 0), index, 9, 52, uv=PALE)
+        hanging_blade(m, "finger", "fringe", (0, 0, 0), index, 9, 40, uv=PALE)
     return m
 
 
 def russian_tripod():
-    """The Russian machine: a bell hood with one round green eye, a polished ball body under it,
-    three thin jointed legs, a camera probe on a rod and a wire dish of a radar."""
+    """The machine of the reference with the eye: a tall egg of a head with one big green lens in its
+    face, a polished ball body under it, three thin jointed legs and two whip antennas."""
     m = Model("russian_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-16, -10, -11, -5), (16, -10, 11, -5), (0, 18, 0, 11))):
-        needle_leg(m, f"leg{index}", (x, -184, z), sx, sz, 100, 104, 7, foot=10, knee=0.4)
+    for index, (x, z, sx, sz) in enumerate(((-16, -10, -12, -5), (16, -10, 12, -5), (0, 20, 0, 12))):
+        needle_leg(m, f"leg{index}", (x, -180, z), sx, sz, 96, 110, 7, foot=10, knee=0.45)
         ball(m.by_name[f"leg{index}"], 0, -3, 0, 8)
 
     body = m.part("body")
-    lens_hull(body, 0, -216, 0, 52, 48, 48, layers=6, cell=8)
-    collar = m.part("collar", parent="body", pivot=(0, -186, 0))
-    collar.shell(0, 0, 0, 34, 12, 32, cell=12, uv=DARK)
+    ball(body, 0, -206, 0, 24, depth=48)
+    collar = m.part("collar", parent="body", pivot=(0, -182, 0))
+    collar.shell(0, 0, 0, 30, 10, 28, cell=12, uv=DARK)
+    neck = m.part("neck", parent="body", pivot=(0, -200, 0))
+    neck.box(-11, -10, -11, 22, 12, 22, uv=DARK)
 
-    hood = m.part("hood", parent="body", pivot=(0, -244, 0))
-    dome_hull(hood, 0, 4, 0, 84, 74, 58, layers=14, cell=10, power=2.2)
-    hood.shell(0, 54, 0, 92, 8, 82, cell=10)
-    face = m.part("face", parent="hood", pivot=(0, 30, -30))
-    face.shell(0, -18, 0, 36, 36, 4, cell=10, uv=DARK)
-    glow_disc_upright(face, 0, 0, -2, 16, cell=6, depth=3)
-    glow_disc_upright(face, 0, 0, -4, 10, cell=5, depth=2)
+    # the head is a tall egg, twice the size of the body, as in the frame
+    hood = m.part("hood", parent="body", pivot=(0, -272, 0))
+    dome_hull(hood, 0, 0, 0, 106, 98, 76, layers=15, cell=9, power=1.15)
+    hood.shell(0, 72, 0, 110, 6, 102, cell=10, uv=DARK)
 
-    probe = m.part("probe", parent="hood", pivot=(-34, 14, -8))
-    probe.box(-22, -2, -2, 24, 4, 4)
-    probe.box(-32, -8, -8, 12, 16, 16, uv=DARK)
-    probe.glow_box(-33, -4, -9, 6, 8, 2)
+    # one big round lens, low in the face, with a thin bezel round it
+    face = m.part("face", parent="hood", pivot=(0, 40, -46))
+    glow_disc_upright(face, 0, 0, 0, 19, cell=6, depth=4)
+    bezel = m.part("bezel", parent="hood", pivot=(0, 40, -49))
+    for y in (-23, 21):
+        bezel.box(-14, y, 0, 28, 3, 4, uv=DARK)
+    for x in (-23, 20):
+        bezel.box(x, -21, 0, 3, 42, 4, uv=DARK)
 
-    radar = m.part("radar", parent="body", pivot=(28, -206, 12))
-    radar.box(0, -1, -1, 20, 3, 3)
-    cage = m.part("cage", parent="radar", pivot=(24, 0, 0))
-    for y in (-10, -3, 4, 11):
-        cage.box(-1, y, -11, 2, 2, 22)
-    for z in (-11, -4, 3, 10):
-        cage.box(-1, -11, z, 2, 22, 2)
-    cage.glow_box(-1, -6, -6, 2, 12, 12)
+    for side, name in ((-1, "antenna_l"), (1, "antenna_r")):
+        antenna = m.part(name, parent="hood", pivot=(side * 20, -4, 12), rot=(-12.0, 0.0, side * -16.0))
+        antenna.box(-1, -54, -1, 2, 56, 2, uv=DARK)
+        antenna.box(-4, -58, -1, 8, 2, 2, uv=DARK)
+
+    radar = m.part("radar", parent="body", pivot=(30, -206, 14))
+    radar.box(0, -1, -1, 18, 3, 3, uv=DARK)
+    dish = m.part("dish", parent="radar", pivot=(20, 0, 0))
+    for y in (-11, -4, 3, 10):
+        dish.box(-1, y, -12, 2, 2, 24, uv=DARK)
+    for z in (-12, -5, 2, 9):
+        dish.box(-1, -12, z, 2, 24, 2, uv=DARK)
+    dish.glow_box(-1, -7, -7, 2, 14, 14)
     return m
 
 
 def falcon_tripod():
-    """The falcon: a flat oval hull flying on dangling cables, a fan of blades sweeping up over its
-    spine, a glowing prow and two fins at the tail."""
+    """The machine of the reference with the canopy: a compact dark hull flying on dangling cables,
+    a cowl of ribbed plates laid back over its spine, a glowing prow and two fins."""
     m = Model("falcon_tripod")
     hull = m.part("hull")
-    lens_hull(hull, 0, -216, 0, 56, 100, 34, layers=9, cell=10)
-    lens_hull(hull, 0, -182, 0, 42, 74, 12, layers=3, cell=10, uv=DARK)
-    lens_hull(hull, 0, -206, -54, 26, 22, 20, layers=4, cell=8)
+    lens_hull(hull, 0, -214, 0, 62, 100, 36, layers=8, cell=10)
+    lens_hull(hull, 0, -178, 0, 44, 72, 12, layers=3, cell=10, uv=DARK)
 
-    for index in range(9):
-        angle = -44.0 + index * 11.0
-        length = 60 + int(round(30 * math.sin(3.141592653589793 * (index + 0.5) / 9)))
-        blade = m.part(f"blade{index}", parent="hull", pivot=(0, -216, -16),
-                       rot=(8.0, angle, 0.0))
-        fan_blade(blade, 0, 0, 0, length, 48, 3, sweep=0.45, rise=-9, uv=PALE, steps=9)
-
+    # the cowl: seven ribs radiating from one spar, swept back over the hull
+    # the cowl: a smooth hood over the spine with ribs laid over it
+    hood = m.part("hood", parent="hull", pivot=(0, -226, 6))
+    lens_hull(hood, 0, 0, 0, 66, 88, 26, layers=5, cell=10, uv=DARK)
     for index in range(5):
-        cable = m.part(f"cable{index}", parent="hull", pivot=(-20 + index * 10, -188, 10),
-                       rot=(6.0 - index * 2.5, 0.0, 4.0 - index * 2.0))
-        cable.box(-1, 0, -1, 3, 44, 3, uv=DARK)
-        mid = m.part(f"cable{index}_mid", parent=f"cable{index}", pivot=(0, 44, 0),
-                     rot=(-12.0, 0.0, 4.0))
-        mid.box(-1, 0, -1, 2, 46, 2, uv=DARK)
-        tip = m.part(f"cable{index}_tip", parent=f"cable{index}_mid", pivot=(0, 46, 0),
-                     rot=(16.0, 0.0, -3.0))
-        tip.box(-1, 0, -1, 2, 48, 2, uv=DARK)
+        rib = m.part(f"rib{index}", parent="hood", pivot=(0, 0, 0),
+                     rot=(0.0, -44.0 + index * 22.0, 0.0))
+        fan_blade(rib, 0, -2, 0, 60, 16, 3, sweep=0.5, rise=-6, uv=DARK, steps=7)
 
-    nose = m.part("nose", parent="hull", pivot=(0, -198, -52))
-    nose.glow_box(-8, -3, -2, 16, 6, 3)
+    for index in range(4):
+        cable = m.part(f"cable{index}", parent="hull", pivot=(-15 + index * 10, -184, 12),
+                       rot=(5.0 - index * 3.0, 0.0, 3.0 - index * 2.0))
+        cable.box(-1, 0, -1, 3, 40, 3, uv=DARK)
+        mid = m.part(f"cable{index}_mid", parent=f"cable{index}", pivot=(0, 40, 0),
+                     rot=(-11.0, 0.0, 3.0))
+        mid.box(-1, 0, -1, 2, 42, 2, uv=DARK)
+        tip = m.part(f"cable{index}_tip", parent=f"cable{index}_mid", pivot=(0, 42, 0),
+                     rot=(14.0, 0.0, -2.0))
+        tip.box(-1, 0, -1, 2, 44, 2, uv=DARK)
+
+    nose = m.part("nose", parent="hull", pivot=(0, -196, -52))
+    nose.glow_box(-9, -4, -2, 18, 8, 3)
     for side, name in ((-1, "fin_l"), (1, "fin_r")):
-        fin = m.part(name, parent="hull", pivot=(side * 22, -206, 30))
-        fan_blade(fin, 0, 0, 0, 34, 18, 4, sweep=0.5, uv=HULL, steps=5)
+        fin = m.part(name, parent="hull", pivot=(side * 20, -204, 34))
+        fan_blade(fin, 0, 0, 0, 40, 20, 3, sweep=0.5, rise=-8, uv=DARK, steps=6)
     return m
 
 
 def threedee_tripod():
-    """The 3D-film machine: a pale ribbed dome over a dark collar, an orange core burning under it and
-    six stilt legs bent above the hull."""
+    """The machine of the reference with the ribs: a ribbed bell shell, a burning core under its rim
+    and six very long stilt legs whose knees ride above the hull."""
     m = Model("threedee_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-20, -12, -16, -6), (20, -12, 16, -6),
-                                            (-22, 10, -16, 5), (22, 10, 16, 5),
-                                            (-4, 22, -3, 13), (4, -22, 3, -13))):
-        spider_leg(m, f"leg{index}", (x, -218, z), sx, sz, 168, 6, foot=10, knee_up=26, uv=DARK)
+    for index, (x, z, sx, sz) in enumerate(((-20, -12, -13, -4), (20, -12, 13, -4),
+                                            (-22, 10, -13, 3), (22, 10, 13, 3),
+                                            (-4, 22, -2, 10), (4, -22, 2, -10))):
+        spider_leg(m, f"leg{index}", (x, -204, z), sx, sz, 196, 6, foot=10, knee_up=34, uv=DARK)
 
-    dome = m.part("dome")
-    dome_hull(dome, 0, -248, 0, 88, 80, 62, layers=16, cell=20, uv=PALE, power=1.7)
-    # a rim of plates round the crown, the shell's only ornament
-    crown_rim = m.part("crown_rim", parent="dome", pivot=(0, -248, 0))
-    for index in range(8):
-        angle = 6.283185307179586 * index / 8.0
-        x = int(round(26 * math.cos(angle)))
-        z = int(round(24 * math.sin(angle)))
-        crown_rim.box(x - 3, 12, z - 3, 7, 8, 7, uv=HULL)
-    collar = m.part("collar", parent="dome", pivot=(0, -188, 0))
-    collar.shell(0, 0, 0, 42, 16, 38, cell=10, uv=DARK)
-    core = m.part("core", parent="dome", pivot=(0, -198, -22))
-    core.glow_box(-9, -5, 0, 18, 9, 4)
+    bell = m.part("bell")
+    dome_hull(bell, 0, -264, 0, 96, 90, 60, layers=12, cell=10, uv=DARK, power=2.2, ribs=8)
+    collar = m.part("collar", parent="bell", pivot=(0, -204, 0))
+    collar.shell(0, 0, 0, 44, 12, 40, cell=10, uv=DARK)
+    # the core burns at the front of the rim, where the frame shows it
+    core = m.part("core", parent="bell", pivot=(0, -202, -34))
+    core.glow_box(-14, -10, 0, 28, 20, 8)
+    # the beam projector burning in the middle of the ring of legs
+    spike = m.part("spike", parent="bell", pivot=(0, -200, -8))
+    spike.glow_box(-6, 0, -6, 12, 18, 12)
     return m
 
 
 def surrey_tripod():
-    """The machine that came back to Surrey: a compact dark head with two big green eyes split by a
-    seam, a small mouth light and six very long stilt legs."""
+    """The machine of the reference with the two eyes: a broad dark head with two green lenses split
+    by a seam, a small mouth light and six very long stilt legs."""
     m = Model("surrey_tripod")
-    for index, (x, z, sx, sz) in enumerate(((-20, -14, -16, -6), (20, -14, 16, -6),
-                                            (-22, 12, -16, 5), (22, 12, 16, 5),
-                                            (-4, 24, -3, 13), (4, -24, 3, -13))):
-        spider_leg(m, f"leg{index}", (x, -206, z), sx, sz, 196, 6, foot=9, knee_up=30, uv=DARK)
+    for index, (x, z, sx, sz) in enumerate(((-22, -14, -16, -6), (22, -14, 16, -6),
+                                            (-24, 12, -16, 5), (24, 12, 16, 5),
+                                            (-4, 26, -3, 13), (4, -26, 3, -13))):
+        spider_leg(m, f"leg{index}", (x, -208, z), sx, sz, 200, 6, foot=9, knee_up=30, uv=DARK)
 
     head = m.part("head")
-    lens_hull(head, 0, -250, 0, 78, 62, 44, layers=6, cell=9, uv=DARK)
-    eyes = m.part("eyes", parent="head", pivot=(0, -240, -29))
-    eyes.box(-31, -15, 0, 62, 30, 3, uv=DARK)
-    eyes.glow_box(-27, -11, -1, 25, 22, 2)
-    eyes.glow_box(2, -11, -1, 25, 22, 2)
-    mouth = m.part("mouth", parent="head", pivot=(0, -212, -20))
-    mouth.glow_box(-6, -2, 0, 12, 4, 3)
+    lens_hull(head, 0, -262, 0, 100, 84, 62, layers=11, cell=9, uv=DARK)
+    # the face is a dark plate let into the front of the head, with a heavy seam between the eyes
+    face = m.part("face", parent="head", pivot=(0, -236, -40))
+    face.box(-38, -20, 0, 76, 40, 8, uv=DARK)
+    eyes = m.part("eyes", parent="head", pivot=(0, -236, -44))
+    glow_disc_upright(eyes, -19, 0, 0, 15, cell=7, depth=3)
+    glow_disc_upright(eyes, 19, 0, 0, 15, cell=7, depth=3)
+    seam = m.part("seam", parent="head", pivot=(0, -236, -47))
+    seam.box(-3, -21, 0, 6, 42, 3, uv=DARK)
+    mouth = m.part("mouth", parent="head", pivot=(0, -196, -30))
+    mouth.glow_box(-8, 0, 0, 16, 5, 3)
     return m
 
 

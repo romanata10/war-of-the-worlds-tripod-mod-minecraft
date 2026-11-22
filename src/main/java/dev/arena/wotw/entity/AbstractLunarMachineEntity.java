@@ -8,7 +8,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
@@ -17,8 +16,9 @@ import net.minecraft.world.level.block.Blocks;
  *
  * <p>It is not the Martian invasion. The lunar machines arrive on the fifth night, they come down
  * from the sky in ships instead of capsules, most of them walk on more than three legs, and they
- * are at war with everybody: the player, the human army and the Martians alike. Their weapon is a
- * laser that sets fire to whatever it touches.</p>
+ * are at war with the player and the human army. They are not at war with the Martian machines:
+ * every machine in this mod is on the same side, and machines never fight each other. Their weapon
+ * is a laser that sets fire to whatever it touches.</p>
  */
 public abstract class AbstractLunarMachineEntity extends AbstractTripodEntity {
 
@@ -30,13 +30,6 @@ public abstract class AbstractLunarMachineEntity extends AbstractTripodEntity {
     @Override
     public boolean hasRootTrail() {
         return false;
-    }
-
-    @Override
-    protected void addExtraGoals() {
-        // the Moon is at war with the Martians as much as with the humans
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractTripodEntity.class, true,
-                entity -> !(entity instanceof AbstractLunarMachineEntity)));
     }
 
     /** Fires the laser and leaves the ground around the victim burning. */

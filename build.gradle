@@ -58,6 +58,10 @@ tasks.withType(JavaCompile).configureEach {
     options.release = 17
     // javac stops after 100 errors by default; during a port we want the whole list at once
     options.compilerArgs += ['-Xmaxerrs', '2000']
+    // The generated model file holds methods with hundreds of cuboids each. The compiler recurses
+    // deeply while attributing them and overflows its default stack, so it gets a bigger one.
+    options.fork = true
+    options.forkOptions.jvmArgs = ['-Xss16m']
 }
 
 // mods.toml carries the version number of the build.
