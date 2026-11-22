@@ -237,6 +237,20 @@ public final class ModEntities {
 
     public static EntityType<TaxiTripodEntity> TAXI_TRIPOD;
 
+    /* The machines that came with Mars. */
+
+    /** The cyclops of Spore: breathes out a spore cloud. */
+    public static EntityType<SporeTripodEntity> SPORE_TRIPOD;
+
+    /** The CGI machine with three eyes and two rays. */
+    public static EntityType<CgiTripodEntity> CGI_TRIPOD;
+
+    /** The Novosibirsk machine that walks inside its own fog. */
+    public static EntityType<NovosibirskTripodEntity> NOVOSIBIRSK_TRIPOD;
+
+    /** The factory of Martian materials: it welds the fleet and pours alloy. */
+    public static EntityType<MartianFactoryEntity> MARTIAN_FACTORY;
+
     /* The Martian engineers and the psychological weapons, fifth wave. */
 
     /** Colossal builder: a crane claw that loads rubble into its holds and raises bunkers with it. */
@@ -577,6 +591,30 @@ public final class ModEntities {
                         .clientTrackingRange(10)
                         .updateInterval(2)
                         .build("taxi_tripod")));
+        ENTITY_TYPES.register("spore_tripod",
+                () -> SPORE_TRIPOD = track(EntityType.Builder.of(SporeTripodEntity::new, MobCategory.MONSTER)
+                        .sized(4.4F, 5.6F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("spore_tripod")));
+        ENTITY_TYPES.register("cgi_tripod",
+                () -> CGI_TRIPOD = track(EntityType.Builder.of(CgiTripodEntity::new, MobCategory.MONSTER)
+                        .sized(4.2F, 6.2F)
+                        .clientTrackingRange(10)
+                        .updateInterval(2)
+                        .build("cgi_tripod")));
+        ENTITY_TYPES.register("novosibirsk_tripod",
+                () -> NOVOSIBIRSK_TRIPOD = track(EntityType.Builder.of(NovosibirskTripodEntity::new, MobCategory.MONSTER)
+                        .sized(5.2F, 6.6F)
+                        .clientTrackingRange(12)
+                        .updateInterval(2)
+                        .build("novosibirsk_tripod")));
+        ENTITY_TYPES.register("martian_factory",
+                () -> MARTIAN_FACTORY = track(EntityType.Builder.of(MartianFactoryEntity::new, MobCategory.MONSTER)
+                        .sized(5.6F, 5.0F)
+                        .clientTrackingRange(10)
+                        .updateInterval(3)
+                        .build("martian_factory")));
         ENTITY_TYPES.register("construction_tripod",
                 () -> CONSTRUCTION_TRIPOD = track(EntityType.Builder.of(ConstructionTripodEntity::new, MobCategory.MONSTER)
                         .sized(8.7F, 18.4F)
@@ -1019,6 +1057,10 @@ public final class ModEntities {
         event.put(FLAMER_TRIPOD, FlamerTripodEntity.createAttributes().build());
         event.put(TANK_TRIPOD, TankTripodEntity.createAttributes().build());
         event.put(TAXI_TRIPOD, TaxiTripodEntity.createAttributes().build());
+        event.put(SPORE_TRIPOD, SporeTripodEntity.createAttributes().build());
+        event.put(CGI_TRIPOD, CgiTripodEntity.createAttributes().build());
+        event.put(NOVOSIBIRSK_TRIPOD, NovosibirskTripodEntity.createAttributes().build());
+        event.put(MARTIAN_FACTORY, MartianFactoryEntity.createAttributes().build());
         event.put(CONSTRUCTION_TRIPOD, ConstructionTripodEntity.createAttributes().build());
         event.put(SMOKE_TRIPOD, SmokeTripodEntity.createAttributes().build());
         event.put(BOMB_TRIPOD, BombTripodEntity.createAttributes().build());

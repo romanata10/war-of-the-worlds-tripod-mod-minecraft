@@ -3571,6 +3571,89 @@ def lunar_mothership():
     return m
 
 
+# --------------------------------------------------------------------------- #
+#  The new Martian machines
+# --------------------------------------------------------------------------- #
+
+def spore_tripod():
+    """Spore: the cartoon cyclops. One huge eye in a round body, a sprout of leaves on the crown and
+    three thin legs with ball joints."""
+    m = Model("spore_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-13, -7, -14, -5), (13, -7, 14, -5), (0, 17, 0, 12))):
+        needle_leg(m, f"leg{index}", (x, -152, z), sx, sz, 78, 88, 7, foot=10, knee=0.5)
+        ball(m.by_name[f"leg{index}"], 0, -3, 0, 8)
+    body = m.part("body")
+    lens_hull(body, 0, -238, 0, 88, 80, 84, layers=13, cell=8)
+    eye = m.part("eye", parent="body", pivot=(0, -196, -42))
+    glow_disc_upright(eye, 0, 0, 0, 24, cell=7, depth=5)
+    pupil = m.part("pupil", parent="body", pivot=(0, -196, -48))
+    pupil.box(-7, -7, 0, 14, 14, 3, uv=DARK)
+    # the sprout grows out of the crown, well above the shell
+    sprout = m.part("sprout", parent="body", pivot=(0, -242, 0))
+    sprout.box(-4, -6, -4, 8, 8, 8, uv=DARK)
+    for index in range(5):
+        leaf = m.part(f"leaf{index}", parent="sprout", pivot=(0, -6, 0),
+                      rot=(0.0, -54.0 + index * 27.0, 8.0 + index * 4.0))
+        leaf.box(-2, -34, -2, 4, 34, 4, uv=PALE)
+        tip = m.part(f"leaf{index}_tip", parent=f"leaf{index}", pivot=(0, -34, 0),
+                     rot=(18.0, 0.0, 12.0))
+        tip.box(-2, -12, -2, 4, 12, 4, uv=PALE)
+    return m
+
+
+def cgi_tripod():
+    """The CGI machine: a dark wedge of a head under a wide brim, three white eyes and thin legs."""
+    m = Model("cgi_tripod")
+    for index, (x, z, sx, sz) in enumerate(((-15, -9, -15, -5), (15, -9, 15, -5), (0, 19, 0, 13))):
+        needle_leg(m, f"leg{index}", (x, -170, z), sx, sz, 94, 100, 8, foot=11, knee=0.45)
+    head = m.part("head")
+    lens_hull(head, 0, -244, 0, 74, 66, 70, layers=11, cell=9, uv=DARK)
+    brim = m.part("brim", parent="head", pivot=(0, -244, 0))
+    round_slab(brim, 0, 0, 0, 96, 86, 6, cell=9, uv=DARK)
+    for index, x in enumerate((-18, 0, 18)):
+        lamp = m.part(f"eye{index}", parent="head", pivot=(x, -208, -32))
+        glow_disc_upright(lamp, 0, 0, 0, 7, cell=5, depth=4)
+    cowl = m.part("cowl", parent="head", pivot=(0, -196, 0))
+    round_slab(cowl, 0, 0, 0, 60, 54, 5, cell=9, uv=DARK)
+    return m
+
+
+def novosibirsk_tripod():
+    """The Novosibirsk machine: a pale umbrella of a cap on five long tentacles, the way it looks in
+    the fog over the city."""
+    m = Model("novosibirsk_tripod")
+    cap = m.part("cap")
+    umbrella_cap(cap, 0, -236, 0, 122, 110)
+    dome = m.part("dome", parent="cap", pivot=(0, -236, 0))
+    dome_hull(dome, 0, 0, 0, 76, 68, 34, layers=7, cell=10, uv=DARK)
+    lunar_legs(m, "cap", 22, 26, 5, 156, 8, spread=8.0, curl=5.0, uv=DARK, phase=0.6)
+    return m
+
+
+def martian_factory():
+    """The factory of the Martian materials: a core sphere between two pods on steel rods, four legs
+    and a stack that pours out alloy."""
+    m = Model("martian_factory")
+    for index, (x, z, sx, sz) in enumerate(((-24, -12, -14, -4), (24, -12, 14, -4),
+                                            (-26, 14, -14, 5), (26, 14, 14, 5))):
+        needle_leg(m, f"leg{index}", (x, -178, z), sx, sz, 100, 92, 9, foot=12, knee=0.35, uv=PALE)
+    core = m.part("core")
+    ball(core, 0, -232, 0, 34, depth=64, cell=9)
+    band = m.part("band", parent="core", pivot=(0, -232, 0))
+    round_slab(band, 0, 0, 0, 82, 82, 6, cell=10, uv=DARK)
+    for side, name in ((-1, "pod_l"), (1, "pod_r")):
+        rod = m.part(f"{name}_rod", parent="core", pivot=(side * 26, -232, 0))
+        rod.box(min(0, side * 34), -3, -3, 34, 6, 6, uv=DARK)
+        pod = m.part(name, parent="core", pivot=(side * 60, -232, 0))
+        ball(pod, 0, 0, 0, 26, depth=50, cell=7)
+    stack = m.part("stack", parent="core", pivot=(0, -262, -6))
+    stack.box(-6, -30, -6, 12, 30, 12, uv=DARK)
+    stack.glow_box(-4, -33, -4, 8, 4, 8)
+    eye = m.part("eye", parent="core", pivot=(0, -216, -32))
+    glow_disc_upright(eye, 0, 0, 0, 9, cell=6, depth=4)
+    return m
+
+
 TRIPODS = [
     ("redEye", finalise(chunky(red_eye_tripod()), "redEye")),
     ("claw", finalise(chunky(claw_tripod()), "claw")),
@@ -3621,6 +3704,10 @@ TRIPODS = [
     ("flamerTripod", finalise(flamer_tripod(), "flamerTripod")),
     ("tankTripod", finalise(tank_tripod(), "tankTripod")),
     ("taxiTripod", finalise(taxi_tripod(), "taxiTripod")),
+    ("sporeTripod", finalise(chunky(spore_tripod()), "sporeTripod")),
+    ("cgiTripod", finalise(chunky(cgi_tripod()), "cgiTripod")),
+    ("novosibirskTripod", finalise(chunky(novosibirsk_tripod()), "novosibirskTripod")),
+    ("martianFactory", finalise(chunky(martian_factory()), "martianFactory")),
     # fifth wave: the Martian engineers and the psychological weapons
     ("constructionTripod", finalise(construction_tripod(), "constructionTripod")),
     ("smokeTripod", finalise(smoke_tripod(), "smokeTripod")),

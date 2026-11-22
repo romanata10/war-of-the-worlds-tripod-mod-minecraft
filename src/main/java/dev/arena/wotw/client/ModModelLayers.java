@@ -38,6 +38,12 @@ public final class ModModelLayers {
     public static final ModelLayerLocation TANK_TRIPOD = layer("tank_tripod");
     public static final ModelLayerLocation TAXI_TRIPOD = layer("taxi_tripod");
 
+    /* the machines of Mars */
+    public static final ModelLayerLocation SPORE_TRIPOD = layer("spore_tripod");
+    public static final ModelLayerLocation CGI_TRIPOD = layer("cgi_tripod");
+    public static final ModelLayerLocation NOVOSIBIRSK_TRIPOD = layer("novosibirsk_tripod");
+    public static final ModelLayerLocation MARTIAN_FACTORY = layer("martian_factory");
+
     /* the human army */
     public static final ModelLayerLocation HUMAN_SOLDIER = layer("human_soldier");
     public static final ModelLayerLocation HUMAN_TANK = layer("human_tank");
