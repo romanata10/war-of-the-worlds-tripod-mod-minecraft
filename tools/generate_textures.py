@@ -21,6 +21,8 @@ ITEM = os.path.join(ASSETS, "textures", "item")
 BLOCK = os.path.join(ASSETS, "textures", "block")
 
 # name -> (base, dark, light, glow, accent)
+PLAIN_MATERIALS = {"spore_tripod", "cgi_tripod", "novosibirsk_tripod", "martian_factory"}
+
 PALETTES = {
     "tripod_2005": ((62, 66, 58), (26, 29, 24), (104, 110, 92), (206, 250, 196), (128, 152, 120)),
     "bbc_white_tripod": ((214, 211, 198), (128, 126, 116), (245, 243, 232), (255, 253, 232), (176, 200, 214)),
@@ -244,32 +246,34 @@ def make_hull_texture(name, palette, size=128, seed=0):
     # a strip of plain materials at y=64..80 that the machines of Mars sample instead of the
     # panelled hull: a big smooth ball looks wrong when every cuboid shows a welded seam.
     #   (0, 64) plant   (16, 64) matte   (32, 64) stone   (48, 64) gloss
-    for y in range(64, 80):
-        for x in range(0, 16):                                    # the green growth
-            leaf = math.hypot(x - 7.5, y - 71.5) / 8.0
-            tone = 0.72 + 0.42 * (1.0 - min(1.0, leaf)) + rnd.uniform(-0.08, 0.08)
-            px[x, y] = (clamp(72 * tone + 26), clamp(150 * tone + 18), clamp(58 * tone + 16), 255)
-        for x in range(16, 32):                                   # matte black
-            tone = 22 + rnd.uniform(-3, 3)
-            px[x, y] = (clamp(tone * 0.96), clamp(tone * 0.94), clamp(tone), 255)
-        for x in range(32, 48):                                   # grey stone
-            tone = base[0] * 0.92 + 18 + rnd.uniform(-5, 5)
-            px[x, y] = (clamp(tone * 1.02), clamp(tone), clamp(tone * 0.95), 255)
-        for x in range(48, 64):                                   # glossy shell
-            band = abs((y - 71.5) / 8.0)
-            tone = 12 + 26 * (1.0 - band) * (1.0 - band) + rnd.uniform(-2, 2)
-            px[x, y] = (clamp(tone * 0.98), clamp(tone * 0.98), clamp(tone * 1.04), 255)
-    draw = ImageDraw.Draw(img, "RGBA")
-    for index in range(3):
-        y = 66 + index * 5
-        draw.line([(1, y), (14, y + 2)], fill=(38, 82, 34, 200), width=1)
-    for _ in range(40):                                           # stone speckle
-        sx, sy = rnd.randrange(32, 48), rnd.randrange(64, 80)
-        px[sx, sy] = (clamp(px[sx, sy][0] - 12), clamp(px[sx, sy][1] - 12), clamp(px[sx, sy][2] - 12), 255)
-    for _ in range(3):                                            # gloss highlight
-        y = rnd.randrange(66, 76)
-        draw.line([(49, y), (62, y)], fill=light + (90,), width=1)
-
+    if name in PLAIN_MATERIALS:
+        # panelled hull: a big smooth ball looks wrong when every cuboid shows a welded seam.
+        #   (0, 64) plant   (16, 64) matte   (32, 64) stone   (48, 64) gloss
+        for y in range(64, 80):
+            for x in range(0, 16):                                    # the green growth
+                leaf = math.hypot(x - 7.5, y - 71.5) / 8.0
+                tone = 0.72 + 0.42 * (1.0 - min(1.0, leaf)) + rnd.uniform(-0.08, 0.08)
+                px[x, y] = (clamp(72 * tone + 26), clamp(150 * tone + 18), clamp(58 * tone + 16), 255)
+            for x in range(16, 32):                                   # matte black
+                tone = 22 + rnd.uniform(-3, 3)
+                px[x, y] = (clamp(tone * 0.96), clamp(tone * 0.94), clamp(tone), 255)
+            for x in range(32, 48):                                   # grey stone
+                tone = base[0] * 0.92 + 18 + rnd.uniform(-5, 5)
+                px[x, y] = (clamp(tone * 1.02), clamp(tone), clamp(tone * 0.95), 255)
+            for x in range(48, 64):                                   # glossy shell
+                band = abs((y - 71.5) / 8.0)
+                tone = 12 + 26 * (1.0 - band) * (1.0 - band) + rnd.uniform(-2, 2)
+                px[x, y] = (clamp(tone * 0.98), clamp(tone * 0.98), clamp(tone * 1.04), 255)
+        draw = ImageDraw.Draw(img, "RGBA")
+        for index in range(3):
+            y = 66 + index * 5
+            draw.line([(1, y), (14, y + 2)], fill=(38, 82, 34, 200), width=1)
+        for _ in range(40):                                           # stone speckle
+            sx, sy = rnd.randrange(32, 48), rnd.randrange(64, 80)
+            px[sx, sy] = (clamp(px[sx, sy][0] - 12), clamp(px[sx, sy][1] - 12), clamp(px[sx, sy][2] - 12), 255)
+        for _ in range(3):                                            # gloss highlight
+            y = rnd.randrange(66, 76)
+            draw.line([(49, y), (62, y)], fill=light + (90,), width=1)
     # glowing eye patch: the models sample this area for eyes and lenses
     glow_layer = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
     gp = glow_layer.load()
