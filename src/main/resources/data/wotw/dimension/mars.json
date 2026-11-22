@@ -1,0 +1,11 @@
+{
+  "type": "wotw:mars",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "wotw:mars",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "wotw:mars_wastes"
+    }
+  }
+}

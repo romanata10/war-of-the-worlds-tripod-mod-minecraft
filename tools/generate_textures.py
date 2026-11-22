@@ -1039,6 +1039,134 @@ def make_lunar_hull_texture():
     return img
 
 
+# --------------------------------------------------------------------------- #
+#  Mars: the red planet, its ground and the rocket that goes there
+# --------------------------------------------------------------------------- #
+
+def make_mars_rock_texture():
+    """Dense dark red stone of the Martian bedrock, speckled with iron and ice."""
+    rnd = random.Random("mars-rock")
+    base = (104, 54, 44)
+    img = Image.new("RGBA", (16, 16), base + (255,))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        for x in range(16):
+            draw.point((x, y), fill=shade(base, 0.84 + 0.30 * rnd.random()) + (255,))
+    for _ in range(14):
+        x, y = rnd.randrange(16), rnd.randrange(16)
+        draw.point((x, y), fill=(60, 30, 26, 255))
+    for _ in range(7):
+        x, y = rnd.randrange(16), rnd.randrange(16)
+        draw.point((x, y), fill=(150, 104, 92, 255))
+    draw.line([(0, 5), (4, 7), (9, 6), (15, 9)], fill=(74, 36, 30, 255))
+    return img
+
+
+def make_mars_regolith_texture():
+    """The rusty crust of the plains: fine grain, a few pebbles, no life at all."""
+    rnd = random.Random("mars-regolith")
+    base = (158, 84, 54)
+    img = Image.new("RGBA", (16, 16), base + (255,))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        for x in range(16):
+            draw.point((x, y), fill=shade(base, 0.88 + 0.26 * rnd.random()) + (255,))
+    for _ in range(9):
+        x, y = rnd.randrange(15), rnd.randrange(15)
+        draw.rectangle([x, y, x + 1, y + 1], fill=(112, 56, 34, 255))
+        draw.point((x, y), fill=(186, 110, 74, 255))
+    for _ in range(5):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(196, 136, 96, 255))
+    return img
+
+
+def make_mars_dust_texture():
+    """Pale ochre dust, the colour the Martian wind carries about."""
+    rnd = random.Random("mars-dust")
+    base = (196, 140, 88)
+    img = Image.new("RGBA", (16, 16), base + (255,))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        for x in range(16):
+            draw.point((x, y), fill=shade(base, 0.90 + 0.20 * rnd.random()) + (255,))
+    for _ in range(12):
+        y = rnd.randrange(16)
+        draw.line([(0, y), (15, y)], fill=shade(base, 0.86 + 0.08 * rnd.random()) + (255,))
+    for _ in range(4):
+        draw.point((rnd.randrange(16), rnd.randrange(16)), fill=(228, 184, 132, 255))
+    return img
+
+
+def make_mars_rocket_texture():
+    """The hull of the rocket: white enamel with a red band and rivets."""
+    img = Image.new("RGBA", (16, 16), (222, 220, 212, 255))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        draw.line([(0, y), (15, y)], fill=shade((222, 220, 212), 1.03 - 0.16 * (y / 15.0)) + (255,))
+    draw.rectangle([0, 6, 15, 9], fill=(176, 54, 44, 255))
+    draw.rectangle([0, 6, 15, 6], fill=(206, 84, 66, 255))
+    for x in range(2, 16, 4):
+        draw.point((x, 2), fill=(160, 158, 150, 255))
+        draw.point((x, 13), fill=(160, 158, 150, 255))
+    draw.line([(7, 0), (7, 15)], fill=(186, 184, 176, 255))
+    draw.rectangle([5, 11, 10, 13], fill=(58, 72, 88, 255))
+    draw.rectangle([6, 12, 9, 12], fill=(140, 220, 255, 255))
+    return img
+
+
+def make_mars_rocket_base_texture():
+    """The dark engine skirt and fins of the rocket."""
+    img = Image.new("RGBA", (16, 16), (86, 84, 88, 255))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        draw.line([(0, y), (15, y)], fill=shade((86, 84, 88), 1.10 - 0.22 * (y / 15.0)) + (255,))
+    for x in range(0, 16, 3):
+        draw.line([(x, 0), (x, 15)], fill=(66, 64, 68, 255))
+    draw.rectangle([0, 0, 15, 1], fill=(126, 124, 128, 255))
+    return img
+
+
+def make_mars_rocket_glow_texture():
+    """The burning throat of the engine."""
+    img = Image.new("RGBA", (16, 16), (255, 168, 70, 255))
+    draw = ImageDraw.Draw(img)
+    for y in range(16):
+        for x in range(16):
+            if (x + y) % 3 == 0:
+                draw.point((x, y), fill=(255, 226, 150, 255))
+    draw.rectangle([0, 0, 15, 2], fill=(255, 250, 226, 255))
+    return img
+
+
+def make_spacesuit_item_texture():
+    """The suit seen on the workbench: a white torso, a glass dome and the redstone pack."""
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    draw.ellipse([4, 1, 11, 8], fill=(176, 214, 236, 255), outline=(214, 222, 228, 255))
+    draw.arc([4, 1, 11, 8], 200, 340, fill=(238, 248, 255, 255))
+    draw.rectangle([3, 6, 12, 14], fill=(226, 226, 220, 255), outline=(150, 150, 146, 255))
+    draw.rectangle([1, 7, 3, 12], fill=(226, 226, 220, 255), outline=(150, 150, 146, 255))
+    draw.rectangle([12, 7, 14, 12], fill=(226, 226, 220, 255), outline=(150, 150, 146, 255))
+    draw.rectangle([6, 9, 9, 12], fill=(176, 54, 44, 255))
+    draw.point((7, 10), fill=(255, 96, 72, 255))
+    draw.rectangle([5, 14, 10, 15], fill=(120, 118, 116, 255))
+    return img
+
+
+def make_spacesuit_armor_texture():
+    """The worn suit: white shell, red band across the chest, dark joints."""
+    img = Image.new("RGBA", (64, 32), (226, 226, 220, 255))
+    draw = ImageDraw.Draw(img)
+    for y in range(0, 32, 2):
+        draw.line([(0, y), (63, y)], fill=shade((226, 226, 220), 0.96 + 0.06 * ((y // 2) % 2)) + (255,))
+    draw.rectangle([0, 10, 63, 13], fill=(176, 54, 44, 255))
+    draw.rectangle([0, 10, 63, 10], fill=(206, 84, 66, 255))
+    for x in range(0, 64, 8):
+        draw.line([(x, 0), (x, 31)], fill=(200, 200, 194, 255))
+    draw.rectangle([18, 16, 26, 22], fill=(120, 118, 116, 255))
+    return img
+
+
 def main():
     os.makedirs(ENTITY, exist_ok=True)
     os.makedirs(ITEM, exist_ok=True)
@@ -1111,6 +1239,17 @@ def main():
     make_moon_stone_texture().save(os.path.join(BLOCK, "moon_stone.png"))
     make_moon_glass_texture().save(os.path.join(BLOCK, "moon_glass.png"))
     make_lunar_hull_texture().save(os.path.join(BLOCK, "lunar_hull.png"))
+    make_mars_rock_texture().save(os.path.join(BLOCK, "mars_rock.png"))
+    make_mars_regolith_texture().save(os.path.join(BLOCK, "mars_regolith.png"))
+    make_mars_dust_texture().save(os.path.join(BLOCK, "mars_dust.png"))
+    make_mars_rocket_texture().save(os.path.join(BLOCK, "mars_rocket.png"))
+    make_mars_rocket_base_texture().save(os.path.join(BLOCK, "mars_rocket_base.png"))
+    make_mars_rocket_glow_texture().save(os.path.join(BLOCK, "mars_rocket_glow.png"))
+    os.makedirs(ITEM, exist_ok=True)
+    make_spacesuit_item_texture().save(os.path.join(ITEM, "spacesuit.png"))
+    ARMOR = os.path.join(ASSETS, "textures", "models", "armor")
+    os.makedirs(ARMOR, exist_ok=True)
+    make_spacesuit_armor_texture().save(os.path.join(ARMOR, "spacesuit_layer_1.png"))
     print("items + block done")
     write_block_assets()
 
@@ -1144,10 +1283,22 @@ def write_block_assets():
             handle.write("\n")
         created.append(f"{name} (model)")
 
+    # a model that an existing blockstate already points at (the upper half of the rocket, say) is
+    # part of that block and must not get a blockstate and an item of its own.
+    referenced = set()
+    for file in os.listdir(states):
+        if not file.endswith(".json"):
+            continue
+        with open(os.path.join(states, file), encoding="utf-8") as handle:
+            for found in re.findall(r'"model"\s*:\s*"wotw:block/([a-z0-9_]+)"', handle.read()):
+                referenced.add(found)
+
     for file in sorted(os.listdir(models)):
         if not file.endswith(".json"):
             continue
         name = file[:-5]
+        if name in referenced:
+            continue
         state = os.path.join(states, f"{name}.json")
         if not os.path.exists(state):
             with open(state, "w", encoding="utf-8") as handle:

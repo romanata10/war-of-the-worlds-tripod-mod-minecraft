@@ -207,6 +207,15 @@ public final class ModItems {
 
     public static Item MARTIAN_ALLOY_BLOCK;
 
+    /* Mars: the ground of the planet and the suit that keeps a player alive up there. */
+
+    /** The spacesuit: without it Mars drains a player's health. */
+    public static Item SPACESUIT;
+    public static Item MARS_ROCK;
+    public static Item MARS_REGOLITH;
+    public static Item MARS_DUST;
+    public static Item MARS_ROCKET;
+
     public static Item MARTIAN_CAPSULE;
 
     public static Item WHITE_MARTIAN_ALLOY;
@@ -682,6 +691,15 @@ public final class ModItems {
                 () -> MARTIAN_CYLINDER = new BlockItem(ModBlocks.MARTIAN_CYLINDER, new Item.Properties()));
         ITEMS.register("martian_alloy_block",
                 () -> MARTIAN_ALLOY_BLOCK = new BlockItem(ModBlocks.MARTIAN_ALLOY_BLOCK, new Item.Properties()));
+        ITEMS.register("spacesuit",
+                () -> SPACESUIT = new dev.arena.wotw.item.SpacesuitItem(
+                        new Item.Properties().stacksTo(1)));
+        ITEMS.register("mars_rock", () -> MARS_ROCK = new BlockItem(ModBlocks.MARS_ROCK, new Item.Properties()));
+        ITEMS.register("mars_regolith",
+                () -> MARS_REGOLITH = new BlockItem(ModBlocks.MARS_REGOLITH, new Item.Properties()));
+        ITEMS.register("mars_dust", () -> MARS_DUST = new BlockItem(ModBlocks.MARS_DUST, new Item.Properties()));
+        ITEMS.register("mars_rocket",
+                () -> MARS_ROCKET = new BlockItem(ModBlocks.MARS_ROCKET, new Item.Properties()));
         ITEMS.register("martian_capsule",
                 () -> MARTIAN_CAPSULE = new MartianCapsuleItem(new Item.Properties().stacksTo(16)));
         ITEMS.register("white_martian_alloy",

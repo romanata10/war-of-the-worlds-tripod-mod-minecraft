@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "wotw:block/mars_rocket"
+    },
+    "top=true": {
+      "model": "wotw:block/mars_rocket_top"
+    }
+  }
+}

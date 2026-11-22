@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " R ",
+    "IGI",
+    " P "
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "P": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "item": "wotw:mars_rocket",
+    "count": 1
+  }
+}
